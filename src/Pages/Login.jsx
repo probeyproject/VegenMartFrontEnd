@@ -203,7 +203,7 @@ function Login() {
                 <div className="text-center">
                   <div className="form-check form-check-inline">
                     <input
-                      className="form-check-input bg-danger"
+                      className="form-check-input "
                       type="radio"
                       name="loginMethod"
                       value="mobile"
@@ -214,7 +214,7 @@ function Login() {
                   </div>
                   <div className="form-check form-check-inline">
                     <input
-                      className="form-check-input bg-danger"
+                      className="form-check-input"
                       type="radio"
                       name="loginMethod"
                       value="email"

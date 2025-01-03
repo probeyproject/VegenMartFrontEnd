@@ -15,6 +15,7 @@ import { VideoAds } from "./VideoAds";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../API/Api";
 import ComboCardCarousel from "../ComboCards/ComboCardCarousel";
+import vegenimg from "./image/vegenmart.jpg";
 
 function ProductSection() {
   const [categories, setCategories] = useState([]);
@@ -412,51 +413,68 @@ function ProductSection() {
                     className="product-container row overflow-x-scroll"
                     style={{ height: "102vh" }}
                   >
-                    {products.map((product, i) => (
-                      <div key={product.product_id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
-                        <div>
-                          <ProductBox
-                            imageSrc={JSON.parse(product.product_image || '""')}
-                            productName={product.product_name}
-                            currentPrice={product.product_price}
-                            product_id={product.product_id}
-                            inStock={product.stock}
-                            productDetails={product.product_details}
-                            productType={product.product_type}
-                            brand_name={product.brand_name}
-                            sku={product.sku}
-                            weight={product.weight}
-                            weight_type={product.weight_type}
-                            min_weight={product.min_weight}
-                            discount_price={product.discount_price}
-                            average_rating={product.average_rating}
-                            offers={product.offers}
-                            defaultWeight={
-                              cart?.some(
-                                (cartItem) =>
-                                  cartItem.product_id === product.product_id
-                              )
-                                ? cart.find(
-                                    (cartItem) =>
-                                      cartItem.product_id === product.product_id
-                                  )?.weight
-                                : undefined
-                            }
-                            defaultWeightType={
-                              cart?.some(
-                                (cartItem) =>
-                                  cartItem.product_id === product.product_id
-                              )
-                                ? cart.find(
-                                    (cartItem) =>
-                                      cartItem.product_id === product.product_id
-                                  )?.weight_type
-                                : undefined
-                            }
-                          />
+                    {products.length > 0 ? (
+                      products.map((product, i) => (
+                        <div
+                          key={product.product_id}
+                          className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4"
+                        >
+                          <div>
+                            <ProductBox
+                              imageSrc={
+                                JSON.parse(product.product_image || '""')}
+                              productName={product.product_name}
+                              currentPrice={product.product_price}
+                              product_id={product.product_id}
+                              inStock={product.stock}
+                              productDetails={product.product_details}
+                              productType={product.product_type}
+                              brand_name={product.brand_name}
+                              sku={product.sku}
+                              weight={product.weight}
+                              weight_type={product.weight_type}
+                              min_weight={product.min_weight}
+                              discount_price={product.discount_price}
+                              average_rating={product.average_rating}
+                              offers={product.offers}
+                              defaultWeight={
+                                cart?.some(
+                                  (cartItem) =>
+                                    cartItem.product_id === product.product_id
+                                )
+                                  ? cart.find(
+                                      (cartItem) =>
+                                        cartItem.product_id ===
+                                        product.product_id
+                                    )?.weight
+                                  : undefined
+                              }
+                              defaultWeightType={
+                                cart?.some(
+                                  (cartItem) =>
+                                    cartItem.product_id === product.product_id
+                                )
+                                  ? cart.find(
+                                      (cartItem) =>
+                                        cartItem.product_id ===
+                                        product.product_id
+                                    )?.weight_type
+                                  : undefined
+                              }
+                            />
+                          </div>
                         </div>
+                      ))
+                    ) : (
+                      <div className="text-center w-100 position-relative ms-0" > 
+                        <img
+                          src={vegenimg}
+                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "99%", height: "99%"}}
+                          alt="Default Image"
+                        />
+                        <h5>No products available at this time</h5>
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
               </div>
@@ -561,6 +579,10 @@ function ProductSection() {
               <div className="title d-block">
                 <h2>Combo & Recipes</h2>
                 <span className="title-leaf"></span>
+                <p>
+                  These Combos is Offered By Us In Best Price With Combination
+                  of Multiple Products.
+                </p>
                 <ComboCardCarousel />
               </div>
 

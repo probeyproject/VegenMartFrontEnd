@@ -7,7 +7,6 @@ import ProtectedRoute from "./Protected/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { checkAuthentication } from "./slices/userSlice";
 import MobileMenu from "./Components/Common/MobileMenu";
-import { UserProvider } from "./Context/UserContrxt";
 
 // Lazy loading components
 const Index = lazy(() => import("./Pages/Index"));
@@ -31,7 +30,6 @@ const KumbhInfo = lazy(() => import("./Pages/KumbhInfo"));
 const BusinessInfo = lazy(() => import("./Pages/BusinessInfo"));
 const ProductList = lazy(() => import("./Components/Header/ProductList"));
 const MyInvoice = lazy(() => import("./Pages/MyInvoice"));
-const ComboCProduct = lazy(() => import("./Components/ComboCards/ComboCProduct"));
 const ComboCardCarousel = lazy(() => import("./Components/ComboCards/ComboCardCarousel"));
 
 
@@ -53,11 +51,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      dispatch(checkAuthentication());
-    };
-
-    checkAuth();
+    dispatch(checkAuthentication())
+      .unwrap()
+      .then(() => {
+        console.log('User is authenticated');
+      })
+      .catch((error) => {
+        console.error('Error on app initialization:', error);
+      });
   }, [dispatch]);
 
   const { user, authenticated, cart, wishlists, rewards } = useSelector(
@@ -88,7 +89,6 @@ function App() {
             path="/bannerProductDetails"
             element={<BannerProductDetails />}
           />
-          <Route path="combocproduct" element={<ComboCProduct />} />
           <Route path="combocardcarousel" element={<ComboCardCarousel />} />
           <Route path="/kumbhinfo" element={<KumbhInfo />} />
           <Route path="/businessInfo" element={<BusinessInfo />} />

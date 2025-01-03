@@ -165,7 +165,7 @@ function LoginModal({ isOpen, toggle }) {
                   "Generate OTP"
                 )}
               </button>
-              <p className="mt-4">New user? <Link to="/signup">SignUp</Link> Or <Link to="/login">Login</Link></p>
+              <p className="mt-4">New user? <Link to="/signup">SignUp</Link> Or <Link to="/login">Login </Link></p>
             </div>
           </form>
           <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
