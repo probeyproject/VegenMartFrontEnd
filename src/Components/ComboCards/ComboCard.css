@@ -1,0 +1,46 @@
+/* Large Card Styling */
+.large-card {
+    width: 100%;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .carousel-cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .product-card {
+    width: 100%;
+    max-width: 200px;
+    cursor: pointer;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .product-image {
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  /* Ensure responsive layout for different screen sizes */
+  @media (max-width: 576px) {
+    .product-card {
+      width: 45%;
+    }
+  }
+  
+  @media (min-width: 577px) and (max-width: 992px) {
+    .product-card {
+      width: 30%;
+    }
+  }
+  
+  @media (min-width: 993px) {
+    .product-card {
+      width: 22%;
+    }
+  }
+  

@@ -1,0 +1,40 @@
+/* Customize the track */
+.custom-range-slider .range-slider__track {
+    background-color: #ddd; /* Change the background color */
+    height: 8px; /* Adjust the height of the track */
+    border-radius: 40px; /* Round corners of the track */
+  }
+  
+  /* Customize the selected range (active range) */
+  .custom-range-slider .range-slider__range {
+    background-color: #0DA487; /* Change color of the active range */
+  }
+  
+  /* Customize the thumb (the draggable circle) */
+  .custom-range-slider .range-slider__thumb {
+    background-color: #0DA487; /* Thumb color */
+    /* border: 1px solid #333; */
+    width: 16px; /* Size of the thumb */
+    height: 16px;
+    border-radius: 50%; /* Make the thumb circular */
+  }
+  
+  /* Customize the hover or focus state for the thumb */
+  .custom-range-slider .range-slider__thumb:focus,
+  .custom-range-slider .range-slider__thumb:hover {
+    background-color: #0DA487; /* Change thumb color when focused/hovered */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+  }
+  
+  /* Customize the ticks (if enabled) */
+  .custom-range-slider .range-slider__ticks {
+    background-color: #888; /* Color of the ticks */
+  }
+  
+  /* Optional: Add more styling for mobile, responsiveness, etc. */
+  @media (max-width: 768px) {
+    .custom-range-slider .range-slider__thumb {
+      width: 20px;
+      height: 20px;
+    }
+  }

@@ -1,0 +1,75 @@
+/* CSS styles */
+.search-box {
+    position: relative; /* Positioning for suggestions */
+  }
+  
+  .search-box input {
+    width: 100%; /* Full width to fill container */
+    box-sizing: border-box; /* Prevents padding from affecting width */
+  }
+  
+  .suggestions-list {
+    position: absolute;
+    z-index: 1000; /* Ensure suggestions appear above other content */
+    background: white; /* Ensure background covers other elements */
+    border: 1px solid #ccc; /* Consistent border */
+    width: 100%; /* Full width */
+  }
+  .suggestions-list {
+    max-height: 200px; /* Set a maximum height */
+    overflow-y: auto; /* Allow scrolling if too many suggestions */
+  }
+  .search-box input {
+    padding: 0.5rem; /* Adjust as necessary */
+    border: 1px solid #ccc; /* Ensure consistent border */
+    border-radius: 4px; /* Consistent border radius */
+    transition: border-color 0.2s ease; /* Smooth transition for focus */
+  }
+      
+  
+  /* Location Section CSS */
+  .modal-body-location {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    /* scrollbar-color: #4a90e2 #f0f0f0; */
+  }
+  
+  .modal-body::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .modal-body::-webkit-scrollbar-track {
+    background: #f0f0f0; 
+    border-radius: 10px;
+  }
+  
+  .modal-body::-webkit-scrollbar-thumb {
+    background-color: #4a90e2;
+    border-radius: 10px;
+    border: 2px solid #f0f0f0; 
+  }
+  
+  .modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #357ab7;
+  }
+
+  .location-title {
+    font-size: 1rem;
+  }
+
+  .input-search {
+    margin-left: 50px;
+  }
+
+  .no-location {
+    text-align: center;
+     width:200px;
+  }
+
+  .img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }

@@ -1,0 +1,130 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .modal-content h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .modal-content .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .modal-content .close-modal:hover {
+    color: #ff0000;
+  }
+  
+  /* Coupon List */
+  .coupon-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .coupon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .coupon-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .coupon-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .coupon-code {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .btn-copy {
+    background-color: #D22860;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-copy:hover {
+    background-color: #D22860;
+  }
+  
+  .btn-copy:active {
+    background-color: #cd6285;
+  }
+  
+  .btn-copy:disabled {
+    background-color: #cccccc;
+  }
+  
+  /* Success Message */
+  .btn-copy[disabled] {
+    background-color: #ccc;
+  }
+  
+  .copied-message {
+    color: #4caf50;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .view-coupon-cart-btn {
+    width: min-content !important;
+    margin-left: 10px !important;
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+
+  .btn-apply-input {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  }
