@@ -31,7 +31,8 @@ const BusinessInfo = lazy(() => import("./Pages/BusinessInfo"));
 const ProductList = lazy(() => import("./Components/Header/ProductList"));
 const MyInvoice = lazy(() => import("./Pages/MyInvoice"));
 const ComboCardCarousel = lazy(() => import("./Components/ComboCards/ComboCardCarousel"));
-
+const PrivacyPolicy = lazy(() => import("./Terms & Conditions/PrivacyPolicy"))
+const DataEncryptionPolicy = lazy (() => import("./Terms & Conditions/Data&EncryptionPolicy"))
 
 // Skeleton Loader as a fallback
 const SkeletonLoader = () => (
@@ -89,11 +90,14 @@ function App() {
             path="/bannerProductDetails"
             element={<BannerProductDetails />}
           />
+          <Route path="/privacypolicy" element={< PrivacyPolicy />} />
+          <Route path="/dataencryptionpolicy" element={<DataEncryptionPolicy />} />
           <Route path="combocardcarousel" element={<ComboCardCarousel />} />
           <Route path="/kumbhinfo" element={<KumbhInfo />} />
           <Route path="/businessInfo" element={<BusinessInfo />} />
           <Route path="/filters/:query" element={<ProductList />} />
           <Route path="/myInvoice/:orderId" element={<ProtectedRoute element={<MyInvoice />} />} />
+          
         </Routes>
       </Suspense>
       <MobileMenu/>

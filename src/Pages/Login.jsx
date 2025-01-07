@@ -5,7 +5,7 @@ import HeaderBottom from "../Components/Header/HeaderBottom";
 import Footer from "../Components/Common/Footer";
 import logo from "../assets/images/logo/1.png";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../API/Api";
 import { UserContext } from "../Context/UserContrxt";
 import { useDispatch } from "react-redux"; 
@@ -310,8 +310,8 @@ function Login() {
 
                 <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
                   By continuing, you agree to our{" "}
-                  <a href="/terms">Terms of service</a> &{" "}
-                  <a href="/privacy">Privacy policy</a>.
+                  <Link href="/terms">Terms of service</Link> &{" "}
+                  <Link href="/privacypolicy">Privacy policy</Link>.
                 </p>
               </div>
             </div>

@@ -171,7 +171,7 @@ function LoginModal({ isOpen, toggle }) {
           <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
             By continuing, you agree to our{" "}
             <a href="/terms">Terms of service</a> &{" "}
-            <a href="/privacy">Privacy policy</a>.
+            <a href="/privacypolicy">Privacy policy</a>.
           </p>
         </div>
       </div>

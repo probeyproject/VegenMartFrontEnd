@@ -1,0 +1,20 @@
+.tab-content h2 {
+    color: #28a745; /* Green theme for headings */
+  }
+  
+  .about-us {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .nav-tabs .nav-link {
+    color: #6c757d;
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #28a745;
+  }
+
+  

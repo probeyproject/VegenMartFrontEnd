@@ -987,9 +987,10 @@ function DetailPage() {
 
                   <div className="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
                     <div className="right-sidebar-box">
-                      {/* <Slider {...settings}>
+                      <Slider {...settings}>
                         {ads.map((adds, index) => (
-                          <div className="vendor-box" key={index}>
+                          <div className="vendor-box border border-info" style={{borderStyle:"dashed"}} key={index}>
+                            <p className="text-danger">Your Ads will Run Here.</p>
                             <div className="vendor-contain">
                               <div className="vendor-image">
                                 <img
@@ -1088,7 +1089,7 @@ function DetailPage() {
                             </div>
                           </div>
                         ))}
-                      </Slider> */}
+                      </Slider>
 
                       <div className="section-t-space">
                         <div className="category-menu">

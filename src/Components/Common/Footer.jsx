@@ -78,8 +78,7 @@ const Footer = () => {
                 </div>
                 <div className="footer-logo-contain">
                   <p>
-                    We are a friendly bar serving a variety of cocktails, wines
-                    and beers. Our bar is a perfect place for a couple.
+                  Delivering ozone-washed vegetables and fruits for a healthier, safer lifestyle. Freshness you can trust, convenience you’ll love.
                   </p>
                   <ul className="address">
                     <li>
