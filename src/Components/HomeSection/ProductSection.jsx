@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { baseUrl } from "../../API/Api";
 import ComboCardCarousel from "../ComboCards/ComboCardCarousel";
 import vegenimg from "./image/vegenmart.jpg";
-
+import("../../CSS/ProductSection.css");
 function ProductSection() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -250,7 +250,7 @@ function ProductSection() {
             </div>
 
             {banner.map((banners, index) => (
-              <div key={index} className="ratio_156 pt-25">
+              <div key={index} className="ratio_156 pt-25 ">
                 <div
                   className="home-contain bg-size blur-up lazyloaded"
                   style={{
@@ -261,7 +261,10 @@ function ProductSection() {
                     display: "block",
                   }}
                 >
+               
+                  
                   <img
+                    // src={banners.banner_image}
                     src={banners.banner_image}
                     className="bg-img blur-up lazyload"
                     alt=""
@@ -409,20 +412,19 @@ function ProductSection() {
                     Previous
                   </button>
 
-                  <div
-                    className="product-container row overflow-x-scroll"
-                    style={{ height: "102vh" }}
-                  >
+                  <div className="product-container row overflow-x-scroll " >
                     {products.length > 0 ? (
                       products.map((product, i) => (
                         <div
                           key={product.product_id}
                           className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4"
                         >
-                          <div>
+                          <div >
+                            
                             <ProductBox
-                              imageSrc={
-                                JSON.parse(product.product_image || '""')}
+                              imageSrc={JSON.parse(
+                                product.product_image || '""'
+                              )}
                               productName={product.product_name}
                               currentPrice={product.product_price}
                               product_id={product.product_id}
@@ -466,14 +468,20 @@ function ProductSection() {
                         </div>
                       ))
                     ) : (
-                      <div className="text-center w-100 position-relative ms-0" > 
-                        <img
-                          src={vegenimg}
-                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "99%", height: "%"}}
-                          alt="Default Image"
-                        />
-                        <h5>No products available at this time</h5>
-                      </div>
+                      <img
+                        src={vegenimg}
+                        style={{
+                          // border:"2px solid",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          maxWidth: "100%",
+                          maxHeight: "100%",
+                          objectFit: "cover",
+                        }}
+                        alt="Default Image"
+                      />
                     )}
                   </div>
                 </div>
@@ -494,6 +502,7 @@ function ProductSection() {
 
               <div className="section-t-space section-b-space">
                 <div className="row g-md-4 g-3">
+                 
                   {tasty?.map((data, index) => (
                     <div key={index} className="col-md-6">
                       <div
@@ -535,7 +544,9 @@ function ProductSection() {
 
                   {fresh.map((data, index) => (
                     <div key={index} className="col-12 col-md-6">
+                      
                       <div
+                      
                         className="banner-contain hover-effect bg-size blur-up lazyloaded"
                         style={{
                           backgroundImage: `url(${data.banner_image})`,
