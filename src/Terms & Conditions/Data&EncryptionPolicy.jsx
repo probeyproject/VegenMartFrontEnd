@@ -14,7 +14,7 @@ const DataEncryptionPolicy = () => {
         <HeaderMiddle />
         <HeaderBottom />
       </header>
-      <h2 className="text-center mb-4">Data & Encryption Policy</h2>
+      <h1 className="text-center fs-1 mb-4">Data & Encryption Policy</h1>
       <p className="text-muted text-center">Effective Date: December 12th, 2024</p>
 
       <p className="text-justify">

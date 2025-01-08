@@ -469,7 +469,7 @@ function ProductSection() {
                       <div className="text-center w-100 position-relative ms-0" > 
                         <img
                           src={vegenimg}
-                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", height: "100%"}}
+                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "99%", height: "%"}}
                           alt="Default Image"
                         />
                         <h5>No products available at this time</h5>
@@ -534,7 +534,7 @@ function ProductSection() {
                   ))}
 
                   {fresh.map((data, index) => (
-                    <div key={index} className="col-6 col-md-3 mb-4">
+                    <div key={index} className="col-12 col-md-6">
                       <div
                         className="banner-contain hover-effect bg-size blur-up lazyloaded"
                         style={{

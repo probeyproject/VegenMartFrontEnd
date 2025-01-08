@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
         <HeaderMiddle />
         <HeaderBottom />
       </header>
-      <h1 className="text-center fs-1 mb-4">Privacy Policy</h1>
+      <h1 className="text-center fs-1 mb-4">Privacy & Policy</h1>
       <p className="text-muted text-center">Effective Date: December 12th, 2024</p>
 
       <p className="text-center">

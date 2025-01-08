@@ -232,7 +232,7 @@ const Footer = () => {
               ©2024 vegenmart All rights reserved
             </h6>
           </div>
-          <div className="reserve">
+          <div className="reserve"> 
             <h6 className="text-content">
               Developed by{" "}
               <a href="https://www.probeyservices.com/" target="_blank">
