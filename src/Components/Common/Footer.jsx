@@ -201,59 +201,24 @@ const Footer = () => {
             {/* Contact Us Section */}
             <div className="col-xl-3 col-lg-4 col-sm-6" data-aos="fade-left">
               <div className="footer-title">
-                <h4>Contact Us</h4>
+                <h4>Terms & Conditions</h4>
               </div>
-              <div className="footer-contact">
+              <div className="footer-contain">
                 <ul>
-                  <li>
-                    <div className="footer-number">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-phone"
-                      >
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                      </svg>
-                      <div className="contact-number">
-                        <h6 className="text-content">Hotline 24/7 :</h6>
-                        <h5>+91 888 104 2340</h5>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="footer-number">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-mail"
-                      >
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                      </svg>
-                      <div className="contact-number">
-                        <h6 className="text-content">Email Address :</h6>
-                        <h5>
-                          <a href="mailto:vegenmart@gmail.com">
-                            vegenmart@gmail.com
-                          </a>
-                        </h5>
-                      </div>
-                    </div>
-                  </li>
+                  {[
+                    { name: "Privacy Policy", link: "/privacypolicy" },
+                    { name: "Shipping Policy", link: "/shippingpolicy" },
+                    { name: "Data Encryption Policy", link: "/dataencryptionpolicy" },
+                    { name: "Business Terms & Conditions", link: "/businesstermsconditions" },
+                    { name: "Refund And Rewards Policy", link: "/refundAndrewardspolicy" },
+                    { name: "Loyalty Rewards Policy", link: "/loyaltyrewardspolicy" },
+                  ].map((helpLink, index) => (
+                    <li key={index}>
+                      <Link to={helpLink.link} className="text-content">
+                        {helpLink.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

@@ -8,16 +8,16 @@ import Footer from "../Components/Common/Footer";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="container-fluid my-5">
+    <div className="contain">
       <header className="pb-md-4 pb-0">
         <HeaderTop />
         <HeaderMiddle />
         <HeaderBottom />
       </header>
-      <h2 className="text-center mb-4">Privacy Policy</h2>
+      <h1 className="text-center fs-1 mb-4">Privacy Policy</h1>
       <p className="text-muted text-center">Effective Date: December 12th, 2024</p>
 
-      <p>
+      <p className="text-center">
         Vegenmart is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services. Please read it carefully.
       </p>
 

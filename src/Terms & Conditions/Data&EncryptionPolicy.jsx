@@ -8,7 +8,7 @@ import Footer from '../Components/Common/Footer';
 
 const DataEncryptionPolicy = () => {
   return (
-    <div className="container-fluid my-5">
+    <div className="contain">
         <header className="pb-md-4 pb-0">
         <HeaderTop />
         <HeaderMiddle />

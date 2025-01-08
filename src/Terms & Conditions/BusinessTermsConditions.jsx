@@ -1,17 +1,27 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HeaderTop from '../Components/Header/HeaderTop';
+import HeaderMiddle from '../Components/Header/HeaderMiddle';
+import HeaderBottom from '../Components/Header/HeaderBottom';
+import Footer from '../Components/Common/Footer';
+import { Link } from 'react-router-dom';
 
 const BusinessTermsConditions = () => {
   return (
-    <div className="container my-5">
-      <h1 className="text-center mb-4">Business Terms and Conditions</h1>
+    <div className="contain">
+        <header className="pb-md-4 pb-0">
+        <HeaderTop />
+        <HeaderMiddle />
+        <HeaderBottom />
+      </header>
+      <h1 className="text-center fs-1 mb-4">Business Terms and Conditions</h1>
       <p className="text-muted text-center">Effective Date: December 12th, 2024</p>
 
-      <p className="text-justify">
+      <p className="text-center">
         Welcome to Vegenmart! These Business Terms and Conditions outline the rules and regulations for using our platform and services. By accessing our website or placing an order, you agree to comply with these terms. Please read them carefully.
       </p>
 
-      <div className="accordion" id="businessTermsAccordion">
+      <div className="accordion mb-3" id="businessTermsAccordion">
         {/* Section 1: Acceptance of Terms */}
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
@@ -125,7 +135,7 @@ const BusinessTermsConditions = () => {
               <ul>
                 <li>Delivery is subject to the availability of delivery slots and serviceable locations.</li>
                 <li>Timely delivery is our priority; however, delays may occur due to unforeseen circumstances such as weather or logistical challenges.</li>
-                <li>Please review our <a href="/shipping-policy">Shipping Policy</a> for more details.</li>
+                <li>Please review our <Link to="/shippingpolicy">Shipping Policy</Link> for more details.</li>
               </ul>
             </div>
           </div>
@@ -153,7 +163,7 @@ const BusinessTermsConditions = () => {
           >
             <div className="accordion-body">
               <ul>
-                <li>Customers can cancel their orders as per the guidelines mentioned in our <a href="/refund-and-returns-policy">Refund and Returns Policy</a>.</li>
+                <li>Customers can cancel their orders as per the guidelines mentioned in our <Link to="/refundAndrewardspolicy">Refund and Returns Policy</Link>.</li>
                 <li>Refunds are processed based on the terms outlined in the policy.</li>
               </ul>
             </div>
@@ -390,6 +400,7 @@ const BusinessTermsConditions = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

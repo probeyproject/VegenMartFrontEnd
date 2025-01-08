@@ -469,7 +469,7 @@ function ProductSection() {
                       <div className="text-center w-100 position-relative ms-0" > 
                         <img
                           src={vegenimg}
-                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "99%", height: "99%"}}
+                          style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", height: "100%"}}
                           alt="Default Image"
                         />
                         <h5>No products available at this time</h5>

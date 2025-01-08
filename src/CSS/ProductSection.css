@@ -1,0 +1,13 @@
+.product-container {
+    height: 102vh;
+    /* border: 2px solid; Default height for larger screens */
+  }
+  
+  @media (max-width: 768px) {
+    .product-container {
+        /* border: 2px solid; */
+      height: 70vh; /* Reduced height for mobile screens */
+    }
+    
+  }
+  
