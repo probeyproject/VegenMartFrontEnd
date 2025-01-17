@@ -6,11 +6,10 @@ const BlogBox = ({ imageUrl, blogLink, date, title }) => {
       <div
         className="blog-box-image"
         tabIndex={0}
-
         style={{
           backgroundImage: `url(${imageUrl})`,
           backgroundSize: "cover",
-          height:'250px',
+          height: "250px",
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
           display: "block",

@@ -1,0 +1,33 @@
+/* For mobile view */
+@media (max-width: 767.98px) {
+    .banner-contain-2 {
+      height: 200px !important; /* Adjust height for mobile */
+    }
+  
+    .banner-detail {
+      padding: 10px; /* Add padding for better spacing */
+    }
+  
+    .banner-detail h2 {
+      font-size: 1.5rem !important; /* Adjust font size for mobile */
+    }
+  
+    .banner-detail h3 {
+      font-size: 1.25rem !important; /* Adjust font size for mobile */
+    }
+  }
+  
+  /* For tablet view */
+  @media (min-width: 768px) and (max-width: 1023.98px) {
+    .banner-contain-2 {
+      height: 220px !important; /* Adjust height for tablets */
+    }
+  
+    .banner-detail h2 {
+      font-size: 1.75rem !important; /* Adjust font size for tablets */
+    }
+  
+    .banner-detail h3 {
+      font-size: 1.5rem !important; /* Adjust font size for tablets */
+    }
+  }

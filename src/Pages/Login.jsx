@@ -10,8 +10,10 @@ import { baseUrl } from "../API/Api";
 import { UserContext } from "../Context/UserContrxt";
 import { useDispatch } from "react-redux"; 
 import { login } from "../slices/userSlice"; // Correct import
-import Cookies from 'js-cookie';
+
 // import { loginSuccess } from "../slices/userSlice"; // Action to update Redux store
+
+
 function Login() {
   const [loginMethod, setLoginMethod] = useState("mobile");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -103,9 +105,9 @@ function Login() {
         })
       );
   
-      // Save token and user data in localStorage
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+       // Save token and user data in localStorage
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
   
       toast.success("OTP verified successfully!");
       navigate('/');
@@ -151,9 +153,9 @@ function Login() {
           })
         );
   
-        // Store the token and user info in cookies
-        Cookies.set("authToken", data.token, { expires: 7, secure: true, sameSite: 'Strict' });
-        Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+       // Store the token and user info in localStorage
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
   
         toast.success("Login successful!");
         navigate("/"); // Redirect to homepage or another authenticated route

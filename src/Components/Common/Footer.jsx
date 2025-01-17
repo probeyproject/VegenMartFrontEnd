@@ -25,22 +25,22 @@ const Footer = () => {
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/product.svg",
-                    text: "Every Fresh Products",
+                    text: "Ozoned Washed Vegies And Fruits",
                   },
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/delivery.svg",
-                    text: "Free Delivery For Order Over ₹499",
+                    text: "Get Extra Cashback on Prepaid Orders",
                   },
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/discount.svg",
-                    text: "Daily Mega Discounts",
+                    text: "Get Discount On Prepaid Orders",
                   },
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/market.svg",
-                    text: "Best Price On The Market",
+                    text: "We Offers The Same Price, As Local Market. Guaranteed!",
                   },
                 ].map((service, index) => (
                   <div className="service-box" key={index}>
@@ -65,7 +65,7 @@ const Footer = () => {
         <div className="main-footer section-b-space section-t-space">
           <div className="row g-md-4 g-3">
             {/* Logo and Contact Section */}
-            <div className="col-xl-3 col-lg-4 col-sm-6" data-aos="fade-right">
+            <div className="col-xl-4 col-lg-4 col-sm-6" data-aos="fade-right">
               <div className="footer-logo">
                 <div className="theme-logo">
                   <a href="/">
@@ -78,7 +78,8 @@ const Footer = () => {
                 </div>
                 <div className="footer-logo-contain">
                   <p>
-                  Delivering ozone-washed vegetables and fruits for a healthier, safer lifestyle. Freshness you can trust, convenience you’ll love.
+                  Delivering Ozone-Washed vegetables and fruits for a healthier, safer lifestyle.
+                   {/* Freshness you can trust, <br /> convenience you’ll love. */}
                   </p>
                   <ul className="address">
                     <li>
@@ -97,7 +98,7 @@ const Footer = () => {
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                         <polyline points="9 22 9 12 15 12 15 22" />
                       </svg>
-                      <a href="#">1418 Riverwood Drive, CA 96052, US</a>
+                      <a href="#">155/25E Karela Bagh Prayagraj, Uttar Pradesh, India</a>
                     </li>
                     <li>
                       <svg
@@ -133,12 +134,11 @@ const Footer = () => {
               <div className="footer-contain">
                 <ul>
                   {[
-                    { name: "Vegetables & Fruit", link: "/filters/Vegetables" },
-                    { name: "Beverages", link: "/filters/Beverages" },
-                    { name: "Meats & Seafood", link: "/filters/Meat" },
-                    {name:"Frozen Foods", link:"/filters/Food"},
-                  {name:"Biscuits & Snacks", link:"/filters/Biscuits"},
-                    {name:"Grocery & Staples",link:"/filters/Grocery"},
+                    { name: "Exotic Vegetables", link: "/filters/exotic" },
+                    { name: "Leafy Vegetables", link: "/filters/leafy" },
+                    { name: "Regular Vegetables", link: "/filters/regular" },
+                    { name: "Citrus Vegetables ", link:"/filters/citrus"},
+                    { name: "Mushroom", link:"/filters/mushroom"},
                   ].map((category, index) => (
                     <li key={index}>  
                       <a href={category.link} className="text-content">
@@ -158,10 +158,10 @@ const Footer = () => {
               <div className="footer-contain">
                 <ul>
                   {[
-                    { name: 'Home', link: '#' },
-                    { name: 'Shop', link: '#' },
+                    { name: 'Home', link: '/' },
+                    { name: 'Shop', link: '/filter' },
                     { name: 'About Us', link: '/about' },
-                    { name: 'Blog', link: '#' },
+                    { name: 'Blog', link: '/blogsection' },
                     { name: 'Contact Us', link: '/contact' },
                   ].map((link, index) => (
                     <li key={index}>
@@ -199,7 +199,7 @@ const Footer = () => {
             </div>
 
             {/* Contact Us Section */}
-            <div className="col-xl-3 col-lg-4 col-sm-6" data-aos="fade-left">
+            <div className="col-xl-2 col-lg-4 col-sm-6" data-aos="fade-left">
               <div className="footer-title">
                 <h4>Terms & Conditions</h4>
               </div>

@@ -7,6 +7,8 @@ import ProtectedRoute from "./Protected/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { checkAuthentication } from "./slices/userSlice";
 import MobileMenu from "./Components/Common/MobileMenu";
+import ScrollToTop from "./ScrollToTop";
+import BlogSection from "./Components/ProductSection/BlogSection";
 
 // Lazy loading components
 const Index = lazy(() => import("./Pages/Index"));
@@ -74,6 +76,7 @@ function App() {
   return (
     <Router>
       <Suspense fallback={<SkeletonLoader />}>
+      <ScrollToTop/>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/filter" element={<FilterPage />} />
@@ -104,7 +107,7 @@ function App() {
           <Route path="/businessInfo" element={<BusinessInfo />} />
           <Route path="/filters/:query" element={<ProductList />} />
           <Route path="/myInvoice/:orderId" element={<ProtectedRoute element={<MyInvoice />} />} />
-          
+          <Route path="/blogsection" element={<BlogSection/>}/>
         </Routes>
       </Suspense>
       <MobileMenu/>

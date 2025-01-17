@@ -12,6 +12,8 @@ import TodayDeal from "../Components/Common/TodayDeal";
 import Testimonials from "../Components/HomeSection/Testimonials";
 import Testimonial from "../Components/Common/Testimonial";
 import ShopByCategory from "../Components/FilterSection/ShopByCategory";
+import MobileViewCards from "../Components/ProductSection/MobileViewCards";
+
 
 function Index() {
 
@@ -27,7 +29,7 @@ function Index() {
       <HomeSection />
       <ShopByCategory/>
       <BannerSection/>
-      
+      <MobileViewCards/>
       <ProductSection/>
       <NewsLetter/>
   

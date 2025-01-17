@@ -51,7 +51,6 @@ function Cart() {
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
 
-
   const AddressModal = () => {
     setIsModalOpen(!isModalOpen);
     getAddress();
@@ -115,7 +114,7 @@ function Cart() {
     try {
       const response = await axios.post(`${baseUrl}/coupons/validate`, {
         coupon_code: couponCode,
-        user_id : userId
+        user_id: userId,
       });
 
       setDiscountValue(response.data.coupon.discount_value);
@@ -148,8 +147,6 @@ function Cart() {
   //   return acc + quantity * cart.total_price;
   // }, 0);
 
-  
-
   // useEffect(() => {
   //   // Check if totalAmount is >= 200 to set the shipping cost
   //   if (totalAmount >= 200) {
@@ -162,25 +159,27 @@ function Cart() {
   //   setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29)); // Add shipping cost accordingly
   // }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
 
-const totalAmount = carts?.reduce((acc, cart) => {
-  const quantity = quantities[cart.cart_id] || 1; // Default to 1
-  return acc + quantity * cart.total_price;
-}, 0);
+  const totalAmount = carts?.reduce((acc, cart) => {
+    const quantity = quantities[cart.cart_id] || 1; // Default to 1
+    return acc + quantity * cart.total_price;
+  }, 0);
 
-useEffect(() => {
-  // Subtract the discountValue from totalAmount
-  const amountAfterDiscount = totalAmount - (discountValue || 0); // Default to 0 if discountValue is undefined or null
+  useEffect(() => {
+    // Subtract the discountValue from totalAmount
+    const amountAfterDiscount = totalAmount - (discountValue || 0); // Default to 0 if discountValue is undefined or null
 
-  // Check if amountAfterDiscount is >= 200 to set the shipping cost
-  if (amountAfterDiscount >= 200) {
-    setShipping(0); // Set shipping to 0 for amountAfterDiscount >= 200
-  } else {
-    setShipping(29); // Set shipping to 29 if amountAfterDiscount is less than 200
-  }
+    // Check if amountAfterDiscount is >= 200 to set the shipping cost
+    if (amountAfterDiscount >= 200) {
+      setShipping(0); // Set shipping to 0 for amountAfterDiscount >= 200
+    } else {
+      setShipping(29); // Set shipping to 29 if amountAfterDiscount is less than 200
+    }
 
-  // Always recalculate the price including shipping
-  setCalculatedPrice(amountAfterDiscount + (amountAfterDiscount >= 200 ? 0 : 29)); // Add shipping cost accordingly
-}, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
+    // Always recalculate the price including shipping
+    setCalculatedPrice(
+      amountAfterDiscount + (amountAfterDiscount >= 200 ? 0 : 29)
+    ); // Add shipping cost accordingly
+  }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
 
   const getProductsData = () => {
     return carts.map((cart) => ({
@@ -316,9 +315,8 @@ useEffect(() => {
     }
   };
 
-
-   // Fetch all available coupons (this could come from your API)
-   const fetchCoupons = async () => {
+  // Fetch all available coupons (this could come from your API)
+  const fetchCoupons = async () => {
     try {
       const response = await axios.get(`${baseUrl}/getAllCoupon`);
       setCoupons(response.data);
@@ -331,12 +329,10 @@ useEffect(() => {
     fetchCoupons(); // Fetch available coupons when component mounts
   }, []);
 
-
   const handleCouponClick = (couponCode) => {
     setCouponCodes(couponCodes); // Copy the coupon code into the input field
     setIsModalOpens(false); // Close the modal after selection
   };
-
 
   return (
     <div className="container-fluid px-0 overflow-hidden">
@@ -384,7 +380,7 @@ useEffect(() => {
                       </tbody>
                     </table>
                   </div>
-                   
+
                   <div
                     className="d-flex flex-column justify-content-end align-items-end"
                     // style={{ height: "100%" }}
@@ -413,216 +409,216 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-               {/* <RedeemPoints/> */}
-              <div className="d-flex justify-content-between container p-2">
-                {/* Address */}
-                <div className="summery-box p-sticky col-6 container p-1">
-                  <div>
-                    <div className="d-flex center p-3">
-                      <div className="checkout-icon">
-                        <lord-icon
-                          target=".nav-item"
-                          src="https://cdn.lordicon.com/oaflahpk.json"
-                          trigger="loop-on-hover"
-                          colors="primary:#0baf9a"
-                          className="lord-icon"
-                        ></lord-icon>
-                      </div>
+              {/* <RedeemPoints/> */}
 
-                      <div>
-                        <div className="checkout-title">
-                          <h6>Delivery Address</h6>
-                        </div>
-                        <Link onClick={handleToggleModal}>
-                          <div className="d-flex gap-2 center mt-2">
-                            <div>
-                              <GoPlus />
-                            </div>
-                            <div>Add new address</div>
-                          </div>
-                        </Link>
-                      </div>
+              {/* Address */}
+              <div className="summery-box p-sticky container p-1">
+                <div className="row">
+                  <div className=" col-md-6 d-flex center p-3">
+                    <div className="checkout-icon">
+                      <lord-icon
+                        target=".nav-item"
+                        src="https://cdn.lordicon.com/oaflahpk.json"
+                        trigger="loop-on-hover"
+                        colors="primary:#0baf9a"
+                        className="lord-icon"
+                      ></lord-icon>
                     </div>
 
-                    <div
-                      className="checkout-box overflow-auto"
-                      style={{ maxHeight: "400px" }}
-                    >
-                      <div className="checkout-detail ms-2">
-                        <div className="row g-2">
-                          {address?.map((data, index) => (
-                            <div
-                              key={index}
-                              className="p-3 align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
-                            >
-                              <div>
-                                <div className="d-flex">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input mt-1"
-                                      type="radio"
-                                      name="jack"
-                                      id="flexRadioDefault1"
-                                      value={data.address_id}
-                                      onChange={(e) =>
-                                        setAddress_id(e.target.value)
-                                      }
-                                    />
+                    <div>
+                      <div className="checkout-title">
+                        <h6>Delivery Address</h6>
+                      </div>
+                      <Link onClick={handleToggleModal}>
+                        <div className="d-flex gap-2 center mt-2">
+                          <div>
+                            <GoPlus />
+                          </div>
+                          <div>Add new address</div>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div
+                    className="checkout-box overflow-auto"
+                    style={{ maxHeight: "400px" }}
+                  >
+                    <div className="checkout-detail ms-2">
+                      <div className="row g-2">
+                        {address?.map((data, index) => (
+                          <div
+                            key={index}
+                            className="p-3 align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
+                          >
+                            <div>
+                              <div className="d-flex">
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input mt-1"
+                                    type="radio"
+                                    name="jack"
+                                    id="flexRadioDefault1"
+                                    value={data.address_id}
+                                    onChange={(e) =>
+                                      setAddress_id(e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center gap-lg-5">
+                                  <div className="label">
+                                    <label className="fw-bold">
+                                      {data.address_type}
+                                    </label>
                                   </div>
-                                  <div className="d-flex justify-content-between align-items-center gap-lg-5">
-                                    <div className="label">
-                                      <label className="fw-bold">
-                                        {data.address_type}
-                                      </label>
-                                    </div>
-                                    <div>
-                                      <Link>
-                                        <div
-                                          onClick={() => handleEditModal(data)}
-                                        >
-                                          <FaPencil />
-                                        </div>
-                                      </Link>
-                                    </div>
+                                  <div>
+                                    <Link>
+                                      <div
+                                        onClick={() => handleEditModal(data)}
+                                      >
+                                        <FaPencil />
+                                      </div>
+                                    </Link>
                                   </div>
                                 </div>
-                                <ul className="delivery-address-detail list-unstyled">
-                                  <li>
-                                    <h6 className="">{data.name}</h6>
-                                  </li>
-                                  <li>
-                                    <p className="text-content">
-                                      <span className="text-title">
-                                        Address:{" "}
-                                      </span>
-                                      {data.flat}, {data.floor}, {data.area},{" "}
-                                      {data.landmark},{data.state},
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <h6 className="text-content">
-                                      <span className="text-title">
-                                        Pin Code:{" "}
-                                      </span>
-                                      {data.postal_code},
-                                    </h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="text-content p-1">
-                                      <span className="text-title">
-                                        Phone:{" "}
-                                      </span>{" "}
-                                      {data.phone}
-                                    </h6>
-                                  </li>
-                                </ul>
                               </div>
+                              <ul className="delivery-address-detail list-unstyled">
+                                <li>
+                                  <h6 className="">{data.name}</h6>
+                                </li>
+                                <li>
+                                  <p className="text-content">
+                                    <span className="text-title">
+                                      Address:{" "}
+                                    </span>
+                                    {data.flat}, {data.floor}, {data.area},{" "}
+                                    {data.landmark},{data.state},
+                                  </p>
+                                </li>
+                                <li>
+                                  <h6 className="text-content">
+                                    <span className="text-title">
+                                      Pin Code:{" "}
+                                    </span>
+                                    {data.postal_code},
+                                  </h6>
+                                </li>
+                                <li>
+                                  <h6 className="text-content p-1">
+                                    <span className="text-title">Phone: </span>{" "}
+                                    {data.phone}
+                                  </h6>
+                                </li>
+                              </ul>
                             </div>
-                          ))}
-                        </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="summery-box p-sticky col-6 container-xxl">
-                  <div className="summery-header">
-                    <h6>Cart Total</h6>
-                  </div>
-                  <div className="bg-white mt-2 rounded-4 summery-contain">
-                    <div className="coupon-cart">
-                      <h6 className="text-content mb-2">Coupon Apply</h6>
-                      <div className="coupon-box input-group">
-                        <input
-                          type="text" // Use "text" for coupon code
-                          className="form-control"
-                          id="exampleFormControlInput1"
-                          placeholder="Enter Coupon Code Here..."
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
-                          required
-                        />
-                        <button
-                          className="btn-apply btn-apply-input"
-                          type="submit"
-                          onClick={validateCoupon}
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <>
-                              <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                              ></span>
-                              Loading...
-                            </>
-                          ) : (
-                            "Apply"
-                          )}
-                        </button>
-                        <button className="btn-apply view-coupon-cart-btn" onClick={() => setIsModalOpens(true)}>
-          View Coupons
-        </button>
-                      </div>
-                      <span className="">
-                        {responseMessage && <p>{responseMessage}</p>}
-                      </span>
+              </div>
+              <div className="summery-box p-sticky container-xxl">
+                <div className="summery-header">
+                  <h4>Cart Total</h4>
+                </div>
+                <div className="bg-white mt-2 rounded-4 summery-contain">
+                  <div className="coupon-cart">
+                    <h6 className="text-content mb-2">Coupon Apply</h6>
+                    <div className="coupon-box input-group">
+                      <input
+                        type="text" // Use "text" for coupon code
+                        className="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="Enter Coupon Code Here..."
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
+                        required
+                      />
+                      <button
+                        className="btn-apply btn-apply-input"
+                        type="submit"
+                        onClick={validateCoupon}
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            Loading...
+                          </>
+                        ) : (
+                          "Apply"
+                        )}
+                      </button>
+                      <button
+                        className="btn-apply view-coupon-cart-btn"
+                        onClick={() => setIsModalOpens(true)}
+                      >
+                        View Coupons
+                      </button>
                     </div>
-                    <ul>
-                      <li>
-                        <h4>Your Points </h4>
-                        <h4 className="price">{points}</h4>
-                      </li>
+                    <span className="">
+                      {responseMessage && <p>{responseMessage}</p>}
+                    </span>
+                  </div>
+                  <ul>
+                    <li>
+                      <h4>Your Points </h4>
+                      <h4 className="price">{points}</h4>
+                    </li>
 
-                      <li>
-                        <h4>Subtotal</h4>
-                        <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
-                      </li>
-                      {/* <li>
+                    <li>
+                      <h4>Subtotal</h4>
+                      <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
+                    </li>
+                    {/* <li>
                         <h4>Actual Amount</h4>
                         <h4 className="price">₹00.00</h4>
                       </li> */}
-                      <li>
-                        <h4>Coupon Discount</h4>
-                        <h4 className="price">
-                          ₹{discountValue ? discountValue : "---"}
-                        </h4>
-                      </li>
+                    <li>
+                      <h4>Coupon Discount</h4>
+                      <h4 className="price">
+                        ₹{discountValue ? discountValue : "---"}
+                      </h4>
+                    </li>
 
-                      <li className="align-items-start">
-                        <h4>Shipping Cost</h4>
-                        <h4 className="price text-end">
-                          {shipping === 0 ? "Free" : shipping}
-                        </h4>
-                      </li>
-                      <li>
-                        <h4>Total Cost</h4>
-                        <h4 className="price">₹{calculatedPrice.toFixed(2)}</h4>
-                      </li>
-                    </ul>
-                  </div>
-                  <ul className="summery-total">
-                    <li className="list-total border-top-0">
-                      <h4>Total (INR)</h4>
-                      <h4 className="price theme-color">
-                        ₹{calculatedPrice.toFixed(2)}
-                      </h4>{" "}
-                      {/* Add shipping to total */}
+                    <li className="align-items-start">
+                      <h4>Shipping Cost</h4>
+                      <h4 className="price text-end">
+                        {shipping === 0 ? "Free" : shipping}
+                      </h4>
+                    </li>
+                    <li>
+                      <h4>Total Cost</h4>
+                      <h4 className="price">₹{calculatedPrice.toFixed(2)}</h4>
                     </li>
                   </ul>
-                  <div className="button-group cart-button align-content-center justify-content-center d-flex">
-                    <ul className="d-flex justify-content-center">
-                      <li>
-                        <Link
-                          to="/"
-                          className="btn btn-light bg-white shopping-button text-dark"
-                        >
-                          <i className="fa-solid fa-arrow-left-long" />
-                          Return To Shopping
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                </div>
+                <ul className="summery-total">
+                  <li className="list-total border-top-0">
+                    <h4>Total (INR)</h4>
+                    <h4 className="price theme-color">
+                      ₹{calculatedPrice.toFixed(2)}
+                    </h4>{" "}
+                    {/* Add shipping to total */}
+                  </li>
+                </ul>
+                <div className="button-group cart-button align-content-center justify-content-center d-flex">
+                  <ul className="d-flex justify-content-center">
+                    <li>
+                      <Link
+                        to="/"
+                        className="btn btn-animation bg-white shopping-button text-light"
+                      >
+                        <i className="fa-solid fa-arrow-left-long" />
+                         Return To Shopping
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -643,10 +639,10 @@ useEffect(() => {
 
                   <div className="checkout-box">
                     <div className="checkout-detail">
-                      <div
+                      {/* <div
                         className=" custom-accordion d-flex justify-content-between"
                         id="accordionFlushExample"
-                      >
+                      > */}
                         <div>
                           <div className="justify-content-center">
                             <div>
@@ -660,15 +656,15 @@ useEffect(() => {
                                     type="radio"
                                     name="timeSlot"
                                     id="slot1"
-                                    value="9 AM - 12 PM"
-                                    checked={selectedSlot === "9 AM - 12 PM"}
+                                    value="6 AM - 8 AM"
+                                    checked={selectedSlot === "6 AM - 8 AM"}
                                     onChange={handleSlotChange}
                                   />
                                   <label
                                     className="form-check-label"
                                     htmlFor="slot1"
                                   >
-                                    9 AM - 12 PM
+                                    6 AM - 8 AM
                                   </label>
                                 </div>
                                 <div className="form-check mb-1">
@@ -677,15 +673,49 @@ useEffect(() => {
                                     type="radio"
                                     name="timeSlot"
                                     id="slot2"
-                                    value="1 PM - 5 PM"
-                                    checked={selectedSlot === "1 PM - 5 PM"}
+                                    value="8 AM - 10 AM"
+                                    checked={selectedSlot === "8 AM - 10 AM"}
                                     onChange={handleSlotChange}
                                   />
                                   <label
                                     className="form-check-label"
                                     htmlFor="slot2"
                                   >
-                                    1 PM - 5 PM
+                                    8 AM - 10 AM
+                                  </label>
+                                </div>
+                                <div className="form-check mb-1">
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="timeSlot"
+                                    id="slot2"
+                                    value="10 AM - 12 PM"
+                                    checked={selectedSlot === "10 AM - 12 PM"}
+                                    onChange={handleSlotChange}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="slot2"
+                                  >
+                                    10 AM - 12 PM
+                                  </label>
+                                </div>
+                                <div className="form-check mb-1">
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="timeSlot"
+                                    id="slot2"
+                                    value="12 PM - 2 PM"
+                                    checked={selectedSlot === "12 PM - 2 PM"}
+                                    onChange={handleSlotChange}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="slot2"
+                                  >
+                                    12 PM - 2 PM
                                   </label>
                                 </div>
                                 <div>
@@ -826,7 +856,7 @@ useEffect(() => {
                             </Link>
                           </li>
                         </div>
-                      </div>
+                      {/* </div> */}
                     </div>
                   </div>
                 </div>
@@ -858,11 +888,11 @@ useEffect(() => {
       />
 
       <Footer />
-        <CouponModal 
-        isModalOpen={isModalOpens} 
-        setIsModalOpen={setIsModalOpens} 
-        coupons={coupons} 
-        handleCouponClick={handleCouponClick} 
+      <CouponModal
+        isModalOpen={isModalOpens}
+        setIsModalOpen={setIsModalOpens}
+        coupons={coupons}
+        handleCouponClick={handleCouponClick}
       />
     </div>
   );

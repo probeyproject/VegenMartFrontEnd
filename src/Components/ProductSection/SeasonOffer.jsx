@@ -47,7 +47,8 @@ function SeasonOffer() {
         />
         <div className="banner-details p-center banner-b-space w-100 text-center">
           <div>
-            <h6 className="ls-expanded theme-color mb-sm-3 mb-1">{data.banner_offer_title}</h6>
+            
+            <h6 className="ls-expanded theme-color mb-sm-3 mb-1">{data.banner_offer_title} </h6>
             <h2 className="banner-title">{data.banner_title}</h2>
             <h5 className="lh-sm mx-auto mt-1 text-content">
               Save up to {data.banner_offer}% OFF

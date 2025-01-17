@@ -1,0 +1,38 @@
+/* Product Card Styling */
+.category-box {
+  padding: 10px;
+  text-align: center;
+  width: 150px;
+}
+
+.category-box:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Product Image Styling */
+.product-image {
+  height: 100%;
+  border-radius: 10px;
+
+}
+
+/* Product Name Styling */
+.product-name {
+  font-size: 12px; /* Smaller font size for product name */
+  margin-top: 10px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .product-card {
+    padding: 10px;
+  }
+
+  .product-name {
+    font-size: 11px;
+  }
+}

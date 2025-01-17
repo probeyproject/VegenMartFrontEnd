@@ -1,0 +1,62 @@
+/* CategoryProductCarousel.css */
+
+/* Hide the grid on larger screens */
+.category-product-grid {
+  display: none;
+}
+
+/* Show the grid only on mobile screens */
+@media (max-width: 765px) {
+  .category-product-grid {
+    display: block;
+    padding: 10px; /* Reduced padding for mobile */
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    
+  }
+
+  .category-product-grid h2 {
+    font-size: 20px; /* Smaller font size for mobile */
+    margin-bottom: 15px; /* Reduced margin for mobile */
+    color: #333;
+    text-align: center;
+  }
+
+  .product-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 8px;
+  }
+
+  .product_view {
+    height: 330px;
+    width: 100%; /* Full width of the grid cell */
+
+    overflow: hidden; /* Ensure content doesn't overflow */
+  
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+  }
+
+  .product-card img {
+    width: 100%; /* Full width of the card */
+    height: 100px; /* Fixed height for the image */
+    object-fit: cover; /* Ensure the image covers the area */
+   
+  }
+
+  .product-card h5 {
+    font-size: 10px; /* Smaller font size for mobile */
+
+    text-align: center;
+    flex-grow: 1; /* Allow text to take remaining space */
+  }
+
+  .product-card p {
+    font-size: 12px; /* Smaller font size for mobile */
+    margin: 0 10px 10px; /* Spacing around the text */
+    color: #666;
+    text-align: center;
+  }
+}

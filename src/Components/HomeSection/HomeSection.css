@@ -1,0 +1,77 @@
+/* For mobile view */
+@media (max-width: 767.98px) {
+    .home-contain {
+      height: 320px !important; /* Adjust height for mobile */
+      position: relative;
+    }
+
+    .home-contain1{
+        height: 150px !important;
+        border-radius: 10px;
+    }
+  
+    .card-content {
+      position: absolute;
+      bottom: 20px; /* Position the content at the bottom */
+      left: 50%; /* Center the content horizontally */
+      transform: translateX(-50%);
+      text-align: center;
+      width: 60%; /* Ensure the content is centered properly */
+    }
+  
+    .card-content h2,
+    .card-content h3 {
+      font-size: 1.5rem; /* Adjust font size for mobile */
+      margin-bottom: 10px; /* Add spacing between text and button */
+    }
+  
+    .home-button {
+      font-size: 10px; /* Adjust button font size for mobile */
+      padding: 5px 10px; /* Adjust button padding for mobile */
+      background-color: #fff; /* Button background color */
+      color: #fff; /* Button text color */
+    }
+  
+    .col-6 {
+      padding: 0 5px; /* Add spacing between columns */
+    }
+  
+    .col-12 {
+      margin-bottom: 10px; /* Add spacing between cards */
+    }
+  }
+  
+  /* For desktop view */
+  @media (min-width: 768px) {
+    .home-contain {
+      height: 300px; /* Adjust height for desktop */
+    }
+
+    .home-contain1{
+        height: 300px !important;
+        border-radius: 10px;
+    }
+  
+    .card-content {
+      position: absolute;
+      bottom: 20px; /* Position the content at the bottom */
+      left: 50%; /* Center the content horizontally */
+      transform: translateX(-50%);
+      text-align: center;
+      width: 60%; /* Ensure the content is centered properly */
+    }
+  
+    .card-content h2,
+    .card-content h3 {
+      font-size: 2rem; /* Adjust font size for desktop */
+      margin-bottom: 15px; /* Add spacing between text and button */
+    }
+  
+    .home-button {
+      font-size: 16px; /* Adjust button font size for desktop */
+      padding: 8px 15px; /* Adjust button padding for desktop */
+      background-color: #fff; /* Button background color */
+      color: #fff; /* Button text color */
+      
+    }
+  }

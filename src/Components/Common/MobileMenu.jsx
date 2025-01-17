@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaHome, FaSearch, FaHeart, FaShoppingBag,
-
- } from "react-icons/fa"; // Import relevant icons
+import { FaHome, FaSearch, FaHeart, FaShoppingBag } from "react-icons/fa"; // Import relevant icons
 import { GiHamburgerMenu } from "react-icons/gi"; // Example icon for categories
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  IoIosArrowUp,IoIosArrowDown
- } from "react-icons/io";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "../../assets/images/logo/1.png";
@@ -19,8 +15,6 @@ import "./../../CSS/MobileMenu.css";
 // import { baseUrl } from "../../API/Api";
 function MobileMenu() {
   // product get api store
-
- 
 
   // Offcanvas search
 
@@ -101,7 +95,9 @@ function MobileMenu() {
       setLoading(true); // Start loading
       setError(null); // Reset error state
 
-      const response = await fetch(`${baseUrl}/getProductbyCategory/${categoryId}`);
+      const response = await fetch(
+        `${baseUrl}/getProductbyCategory/${categoryId}`
+      );
       if (response.ok) {
         const data = await response.json();
         if (data.length > 0) {
@@ -119,7 +115,6 @@ function MobileMenu() {
     }
   };
 
-  
   return (
     <div className="mobile-menu d-md-none d-block mobile-cart">
       <ul>
@@ -193,49 +188,56 @@ function MobileMenu() {
           {/* sidebar */}
           <div className="offcanvas-header">
             <div className="sidenav">
-            {categories.map((item) => (
-          <div key={item.category_id}>
-            {/* Dropdown for each category */}
-            <button
-              className={`dropdown-btn text-dark ${dropdowns[item.category_id] ? "active" : ""}`}
-              onClick={() => {
-                fetchProductsByCategoryId(item.category_id); // Fetch products for this category
-                toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
-              }}
-            >
-              <span className="ms-1">{item.category_name}  {dropdowns[item.category_id] ? (
-                <IoIosArrowUp className="icons__right fs-1" />
-              ) : (
-                <IoIosArrowDown className="icons__right fs-1" />
-              )}
-              
-              </span>
-            </button>
-            <div
-              className="dropdown-container"
-              style={{ display: dropdowns[item.category_id] ? "block" : "none" }}
-            >
-              {loading ? (
-                <p>Loading...</p>
-              ) : error ? (
-                <p>{error}</p>
-              ) : products.length === 0 ? (
-                <p>No products found</p>
-              ) : (
-                products.map((product, productIndex) => (
-                  <a href="#" key={productIndex} onClick={() =>
-                    navigate(
-                      `/detail_page/${product.product_id}`
-                    )
-                  } >
-                 <span data-bs-dismiss="offcanvas">{ product.product_name }</span>
-                 .</a>
-                ))
-              )}
-            </div>
-          </div>
-        ))}
-
+              {categories.map((item) => (
+                <div key={item.category_id}>
+                  {/* Dropdown for each category */}
+                  <button
+                    className={`dropdown-btn text-dark ${dropdowns[item.category_id] ? "active" : ""}`}
+                    onClick={() => {
+                      fetchProductsByCategoryId(item.category_id); // Fetch products for this category
+                      toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
+                    }}
+                  >
+                    <span className="ms-1">
+                      {item.category_name}{" "}
+                      {dropdowns[item.category_id] ? (
+                        <IoIosArrowUp className="icons__right fs-1" />
+                      ) : (
+                        <IoIosArrowDown className="icons__right fs-1" />
+                      )}
+                    </span>
+                  </button>
+                  <div
+                    className="dropdown-container"
+                    style={{
+                      display: dropdowns[item.category_id] ? "block" : "none",
+                    }}
+                  >
+                    {loading ? (
+                      <p>Loading...</p>
+                    ) : error ? (
+                      <p>{error}</p>
+                    ) : products.length === 0 ? (
+                      <p>No products found</p>
+                    ) : (
+                      products.map((product, productIndex) => (
+                        <a
+                          href="#"
+                          key={productIndex}
+                          onClick={() =>
+                            navigate(`/detail_page/${product.product_id}`)
+                          }
+                        >
+                          <span data-bs-dismiss="offcanvas">
+                            {product.product_name}
+                          </span>
+                          .
+                        </a>
+                      ))
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="offcanvas-body"></div>
@@ -297,7 +299,6 @@ function MobileMenu() {
                       {/* {console.log(item.product_name)} */}
                       <span style={{ color: "black" }}>
                         {item.product_name}
-                      
                       </span>
                     </li>
                   ))}

@@ -7,14 +7,14 @@ import { logout } from "../../slices/userSlice";
 import LoginModal from "../Common/LoginModal";
 import axios from "axios";
 import { baseUrl } from "../../API/Api";
-import { Modal } from "react-bootstrap";
+import { Modal, Offcanvas } from "react-bootstrap";
 import NoLcation from "../../assets/images/location.jpg";
 import { setSelectedLocation } from "../../slices/locationSlice";
 import { useContext } from "react";
 import { UserContext } from "../../Context/UserContrxt";
 function HeaderMiddle() {
   const { user } = useContext(UserContext);
-    const [loginModal, setLoginModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,12 +45,12 @@ function HeaderMiddle() {
       const response = await axios.get(`${baseUrl}/logout`, {
         withCredentials: true, // To include cookies in the request
       });
-  
+
       if (response.status === 200) {
         // If successful, you can perform additional tasks (e.g., redirect, state reset)
         console.log("Logged out successfully");
         window.location.reload();
-         // Reload the current page
+        // Reload the current page
       } else {
         throw new Error("Logout failed");
       }
@@ -107,7 +107,7 @@ function HeaderMiddle() {
     navigate(a); // Navigate if authenticated
 
     // Correctly prevent the default action
-console.log("from header",user)
+    console.log("from header", user);
     if (user) {
     } else {
       toggleLoginModal(); // Open login modal if not authenticated
@@ -177,7 +177,7 @@ console.log("from header",user)
                     src={logo}
                     className="img-fluid blur-up lazyloaded"
                     alt="Web logo"
-                    onClick={() => window.location.href('/')}
+                    onClick={() => window.location.href("/")}
                   />
                 </Link>
 
@@ -204,15 +204,14 @@ console.log("from header",user)
                           <circle cx={12} cy={10} r={3} />
                         </svg>
                       </span>
-                      
                     </button>
                     <div className="ms-2">
-                        <button className="border-0 bg-white">
-                          {selectedLocation
-                            ? `${selectedLocation.society_name.substring(0, 15)}...`
-                            : "Please Choose Location"}
-                        </button>
-                      </div>
+                      <button className="border-0 bg-white">
+                        {selectedLocation
+                          ? `${selectedLocation.society_name.substring(0, 15)}...`
+                          : "Please Choose Location"}
+                      </button>
+                    </div>
                   </div>
                   <div className="search-box">
                     <div className="input-group">
@@ -357,11 +356,11 @@ console.log("from header",user)
                           </div>
                         )}
                       </div>
-                      
+
                       {!authenticated && (
                         <li className="product-box-contain">
                           <i />
-                          <Link onClick={toggleLoginModal}>Login</Link>
+                          <Link to ="/login">Login</Link>
                         </li>
                       )}
                       {authenticated && (
@@ -370,6 +369,7 @@ console.log("from header",user)
                             <li className="product-box-contain">
                               <Link to={`/myaccount`}>My Dashboard</Link>
                             </li>
+                           
                             <li className="product-box-contain">
                               <i />
                               <Link onClick={handleLogout}>Logout</Link>
@@ -463,6 +463,79 @@ console.log("from header",user)
           </div>
         </div>
       </div>
+
+      {/* Offcanvas Component */}
+      <Offcanvas show={isOpen} onHide={toggleoffCanvas} placement="start">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Menu</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <ul className="row">
+            <div className="col-md-6">
+            <li className="right-side onhover-dropdown">
+              <div className="delivery-login-box">
+                {authenticated && (
+                  <div className="delivery-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-user"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx={12} cy={7} r={4} />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+              {!authenticated && (
+                <li className="product-box-contain">
+                  <div className="delivery-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-user me-3"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx={12} cy={7} r={4} />
+                    </svg>
+                    <Link to = "/login">Login</Link>
+                  </div>
+                </li>
+              )}
+              {authenticated && (
+                <div className="onhover-div onhover-div-login">
+                  <ul className="user-box-name">
+                    <li className="product-box-contain">
+                      <Link to={`/myaccount`}>My Dashboard</Link>
+                    </li>{" "} <br />
+                    <li className="product-box-contain">
+                      <i />
+                      <Link onClick={handleLogout}>Logout</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </li>
+            </div>
+          </ul>
+        </Offcanvas.Body>
+      </Offcanvas>
+
       {/* Modal for Location Selection */}
       <Modal
         show={showModal}

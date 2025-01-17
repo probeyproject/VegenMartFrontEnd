@@ -8,16 +8,16 @@ const ProductItem = ({ productLink, imageSrc, productName, price }) => {
   return (
     <li className='bg-white m-0 border-0 p-0 rounded-3'>
       <div className="offer-product p-2">
-        <a href={`/detail_page/${productLink}`} className="offer-image" tabIndex={0}>
-          <img src={imageSrc} className="bg-body-tertiary blur-up lazyloaded rounded-2 " alt={productName} />
+        <a href={`/detail_page/${productLink}`} className="offer-image" style={{width:"30px"}}  tabIndex={0}>
+          <img src={imageSrc} className="bg-body-tertiary blur-up lazyloaded rounded-2" style={{width:"100%"}} alt={productName} />
         </a>
         <div className="offer-detail ">
           <div>
-            <Link to={`/detail_page/${productLink}`} className="text-title" tabIndex={0}>
-              <h6 className="name">{productName}</h6>
+            <Link to={`/detail_page/${productLink}`} className="text-title"  tabIndex={0}>
+              <h6 className="name" style={{fontSize:".8rem"}}>{productName}</h6>
             </Link>
-            <span>1 KG</span>
-            <h6 className="price theme-color">₹{price}</h6>
+            <span style={{fontSize:"1rem"}}>1 KG</span>
+            <h6 className="price theme-color" style={{fontSize:".8rem"}}>₹{price}</h6>
           </div>
         </div>
       </div>

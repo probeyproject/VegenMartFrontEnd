@@ -1,7 +1,11 @@
 import React from "react";
 import BlogBox from "./BlogBox";
 import Slider from "react-slick";
-import Index from "../../Pages/Index";
+import HeaderTop from "../Header/HeaderTop";
+import HeaderMiddle from "../Header/HeaderMiddle";
+import HeaderBottom from "../Header/HeaderBottom";
+import Footer from "../Common/Footer";
+import NewsLetter from "../Common/NewsLetter";
 
 function BlogSection() {
   const settings = {
@@ -17,7 +21,7 @@ function BlogSection() {
       {
         breakpoint: 1024, // For tablets and larger devices (breakpoint for tablets)
         settings: {
-          slidesToShow: 2, // Show 2 slides on tablet
+          slidesToShow: 3, // Show 2 slides on tablet
           slidesToScroll: 1,
           infinite: true,
           dots: false,
@@ -26,7 +30,7 @@ function BlogSection() {
       {
         breakpoint: 600, // For mobile devices (breakpoint for mobile)
         settings: {
-          slidesToShow: 1, // Show 1 slide on mobile
+          slidesToShow: 2, // Show 1 slide on mobile
           slidesToScroll: 1,
           initialSlide: 0, // Start from the first slide
         },
@@ -35,27 +39,38 @@ function BlogSection() {
   };
   return (
     <>
-      <div class="title section-t-space">
-        <h2>Featured Blog</h2>
-        <span class="title-leaf">
-        </span>
-        <p>A virtual assistant collects the products from your list</p>
+      <div className="container-fluid px-0 overflow-hidden">
+      <header className="pb-md-4 pb-0">
+        <HeaderTop />
+        <HeaderMiddle />
+        <HeaderBottom />
+      </header>
+      <div className="container card bg-light p-3 mb-3">
+        <div className="title">
+          <h2>Featured Blog</h2>
+          <span className="title-leaf"></span>
+          <p>A virtual assistant collects the products from your list</p>
+        </div>
+        <Slider {...settings}>
+          {Array(8)
+            .fill()
+            .map((_, index) => {
+              return (
+                <div key={index} className="">
+                  <BlogBox
+                    imageUrl="https://media.istockphoto.com/id/174429248/photo/fresh-vegetables.jpg?s=612x612&w=0&k=20&c=fxlgOIET7gKa8M3rwkV974aUfB0gVpWiJQwUoxA4dtQ="
+                    blogLink="#"
+                    date="20 March, 2022"
+                    title="Fresh Vegetable Online"
+                  />
+                </div>
+              );
+            })}
+        </Slider>
+        </div>
+        <NewsLetter/>
+        <Footer/>
       </div>
-
-      <Slider {...settings}>
-        {
-          Array(8).fill().map((_,index)=>{
-            return(
-              <BlogBox
-          imageUrl="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/blog/3.jpg"
-          blogLink="#"
-          date="20 March, 2022"
-          title="Fresh Vegetable Online"
-        />
-            )
-          })
-        }
-      </Slider>
     </>
   );
 }

@@ -53,9 +53,10 @@ function NewsLetter() {
           style={{
             background:
               "url('https://themes.pixelstrap.com/fastkart/assets/images/vegetable/newsletter/1.jpg')",
+              height:"170px"
           }}
         >
-          <div className="newsletter-contain py-5">
+          <div className="newsletter-contain py-3">
             <div className="container-fluid">
               <div className="row">
                 <div className="col-xxl-4 col-lg-5 col-md-7 col-sm-9 offset-xxl-2 offset-md-1">

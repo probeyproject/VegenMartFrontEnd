@@ -108,7 +108,7 @@ function About() {
                   >
                     <li className="nav-item ">
                       <button
-                        className={`nav-link ${activeTab === "mission" ? "active" : ""}`}
+                        className={`nav-link ${activeTab === "mission" ? "active" : ""} `}
                         onClick={() => setActiveTab("mission")}
                       >
                         Mission
@@ -135,7 +135,7 @@ function About() {
                   {/* Tab Content */}
                   <div className="tab-content">
                     {activeTab === "mission" && (
-                      <div className="tab-pane fade show active">
+                      <div className="tab-pane fade show active p-3">
                         <h2>Mission</h2>
                         <p>
                           To deliver fresh, ozone-washed, and chemical-free
@@ -148,7 +148,7 @@ function About() {
                       </div>
                     )}
                     {activeTab === "vision" && (
-                      <div className="tab-pane fade show active">
+                      <div className="tab-pane fade show active p-3">
                         <h2>Vision</h2>
                         <p>
                           To be the most trusted and innovative platform for
@@ -159,7 +159,7 @@ function About() {
                       </div>
                     )}
                     {activeTab === "origin" && (
-                      <div className="tab-pane fade show active">
+                      <div className="tab-pane fade show active p-3">
                         <h2>Origin</h2>
                         <p className="text-content">
                           Vegenmart was founded by Amit and Vaibhav, two friends
@@ -391,9 +391,7 @@ function About() {
                         <h2>10</h2>
                         <h4>Business Years</h4>
                         <p>
-                          A coffee shop is a small business that sells coffee,
-                          pastries, and other morning goods. There are many
-                          different types of coffee shops around the world.
+                        Vegenmart, founded by Amit and Vaibhav, has delivered fresh, ozone-washed, and chemical-free produce for 2 business years. Committed to quality and sustainability, it has become a trusted name, offering healthier alternatives to pesticide-laden fruits and vegetables while prioritizing customer well-being and convenience.
                         </p>
                       </div>
                     </div>
@@ -415,9 +413,7 @@ function About() {
                         <h2>80 K+</h2>
                         <h4>Products Sales</h4>
                         <p>
-                          Some coffee shops have a seating area, while some just
-                          have a spot to order and then go somewhere else to sit
-                          down. The coffee shop that I am going to.
+                        Vegenmart has sold thousands of products, providing fresh, ozone-washed, and chemical-free vegetables and fruits. Each product meets high-quality standards, ensuring safety and nutrition. Direct home delivery empowers customers to make healthier, sustainable choices effortlessly.
                         </p>
                       </div>
                     </div>
@@ -439,9 +435,9 @@ function About() {
                         <h2>90%</h2>
                         <h4>Happy Customers</h4>
                         <p>
-                          My goal for this coffee shop is to be able to get a
-                          coffee and get on with my day. It's a Thursday morning
-                          and I am rushing between meetings.
+                        Vegenmart’s happy customers trust its chemical-free, ozone-washed produce for safety and nutrition. The company’s focus on healthier lifestyles and sustainability has inspired communities, earning loyalty and making it a preferred choice for fresh, high-quality produce.
+
+
                         </p>
                       </div>
                     </div>
