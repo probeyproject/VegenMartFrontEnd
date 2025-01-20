@@ -58,7 +58,7 @@ const Testimonials = () => {
           <h5 className="theme-color text-center mb-2">Testimonials</h5>
           <h2 className="text-center mb-4">What Our Clients Say</h2>
           <Slider {...settings} className="testimonial-slider">
-            {testimonial.map((testimonial, index) => (
+            {testimonialsData.map((testimonial, index) => (
               <div
                 key={index}
                 className="row d-flex align-items-center mx-auto"

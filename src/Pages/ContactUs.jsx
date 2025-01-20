@@ -111,7 +111,7 @@ function ContactUs() {
                               <h4>Email</h4>
                             </div>
                             <div className="contact-detail-contain">
-                              <p>geweto9420@chokxus.com</p>
+                              <p>support@vegenmart.com</p>
                             </div>
                           </div>
                         </div>
@@ -121,26 +121,14 @@ function ContactUs() {
                               <i className="fa-solid fa-location-dot" />
                             </div>
                             <div className="contact-detail-title">
-                              <h4>Noida Office</h4>
+                              <h4>Prayagraj Office</h4>
                             </div>
                             <div className="contact-detail-contain">
-                              <p>Cruce Casa de Postas 29</p>
+                              <p>155/25E Karela Bagh Prayagraj, Uttar Pradesh, India</p>
                             </div>
                           </div>
                         </div>
-                        <div className="col-xxl-6 col-lg-12 col-sm-6">
-                          <div className="contact-detail-box">
-                            <div className="contact-icon">
-                              <i className="fa-solid fa-building" />
-                            </div>
-                            <div className="contact-detail-title">
-                              <h4>Bournemouth Office</h4>
-                            </div>
-                            <div className="contact-detail-contain">
-                              <p>Visitación de la Encina 22</p>
-                            </div>
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>

@@ -63,7 +63,7 @@ const BannerSection = () => {
   };
 
   return (
-    <section className="banner-section ratio_60 wow" data-aos="fade-left">
+    <section className="banner-section d-none d-lg-block ratio_60 wow" data-aos="fade-left">
       <div className="container-fluid-lg">
         <Slider {...settings}>
           {product.map((data, index) => (
@@ -81,9 +81,10 @@ const BannerSection = () => {
                     width: "90%",
                   }}
                 >
+                  
                   <div className="banner-details">
                     <div className="banner-box">
-                    
+                  
                       <h6 style={{fontSize : '10px'}}>{data.product_name}</h6>
                     </div>
                   </div>

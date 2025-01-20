@@ -7,6 +7,8 @@ import ProtectedRoute from "./Protected/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { checkAuthentication } from "./slices/userSlice";
 import MobileMenu from "./Components/Common/MobileMenu";
+import ScrollToTop from "./ScrollToTop";
+import BlogSection from "./Components/ProductSection/BlogSection";
 
 // Lazy loading components
 const Index = lazy(() => import("./Pages/Index"));
@@ -31,8 +33,12 @@ const BusinessInfo = lazy(() => import("./Pages/BusinessInfo"));
 const ProductList = lazy(() => import("./Components/Header/ProductList"));
 const MyInvoice = lazy(() => import("./Pages/MyInvoice"));
 const ComboCardCarousel = lazy(() => import("./Components/ComboCards/ComboCardCarousel"));
-
-
+const PrivacyPolicy = lazy(() => import("./Terms & Conditions/PrivacyPolicy"))
+const DataEncryptionPolicy = lazy (() => import("./Terms & Conditions/Data&EncryptionPolicy"))
+const RefundAndRewardsPolicy = lazy (()=> import("./Terms & Conditions/RefundAndRewardsPolicy "))
+const LoyaltyRewardsPolicy = lazy (()=> import("./Terms & Conditions/LoyaltyRewardsPolicy"))
+const BusinessTermsConditions = lazy (()=> import("./Terms & Conditions/BusinessTermsConditions"))
+const ShippingPolicy = lazy (() => import("./Terms & Conditions/ShippingPolicy"))
 // Skeleton Loader as a fallback
 const SkeletonLoader = () => (
   <div
@@ -70,6 +76,7 @@ function App() {
   return (
     <Router>
       <Suspense fallback={<SkeletonLoader />}>
+      <ScrollToTop/>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/filter" element={<FilterPage />} />
@@ -89,11 +96,18 @@ function App() {
             path="/bannerProductDetails"
             element={<BannerProductDetails />}
           />
+          <Route path="/privacypolicy" element={< PrivacyPolicy />} />
+          <Route path="/dataencryptionpolicy" element={<DataEncryptionPolicy />} />
+          <Route path="/refundAndrewardspolicy" element={<RefundAndRewardsPolicy />} />
+          <Route path="/loyaltyrewardspolicy" element={<LoyaltyRewardsPolicy />} />
+          <Route path="/businesstermsconditions" element={<BusinessTermsConditions />} />
+          <Route path="/shippingpolicy" element={<ShippingPolicy />} />
           <Route path="combocardcarousel" element={<ComboCardCarousel />} />
           <Route path="/kumbhinfo" element={<KumbhInfo />} />
           <Route path="/businessInfo" element={<BusinessInfo />} />
           <Route path="/filters/:query" element={<ProductList />} />
           <Route path="/myInvoice/:orderId" element={<ProtectedRoute element={<MyInvoice />} />} />
+          <Route path="/blogsection" element={<BlogSection/>}/>
         </Routes>
       </Suspense>
       <MobileMenu/>

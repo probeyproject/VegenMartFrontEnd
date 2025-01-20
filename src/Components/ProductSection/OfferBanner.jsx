@@ -35,6 +35,7 @@ function OfferBanner() {
             style={{
               backgroundImage:
                 `url(${data.banner_image})`,
+                height:"120px",
               backgroundSize: "cover",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",
@@ -47,7 +48,7 @@ function OfferBanner() {
               alt=""
               style={{ display: "none" }}
             />
-            <div className="banner-details p-center p-4 text-white text-center">
+            <div className="banner-details p-center p-3 text-white text-center">
               <div>
                 <h3 className="lh-base fw-bold offer-text">
                   {data.banner_offer_title}

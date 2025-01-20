@@ -2,12 +2,40 @@
     height: 102vh;
     /* border: 2px solid; Default height for larger screens */
   }
+
   
   @media (max-width: 768px) {
     .product-container {
         /* border: 2px solid; */
-      height: 70vh; /* Reduced height for mobile screens */
+      height: 90vh; /* Reduced height for mobile screens */
     }
     
   }
+  
+
+  @media (max-width: 425px) {
+    .product-container {
+        /* border: 2px solid; */
+      height: 60vh; /* Reduced height for mobile screens */
+    }
+    
+  }
+  
+
+  @media (max-width: 375px) {
+    .product-container {
+        /* border: 2px solid; */
+      height: 50vh; /* Reduced height for mobile screens */
+    }
+    
+  }
+
+  @media (max-width: 320px) {
+    .product-container {
+      margin-bottom: -5px;
+      height: 45vh; /* Reduced height for mobile screens */
+    }
+    
+  }
+  
   

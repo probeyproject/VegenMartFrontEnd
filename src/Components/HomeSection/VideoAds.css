@@ -1,0 +1,41 @@
+/* Container for the video */
+.video-container {
+    max-width: 800px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+  }
+  
+  /* Wrapper for the video to maintain aspect ratio */
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (height/width * 100) */
+    height: 0;
+    overflow: hidden;
+  }
+  
+  /* Responsive video styling */
+  .responsive-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px; /* Rounded corners */
+  }
+  
+  /* Adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .video-container {
+      padding: 10px;
+    }
+  
+    .responsive-video {
+      border-radius: 8px; /* Smaller rounded corners for mobile */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .video-container {
+      max-width: 100%; /* Full width on very small screens */
+    }
+  }

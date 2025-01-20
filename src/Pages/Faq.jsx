@@ -11,6 +11,7 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const faqData = [
   {
@@ -55,8 +56,10 @@ const AccordionData = [
     question: "How long will delivery take?",
     answer: `Discover, Explore & Understanding The Product Description Maecenas ullamcorper eros libero, facilisis tempor mi dapibus vel. Sed ut felis ligula. Pellentesque vestibulum, tellus id euismod aliquet, justo velit tincidunt justo, nec pulvinar tortor elit vitae urna.`,
   },
-  // Add more items here as needed
+  
 ];
+
+
 
 function Faq() {
   const [openId, setOpenId] = useState("1"); // Initial open item
@@ -68,8 +71,6 @@ function Faq() {
       setOpenId(id); // Open the selected item
     }
   };
-
-
 
   return (
     <>
@@ -91,49 +92,7 @@ function Faq() {
                     questions. We Believe only your feedback might move us
                     forward.
                   </p>
-                  <div className="faq-form-tag">
-                    <div className="input-group">
-                      <i className="fa-solid fa-magnifying-glass" />
-                      <input
-                        type="search"
-                        className="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder="name@example.com"
-                      />
-                      <div className="dropdown">
-                        <button
-                          className="btn btn-md faq-dropdown-button dropdown-toggle"
-                          type="button"
-                          id="dropdownMenuButton1"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          All Product{" "}
-                          <i className="fa-solid fa-angle-down ms-2" />
-                        </button>
-                        <ul
-                          className="dropdown-menu faq-dropdown-menu dropdown-menu-end"
-                          style={{}}
-                        >
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Action
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Another action
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Something else here
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <div className="faq-form-tag"></div>
                 </div>
               </div>
             </div>
@@ -150,12 +109,12 @@ function Faq() {
                     We are answering most frequent questions. No worries if you
                     not find exact one. You can find out more by searching or
                     continuing clicking button below or directly{" "}
-                    <a
-                      href="contact-us.html"
+                    <Link
+                      to="/contact"
                       className="theme-color text-decoration-underline"
                     >
                       contact our support.
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>

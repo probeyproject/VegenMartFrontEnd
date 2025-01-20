@@ -1,11 +1,11 @@
 // src/slices/userSlice.js
-import Cookies from "js-cookie";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from 'js-cookie';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from "../API/Api";
 const getStoredUser = () => {
-  const userCookie = Cookies.get("user");
-  const tokenCookie = Cookies.get("authToken");
-
+  const userCookie = Cookies.get('user');
+  const tokenCookie = Cookies.get('authToken');
+  
   // Check if the user cookie exists and is not empty
   let user = null;
   if (userCookie) {
@@ -22,6 +22,8 @@ const getStoredUser = () => {
 };
 
 const storedData = getStoredUser();
+;
+
 // Initial state
 const initialState = {
   user: storedData.user || null,
@@ -33,51 +35,54 @@ const initialState = {
   alreadyRegistered: false,
 };
 
+
+
+
 export const checkAuthentication = createAsyncThunk(
-  "user/checkAuthentication",
+  'user/checkAuthentication',
   async (_, { dispatch }) => {
     // Get user and token from cookies
-    const storedUser = Cookies.get("user");
-    const storedToken = Cookies.get("authToken");
-    console.log(storedUser);
-    console.log(storedToken);
+    const storedUser = Cookies.get('user');
+    const storedToken = Cookies.get('authToken');
+console.log(storedUser);
+console.log(storedToken);
+
 
     if (storedUser && storedToken) {
       // If both user and token exist in cookies, consider the user as authenticated
       const user = JSON.parse(storedUser);
       try {
         const response = await fetch(`${baseUrl}/check`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            Authorization: `Bearer ${storedToken}`, // Send token for server-side validation
+            'Authorization': `Bearer ${storedToken}`, // Send token for server-side validation
           },
         });
-        console.log(response);
+console.log(response);
 
         if (!response.ok) {
-          console.error(
-            "Authentication check failed:",
-            response.status,
-            response.statusText
-          );
-          throw new Error("Not authenticated");
+          console.error('Authentication check failed:', response.status, response.statusText);
+          throw new Error('Not authenticated');
         }
 
         const data = await response.json();
         return data; // Return user info and other details
+        
       } catch (error) {
-        console.error("Error during authentication check:", error);
+        console.error('Error during authentication check:', error);
         throw error;
       }
     } else {
       // If no user or token in cookies, return null to indicate no authentication
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
   }
 );
 
+
+
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     login: (state, action) => {
@@ -85,9 +90,10 @@ const userSlice = createSlice({
       state.token = action.payload.token;
       state.authenticated = true;
 
-      // Save user data and token to cookies
-      Cookies.set("user", JSON.stringify(action.payload.user));
-      Cookies.set("token", action.payload.token);
+           // Save user data and token to cookies
+           Cookies.set('user', JSON.stringify(action.payload.user), { expires: 7, secure: true, sameSite: 'Strict' });
+           Cookies.set('token', action.payload.token, { expires: 7, secure: true, sameSite: 'Strict' });
+              
     },
 
     logout: (state) => {
@@ -100,8 +106,8 @@ const userSlice = createSlice({
       state.alreadyRegistered = false;
 
       // Clear localStorage
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     },
 
     addToCart: (state, action) => {
@@ -109,7 +115,7 @@ const userSlice = createSlice({
     },
 
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload.id); // Remove item from cart
+      state.cart = state.cart.filter(item => item.id !== action.payload.id); // Remove item from cart
     },
 
     clearCart: (state) => {
@@ -126,8 +132,8 @@ const userSlice = createSlice({
       state.rewards = rewards;
 
       // Save user data and token to localStorage
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', action.payload.token);
     },
   },
   extraReducers: (builder) => {
@@ -150,12 +156,5 @@ const userSlice = createSlice({
 });
 
 // Export actions and reducer
-export const {
-  login,
-  logout,
-  addToCart,
-  removeFromCart,
-  clearCart,
-  verifyOTP,
-} = userSlice.actions;
+export const { login, logout, addToCart, removeFromCart, clearCart, verifyOTP } = userSlice.actions;
 export default userSlice.reducer;

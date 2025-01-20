@@ -21,6 +21,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import DiscountModal from "../Components/Common/DiscountModal";
 import { FaRegCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
+import { CiCircleInfo } from "react-icons/ci";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -93,7 +94,6 @@ function DetailPage() {
     setIsModalOpen(true);
   };
 
-
   const handleAuth = (e, a) => {
     e.preventDefault();
 
@@ -129,7 +129,7 @@ function DetailPage() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       const response = await axios.get(`${baseUrl}/getProductById/${id}`);
-      
+
       const data = await response.data;
       console.log(data);
       setProduct(data);
@@ -313,7 +313,6 @@ function DetailPage() {
       setResponseWeight(response.data.weight);
     } catch (error) {
       console.error("Error:", error);
-      
     }
   };
 
@@ -355,8 +354,17 @@ function DetailPage() {
       console.error("Error creating cart:", error);
     }
   };
-
   const totalStars = 5;
+
+  // Initialize tooltips after the component mounts
+  useEffect(() => {
+    const tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    tooltipTriggerList.map((tooltipTriggerEl) => {
+      return new window.bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, []);
 
   return (
     <>
@@ -449,8 +457,15 @@ function DetailPage() {
                           </h5>
                           <div className="d-flex gap-4 center">
                             <div>
-                              <span className="name fs-5">{data.product_name}
-                              {data.is_washed === 1 && <span className="fs-5 "> &nbsp;(Ozone-Washed) </span>}</span>
+                              <span className="name fs-5">
+                                {data.product_name}
+                                {data.is_washed === 1 && (
+                                  <span className="fs-5 ">
+                                    {" "}
+                                    &nbsp;(Ozone-Washed){" "}
+                                  </span>
+                                )}
+                              </span>
                             </div>
                             <div>
                               <BsInfoCircle
@@ -692,10 +707,14 @@ function DetailPage() {
                             <TabPane tabId="1" className="tab-pane ">
                               <div className="product-description">
                                 <div className="nav-desh">
-                                  <h1 className="fs-4 mb-2">{data.product_name} - </h1>
-                                  
-                                <p className="px-2">   <GoDotFill/> {data.product_description}</p>
-                                
+                                  <h1 className="fs-4 mb-2">
+                                    {data.product_name} -{" "}
+                                  </h1>
+
+                                  <p className="px-2">
+                                    {" "}
+                                    <GoDotFill /> {data.product_description}
+                                  </p>
                                 </div>
                               </div>
                             </TabPane>
@@ -988,20 +1007,44 @@ function DetailPage() {
 
                   <div className="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
                     <div className="right-sidebar-box">
-                       <Slider {...settings}>
+                      <Slider {...settings}>
                         {ads.map((adds, index) => (
-                          <div className="vendor-box" key={index}>
-                            <div className="vendor-contain" style={{backgroundImage:"adds.logo_url"}}>
-                              <div className="vendor-image">
-                                <img
+                          <div
+                            className="vendor-box border border-info"
+                            key={index}
+                          >
+                            <div className="vendor-contain">
+                             <div className="align-item-center">
+                             <button
+                                type="button"
+                                className="btn btn-sm"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Your ads will show here!"
+                              >
+                              <span className="badge  bg-light text-white text-muted me-1 ">Ads.</span><BsInfoCircle />
+                              </button> 
+                             </div>
+                              <div
+                                className="vendor-image"
+                                style={{
+                                  backgroundImage: `url(${adds.logo_url})`,
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundSize: "cover",
+                                  height: "250px",
+                                  width: "300px",
+                                }}
+                              >
+                                {/* <img
                                   src={adds.logo_url}
-                                  className="blur-up lazyloaded"
+                                  // className="blur-up lazyloaded"
+                                  style={{height:"300px", width:"250px"}}
                                   alt={adds.company_name}
-                                />
+                                /> */}
                               </div>
                               <div className="vendor-name">
-                                <h5 className="fw-500">{adds.company_name}</h5>
-                                <div className="product-rating custom-rate">
+                                {/* <h5 className="fw-500">{adds.company_name}</h5> */}
+                                {/* <div className="product-rating custom-rate">
                                   <ul className="rating">
                                     {[...Array(5)].map((_, idx) => (
                                       <li key={idx}>
@@ -1027,11 +1070,11 @@ function DetailPage() {
                                   <span className="review">
                                     {Math.round(adds.rating)} Reviews
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                             <p className="vendor-detail">
-                              {adds.company_details}
+                              {/* {adds.company_details} */}
                             </p>
                             <div className="vendor-list">
                               <ul>
@@ -1089,7 +1132,7 @@ function DetailPage() {
                             </div>
                           </div>
                         ))}
-                      </Slider> 
+                      </Slider>
 
                       <div className="section-t-space">
                         <div className="category-menu">

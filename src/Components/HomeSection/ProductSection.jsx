@@ -15,8 +15,9 @@ import { VideoAds } from "./VideoAds";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../API/Api";
 import ComboCardCarousel from "../ComboCards/ComboCardCarousel";
-import vegenimg from "./image/vegenmart.jpg";
+import vegenimg from "./image/Artboard 1.png";
 import("../../CSS/ProductSection.css");
+
 function ProductSection() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -261,8 +262,6 @@ function ProductSection() {
                     display: "block",
                   }}
                 >
-               
-                  
                   <img
                     // src={banners.banner_image}
                     src={banners.banner_image}
@@ -341,14 +340,12 @@ function ProductSection() {
                 <h3>Customer Comment</h3>
                 <div className="review-box">
                   <div className="review-contain">
-                    <h5 className="w-75">
+                    <h5 className="w-100">
                       We Care About Our Customer Experience
                     </h5>
                     <p>
-                      In publishing and graphic design, Lorem ipsum is a
-                      placeholder text commonly used to demonstrate the visual
-                      form of a document or a typeface without relying on
-                      meaningful content.
+                      Services is very good and also products are fresh and good
+                      in quality.
                     </p>
                   </div>
 
@@ -361,8 +358,8 @@ function ProductSection() {
                       />
                     </div>
                     <div className="review-detail">
-                      <h5>Tina Mcdonnale</h5>
-                      <h6>Sale Manager</h6>
+                      <h5>Tina Mehata</h5>
+                      <h6>Prayagraj.</h6>
                     </div>
                   </div>
                 </div>
@@ -373,21 +370,39 @@ function ProductSection() {
           {/* row2  */}
 
           <div className="col-md-9">
-            <div className="title title-flex">
-              <div>
-                <h2>Top Save Today</h2>
-                <span className="title-leaf"></span>
-                <div className="d-flex center gap-5">
-                  <div>
-                    <p>
-                      Don't miss this opportunity at a special discount just for
-                      this week.
-                    </p>
+            <div className="new_order">
+              {/* <div className="new_order3 d-block d-md-none">
+                <div className="title">
+                  <h2 className="mt-4">Browse by Categories</h2>
+                  <span className="title-leaf"></span>
+                  <p>Top Categories Of The Week</p>
+                </div>
+
+                <div
+                  className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
+                  data-aos="fade-left"
+                >
+                  <CategoryBox />
+                </div>
+              </div> */}
+
+              <div className="new_order1">
+              <div className="row">
+                <div className="title title-flex  ">
+                  
+                    <h2>Top Save Today</h2>
+                    <span className="title-leaf"></span>
+                    <div>
+                      <p>
+                        Don't miss this opportunity at a special discount just
+                        for this week.
+                      </p>
+                    </div>
                   </div>
-                  <div className="d-flex flex-column flex-sm-row align-items-center">
+                  <div className="d-flex flex-column flex-sm-row align-items-center mb-3">
                     <p className="text-nowrap mb-2 mb-sm-0">Sort By</p>
                     <select
-                      className="form-select ms-0 ms-sm-2 w-100 w-sm-auto"
+                      className="form-select ms-1"
                       id="filterproduct"
                       value={sortOption} // Set the current value to the selected sort option
                       onChange={handleSortChange} // Handle sort option change
@@ -399,10 +414,208 @@ function ProductSection() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-body-tertiary border mb-4 p-3 rounded-3 section-b-space">
-              <div className="overflow-hidden">
-                <div className="product-box-slider no-arrow slick-initialized slick-slider">
+
+              <div className="bg-body-tertiary border mb-4 p-2 rounded-3 section-b-space">
+                <div className="new_order2">
+                  <div className="overflow-hidden  ">
+                    <div className="product-box-slider no-arrow slick-initialized slick-slider">
+                      <button
+                        className="slick-prev slick-arrow"
+                        aria-label="Previous"
+                        type="button"
+                        style={{ display: "inline-block" }}
+                      >
+                        Previous
+                      </button>
+
+                      <div className="product-container row overflow-x-scroll ">
+                        {products.length > 0 ? (
+                          products.map((product, i) => (
+                            <div
+                              key={product.product_id}
+                              className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4"
+                            >
+                              <div>
+                                <ProductBox
+                                  imageSrc={JSON.parse(
+                                    product.product_image || '""'
+                                  )}
+                                  productName={product.product_name}
+                                  currentPrice={product.product_price}
+                                  product_id={product.product_id}
+                                  inStock={product.stock}
+                                  productDetails={product.product_details}
+                                  productType={product.product_type}
+                                  brand_name={product.brand_name}
+                                  sku={product.sku}
+                                  weight={product.weight}
+                                  weight_type={product.weight_type}
+                                  min_weight={product.min_weight}
+                                  discount_price={product.discount_price}
+                                  average_rating={product.average_rating}
+                                  offers={product.offers}
+                                  defaultWeight={
+                                    cart?.some(
+                                      (cartItem) =>
+                                        cartItem.product_id ===
+                                        product.product_id
+                                    )
+                                      ? cart.find(
+                                          (cartItem) =>
+                                            cartItem.product_id ===
+                                            product.product_id
+                                        )?.weight
+                                      : undefined
+                                  }
+                                  defaultWeightType={
+                                    cart?.some(
+                                      (cartItem) =>
+                                        cartItem.product_id ===
+                                        product.product_id
+                                    )
+                                      ? cart.find(
+                                          (cartItem) =>
+                                            cartItem.product_id ===
+                                            product.product_id
+                                        )?.weight_type
+                                      : undefined
+                                  }
+                                />
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <img
+                            src={vegenimg}
+                            style={{
+                              // border:"2px solid",
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "cover",
+                            }}
+                            alt="Default Image"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="new_order3 d-none d-sm-block">
+                  <div className="title">
+                    <h2 className="mt-4">Browse by Categories</h2>
+                    <span className="title-leaf"></span>
+                    <p>Top Categories Of The Week</p>
+                  </div>
+
+                  <div
+                    className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
+                    data-aos="fade-left"
+                  >
+                    <CategoryBox />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-body-tertiary border mb-4 p-2 rounded-3 section-b-space">
+                <div className="section-t-space section-b-space">
+                  <div className="row g-md-4 g-3">
+                    {tasty?.map((data, index) => (
+                      <div key={index} className="col-md-6 d-none d-lg-block">
+                        <div
+                          className="banner-contain hover-effect bg-size blur-up lazyloaded"
+                          style={{
+                            backgroundImage: `url(${data.banner_image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center center",
+                            backgroundRepeat: "no-repeat",
+                            display: "block",
+                          }}
+                        >
+                          <img
+                            src={data.banner_image}
+                            className="bg-img blur-up lazyload"
+                            alt=""
+                            style={{ display: "none" }}
+                          />
+                          <div className="banner-details p-center-left p-4">
+                            <div>
+                              <h3 className="text-exo">
+                                {data.banner_offer}% offer
+                              </h3>
+                              <h4 className="text-russo fw-normal theme-color mb-2">
+                                {data.banner_offer_title}
+                              </h4>
+                              <button
+                                onClick={handleClick}
+                                className="btn btn-animation btn-sm mend-auto"
+                              >
+                                Shop Now{" "}
+                                <i className="fa-solid fa-arrow-right icon" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {fresh.map((data, index) => (
+                      <div key={index} className="col-12 col-md-6">
+                        <div
+                          className="banner-contain hover-effect bg-size blur-up lazyloaded"
+                          style={{
+                            backgroundImage: `url(${data.banner_image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center center",
+                            backgroundRepeat: "no-repeat",
+                            display: "block",
+                          }}
+                        >
+                          <img
+                            src={data.banner_image}
+                            className="bg-img blur-up lazyload"
+                            alt=""
+                            style={{ display: "none" }}
+                          />
+                          <div className="banner-details p-center-left p-4">
+                            <div>
+                              <h3 className="text-exo">
+                                {data.banner_offer}% offer
+                              </h3>
+                              <h4 className="text-russo fw-normal theme-color mb-2">
+                                {data.banner_offer_title}
+                              </h4>
+                              <button
+                                onClick={handleClick}
+                                className="btn btn-animation btn-sm mend-auto"
+                              >
+                                Shop Now{" "}
+                                <i className="fa-solid fa-arrow-right icon" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* <Practics/> */}
+                <VideoAds />
+
+                <div className="title d-block">
+                  <h2>Combo & Recipes</h2>
+                  <span className="title-leaf"></span>
+                  <p>
+                    These Combos is Offered By Us In Best Price With Combination
+                    of Multiple Products.
+                  </p>
+                  <ComboCardCarousel />
+                </div>
+
+                <div className="product-box-slider no-arrow slick-initialized slick-slider h-100">
                   <button
                     className="slick-prev slick-arrow"
                     aria-label="Previous"
@@ -412,202 +625,7 @@ function ProductSection() {
                     Previous
                   </button>
 
-                  <div className="product-container row overflow-x-scroll " >
-                    {products.length > 0 ? (
-                      products.map((product, i) => (
-                        <div
-                          key={product.product_id}
-                          className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4"
-                        >
-                          <div >
-                            
-                            <ProductBox
-                              imageSrc={JSON.parse(
-                                product.product_image || '""'
-                              )}
-                              productName={product.product_name}
-                              currentPrice={product.product_price}
-                              product_id={product.product_id}
-                              inStock={product.stock}
-                              productDetails={product.product_details}
-                              productType={product.product_type}
-                              brand_name={product.brand_name}
-                              sku={product.sku}
-                              weight={product.weight}
-                              weight_type={product.weight_type}
-                              min_weight={product.min_weight}
-                              discount_price={product.discount_price}
-                              average_rating={product.average_rating}
-                              offers={product.offers}
-                              defaultWeight={
-                                cart?.some(
-                                  (cartItem) =>
-                                    cartItem.product_id === product.product_id
-                                )
-                                  ? cart.find(
-                                      (cartItem) =>
-                                        cartItem.product_id ===
-                                        product.product_id
-                                    )?.weight
-                                  : undefined
-                              }
-                              defaultWeightType={
-                                cart?.some(
-                                  (cartItem) =>
-                                    cartItem.product_id === product.product_id
-                                )
-                                  ? cart.find(
-                                      (cartItem) =>
-                                        cartItem.product_id ===
-                                        product.product_id
-                                    )?.weight_type
-                                  : undefined
-                              }
-                            />
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <img
-                        src={vegenimg}
-                        style={{
-                          // border:"2px solid",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          maxWidth: "100%",
-                          maxHeight: "100%",
-                          objectFit: "cover",
-                        }}
-                        alt="Default Image"
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="title">
-                <h2 className="mt-4">Bowse by Categories</h2>
-                <span className="title-leaf"></span>
-                <p>Top Categories Of The Week</p>
-              </div>
-
-              <div
-                className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
-                data-aos="fade-left"
-              >
-                <CategoryBox />
-              </div>
-
-              <div className="section-t-space section-b-space">
-                <div className="row g-md-4 g-3">
-                 
-                  {tasty?.map((data, index) => (
-                    <div key={index} className="col-md-6">
-                      <div
-                        className="banner-contain hover-effect bg-size blur-up lazyloaded"
-                        style={{
-                          backgroundImage: `url(${data.banner_image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center center",
-                          backgroundRepeat: "no-repeat",
-                          display: "block",
-                        }}
-                      >
-                        <img
-                          src={data.banner_image}
-                          className="bg-img blur-up lazyload"
-                          alt=""
-                          style={{ display: "none" }}
-                        />
-                        <div className="banner-details p-center-left p-4">
-                          <div>
-                            <h3 className="text-exo">
-                              {data.banner_offer}% offer
-                            </h3>
-                            <h4 className="text-russo fw-normal theme-color mb-2">
-                              {data.banner_offer_title}
-                            </h4>
-                            <button
-                              onClick={handleClick}
-                              className="btn btn-animation btn-sm mend-auto"
-                            >
-                              Shop Now{" "}
-                              <i className="fa-solid fa-arrow-right icon" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  {fresh.map((data, index) => (
-                    <div key={index} className="col-12 col-md-6">
-                      
-                      <div
-                      
-                        className="banner-contain hover-effect bg-size blur-up lazyloaded"
-                        style={{
-                          backgroundImage: `url(${data.banner_image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center center",
-                          backgroundRepeat: "no-repeat",
-                          display: "block",
-                        }}
-                      >
-                        <img
-                          src={data.banner_image}
-                          className="bg-img blur-up lazyload"
-                          alt=""
-                          style={{ display: "none" }}
-                        />
-                        <div className="banner-details p-center-left p-4">
-                          <div>
-                            <h3 className="text-exo">
-                              {data.banner_offer}% offer
-                            </h3>
-                            <h4 className="text-russo fw-normal theme-color mb-2">
-                              {data.banner_offer_title}
-                            </h4>
-                            <button
-                              onClick={handleClick}
-                              className="btn btn-animation btn-sm mend-auto"
-                            >
-                              Shop Now{" "}
-                              <i className="fa-solid fa-arrow-right icon" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* <Practics/> */}
-              <VideoAds />
-
-              <div className="title d-block">
-                <h2>Combo & Recipes</h2>
-                <span className="title-leaf"></span>
-                <p>
-                  These Combos is Offered By Us In Best Price With Combination
-                  of Multiple Products.
-                </p>
-                <ComboCardCarousel />
-              </div>
-
-              <div className="product-box-slider no-arrow slick-initialized slick-slider h-100">
-                <button
-                  className="slick-prev slick-arrow"
-                  aria-label="Previous"
-                  type="button"
-                  style={{ display: "inline-block" }}
-                >
-                  Previous
-                </button>
-
-                {/* <Slider {...settings}>
+                  {/* <Slider {...settings}>
                   {combo && combo.length > 0 ? (
                     combo.map((product, index) => {
                       // Parse the product_image JSON string to an array
@@ -644,9 +662,10 @@ function ProductSection() {
                     </div>
                   )}
                 </Slider> */}
-              </div>
+                </div>
 
-              <OfferBanner />
+                <OfferBanner />
+              </div>
 
               <div
                 className="best-selling-slider product-wrapper wow fadeInUp slick-initialized slick-slider slick-dotted"

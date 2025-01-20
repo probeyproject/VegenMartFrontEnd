@@ -50,7 +50,6 @@ function FilterPage() {
               onPriceFilter={handlePriceFilter}  // Passing price filter function to SidebarFilter
               onFoodPreferenceSelect={setSelectedFoodPreferences}
             />
-         
             <FilterProduct 
               selectedCategory={selectedCategory} 
               minPrice={minPrice} 

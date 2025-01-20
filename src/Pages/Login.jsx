@@ -5,13 +5,15 @@ import HeaderBottom from "../Components/Header/HeaderBottom";
 import Footer from "../Components/Common/Footer";
 import logo from "../assets/images/logo/1.png";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../API/Api";
 import { UserContext } from "../Context/UserContrxt";
 import { useDispatch } from "react-redux"; 
 import { login } from "../slices/userSlice"; // Correct import
-import Cookies from 'js-cookie';
+
 // import { loginSuccess } from "../slices/userSlice"; // Action to update Redux store
+
+
 function Login() {
   const [loginMethod, setLoginMethod] = useState("mobile");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -103,9 +105,9 @@ function Login() {
         })
       );
   
-      // Save token and user data in localStorage
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+       // Save token and user data in localStorage
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
   
       toast.success("OTP verified successfully!");
       navigate('/');
@@ -151,9 +153,9 @@ function Login() {
           })
         );
   
-        // Store the token and user info in cookies
-        Cookies.set("authToken", data.token);
-        Cookies.set("user", JSON.stringify(data.user));
+       // Store the token and user info in localStorage
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
   
         toast.success("Login successful!");
         navigate("/"); // Redirect to homepage or another authenticated route
@@ -310,8 +312,8 @@ function Login() {
 
                 <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
                   By continuing, you agree to our{" "}
-                  <a href="/terms">Terms of service</a> &{" "}
-                  <a href="/privacy">Privacy policy</a>.
+                  <Link href="/terms">Terms of service</Link> &{" "}
+                  <Link href="/privacypolicy">Privacy policy</Link>.
                 </p>
               </div>
             </div>
