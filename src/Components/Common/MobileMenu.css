@@ -1,0 +1,244 @@
+.offcanvas-search {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 65%;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    transition: bottom 0.3s ease-in-out;
+    z-index: 1050;
+  }
+  
+  .offcanvas-search.show {
+    bottom: 0;
+  }
+  
+  .offcanvas-header {
+   
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .offcanvas-body {
+    /* border: 2px solid red; */
+    
+    height: 100%;
+    padding: 1rem;
+  }
+  
+  .suggestions-list {
+    /* max-height: 200px; */
+    overflow-y: auto;
+  }
+  .offcanvas-search .input-group {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+ 
+  }
+  
+  .offcanvas-search .btn-primary {
+
+    margin-left: 0.5rem;
+    /* border: 2px solid red; */
+    width: 40px;
+    height: 40px;
+    background-color: #D22860;
+  }
+  
+  .offcanvas-search .suggestions-list {
+     width: 95%;
+    padding: 8px;
+    max-height: 100%;
+    overflow-y: auto;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    
+
+  }
+  .offcanvas-search {
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(100%);
+  }
+  
+  .offcanvas-search.show {
+    transform: translateY(0);
+  }
+  
+  .offcanvas-header {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
+  }
+  
+  .offcanvas-body {
+    padding: 1rem;
+  }
+  
+  .suggestions-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+  }
+  
+  /* Overlay for background dimming */
+.offcanvas-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1040;
+    display: none;
+  }
+  
+  .offcanvas-search-container.show .offcanvas-search-overlay {
+    display: block;
+  }
+  
+  /* Offcanvas Search Panel */
+  /* .offcanvas-search {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px 16px 0 0;
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(100%);
+  } */
+  
+  .offcanvas-search-container.show .offcanvas-search {
+    transform: translateY(0);
+  }
+  
+  .offcanvas-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #f8f9fa;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .offcanvas-header h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .offcanvas-body {
+    padding: 1rem;
+  }
+  
+  /* Search Input and Button */
+  .search-bar {
+    position: relative;
+  }
+  
+  .search-input {
+    border-radius: 20px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    
+  }
+  
+  .search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 0 1rem;
+    border-radius: 0 20px 20px 0;
+    /* background-color: #007bff; */
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+  }
+  
+ 
+  
+  /* Suggestions List */
+  .suggestions-list {
+    margin-top: 1rem;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .suggestions-list .list-group-item {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+   
+  }
+  
+  .suggestions-list .list-group-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /* Loading Spinner */
+  .loading-spinner .spinner-border {
+    width: 2rem;
+    height: 2rem;
+  }
+  .mobile-menu ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+ 
+
+    height:auto;
+    border-radius: 16px 16px 0 0;
+ margin: 5px;
+  }
+  
+  .mobile-menu ul li {
+    flex: 1;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+
+  }
+  .mobile-menu ul li:hover{
+    background-color: rgb(219, 219, 219);
+  }
+  
+  .mobile-menu ul li a,
+  .mobile-menu ul li button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+  }
+  
+  .mobile-menu ul li a .icli,
+  .mobile-menu ul li button .icli {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  
+  .mobile-menu ul li.active {
+    background-color: #c01d5e; /* Slightly darker for the active menu */
+    border-radius: 16px;
+  }
+  
+ 
+  

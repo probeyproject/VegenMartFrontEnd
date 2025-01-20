@@ -1,0 +1,211 @@
+/* Large Card Styling */
+.large-card {
+    width: 100%;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .carousel-cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .product-card {
+    width: 100%;
+    max-width: 200px;
+    cursor: pointer;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .product-image {
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  /* Ensure responsive layout for different screen sizes */
+  @media (max-width: 576px) {
+    .product-card {
+      width: 45%;
+    }
+  }
+  
+  @media (min-width: 577px) and (max-width: 992px) {
+    .product-card {
+      width: 30%;
+    }
+  }
+  
+  @media (min-width: 993px) {
+    .product-card {
+      width: 22%;
+    }
+  }
+  
+
+  .container {
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .card img:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-img-top {
+    border-bottom: 2px solid #f0f0f0;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .card-img-top {
+      height: 150px;
+    }
+  
+    .card-body {
+      padding: 10px;
+    }
+  
+    .card-title {
+      font-size: 1rem;
+    }
+  
+    .card-text {
+      font-size: 0.8rem;
+    }
+  }
+
+  
+  /* Modal container */
+.modal-dialog {
+  max-width: 800px;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.modal-body p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.modal-footer {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+}
+
+/* Product cards inside the modal */
+.modal-body .card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.modal-body .card:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-body .card-img-top {
+  height: 120px;
+  object-fit: cover;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-body .card-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.modal-body .card p {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%;
+  }
+
+  .modal-body img {
+    height: auto;
+  }
+
+  .modal-body .card-img-top {
+    height: 100px;
+  }
+
+  .modal-body .card-title {
+    font-size: 0.9rem;
+  }
+
+  .modal-body .card p {
+    font-size: 0.8rem;
+  }
+}

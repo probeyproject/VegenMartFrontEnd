@@ -1,0 +1,49 @@
+/* General styling for the banner section */
+.banner-section {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styling for the banner container */
+  .banner-contain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 170px;
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* Mobile devices */
+  @media (max-width: 480px) {
+    .banner-contain {
+      height: 150px;  /* Adjust the height for mobile screens */
+      width: 100%;
+    }
+  
+    .banner-box h6 {
+      font-size: 14px;  /* Adjust font size for smaller screens */
+    }
+  }
+  
+  /* Tablets and small screens */
+  @media (max-width: 768px) {
+    .banner-contain {
+      height: 160px;  /* Adjust the height for tablet screens */
+    }
+  
+    .banner-box h6 {
+      font-size: 16px;  /* Adjust font size for tablets */
+    }
+  }
+  
+  /* Medium to large screens */
+  @media (min-width: 1024px) {
+    .banner-contain {
+      height: 180px;  /* Adjust the height for larger screens */
+    }
+  
+    .banner-box h6 {
+      font-size: 18px;  /* Adjust font size for larger screens */
+    }
+  }
