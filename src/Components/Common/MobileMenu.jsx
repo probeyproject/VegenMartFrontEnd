@@ -124,7 +124,7 @@ function MobileMenu() {
             <span>Home</span>
           </Link>
         </li>
-        <li className="mobile-category">
+        {/* <li className="mobile-category">
           <Link
             data-bs-toggle="offcanvas"
             to="#offcanvasExample"
@@ -134,7 +134,7 @@ function MobileMenu() {
             <GiHamburgerMenu className="icli js-link " />
             <span>Category</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <button
             onClick={() => setShowSearch(true)}
@@ -145,12 +145,12 @@ function MobileMenu() {
             <span>Search</span>
           </button>
         </li>
-        {/* <li>
+        <li>
           <Link to={"/mywhishlist"}>
             <FaHeart className="icli" />
             <span>My Wish</span>
           </Link>
-        </li> */}
+        </li>
         <li>
           <Link to={"/cart"}>
             <FaShoppingBag className="icli fly-cate" />
