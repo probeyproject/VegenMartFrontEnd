@@ -234,7 +234,7 @@ console.log(userId);
 
           return (
             <div
-              className="card combo-card shadow-sm"
+              className="card combo-card"
               key={combo.id}
               onClick={() =>
                 handleComboClick(

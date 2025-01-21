@@ -15,16 +15,41 @@ import axios from "axios";
 import { baseUrl } from "../../API/Api";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import SupportChatModal from "../Common/SupportChatModal";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function HeaderTop() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [headerAds, setHeaderAds] = useState([]);
   const [supportChat, setSupportChat] = useState(false);
- 
+  const authenticated = useSelector((state) => state.user.authenticated);
+
 
   const handleSupportChat = () => {
     setSupportChat(true);
   };
+
+  const handleLogout = async () => {
+    try {
+      // Make the API call using axios
+      const response = await axios.get(`${baseUrl}/logout`, {
+        withCredentials: true, // To include cookies in the request
+      });
+
+      if (response.status === 200) {
+        // If successful, you can perform additional tasks (e.g., redirect, state reset)
+        console.log("Logged out successfully");
+        window.location.reload();
+        // Reload the current page
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (error) {
+      // Handle errors appropriately
+      console.error("Error during logout:", error);
+    }
+  };
+
 
 
   const fetchHeadersAds = async () => {
@@ -126,18 +151,50 @@ function HeaderTop() {
           <div className="col-lg-3">
             <ul className="about-list right-nav-about">
               
-              <li className="right-nav-list">
-                <div className="dropdown theme-form-select">
-                  <button
-                    className="btn dropdown-toggle"
-                    type="button"
-                    id="select-dollar"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span>INR</span>
-                  </button>
-                </div>
-              </li>
+              <li className="right-side onhover-dropdown">
+                      <div className="delivery-login-box">
+                        {authenticated && (
+                          <div className="delivery-icon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width={24}
+                              height={24}
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="feather feather-user"
+                            >
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                              <circle cx={12} cy={7} r={4} />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+
+                      {!authenticated && (
+                        <li className="product-box-contain">
+                          <i />
+                          <Link to ="/login" className="text-light">Login</Link>
+                        </li>
+                      )}
+                      {authenticated && (
+                        <div className="onhover-div onhover-div-login">
+                          <ul className="user-box-name">
+                            <li className="product-box-contain">
+                              <Link to={`/myaccount`}>My Dashboard</Link>
+                            </li>
+                           
+                            <li className="product-box-contain">
+                              <i />
+                              <Link onClick={handleLogout}>Logout</Link>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </li>
             </ul>
           </div>
         </div>

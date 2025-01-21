@@ -12,6 +12,8 @@ import NoLcation from "../../assets/images/location.jpg";
 import { setSelectedLocation } from "../../slices/locationSlice";
 import { useContext } from "react";
 import { UserContext } from "../../Context/UserContrxt";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
 function HeaderMiddle() {
   const { user } = useContext(UserContext);
   const [loginModal, setLoginModal] = useState(false);
@@ -30,7 +32,10 @@ function HeaderMiddle() {
   const userState = useSelector((state) => state.user);
   const cart = userState?.cart;
   const wishlist = userState?.wishlists;
+    const [dropdowns, setDropdowns] = useState({}); // Track visibility of each dropdown
+     const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
+    const [categories, setCategories] = useState([]);
   const selectedLocation = useSelector(
     (state) => state.location.selectedLocation
   );
@@ -136,6 +141,52 @@ function HeaderMiddle() {
       dispatch(setSelectedLocation(parsedLocation)); // Set location in Redux if available in localStorage
     }
   }, [dispatch]);
+
+  const toggleDropdown = (categoryId) => {
+    setDropdowns((prevState) => ({
+      ...prevState,
+      [categoryId]: !prevState[categoryId], // Toggle visibility for this category only
+    }));
+  };
+
+  const fetchProductsByCategoryId = async (categoryId) => {
+      try {
+        setLoading(true); // Start loading
+        setError(null); // Reset error state
+  
+        const response = await fetch(
+          `${baseUrl}/getProductbyCategory/${categoryId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            setProducts(data); // Set products if available
+          } else {
+            setProducts([]); // If no products, set an empty array
+          }
+        } else {
+          setError("Failed to fetch products.");
+        }
+      } catch (error) {
+        setError("Error fetching products.");
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+  
+
+  useEffect(() => {
+    const fetchAllCategory = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/getAllCategories`);
+        // console.log(res?.data);
+        setCategories(res?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAllCategory();
+  }, []);
 
   // Handle location selection
   const handleLocationSelect = (location) => {
@@ -360,7 +411,7 @@ function HeaderMiddle() {
                       {!authenticated && (
                         <li className="product-box-contain">
                           <i />
-                          <Link to ="/login">Login</Link>
+                          <Link to="/login">Login</Link>
                         </li>
                       )}
                       {authenticated && (
@@ -369,7 +420,7 @@ function HeaderMiddle() {
                             <li className="product-box-contain">
                               <Link to={`/myaccount`}>My Dashboard</Link>
                             </li>
-                           
+
                             <li className="product-box-contain">
                               <i />
                               <Link onClick={handleLogout}>Logout</Link>
@@ -467,72 +518,66 @@ function HeaderMiddle() {
       {/* Offcanvas Component */}
       <Offcanvas show={isOpen} onHide={toggleoffCanvas} placement="start">
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Menu</Offcanvas.Title>
+          <Offcanvas.Title>Categories</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <ul className="row">
-            <div className="col-md-6">
-            <li className="right-side onhover-dropdown">
-              <div className="delivery-login-box">
-                {authenticated && (
-                  <div className="delivery-icon">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-user"
+            {/* sidebar */}
+            <div className="offcanvas-header">
+              <div className="sidenav">
+                {categories.map((item) => (
+                  <div key={item.category_id}>
+                    {/* Dropdown for each category */}
+                    <button
+                      className={`dropdown-btn text-dark text-capitalize ${dropdowns[item.category_id] ? "active" : ""}`}
+                      onClick={() => {
+                        fetchProductsByCategoryId(item.category_id); // Fetch products for this category
+                        toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
+                      }}
                     >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                      <circle cx={12} cy={7} r={4} />
-                    </svg>
+                      <span className="ms-1 ">
+                        {item.category_name}{" "}
+                        {dropdowns[item.category_id] ? (
+                          <IoIosArrowUp className="icons__right fs-1" />
+                        ) : (
+                          <IoIosArrowDown className="icons__right fs-1" />
+                        )}
+                      </span>
+                    </button>
+                    <div
+                      className="dropdown-container"
+                      style={{
+                        display: dropdowns[item.category_id] ? "block" : "none",
+                      }}
+                    >
+                      {loading ? (
+                        <p>Loading...</p>
+                      ) : error ? (
+                        <p>{error}</p>
+                      ) : products.length === 0 ? (
+                        <p>No products found</p>
+                      ) : (
+                        products.map((product, productIndex) => (
+                          <a
+                            href="#"
+                            key={productIndex}
+                            onClick={() =>
+                              navigate(`/detail_page/${product.product_id}`)
+                            }
+                          >
+                            <span data-bs-dismiss="offcanvas text-capitalize">
+                              {product.product_name}
+                            </span>
+                            .
+                          </a>
+                        ))
+                      )}
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
-
-              {!authenticated && (
-                <li className="product-box-contain">
-                  <div className="delivery-icon">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-user me-3"
-                    >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                      <circle cx={12} cy={7} r={4} />
-                    </svg>
-                    <Link to = "/login">Login</Link>
-                  </div>
-                </li>
-              )}
-              {authenticated && (
-                <div className="onhover-div onhover-div-login">
-                  <ul className="user-box-name">
-                    <li className="product-box-contain">
-                      <Link to={`/myaccount`}>My Dashboard</Link>
-                    </li>{" "} <br />
-                    <li className="product-box-contain">
-                      <i />
-                      <Link onClick={handleLogout}>Logout</Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </li>
             </div>
-          </ul>
+            <div className="offcanvas-body"></div>
+          
         </Offcanvas.Body>
       </Offcanvas>
 

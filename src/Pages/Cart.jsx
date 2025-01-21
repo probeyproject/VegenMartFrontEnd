@@ -20,6 +20,7 @@ import CouponModal from "./CouponModal";
 import "../CSS/CouponModal.css";
 import easyinvoice from "easyinvoice";
 import image from "../../public/Image/VegenMart-Logo-03.png";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 // import fs from "fs";
 // const logoPath = "public/Image/VegenMart-Logo-03.png"; // Update with the correct relative path
 // const logoBase64 = `data:image/png;base64,${fs.readFileSync(logoPath, {
@@ -443,11 +444,11 @@ function Cart() {
             <div className="row g-sm-5 g-3">
               <div className="col-xxl-9">
                 <div className="cart-table">
-                  <div className="table-responsive-xl">
+                  <div className="table-responsive-xl ">
                     <table className="table">
                       <img style={{ height: "100px" }} src={image} alt="" />
                       <tbody>
-                      
+                       
                         {carts.map((cart) => {
                           // const imageUrls = JSON.parse(cart.product_image||cart.combo_image);
                           // console.log(imageUrls);
@@ -456,17 +457,15 @@ function Cart() {
                           // Check if product_image exists and parse it
                           if (cart.product_image) {
                             imageUrls = JSON.parse(cart.product_image);
-                          } 
+                          }
                           // If product_image doesn't exist, check and parse combo_image
                           else if (cart.combo_image) {
                             imageUrls = JSON.parse(cart.combo_image);
                           }
-                          
-                          // console.log(imageUrls);
+
                           
                           const firstImageUrl = imageUrls[0];
-                          {console.log(firstImageUrl)
-                          }
+                          
                           return (
                             <CartRow
                               cart={cart}
@@ -476,6 +475,7 @@ function Cart() {
                             />
                           );
                         })}
+                       
                       </tbody>
                     </table>
                   </div>
@@ -508,425 +508,414 @@ function Cart() {
                   </div>
                 </div>
               </div>
-              {/* <RedeemPoints/> */}
-              <div className="d-flex justify-content-between container p-2">
-                {/* Address */}
-                <div className="summery-box p-sticky col-6 container p-1">
-                  <div>
-                    <div className="d-flex center p-3">
-                      <div className="checkout-icon">
-                        <lord-icon
-                          target=".nav-item"
-                          src="https://cdn.lordicon.com/oaflahpk.json"
-                          trigger="loop-on-hover"
-                          colors="primary:#0baf9a"
-                          className="lord-icon"
-                        ></lord-icon>
-                      </div>
 
+              <div className="d-flex center p-3">
+                <div className="checkout-icon">
+                  <lord-icon
+                    target=".nav-item"
+                    src="https://cdn.lordicon.com/oaflahpk.json"
+                    trigger="loop-on-hover"
+                    colors="primary:#0baf9a"
+                    className="lord-icon"
+                  ></lord-icon>
+                </div>
+
+                <div>
+                  <div className="checkout-title">
+                    <h6>Delivery Address</h6>
+                  </div>
+                  <Link onClick={handleToggleModal}>
+                    <div className="d-flex gap-2 center mt-2">
                       <div>
-                        <div className="checkout-title">
-                          <h6>Delivery Address</h6>
-                        </div>
-                        <Link onClick={handleToggleModal}>
-                          <div className="d-flex gap-2 center mt-2">
-                            <div>
-                              <GoPlus />
-                            </div>
-                            <div>Add new address</div>
-                          </div>
-                        </Link>
+                        <GoPlus />
                       </div>
+                      <div>Add new address</div>
                     </div>
+                  </Link>
+                </div>
+              </div>
 
-                    <div
-                      className="checkout-box overflow-auto"
-                      style={{ maxHeight: "400px" }}
-                    >
-                      <div className="checkout-detail ms-2">
-                        <div className="row g-2">
-                          {address?.map((data, index) => (
-                            <div
-                              key={index}
-                              className="p-3 align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
-                            >
+              <div
+                className="checkout-box overflow-auto"
+                style={{ maxHeight: "400px" }}
+              >
+                <div className="checkout-detail ">
+                  <div className="row g-2">
+                    {address?.map((data, index) => (
+                      <div
+                        key={index}
+                        className=" align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
+                      >
+                        <div className="card p-3 border-0">
+                          <div className=" d-flex">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input mt-1"
+                                type="radio"
+                                name="jack"
+                                id="flexRadioDefault1"
+                                value={data.address_id}
+                                onChange={(e) => setAddress_id(e.target.value)}
+                              />
+                            </div>
+                            <div className="d-flex justify-content-between align-items-center gap-lg-5">
+                              <div className="label">
+                                <label className="fw-bold">
+                                  {data.address_type}
+                                </label>
+                              </div>
                               <div>
-                                <div className="d-flex">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input mt-1"
-                                      type="radio"
-                                      name="jack"
-                                      id="flexRadioDefault1"
-                                      value={data.address_id}
-                                      onChange={(e) =>
-                                        setAddress_id(e.target.value)
-                                      }
-                                    />
+                                <Link>
+                                  <div onClick={() => handleEditModal(data)}>
+                                    <FaPencil />
                                   </div>
-                                  <div className="d-flex justify-content-between align-items-center gap-lg-5">
-                                    <div className="label">
-                                      <label className="fw-bold">
-                                        {data.address_type}
-                                      </label>
-                                    </div>
-                                    <div>
-                                      <Link>
-                                        <div
-                                          onClick={() => handleEditModal(data)}
-                                        >
-                                          <FaPencil />
-                                        </div>
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </div>
-                                <ul className="delivery-address-detail list-unstyled">
-                                  <li>
-                                    <h6 className="">{data.name}</h6>
-                                  </li>
-                                  <li>
-                                    <p className="text-content">
-                                      <span className="text-title">
-                                        Address:{" "}
-                                      </span>
-                                      {data.flat}, {data.floor}, {data.area},{" "}
-                                      {data.landmark},{data.state},
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <h6 className="text-content">
-                                      <span className="text-title">
-                                        Pin Code:{" "}
-                                      </span>
-                                      {data.postal_code},
-                                    </h6>
-                                  </li>
-                                  <li>
-                                    <h6 className="text-content p-1">
-                                      <span className="text-title">
-                                        Phone:{" "}
-                                      </span>{" "}
-                                      {data.phone}
-                                    </h6>
-                                  </li>
-                                </ul>
+                                </Link>
                               </div>
                             </div>
-                          ))}
+                          </div>
+                          <ul className="delivery-address-detail list-unstyled">
+                            <li>
+                              <h6 className="">{data.name}</h6>
+                            </li>
+                            <li>
+                              <p className="text-content">
+                                <span className="text-title">Address: </span>
+                                {data.flat}, {data.floor}, {data.area},{" "}
+                                {data.landmark},{data.state},
+                              </p>
+                            </li>
+                            <li>
+                              <h6 className="text-content">
+                                <span className="text-title">Pin Code: </span>
+                                {data.postal_code},
+                              </h6>
+                            </li>
+                            <li>
+                              <h6 className="text-content p-1">
+                                <span className="text-title">Phone: </span>{" "}
+                                {data.phone}
+                              </h6>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="summery-box p-sticky col-6 container-xxl">
-                  <div className="summery-header">
-                    <h6>Cart Total</h6>
-                  </div>
-                  <div className="bg-white mt-2 rounded-4 summery-contain">
-                    <div className="coupon-cart">
-                      <h6 className="text-content mb-2">Coupon Apply</h6>
-                      <div className="coupon-box input-group">
-                        <input
-                          type="text" // Use "text" for coupon code
-                          className="form-control"
-                          id="exampleFormControlInput1"
-                          placeholder="Enter Coupon Code Here..."
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
-                          required
-                        />
-                        <button
-                          className="btn-apply btn-apply-input"
-                          type="submit"
-                          onClick={validateCoupon}
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <>
-                              <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                              ></span>
-                              Loading...
-                            </>
-                          ) : (
-                            "Apply"
-                          )}
-                        </button>
-                        <button
-                          className="btn-apply view-coupon-cart-btn"
-                          onClick={() => setIsModalOpens(true)}
-                        >
-                          View Coupons
-                        </button>
-                      </div>
-                      <span className="">
-                        {responseMessage && <p>{responseMessage}</p>}
-                      </span>
-                    </div>
-                    <ul>
-                      <li>
-                        <h4>Your Points </h4>
-                        <h4 className="price">{points}</h4>
-                      </li>
-
-                      <li>
-                        <h4>Subtotal</h4>
-                        <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
-                      </li>
-                      {/* <li>
-                        <h4>Actual Amount</h4>
-                        <h4 className="price">₹00.00</h4>
-                      </li> */}
-                      <li>
-                        <h4>Coupon Discount</h4>
-                        <h4 className="price">
-                          ₹{discountValue ? discountValue : "---"}
-                        </h4>
-                      </li>
-
-                      <li className="align-items-start">
-                        <h4>Shipping Cost</h4>
-                        <h4 className="price text-end">
-                          {shipping === 0 ? "Free" : shipping}
-                        </h4>
-                      </li>
-                      <li>
-                        <h4>Total Cost</h4>
-                        <h4 className="price">₹{calculatedPrice.toFixed(2)}</h4>
-                      </li>
-                    </ul>
-                  </div>
-                  <ul className="summery-total">
-                    <li className="list-total border-top-0">
-                      <h4>Total (INR)</h4>
-                      <h4 className="price theme-color">
-                        ₹{calculatedPrice.toFixed(2)}
-                      </h4>{" "}
-                      {/* Add shipping to total */}
-                    </li>
-                  </ul>
-                  <div className="button-group cart-button align-content-center justify-content-center d-flex">
-                    <ul className="d-flex justify-content-center">
-                      <li>
-                        <Link
-                          to="/"
-                          className="btn btn-light bg-white shopping-button text-dark"
-                        >
-                          <i className="fa-solid fa-arrow-left-long" />
-                          Return To Shopping
-                        </Link>
-                      </li>
-                    </ul>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Payment */}
-              <div className="summery-box container">
-                <div>
-                  <div className=" d-flex center p-3">
-                    <div className="checkout-icon">
-                      <lord-icon
-                        target=".nav-item"
-                        src="https://cdn.lordicon.com/qmcsqnle.json"
-                        trigger="loop-on-hover"
-                        colors="primary:#0baf9a,secondary:#0baf9a"
-                        className="lord-icon"
-                      ></lord-icon>
-                    </div>
-                  </div>
-
-                  <div className="checkout-box">
-                    <div className="checkout-detail">
-                      <div
-                        className=" custom-accordion d-flex justify-content-between"
-                        id="accordionFlushExample"
+              <div className="summery-box p-sticky container-xxl">
+                <div className="summery-header  ">
+                  <h6>Cart Total</h6>
+                </div>
+                <div className="bg-white mt-2 rounded-4 summery-contain">
+                  <div className="coupon-cart">
+                    <h6 className="text-content mb-2">Coupon Apply</h6>
+                    <div className="coupon-box input-group">
+                      <input
+                        type="text" // Use "text" for coupon code
+                        className="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="Enter Coupon Code Here..."
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
+                        required
+                      />
+                      <button
+                        className="btn-apply btn-apply-input"
+                        type="submit"
+                        onClick={validateCoupon}
+                        disabled={loading}
                       >
+                        {loading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            Loading...
+                          </>
+                        ) : (
+                          "Apply"
+                        )}
+                      </button>
+                      <button
+                        className="btn-apply view-coupon-cart-btn"
+                        onClick={() => setIsModalOpens(true)}
+                      >
+                        View Coupons
+                      </button>
+                    </div>
+                    <span className="">
+                      {responseMessage && <p>{responseMessage}</p>}
+                    </span>
+                  </div>
+                  <ul>
+                    <li>
+                      <h4>Your Points </h4>
+                      <h4 className="price">{points}</h4>
+                    </li>
+
+                    <li>
+                      <h4>Subtotal</h4>
+                      <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
+                    </li>
+                    {/* <li>
+                        <h4>Actual Amount</h4>
+                        <h4 className="price">₹00.00</h4>
+                      </li> */}
+                    <li>
+                      <h4>Coupon Discount</h4>
+                      <h4 className="price">
+                        ₹{discountValue ? discountValue : "---"}
+                      </h4>
+                    </li>
+
+                    <li className="align-items-start">
+                      <h4>Shipping Cost</h4>
+                      <h4 className="price text-end">
+                        {shipping === 0 ? "Free" : shipping}
+                      </h4>
+                    </li>
+                    <li>
+                      <h4>Total Cost</h4>
+                      <h4 className="price">₹{calculatedPrice.toFixed(2)}</h4>
+                    </li>
+                  </ul>
+                </div>
+                <ul className="summery-total">
+                  <li className="list-total border-top-0">
+                    <h4>Total (INR)</h4>
+                    <h4 className="price theme-color">
+                      ₹{calculatedPrice.toFixed(2)}
+                    </h4>{" "}
+                    {/* Add shipping to total */}
+                  </li>
+                </ul>
+                <div className="button-group cart-button align-content-center justify-content-center d-flex">
+                  <ul className="d-flex justify-content-center">
+                    <li>
+                      <Link
+                        to="/"
+                        className="btn btn-animation bg-white shopping-button text-light"
+                      >
+                        <i className="fa-solid fa-arrow-left-long" />
+                         Return To Shopping
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Payment */}
+
+              <div className=" d-flex center p-3">
+                <div className="checkout-icon">
+                  <lord-icon
+                    target=".nav-item"
+                    src="https://cdn.lordicon.com/qmcsqnle.json"
+                    trigger="loop-on-hover"
+                    colors="primary:#0baf9a,secondary:#0baf9a"
+                    className="lord-icon"
+                  ></lord-icon>
+                </div>
+              </div>
+
+              <div className="checkout-box">
+                <div className="checkout-detail p-3">
+                  <div
+                    className=" custom-accordion d-flex justify-content-between "
+                    id="accordionFlushExample"
+                  >
+                    <div>
+                      <div className="justify-content-center">
                         <div>
-                          <div className="justify-content-center">
+                          <h2 className="text-center fw-bold">
+                            Choose a Time & Date
+                          </h2>
+                          <div className="cardshadow mt-2">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="timeSlot"
+                                id="slot1"
+                                value="6 AM - 8 AM"
+                                checked={selectedSlot === "6 AM - 8 AM"}
+                                onChange={handleSlotChange}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="slot1"
+                              >
+                                6 AM - 8 AM
+                              </label>
+                            </div>
+                            <div className="form-check mb-1">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="timeSlot"
+                                id="slot2"
+                                value="8 AM - 10 AM"
+                                checked={selectedSlot === "8 AM - 10 AM"}
+                                onChange={handleSlotChange}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="slot2"
+                              >
+                                8 AM - 10 AM
+                              </label>
+                            </div>
+                            <div className="form-check mb-1">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="timeSlot"
+                                id="slot3"
+                                value="10 AM - 12 PM"
+                                checked={selectedSlot === "10 AM - 12 PM"}
+                                onChange={handleSlotChange}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="slot3"
+                              >
+                                10 AM - 12 PM
+                              </label>
+                            </div>
+                            <div className="form-check mb-1">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="timeSlot"
+                                id="slot4"
+                                value="12 PM - 2 PM"
+                                checked={selectedSlot === "12 PM - 2 PM"}
+                                onChange={handleSlotChange}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="slot4  "
+                              >
+                                12 PM - 2 PM
+                              </label>
+                            </div>
+
                             <div>
-                              <h4 className="text-center">
-                                Choose a Time & Date
-                              </h4>
-                              <div className="cardshadow mt-2">
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    name="timeSlot"
-                                    id="slot1"
-                                    value="9 AM - 12 PM"
-                                    checked={selectedSlot === "9 AM - 12 PM"}
-                                    onChange={handleSlotChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="slot1"
-                                  >
-                                    9 AM - 12 PM
-                                  </label>
-                                </div>
-                                <div className="form-check mb-1">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    name="timeSlot"
-                                    id="slot2"
-                                    value="1 PM - 5 PM"
-                                    checked={selectedSlot === "1 PM - 5 PM"}
-                                    onChange={handleSlotChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="slot2"
-                                  >
-                                    1 PM - 5 PM
-                                  </label>
-                                </div>
-                                <div>
-                                  <input
-                                    type="date"
-                                    id="datePicker"
-                                    className="form-control w-75 mb-2"
-                                    onChange={(e) =>
-                                      setDeliveryDate(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              </div>
+                              <input
+                                type="date"
+                                id="datePicker"
+                                className="form-control w-75 mb-2"
+                                onChange={(e) =>
+                                  setDeliveryDate(e.target.value)
+                                }
+                              />
                             </div>
                           </div>
-                        </div>
-
-                        <div>
-                          <h4 className="mb-2">Payment Option</h4>
-                          <div className="accordion-item">
-                            <div
-                              className="accordion-header"
-                              id="flush-headingFour"
-                            >
-                              <div
-                                className="accordion-button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseFour"
-                                aria-expanded="true"
-                              >
-                                <div className="custom-form-check form-check mb-0">
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="online"
-                                  >
-                                    <input
-                                      className="form-check-input mt-0"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="online"
-                                      value="online"
-                                      checked={paymentMode === "online"}
-                                      onChange={(e) =>
-                                        setPaymentMode(e.target.value)
-                                      } // Set payment mode here
-                                    />
-                                    Online Payment
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="accordion-item">
-                            <div
-                              className="accordion-header"
-                              id="flush-headingOne"
-                            >
-                              <div
-                                className="accordion-button collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseOne"
-                                aria-expanded="false"
-                              >
-                                <div className="custom-form-check form-check mb-0">
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="cash"
-                                  >
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="cash"
-                                      value="Cash On Delivery"
-                                      checked={
-                                        paymentMode === "Cash On Delivery"
-                                      }
-                                      onChange={(e) =>
-                                        setPaymentMode(e.target.value)
-                                      } // Set payment mode here
-                                    />
-                                    Cash On Delivery
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="container mt-2">
-                            <div class="row d-flex align-content-center justify-content-center">
-                              <div class="col-md-6 mb-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                    <h5 class="card-title">Prepaid Order</h5>
-                                    <p class="card-text">
-                                      You will get{" "}
-                                      <span class="badge bg-success">
-                                        10% Points
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6 mb-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                    <h5 class="card-title">COD Order</h5>
-                                    <p class="card-text">
-                                      You will get{" "}
-                                      <span class="badge bg-warning">
-                                        5% Points
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-1">
-                          <li>
-                            <Link
-                              className="btn btn-animation proceed-btn fw-bold"
-                              onClick={handlePayment}
-                            >
-                              {paymentLoading ? (
-                                <span>
-                                  <span
-                                    className="spinner-border spinner-border-sm"
-                                    role="status"
-                                    aria-hidden="true"
-                                  ></span>
-                                  Processing...
-                                </span>
-                              ) : (
-                                "Process To Checkout"
-                              )}
-                            </Link>
-                          </li>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <h2 className="mb-2 fw-bold">Payment Option</h2>
+                  <div className="accordion-item">
+                    <div className="accordion-header" id="flush-headingFour">
+                      <div
+                        className="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseFour"
+                        aria-expanded="true"
+                      >
+                        <div className="custom-form-check form-check mb-0">
+                          <label className="form-check-label" htmlFor="online">
+                            <input
+                              className="form-check-input mt-0"
+                              type="radio"
+                              name="flexRadioDefault"
+                              id="online"
+                              value="online"
+                              checked={paymentMode === "online"}
+                              onChange={(e) => setPaymentMode(e.target.value)} // Set payment mode here
+                            />
+                            Online Payment
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="accordion-item">
+                    <div className="accordion-header" id="flush-headingOne">
+                      <div
+                        className="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne"
+                        aria-expanded="false"
+                      >
+                        <div className="custom-form-check form-check mb-0">
+                          <label className="form-check-label" htmlFor="cash">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="flexRadioDefault"
+                              id="cash"
+                              value="Cash On Delivery"
+                              checked={paymentMode === "Cash On Delivery"}
+                              onChange={(e) => setPaymentMode(e.target.value)} // Set payment mode here
+                            />
+                            Cash On Delivery
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="container mt-2">
+                    <div class="row d-flex align-content-center justify-content-center">
+                      <div class="col-md-6 mb-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Prepaid Order</h5>
+                            <p class="card-text">
+                              You will get{" "}
+                              <span class="badge bg-success">10% Points</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">COD Order</h5>
+                            <p class="card-text">
+                              You will get{" "}
+                              <span class="badge bg-warning">5% Points</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link
+                    className="btn btn-animation proceed-btn fw-bold"
+                    onClick={handlePayment}
+                  >
+                    {paymentLoading ? (
+                      <span>
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Processing...
+                      </span>
+                    ) : (
+                      "Process To Checkout"
+                    )}
+                  </Link>
                 </div>
               </div>
             </div>

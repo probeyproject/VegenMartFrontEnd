@@ -112,6 +112,8 @@ function Account() {
     try {
       const response = await axios.get(`${baseUrl}/getOrderByUserId/${userId}`);
       const data = response.data;
+      console.log(data);
+
       setOrder(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -339,7 +341,8 @@ function Account() {
                           onClick={() => toggle("1")}
                           style={{ cursor: "pointer", color: "red" }}
                         >
-                          <IoIosArrowBack />Go Back
+                          <IoIosArrowBack />
+                          Go Back
                         </NavLink>
                       </NavItem>
                     </Nav>
@@ -348,98 +351,102 @@ function Account() {
                     <div className="table-responsive">
                       <table className="table mb-0">
                         <tbody>
-                          {order.length === 0 ? (
-                            <tr>
-                              <td colSpan="4" className="text-center">
-                                <h3>You have no order</h3>
-                                <Link
-                                  to="/"
-                                  className="btn btn-animation btn-md fw-bold mt-3 mb-2"
-                                >
-                                  Continue to Shopping
-                                </Link>
-                              </td>
-                            </tr>
-                          ) : (
-                            order
-                              .slice()
-                              .reverse()
-                              .map((data) => (
-                                <tr key={data.order_id}>
-                                  {Array.isArray(JSON.parse(data.product)) &&
-                                    JSON.parse(data.product).map((product) => (
-                                      <div
-                                        key={product.id}
-                                        className="order-item"
-                                      >
-                                        <td className="product-detail">
-                                          <div className="product border-0">
-                                            <Link
-                                              to={`/tracking/${data.order_id}`}
-                                              className="product-image"
-                                            >
-                                              {product.product_image &&
-                                              product.product_image.length >
-                                                0 ? (
-                                                <img
-                                                  src={
-                                                    JSON.parse(
-                                                      product.product_image
-                                                    )[0]
-                                                  }
-                                                  className="img-fluid blur-up lazyloaded rounded-2"
-                                                  alt={product.product_name}
-                                                />
-                                              ) : (
-                                                <p>No image available</p>
-                                              )}
-                                            </Link>
-                                            <div className="product-detail">
-                                              <ul>
-                                                <li className="name">
-                                                  <a>{product.product_name}</a>
-                                                </li>
-                                                <li className="text-content">
-                                                  Qty - {product.unit}{" "}
-                                                  {product.weight_type}
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          </div>
-                                        </td>
-                                        <td className="price">
-                                          <h4 className="table-title text-content">
-                                            Price
-                                          </h4>
-                                          <h6 className="theme-color">
-                                            {product.price}
-                                          </h6>
-                                        </td>
-                                        <td className="price">
-                                          <h4 className="table-title text-content">
-                                            Order Status
-                                          </h4>
-                                          <h6 className="theme-color">
-                                            {data.order_status}
-                                          </h6>
-                                        </td>
-                                        {data.order_status === "Delivered" && (
-                                          <td className="price">
-                                            <h4 className="table-title text-content">
-                                              Invoice
-                                            </h4>
-                                            <Link
-                                              to={`/myInvoice/${data.order_id}`}
-                                            >
-                                              Download
-                                            </Link>
-                                          </td>
-                                        )}
-                                      </div>
-                                    ))}
-                                </tr>
-                              ))
-                          )}
+                        {order.length === 0 ? (
+  <tr>
+    <td colSpan="4" className="text-center">
+      <h3>You have no order</h3>
+      <Link
+        to="/"
+        className="btn btn-animation btn-md fw-bold mt-3 mb-2"
+      >
+        Continue to Shopping
+      </Link>
+    </td>
+  </tr>
+) : (
+  order
+    .slice()
+    .reverse()
+    .map((data) => {
+      let products = [];
+      try {
+        products = JSON.parse(data.product); // Parse the product field
+      } catch (error) {
+        console.error("Error parsing product field:", error);
+        products = []; // Fallback to an empty array
+      }
+
+      return (
+        <tr key={data.order_id}>
+          {Array.isArray(products) &&
+            products.map((product) => {
+              let productImages = [];
+              try {
+                productImages = JSON.parse(product.product_image.replace(/\\/g, '')); // Clean up and parse
+              } catch (error) {
+                console.error("Error parsing product_image:", error);
+                productImages = []; // Fallback to empty array
+              }
+
+              return (
+                <div key={product.id} className="order-item">
+                  <td className="product-detail">
+                    <div className="product border-0 d-flex">
+                      <Link
+                        to={`/tracking/${data.order_id}`}
+                        className="product-image me-3"
+                      >
+                        {productImages.length > 0 ? (
+                          <img
+                            src={productImages[0]} // Use the first image
+                            className="img-fluid blur-up lazyloaded rounded-2"
+                            alt={product.product_name}
+                          />
+                        ) : (
+                          <p>No image available</p>
+                        )}
+                      </Link>
+                      <div className="product-detail">
+                        <ul className="list-unstyled">
+                          <li className="name fw-bold">
+                            {product.product_name}
+                          </li>
+                          <li className="text-content">
+                            Qty - {product.unit} {product.weight_type}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="price">
+                    <h4 className="table-title text-content">Price</h4>
+                    <h6 className="theme-color">{product.price}</h6>
+                  </td>
+                  <td className="status">
+                    <h4 className="table-title text-content">Order Status</h4>
+                    <h6 className="theme-color">{data.order_status}</h6>
+                  </td>
+                  {data.order_status === "Delivered" && (
+                    <td className="invoice">
+                      <h4 className="table-title text-content">Invoice</h4>
+                      <a
+                        href={data.invoice}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-sm btn-success"
+                      >
+                        Download
+                      </a>
+                    </td>
+                  )}
+                </div>
+              );
+            })}
+        </tr>
+      );
+    })
+)}
+
                         </tbody>
                       </table>
                     </div>
@@ -461,81 +468,89 @@ function Account() {
                           onClick={() => toggle("1")}
                           style={{ cursor: "pointer", color: "red" }}
                         >
-                          <IoIosArrowBack />Go Back
+                          <IoIosArrowBack />
+                          Go Back
                         </NavLink>
                       </NavItem>
                     </Nav>
-                 
-                  <div
-                    className="profile-about dashboard-bg-box overflow-auto"
-                    // style={{ maxHeight: "400px" }}
-                  >
-                    <div className="row">
-                      <div className="dashboard-title">
-                        <h3>My Addresses</h3>
-                      </div>
-                      <div className="table-responsive">
-                        <Link onClick={handleToggleModal}>
-                          <div className="d-flex gap-3 center">
-                            <div>
-                              <GoPlus />
-                            </div>
-                            <div>Add new address</div>
-                          </div>
-                        </Link>
 
-                        {address.map((data) => (
-                          <div key={data.address_id} className="card mb-3 mt-4">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between">
-                                <div className="d-flex align-items-center mb-3">
-                                  {data.address_type === "Home" ? (
-                                    <FaHome size={20} className="me-2" />
-                                  ) : data.address_type === "Office" ? (
-                                    <FaBriefcase size={19} className="me-2" />
-                                  ) : null}
-                                  <h6 className="mb-0">{data.address_type}</h6>
+                    <div
+                      className="profile-about dashboard-bg-box overflow-auto"
+                      // style={{ maxHeight: "400px" }}
+                    >
+                      <div className="row">
+                        <div className="dashboard-title">
+                          <h3>My Addresses</h3>
+                        </div>
+                        <div className="table-responsive">
+                          <Link onClick={handleToggleModal}>
+                            <div className="d-flex gap-3 center">
+                              <div>
+                                <GoPlus />
+                              </div>
+                              <div>Add new address</div>
+                            </div>
+                          </Link>
+
+                          {address.map((data) => (
+                            <div
+                              key={data.address_id}
+                              className="card mb-3 mt-4"
+                            >
+                              <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                  <div className="d-flex align-items-center mb-3">
+                                    {data.address_type === "Home" ? (
+                                      <FaHome size={20} className="me-2" />
+                                    ) : data.address_type === "Office" ? (
+                                      <FaBriefcase size={19} className="me-2" />
+                                    ) : null}
+                                    <h6 className="mb-0">
+                                      {data.address_type}
+                                    </h6>
+                                  </div>
+                                  <div className="mt-2 d-flex gap-3">
+                                    <Link>
+                                      <div
+                                        onClick={() => handleEditModal(data)}
+                                      >
+                                        <FaPencil />
+                                      </div>
+                                    </Link>
+                                    <Link>
+                                      <div
+                                        onClick={() =>
+                                          handleDeleteModal(data.address_id)
+                                        }
+                                      >
+                                        <RiDeleteBin5Line />
+                                      </div>
+                                    </Link>
+                                  </div>
                                 </div>
-                                <div className="mt-2 d-flex gap-3">
-                                  <Link>
-                                    <div onClick={() => handleEditModal(data)}>
-                                      <FaPencil />
-                                    </div>
-                                  </Link>
-                                  <Link>
-                                    <div
-                                      onClick={() =>
-                                        handleDeleteModal(data.address_id)
-                                      }
-                                    >
-                                      <RiDeleteBin5Line />
-                                    </div>
-                                  </Link>
+
+                                <div className="d-flex gap-5">
+                                  <div className="work-info-details">
+                                    <span className="text-muted">
+                                      {data.name}
+                                    </span>
+                                    <br />
+                                    <span>
+                                      {data.phone && data.phone.length > 3
+                                        ? data.phone.slice(3)
+                                        : data.phone}
+                                      , {data.flat}, {data.floor}, {data.area},{" "}
+                                      {data.landmark}, {data.state},{" "}
+                                      {data.postal_code}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-
-                              <div className="d-flex gap-5">
-                                <div className="work-info-details">
-                                  <span className="text-muted">
-                                    {data.name}
-                                  </span>
-                                  <br />
-                                  <span>
-                                    {data.phone && data.phone.length > 3
-                                      ? data.phone.slice(3)
-                                      : data.phone}
-                                    , {data.flat}, {data.floor}, {data.area},{" "}
-                                    {data.landmark}, {data.state},{" "}
-                                    {data.postal_code}
-                                  </span>
-                                </div>
-                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
                   </div>
                 </div>
               </TabPane>
@@ -550,7 +565,8 @@ function Account() {
                       onClick={() => toggle("1")}
                       style={{ cursor: "pointer", color: "red" }}
                     >
-                      <IoIosArrowBack />Go Back
+                      <IoIosArrowBack />
+                      Go Back
                     </NavLink>
                   </NavItem>
                 </Nav>

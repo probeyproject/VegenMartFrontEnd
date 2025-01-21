@@ -42,7 +42,7 @@ const ShopByCategory = () => {
   };
 
   return (
-    <div className="container-fluid-lg mt-4 d-none d-lg-block" data-aos="zoom-in"> {/* Added mt-4 for margin-top */}
+    <div className="container-fluid-lg  d-none d-lg-block" data-aos="zoom-in"> {/* Added mt-4 for margin-top */}
       <div className="row">
       
         <div className="col-12">
@@ -60,7 +60,7 @@ const ShopByCategory = () => {
                   }}
                 >  
                 
-                  <div className="banner-detail mt-4  position-relative shop-banner">
+                  <div className="banner-detail   position-relative shop-banner">
                     <div className="text-white">
                       <h2>{data.heading}</h2>
                       <h3>{data.offer_heading}</h3>

@@ -145,12 +145,12 @@ function MobileMenu() {
             <span>Search</span>
           </button>
         </li>
-        <li>
+        {/* <li>
           <Link to={"/mywhishlist"}>
             <FaHeart className="icli" />
             <span>My Wish</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link to={"/cart"}>
             <FaShoppingBag className="icli fly-cate" />
@@ -198,7 +198,7 @@ function MobileMenu() {
                       toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
                     }}
                   >
-                    <span className="ms-1">
+                    <span className="ms-1 text-capitalize">
                       {item.category_name}{" "}
                       {dropdowns[item.category_id] ? (
                         <IoIosArrowUp className="icons__right fs-1" />

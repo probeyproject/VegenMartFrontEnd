@@ -37,7 +37,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
     <div className="category-product-grid">
       <div className="new_order3">
         <div className="title">
-          <h2 className="mt-4">Browse by Categories</h2>
+          <h2 className="">Browse by Categories</h2>
           <span className="title-leaf"></span>
           <p>Top Categories Of The Week</p>
         </div>
@@ -50,11 +50,11 @@ const CategoryProductCarousel = ({ categoryId }) => {
         </div>
       </div>
       <div className="title me-1">
-        <h2 className="mt-3 me-5">Top Categories</h2>
+        <h2 className=" me-5">Top Categories</h2>
         <span className="title-leaf"> </span>
         <p>All Time Top Categories Of The Week</p>
       </div>
-      <div className="product-grid pe-3">
+      <div className="product-grid">
         {products.slice(0, visibleProducts).map((product) => (
           <div key={product.product_id} className="product_view">
             <ProductBox
@@ -79,7 +79,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
       </div>
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
-        <div className="view-more-button d-flex justify-content-center">
+        <div className="view-more-button d-flex justify-content-center mt-3">
           <Link to="/filter" className="btn btn-animation ">
             View More
           </Link>

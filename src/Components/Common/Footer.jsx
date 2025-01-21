@@ -14,7 +14,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="section-t-space" style={{ backgroundColor: "#ebd7e0" }}>
+    <footer style={{ backgroundColor: "#ebd7e0" }}>
       <div className="container-fluid-lg">
         {/* Service Section */}
         <div className="service-section">
@@ -116,7 +116,7 @@ const Footer = () => {
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                         <polyline points="22,6 12,13 2,6" />
                       </svg>
-                      <a href="#">support@vegenmart.com</a>
+                      <a href="#">info@vegenmart.com</a>
                     </li>
                   </ul>
                 </div>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -8,7 +7,7 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../../API/Api";
-import './BannerSection.css'
+import "./BannerSection.css";
 
 const BannerSection = () => {
   const [product, setProducts] = useState([]);
@@ -17,7 +16,7 @@ const BannerSection = () => {
     const response = await axios.get(`${baseUrl}/product-banner`);
     const data = await response.data;
     console.log(data);
-    
+
     setProducts(data);
   }
 
@@ -63,12 +62,14 @@ const BannerSection = () => {
   };
 
   return (
-    <section className="banner-section d-none d-lg-block ratio_60 wow" data-aos="fade-left">
+    <section
+      className="banner-section d-none d-lg-block ratio_60 wow"
+      data-aos="fade-left"
+    >
       <div className="container-fluid-lg">
         <Slider {...settings}>
           {product.map((data, index) => (
             <div key={index}>
-              
               <Link to={`/detail_page/${data.product_id}`}>
                 <div
                   className="banner-contain hover-effect bg-size blur-up img-fluid lazyloaded"
@@ -81,11 +82,9 @@ const BannerSection = () => {
                     width: "90%",
                   }}
                 >
-                  
                   <div className="banner-details">
                     <div className="banner-box">
-                  
-                      <h6 style={{fontSize : '10px'}}>{data.product_name}</h6>
+                      <h6 style={{ fontSize: "10px" }}>{data.product_name}</h6>
                     </div>
                   </div>
                 </div>

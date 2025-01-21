@@ -388,7 +388,7 @@ function ProductSection() {
 
               <div className="new_order1">
               <div className="row">
-                <div className="title title-flex  ">
+                <div className="title title-grid  ">
                   
                     <h2>Top Save Today</h2>
                     <span className="title-leaf"></span>
@@ -520,8 +520,8 @@ function ProductSection() {
                   </div>
                 </div>
               </div>
-              <div className="bg-body-tertiary border mb-4 p-2 rounded-3 section-b-space">
-                <div className="section-t-space section-b-space">
+              <div className="bg-body-tertiary border p-2 rounded-3 section-b-space">
+                <div className="">
                   <div className="row g-md-4 g-3">
                     {tasty?.map((data, index) => (
                       <div key={index} className="col-md-6 d-none d-lg-block">
@@ -580,7 +580,7 @@ function ProductSection() {
                             alt=""
                             style={{ display: "none" }}
                           />
-                          <div className="banner-details p-center-left p-4">
+                          <div className="banner-details p-center-left p-3">
                             <div>
                               <h3 className="text-exo">
                                 {data.banner_offer}% offer

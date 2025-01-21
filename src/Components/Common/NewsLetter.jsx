@@ -46,7 +46,7 @@ function NewsLetter() {
 
 
   return (
-    <section className="newsletter-section section-b-space" data-aos="fade-up">
+    <section className="newsletter-section" data-aos="fade-up">
       <div className="container-fluid-lg">
         <div
           className="newsletter-box newsletter-box-2"

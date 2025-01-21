@@ -30,7 +30,7 @@
   }
 
   .product_view {
-    height: 330px;
+    height: 280px;
     width: 100%; /* Full width of the grid cell */
 
     overflow: hidden; /* Ensure content doesn't overflow */

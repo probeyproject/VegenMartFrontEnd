@@ -20,7 +20,7 @@ function Index() {
 
   return (
     <div className="container-fluid px-0 overflow-hidden">
-      <header className="pb-md-4 pb-0">
+      <header className="pb-md-4">
         <HeaderTop />
         <HeaderMiddle />
         <HeaderBottom />

@@ -6,7 +6,7 @@ import Footer from "../Components/Common/Footer";
 import axios from "axios";
 import { baseUrl } from "../API/Api";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ContactUs() {
   const [firstName, setFirstNamae] = useState("");
@@ -98,7 +98,8 @@ function ContactUs() {
                               <h4>Phone</h4>
                             </div>
                             <div className="contact-detail-contain">
-                              <p>(+1) 618 190 496</p>
+                              <p>+9118 940094</p>
+                              
                             </div>
                           </div>
                         </div>
@@ -111,7 +112,7 @@ function ContactUs() {
                               <h4>Email</h4>
                             </div>
                             <div className="contact-detail-contain">
-                              <p>support@vegenmart.com</p>
+                              <p>info@vegenmart.com</p>
                             </div>
                           </div>
                         </div>

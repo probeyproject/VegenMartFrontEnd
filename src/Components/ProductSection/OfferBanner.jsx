@@ -29,7 +29,7 @@ function OfferBanner() {
   return (
     <>
       {coupon.map((data, index) => (
-        <div key={index} className="section-t-space">
+        <div key={index} >
           <div
             className="banner-contain bg-size blur-up lazyloaded"
             style={{

@@ -28,9 +28,9 @@ export const VideoAds = () => {
             <h2>{video[0]?.video_heading}</h2>
             <span className="title-leaf"></span>
             <p>{video[0]?.video_text}</p>
-            <div className="video-wrapper">
+            <div className="video-wrapper"> 
               <video
-                controls
+                controls="false"
                 autoPlay
                 loop
                 muted

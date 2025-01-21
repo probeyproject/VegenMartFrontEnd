@@ -41,7 +41,7 @@ function HomeSection() {
   return (
     <section className="home-section pt-2" data-aos="fade">
       <div className="container-fluid-lg">
-        <div className="row g-4">
+        <div className="row ">
           {/* First Card (Left Side) */}
           <div className="col-xl-8 col-lg-6 col-md-6 col-6 ratio_65">
             {banner.map((data, index) => (
