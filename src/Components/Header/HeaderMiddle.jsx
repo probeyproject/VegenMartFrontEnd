@@ -549,10 +549,10 @@ function HeaderMiddle() {
                               navigate(`/detail_page/${product.product_id}`)
                             }
                           >
-                            <span data-bs-dismiss="offcanvas text-capitalize">
+                            <span data-bs-dismiss="offcanvas text-capitalize text-capitalize">
                               {product.product_name}
                             </span>
-                            .
+                            
                           </a>
                         ))
                       )}

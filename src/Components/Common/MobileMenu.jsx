@@ -200,6 +200,7 @@ function MobileMenu() {
                   >
                     <span className="ms-1 text-capitalize">
                      <p className="text-capitalize"> {item.category_name}</p>
+                     
                       {dropdowns[item.category_id] ? (
                         <IoIosArrowUp className="icons__right fs-1" />
                       ) : (
@@ -230,6 +231,7 @@ function MobileMenu() {
                           }
                         >
                           <span data-bs-dismiss="offcanvacls">
+                            <h1>jatin</h1>
                             {product.product_name}
                           </span>
                         </a>
