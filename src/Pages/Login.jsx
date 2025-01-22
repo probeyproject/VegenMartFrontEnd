@@ -309,6 +309,9 @@ function Login() {
                     </>
                   )}
                 </form>
+                <p className="text-center mt-3">
+                  Don't have an account ? <a href="/signup">Signup</a>
+                </p>
 
                 <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
                   By continuing, you agree to our{" "}

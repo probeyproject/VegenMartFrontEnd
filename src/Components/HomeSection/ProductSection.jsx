@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { baseUrl } from "../../API/Api";
 import ComboCardCarousel from "../ComboCards/ComboCardCarousel";
 import vegenimg from "./image/Artboard 1.png";
+
 import("../../CSS/ProductSection.css");
 
 function ProductSection() {
@@ -23,6 +24,7 @@ function ProductSection() {
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState("Name (A to Z)");
   const [selectedCategory, setSelectedCategory] = useState(null);
+
 
   const [banner, setBanner] = useState([]);
   const [sideBanner, setSideBanner] = useState([]);
@@ -39,6 +41,7 @@ function ProductSection() {
         `${baseUrl}/getCategoryById/${categoryId}`
       );
       const fetchedProducts = response.data;
+console.log(fetchedProducts);
 
       // After fetching, sort the products based on the selected sorting option
       applySorting(fetchedProducts);
@@ -52,9 +55,12 @@ function ProductSection() {
     fetchProductsByCategory(categoryId);
   };
 
+
   async function fetchAllCategory() {
     try {
       const response = await axios.get(`${baseUrl}/getAllCategories`);
+      // console.log(response);
+      
       const data = await response.data;
       setCategories(data);
     } catch (error) {
@@ -210,45 +216,46 @@ function ProductSection() {
       <div className="container-fluid-lg">
         <div className="row g-sm-4 g-3">
           <div className=" col-md-3 d-none d-md-block">
-            <div className="p-sticky">
+          <div className="p-sticky">
+      <div
+        className="aos-animate aos-init bg-white category-menu p-1"
+        data-aos="fade"
+      >
+        <h3 className="text-center mb-4">Category</h3>
+        <ul className="list-unstyled" style={{ gap: "3px" }}>
+          {categories.map((category) => (
+            <li key={category.category_id}>
               <div
-                className="aos-animate aos-init bg-white category-menu p-1"
-                data-aos="fade"
+                onClick={() => {
+                  setSelectedCategory(category.category_id); // Update selected category on click
+                  handleCategoryClick(category.category_id); // Call handler function
+                }}
+                className={`category-list d-flex align-items-center p-3 border rounded shadow-sm hover-shadow`}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor:
+                    selectedCategory === category.category_id
+                      ? "#ebd7e0"
+                      : "",
+                }}
               >
-                <h3 className="text-center mb-4">Category</h3>
-                <ul className="list-unstyled" style={{ gap: "3px" }}>
-                  {categories.map((category) => (
-                    <li key={category.category_id}>
-                      <div
-                        onClick={() =>
-                          handleCategoryClick(category.category_id)
-                        } // Set selected category on click
-                        className={`category-list d-flex align-items-center p-3 border rounded shadow-sm hover-shadow`}
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor:
-                            selectedCategory === category.category_id
-                              ? "#ebd7e0"
-                              : "",
-                        }}
-                      >
-                        <img
-                          src={category.category_url}
-                          className="img-fluid rounded-circle me-2"
-                          alt={category.category_name}
-                          style={{
-                            maxWidth: "50px",
-                            maxHeight: "50px",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <h5 className="mb-0">{category.category_name}</h5>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <img
+                  src={category.category_url}
+                  className="img-fluid rounded-circle me-2"
+                  alt={category.category_name}
+                  style={{
+                    maxWidth: "50px",
+                    maxHeight: "50px",
+                    objectFit: "cover",
+                  }}
+                />
+                <h5 className="mb-0">{category.category_name}</h5>
               </div>
-            </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
 
             {banner.map((banners, index) => (
               <div key={index} className="ratio_156 pt-25 ">
@@ -486,17 +493,9 @@ function ProductSection() {
                           ))
                         ) : (
                           <img
+                          className="Defaultimage"
                             src={vegenimg}
-                            style={{
-                              // border:"2px solid",
-                              position: "absolute",
-                              top: "50%",
-                              left: "50%",
-                              transform: "translate(-50%, -50%)",
-                              maxWidth: "100%",
-                              maxHeight: "100%",
-                              objectFit: "cover",
-                            }}
+                           
                             alt="Default Image"
                           />
                         )}

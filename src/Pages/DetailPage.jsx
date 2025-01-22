@@ -706,7 +706,7 @@ function DetailPage() {
                           >
                             <TabPane tabId="1" className="tab-pane ">
                               <div className="product-description">
-                                <div className="nav-desh">
+                                <div className="nav-desh p-3">
                                   <h1 className="fs-4 mb-2">
                                     {data.product_name} -{" "}
                                   </h1>
@@ -783,7 +783,7 @@ function DetailPage() {
                                     {careInstructions.length === 0 ? (
                                       <li>
                                         <div className="product-description">
-                                          <div className="nav-desh">
+                                          <div className="nav-desh p-3">
                                             <p className="placeholder-glow">
                                               <span className="placeholder col-12" />
                                             </p>
@@ -794,7 +794,7 @@ function DetailPage() {
                                       careInstructions.map((care, index) => (
                                         <li key={index}>
                                           <div className="product-description">
-                                            <div className="nav-desh">
+                                            <div className="nav-desh p-3">
                                               <p>{care.care_instruction}</p>
                                             </div>
                                           </div>
@@ -812,7 +812,7 @@ function DetailPage() {
                                 role="tabpanel"
                               >
                                 <div className="review-box">
-                                  <div className="row">
+                                  <div className="row p-3">
                                     <div className="col-xl-5">
                                       <div className="product-rating-box">
                                         <div className="row">

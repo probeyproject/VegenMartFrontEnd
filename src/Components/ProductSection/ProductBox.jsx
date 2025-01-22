@@ -263,9 +263,9 @@ const ProductBox = ({
   return (
     <div>
       <div className="col-12" data-aos="fade-up">
-        <div className={`product-box shadow rounded-3  bg-white mb-2 ${inStock == 0 ? "out-of-stock" : ""}`}>
-          <div>
-            <div className="product-image p-0 m-0  img-fluid">
+        <div className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`} style={{height:"300px"}}>
+          <div  >
+            <div className="product-image p-0 m-0  img-fluid" style={{height:"120px"}}>
               <div
                 className="position-absolute top-0 end-0 z-3"
               >
@@ -569,7 +569,7 @@ const ProductBox = ({
                       className="btn btn-animation btn-md"
                       onClick={handleClick}
                       style={{
-                        width: "135px",
+                        width: "120px",
                         height: "25px",
                         fontSize: "12px",
                       }}

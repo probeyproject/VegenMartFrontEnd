@@ -145,7 +145,7 @@ function SignUp() {
                 <div className="input-box">
                   <form onSubmit={handleSubmit}>
                     <div className="row mb-3">
-                      <div className="col-md-6">
+                      <div className="col-md-6 mb-3">
                         <div className="form-floating theme-form-floating">
                           <input
                             type="text"
@@ -177,7 +177,7 @@ function SignUp() {
                       </div>
                     </div>
                     <div className="row mb-3">
-                      <div className="col-md-6">
+                      <div className="col-md-6 mb-3">
                         <div className="form-floating theme-form-floating">
                           <input
                             type="email"
@@ -209,7 +209,7 @@ function SignUp() {
                       </div>
                     </div>
                     <div className="row mb-3">
-                    <div className="col-md-6">
+                    <div className="col-md-6 mb-3">
                       <div className="form-floating theme-form-floating">
                         <input
                           type="password"
@@ -242,7 +242,7 @@ function SignUp() {
                     </div>
                     </div> 
                     <div className="row mb-3">
-                    <div className="col-md-6">
+                    <div className="col-md-6 mb-3">
                       <div className="form-floating theme-form-floating">
                         <input
                           type="file"
@@ -286,7 +286,7 @@ function SignUp() {
                 </div>
                 <div className="log-in-button">
                  <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-md-6 mb-3">
                       <button
                         href="https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&flowEntry=ServiceLogin"
                         className="btn btn-animation w-100"

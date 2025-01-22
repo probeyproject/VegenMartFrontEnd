@@ -54,10 +54,10 @@ const CategoryProductCarousel = ({ categoryId }) => {
         <span className="title-leaf"> </span>
         <p>All Time Top Categories Of The Week</p>
       </div>
-      <div className="product-grid">
+      <div className="product-grid" >
         {products.slice(0, visibleProducts).map((product) => (
-          <div key={product.product_id} className="product_view">
-            <ProductBox
+          <div key={product.product_id} className="product_view" >
+            <ProductBox style={{height:"250px"}}
               imageSrc={JSON.parse(product.product_image || '""')}
               productName={product.product_name}
               currentPrice={product.product_price}

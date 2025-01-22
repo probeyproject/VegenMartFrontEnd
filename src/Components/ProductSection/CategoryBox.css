@@ -13,17 +13,16 @@
 
 /* Product Image Styling */
 .product-image {
-  height: 200px;
+  height: 100px;
   width: 250px;
   border-radius: 10px;
-
 }
 
 /* Product Name Styling */
 .product-name {
   font-size: 12px; /* Smaller font size for product name */
   margin-top: 10px;
-  color: #333;
+  color: #fff;
   font-weight: 500;
 }
 

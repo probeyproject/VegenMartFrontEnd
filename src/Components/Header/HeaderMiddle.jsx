@@ -13,6 +13,7 @@ import { setSelectedLocation } from "../../slices/locationSlice";
 import { useContext } from "react";
 import { UserContext } from "../../Context/UserContrxt";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { FaUser } from "react-icons/fa6";
 
 function HeaderMiddle() {
   const { user } = useContext(UserContext);
@@ -388,29 +389,13 @@ function HeaderMiddle() {
                     <li className="right-side onhover-dropdown">
                       <div className="delivery-login-box">
                         {authenticated && (
-                          <div className="delivery-icon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={24}
-                              height={24}
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="feather feather-user"
-                            >
-                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                              <circle cx={12} cy={7} r={4} />
-                            </svg>
-                          </div>
+                          <FaUser className="text-danger fs-5 "/>
                         )}
                       </div>
 
                       {!authenticated && (
                         <li className="product-box-contain">
-                          <i />
+                          <FaUser className="fs-5 me-1" style={{color:"#D22860"}}/>
                           <Link to="/login">Login</Link>
                         </li>
                       )}

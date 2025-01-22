@@ -10,7 +10,7 @@ import CategoryProductCarousel from "../HomeSection/CategoryProductCarousel";
 
 // Sample ProductBox component
 const ProductBox = ({ imageSrc, productName }) => (
-  <div className="category-box ">
+  <div className="category-box">
     <img
       src={imageSrc}
       style={{height:"100px", width:"100px", borderRadius:'5px'}}

@@ -199,7 +199,7 @@ function MobileMenu() {
                     }}
                   >
                     <span className="ms-1 text-capitalize">
-                      {item.category_name}{" "}
+                     <p className="text-capitalize"> {item.category_name}</p>
                       {dropdowns[item.category_id] ? (
                         <IoIosArrowUp className="icons__right fs-1" />
                       ) : (
@@ -223,15 +223,15 @@ function MobileMenu() {
                       products.map((product, productIndex) => (
                         <a
                           href="#"
+                          className="text-capitalize"
                           key={productIndex}
                           onClick={() =>
                             navigate(`/detail_page/${product.product_id}`)
                           }
                         >
-                          <span data-bs-dismiss="offcanvas">
+                          <span data-bs-dismiss="offcanvacls">
                             {product.product_name}
                           </span>
-                          .
                         </a>
                       ))
                     )}

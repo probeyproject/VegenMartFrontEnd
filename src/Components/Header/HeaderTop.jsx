@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaXTwitter } from "react-icons/fa6"; // Existing Twitter icon
+import { FaUser, FaXTwitter } from "react-icons/fa6"; // Existing Twitter icon
 import {   FaPinterest,FaInstagram } from "react-icons/fa";
 import { LuFacebook } from "react-icons/lu";
 
@@ -154,29 +154,13 @@ function HeaderTop() {
               <li className="right-side onhover-dropdown">
                       <div className="delivery-login-box">
                         {authenticated && (
-                          <div className="delivery-icon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={24}
-                              height={24}
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="feather feather-user"
-                            >
-                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                              <circle cx={12} cy={7} r={4} />
-                            </svg>
-                          </div>
+                          <FaUser className="text-light fs-5"/>
                         )}
                       </div>
 
                       {!authenticated && (
-                        <li className="product-box-contain">
-                          <i />
+                       <li className="product-box-contain d-block d-md-none">
+                         <FaUser className="text-light me-1"/>
                           <Link to ="/login" className="text-light">Login</Link>
                         </li>
                       )}
