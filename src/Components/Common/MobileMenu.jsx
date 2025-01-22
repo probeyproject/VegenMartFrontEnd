@@ -186,7 +186,7 @@ function MobileMenu() {
             ></button>
           </div>
           {/* sidebar */}
-          <div className="offcanvas-header">
+         <div className="offcanvas-header">
             <div className="sidenav">
               {categories.map((item) => (
                 <div key={item.category_id}>
@@ -198,8 +198,8 @@ function MobileMenu() {
                       toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
                     }}
                   >
-                    <span className="ms-1 text-capitalize">
-                     <p className="text-capitalize"> {item.category_name}</p>
+                    <span className="ms-1">
+                      {item.category_name}{" "}
                       {dropdowns[item.category_id] ? (
                         <IoIosArrowUp className="icons__right fs-1" />
                       ) : (
@@ -223,15 +223,15 @@ function MobileMenu() {
                       products.map((product, productIndex) => (
                         <a
                           href="#"
-                          className="text-capitalize"
                           key={productIndex}
                           onClick={() =>
                             navigate(`/detail_page/${product.product_id}`)
                           }
                         >
-                          <span data-bs-dismiss="offcanvacls">
+                          <span data-bs-dismiss="offcanvas">
                             {product.product_name}
                           </span>
+                          
                         </a>
                       ))
                     )}
