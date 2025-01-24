@@ -203,7 +203,8 @@ export default function ComboCardCarousel() {
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 5000,
+    autoPlay: true,
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
@@ -216,14 +217,14 @@ export default function ComboCardCarousel() {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
         },
       },
     ],
   };
 
   return (
-    <div className="container">
+    <div className="p-2">
       <Slider {...sliderSettings}>
         {combos.map((combo) => {
           // const productImages = safeParseJson(combo.product_image);
@@ -295,7 +296,7 @@ export default function ComboCardCarousel() {
                 <p>{ComboData.description}</p>
 
                 <div className="but_btn d-flex justify-content-end mb-3">
-                  <p className="fw-bold text-info" >
+                  <p className="fw-bold text-danger" >
                     <strong style={{fontSize:"20px"}}>Price: ₹{ComboData.price}</strong>
                   </p>
                  
