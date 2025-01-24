@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import CategoryBox from "../ProductSection/CategoryBox";
 import("../../CSS/ProductSection.css");
 
-const CategoryProductCarousel = ({ categoryId }) => {
+const CategoryProduct = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState(4); // Number of products to show initially
 
@@ -34,8 +34,8 @@ const CategoryProductCarousel = ({ categoryId }) => {
   };
 
   return (
-    <div className="category-product-grid">
-      <div className="new_order3">
+    <div className="category-product-grid mt-3">
+      {/* <div className="new_order3">
         <div className="title">
           <h2 className="">Browse by Categories</h2>
           <span className="title-leaf"></span>
@@ -48,16 +48,17 @@ const CategoryProductCarousel = ({ categoryId }) => {
         >
           <CategoryBox />
         </div>
-      </div>
+      </div> */}
       <div className="title me-1">
-        <h2 className=" me-5">Top Categories</h2>
+        <h2 className="">Top Seller Vegetables</h2>
         <span className="title-leaf"> </span>
-        <p>All Time Top Categories Of The Week</p>
+        <p>All Time Top Seller Of The Week</p>
       </div>
-      <div className="product-grid" >
+      <div className="product-grid">
         {products.slice(0, visibleProducts).map((product) => (
-          <div key={product.product_id} className="product_view" >
-            <ProductBox style={{height:"250px"}}
+          <div key={product.product_id} className="product_view">
+            <ProductBox
+              style={{ height: "250px" }}
               imageSrc={JSON.parse(product.product_image || '""')}
               productName={product.product_name}
               currentPrice={product.product_price}
@@ -89,4 +90,4 @@ const CategoryProductCarousel = ({ categoryId }) => {
   );
 };
 
-export default CategoryProductCarousel;
+export default CategoryProduct;

@@ -45,7 +45,7 @@ const ShopByCategory = () => {
     <div className="container-fluid-lg  d-none d-lg-block" data-aos="zoom-in"> {/* Added mt-4 for margin-top */}
       <div className="row">
       
-        <div className="col-12">
+        <div className="col-">
           <Slider {...settings} className="shop-box no-space">
             {banner.map((data, index) => (
               <div key={index} className="product-wrapper">

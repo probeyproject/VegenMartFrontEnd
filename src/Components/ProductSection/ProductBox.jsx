@@ -475,11 +475,11 @@ const ProductBox = ({
                     </li>
                   </ul>
                 </div>
-                {/* <div>
-                  <p className="theme-color small">
+                <div>
+                  <p className="theme-color small" style={{fontSize:"10px"}}>
                     {inStock ? "In Stock" : "Out of Stock"}
                   </p>
-                </div> */}
+                </div>
               </div>
 
               <div className="d-flex justify-content-between">

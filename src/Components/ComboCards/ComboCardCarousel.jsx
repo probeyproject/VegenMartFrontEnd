@@ -59,7 +59,6 @@ export default function ComboCardCarousel() {
     const getParentCombo = async (id) => {
       try {
         const res = await axios.get(`${baseUrl}/getparentCombo/${id}`);
-        console.log(res?.data[0]);
         setComboData(res?.data[0]);
         setInputWeight(res?.data[0]?.Gross_weight);
         setWeightType(res?.data[0]?.Gross_weight_type);
@@ -71,7 +70,6 @@ export default function ComboCardCarousel() {
     axios
       .get(`${baseUrl}/getCombo/${id}`)
       .then((response) => {
-        console.log(response.data);
 
         // Save the combo details
         setSelectedCombo(response.data);
@@ -84,7 +82,6 @@ export default function ComboCardCarousel() {
         // Wait for all the API calls to resolve
         Promise.all(productRequests)
           .then((results) => {
-            console.log("Product Details:", results);
 
             const productDetails = results.map((res) => res.data);
             const flattenedProductDetails = productDetails.flat();
@@ -150,7 +147,6 @@ export default function ComboCardCarousel() {
     // if (weightType === "g") {
     //   unitTypeToSend = "Kg"; // Change unitType to kg
     // }
-console.log(userId);
 
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
@@ -277,8 +273,8 @@ console.log(userId);
             <div className="modal-content">
               <div className="modal-header">
                 <span>
-                  {inputweight}
-                  {weightType}
+                  {/* {inputweight}
+                  {weightType} */}
                 </span>
                 <h5 className="modal-title">{ComboData.title}</h5>
                 <button
@@ -298,17 +294,11 @@ console.log(userId);
                 /> */}
                 <p>{ComboData.description}</p>
 
-                <div className="but_btn d-flex justify-content-between mb-3">
-                  <p className="fw-bold text-danger ms-4">
-                    <strong>Price: ₹{ComboData.price}</strong>
+                <div className="but_btn d-flex justify-content-end mb-3">
+                  <p className="fw-bold text-info" >
+                    <strong style={{fontSize:"20px"}}>Price: ₹{ComboData.price}</strong>
                   </p>
-                  <button
-                    type="button"
-                    className="btn btn-animation"
-                    onClick={handleClickCart}
-                  >
-                    Buy Combo
-                  </button>
+                 
                 </div>
                 <div className="row">
                   {productDetails.map((productArray, index) => {
@@ -352,11 +342,20 @@ console.log(userId);
                     );
                   })}
                 </div>
+                <div className="d-flex justify-content-end">
+                <button
+                    type="button"
+                    className="btn btn-animation"
+                    onClick={handleClickCart}
+                  >
+                    Buy Combo
+                  </button>
+                </div>
               </div>
-              <div className="modal-footer ">
+              <div className="modal-footer" >
                 <button
                   type="button"
-                  className="btn btn-danger btn-md"
+                  className="btn btn-animation btn-sm "
                   onClick={handleCloseModal}
                 >
                   Close

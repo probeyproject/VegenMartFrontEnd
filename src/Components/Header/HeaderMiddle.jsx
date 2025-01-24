@@ -33,10 +33,12 @@ function HeaderMiddle() {
   const userState = useSelector((state) => state.user);
   const cart = userState?.cart;
   const wishlist = userState?.wishlists;
-    const [dropdowns, setDropdowns] = useState({}); // Track visibility of each dropdown
-     const [products, setProducts] = useState([]);
+  const [dropdowns, setDropdowns] = useState({}); // Track visibility of each dropdown
+  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
-    const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null); // selected
+
   const selectedLocation = useSelector(
     (state) => state.location.selectedLocation
   );
@@ -150,31 +152,26 @@ function HeaderMiddle() {
     }));
   };
 
-  const fetchProductsByCategoryId = async (categoryId) => {
-      try {
-        setLoading(true); // Start loading
-        setError(null); // Reset error state
-  
-        const response = await fetch(
-          `${baseUrl}/getProductbyCategory/${categoryId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (data.length > 0) {
-            setProducts(data); // Set products if available
-          } else {
-            setProducts([]); // If no products, set an empty array
-          }
-        } else {
-          setError("Failed to fetch products.");
-        }
-      } catch (error) {
-        setError("Error fetching products.");
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
-  
+  const fetchProductsByCategory = async (categoryId) => {
+    // selected
+    try {
+      const response = await axios.get(
+        `${baseUrl}/getCategoryById/${categoryId}`
+      );
+      const fetchedProducts = response.data;
+      console.log(fetchedProducts);
+
+      // After fetching, sort the products based on the selected sorting option
+      // applySorting(fetchedProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategory(categoryId);
+    fetchProductsByCategory(categoryId);
+  };
 
   useEffect(() => {
     const fetchAllCategory = async () => {
@@ -389,13 +386,16 @@ function HeaderMiddle() {
                     <li className="right-side onhover-dropdown">
                       <div className="delivery-login-box">
                         {authenticated && (
-                          <FaUser className="text-danger fs-5 "/>
+                          <FaUser className="text-danger fs-5 " />
                         )}
                       </div>
 
                       {!authenticated && (
                         <li className="product-box-contain">
-                          <FaUser className="fs-5 me-1" style={{color:"#D22860"}}/>
+                          <FaUser
+                            className="fs-5 me-1"
+                            style={{ color: "#D22860" }}
+                          />
                           <Link to="/login">Login</Link>
                         </li>
                       )}
@@ -506,63 +506,45 @@ function HeaderMiddle() {
           <Offcanvas.Title>Categories</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-            {/* sidebar */}
-            <div className="offcanvas-header">
-              <div className="sidenav">
-                {categories.map((item) => (
-                  <div key={item.category_id}>
-                    {/* Dropdown for each category */}
-                    <button
-                      className={`dropdown-btn text-dark text-capitalize ${dropdowns[item.category_id] ? "active" : ""}`}
-                      onClick={() => {
-                        fetchProductsByCategoryId(item.category_id); // Fetch products for this category
-                        toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
-                      }}
-                    >
-                      <span className="ms-1 ">
-                        {item.category_name}{" "}
-                        {dropdowns[item.category_id] ? (
-                          <IoIosArrowUp className="icons__right fs-1" />
-                        ) : (
-                          <IoIosArrowDown className="icons__right fs-1" />
-                        )}
-                      </span>
-                    </button>
-                    <div
-                      className="dropdown-container"
+          {/* sidebar */}
+          <div className="offcanvas-header">
+            <div className="row">
+              {categories.map((category, index) => (
+                
+                  <div className="col-6 mb-1" key={category.category_id}>
+                    <Link
+                     to={`/filters/${category.category_name}`}
                       style={{
-                        display: dropdowns[item.category_id] ? "block" : "none",
+                        cursor: "pointer",
+                        textDecoration:"none",
+                        color:"black",
+                        backgroundColor:
+                          selectedCategory === category.category_id
+                            ? "#ebd7e0"
+                            : "",
                       }}
+                      className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
                     >
-                      {loading ? (
-                        <p>Loading...</p>
-                      ) : error ? (
-                        <p>{error}</p>
-                      ) : products.length === 0 ? (
-                        <p>No products found</p>
-                      ) : (
-                        products.map((product, productIndex) => (
-                          <a
-                            href="#"
-                            key={productIndex}
-                            onClick={() =>
-                              navigate(`/detail_page/${product.product_id}`)
-                            }
-                          >
-                            <span data-bs-dismiss="offcanvas text-capitalize text-capitalize">
-                              {product.product_name}
-                            </span>
-                            
-                          </a>
-                        ))
-                      )}
-                    </div>
+                      <img
+                        src={category.category_url}
+                        className="img-fluid rounded-circle mb-2"
+                        alt="loading.."
+                        style={{
+                          height: "50px",
+                          width: "50px",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <p className="mb-0 text-center" style={{fontSize:"10px"}}>
+                        {category.category_name}
+                      </p>
+                    </Link>
                   </div>
-                ))}
-              </div>
+               
+              ))}
             </div>
-            <div className="offcanvas-body"></div>
-          
+          </div>
+          <div className="offcanvas-body"></div>
         </Offcanvas.Body>
       </Offcanvas>
 

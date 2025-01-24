@@ -23,8 +23,7 @@ function ProductSection() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState("Name (A to Z)");
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const [selectedCategory, setSelectedCategory] = useState(null); // selected
 
   const [banner, setBanner] = useState([]);
   const [sideBanner, setSideBanner] = useState([]);
@@ -36,12 +35,13 @@ function ProductSection() {
   const cart = userState?.cart;
 
   const fetchProductsByCategory = async (categoryId) => {
+    // selected
     try {
       const response = await axios.get(
         `${baseUrl}/getCategoryById/${categoryId}`
       );
       const fetchedProducts = response.data;
-console.log(fetchedProducts);
+      console.log(fetchedProducts);
 
       // After fetching, sort the products based on the selected sorting option
       applySorting(fetchedProducts);
@@ -55,12 +55,11 @@ console.log(fetchedProducts);
     fetchProductsByCategory(categoryId);
   };
 
-
   async function fetchAllCategory() {
     try {
       const response = await axios.get(`${baseUrl}/getAllCategories`);
       // console.log(response);
-      
+
       const data = await response.data;
       setCategories(data);
     } catch (error) {
@@ -216,46 +215,46 @@ console.log(fetchedProducts);
       <div className="container-fluid-lg">
         <div className="row g-sm-4 g-3">
           <div className=" col-md-3 d-none d-md-block">
-          <div className="p-sticky">
-      <div
-        className="aos-animate aos-init bg-white category-menu p-1"
-        data-aos="fade"
-      >
-        <h3 className="text-center mb-4">Category</h3>
-        <ul className="list-unstyled" style={{ gap: "3px" }}>
-          {categories.map((category) => (
-            <li key={category.category_id}>
+            <div className="p-sticky">
               <div
-                onClick={() => {
-                  setSelectedCategory(category.category_id); // Update selected category on click
-                  handleCategoryClick(category.category_id); // Call handler function
-                }}
-                className={`category-list d-flex align-items-center p-3 border rounded shadow-sm hover-shadow`}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor:
-                    selectedCategory === category.category_id
-                      ? "#ebd7e0"
-                      : "",
-                }}
+                className="aos-animate aos-init bg-white category-menu p-1"
+                data-aos="fade"
               >
-                <img
-                  src={category.category_url}
-                  className="img-fluid rounded-circle me-2"
-                  alt={category.category_name}
-                  style={{
-                    maxWidth: "50px",
-                    maxHeight: "50px",
-                    objectFit: "cover",
-                  }}
-                />
-                <h5 className="mb-0">{category.category_name}</h5>
+                <h3 className="text-center mb-4">Category</h3>
+                <ul className="list-unstyled" style={{ gap: "3px" }}>
+                  {categories.map((category) => (
+                    <li key={category.category_id}>
+                      <div
+                        onClick={() => {
+                          setSelectedCategory(category.category_id); // Update selected category on click
+                          handleCategoryClick(category.category_id); // Call handler function
+                        }}
+                        className={`category-list d-flex align-items-center p-3 border rounded shadow-sm hover-shadow`}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            selectedCategory === category.category_id
+                              ? "#ebd7e0"
+                              : "",
+                        }}
+                      >
+                        <img
+                          src={category.category_url}
+                          className="img-fluid rounded-circle me-2"
+                          alt={category.category_name}
+                          style={{
+                            maxWidth: "50px",
+                            maxHeight: "50px",
+                            objectFit: "cover",
+                          }}
+                        />
+                        <h5 className="mb-0">{category.category_name}</h5>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+            </div>
 
             {banner.map((banners, index) => (
               <div key={index} className="ratio_156 pt-25 ">
@@ -394,9 +393,8 @@ console.log(fetchedProducts);
               </div> */}
 
               <div className="new_order1">
-              <div className="row">
-                <div className="title title-grid  ">
-                  
+                <div className="row">
+                  <div className="title title-grid  ">
                     <h2>Top Save Today</h2>
                     <span className="title-leaf"></span>
                     <div>
@@ -406,18 +404,20 @@ console.log(fetchedProducts);
                       </p>
                     </div>
                   </div>
-                  <div className="d-flex flex-column flex-sm-row align-items-center mb-3">
-                    <p className="text-nowrap mb-2 mb-sm-0">Sort By</p>
-                    <select
-                      className="form-select ms-1"
-                      id="filterproduct"
-                      value={sortOption} // Set the current value to the selected sort option
-                      onChange={handleSortChange} // Handle sort option change
-                    >
-                      <option>Name (A to Z)</option>
-                      <option>Price (Low to High)</option>
-                      <option>Price (High to Low)</option>
-                    </select>
+                  <div className="d-flex justify-content-between mb-3 d-none d-sm-block">
+                    <div className="d-flex">
+                      <p className="mt-3 me-3 fw-bold fs-6 ">Sort By:</p>
+                      <select
+                        className="form-select text- w-60 "
+                        id="filterproduct"
+                        value={sortOption} // Set the current value to the selected sort option
+                        onChange={handleSortChange} // Handle sort option change
+                      >
+                        <option>Name (A to Z)</option>
+                        <option>Price (Low to High)</option>
+                        <option>Price (High to Low)</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -493,9 +493,8 @@ console.log(fetchedProducts);
                           ))
                         ) : (
                           <img
-                          className="Defaultimage"
+                            className="Defaultimage"
                             src={vegenimg}
-                           
                             alt="Default Image"
                           />
                         )}
