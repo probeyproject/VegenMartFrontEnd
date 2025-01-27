@@ -448,7 +448,7 @@ function About() {
           </div>
         </div>
       </section>
-      <Teams />
+      {/* <Teams /> */}
       <Testimonial />
 
       <Footer />
