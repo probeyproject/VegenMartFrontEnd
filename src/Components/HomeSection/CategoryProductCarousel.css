@@ -9,7 +9,7 @@
 @media (max-width: 765px) {
   .category-product-grid {
     display: block;
-    padding: 10px; /* Reduced padding for mobile */
+     /* Reduced padding for mobile */
     background-color: #f9f9f9;
     border-radius: 10px;
     

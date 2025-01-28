@@ -15,7 +15,7 @@ const CategoryProduct = ({ categoryId }) => {
   const fetchProductsByCategory = async () => {
     try {
       const response = await axios.get(
-        `${baseUrl}/getCategoryById/${categoryId}`
+        `${baseUrl}/getProductByCategoryName/${categoryId}`
       );
       const fetchedProducts = response.data;
       setProducts(fetchedProducts);
@@ -50,7 +50,7 @@ const CategoryProduct = ({ categoryId }) => {
         </div>
       </div> */}
       <div className="title me-1">
-        <h2 className="">Top Seller Vegetables</h2>
+        <h2 className="mt-3">{categoryId}</h2>
         <span className="title-leaf"> </span>
         <p>All Time Top Seller Of The Week</p>
       </div>
@@ -81,7 +81,7 @@ const CategoryProduct = ({ categoryId }) => {
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-3">
-          <Link to="/filter" className="btn btn-animation ">
+          <Link to={`/filters/${categoryId}`} className="btn btn-animation ">
             View More
           </Link>
         </div>

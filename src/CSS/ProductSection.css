@@ -61,6 +61,8 @@
   @media (max-width: 426px) {
     .product-container {
         /* border: 2px solid; */
+      overflow-y: hidden;
+
       height: 50vh; /* Reduced height for mobile screens */
     }
     
@@ -70,6 +72,8 @@
   @media (max-width: 390px) {
     .product-container {
         /* border: 5px solid; */
+      overflow-y: hidden;
+
       height: 36vh; /* Reduced height for mobile screens */
     }
     
@@ -77,10 +81,11 @@
 
   @media (max-width: 320px) {
     .product-container {
+      overflow-y: hidden;
       margin-bottom: -5px;
       height: 40vh; /* Reduced height for mobile screens */
     }
     
   }
   
-  
+  /* .Defaultimage */

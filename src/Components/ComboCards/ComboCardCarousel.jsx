@@ -10,6 +10,7 @@ import LoginModal from "../Common/LoginModal";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import AOS from "aos";
 export default function ComboCardCarousel() {
   const [combos, setCombos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,12 @@ export default function ComboCardCarousel() {
         setError("Failed to fetch data");
         setLoading(false);
       });
+    AOS.init({
+      duration: 500, // Duration of the animation in milliseconds
+      easing: "ease-in-out", // Type of easing for the animation
+      once: true, // Whether animation should happen only once - while scrolling down
+      mirror: false, // Whether elements should animate out while scrolling past them
+    });
   }, []);
 
   const safeParseJson = (str) => {
@@ -70,7 +77,6 @@ export default function ComboCardCarousel() {
     axios
       .get(`${baseUrl}/getCombo/${id}`)
       .then((response) => {
-
         // Save the combo details
         setSelectedCombo(response.data);
 
@@ -82,7 +88,6 @@ export default function ComboCardCarousel() {
         // Wait for all the API calls to resolve
         Promise.all(productRequests)
           .then((results) => {
-
             const productDetails = results.map((res) => res.data);
             const flattenedProductDetails = productDetails.flat();
 
@@ -155,8 +160,8 @@ export default function ComboCardCarousel() {
         totalPrice: ComboData?.price,
         weight: inputweight,
         weight_type: weightType,
-        quantity:"1",
-        final_price:ComboData?.price
+        quantity: "1",
+        final_price: ComboData?.price,
       });
 
       toast.success("Your product add to cart successfully");
@@ -183,7 +188,6 @@ export default function ComboCardCarousel() {
   const handleClickCart = (e, a) => {
     // console.log(a);
     if (!authenticated) {
-      
       // If the user is not authenticated, call handleAuth
       handleAuth(e, a); // Pass event (e) and the argument (a)
     } else {
@@ -239,9 +243,9 @@ export default function ComboCardCarousel() {
                   safeParseJson(combo.product_id)
                 )
               }
+              data-aos="fade-up"
             >
               {/* {console.log(combo)} */}
-              
               <img
                 src={JSON.parse(combo.product_image)}
                 className="card-img-top rounded-top"
@@ -296,10 +300,11 @@ export default function ComboCardCarousel() {
                 <p>{ComboData.description}</p>
 
                 <div className="but_btn d-flex justify-content-end mb-3">
-                  <p className="fw-bold text-danger" >
-                    <strong style={{fontSize:"20px"}}>Price: ₹{ComboData.price}</strong>
+                  <p className="fw-bold text-danger">
+                    <strong style={{ fontSize: "20px" }}>
+                      Price: ₹{ComboData.price}
+                    </strong>
                   </p>
-                 
                 </div>
                 <div className="row">
                   {productDetails.map((productArray, index) => {
@@ -344,7 +349,7 @@ export default function ComboCardCarousel() {
                   })}
                 </div>
                 <div className="d-flex justify-content-end">
-                <button
+                  <button
                     type="button"
                     className="btn btn-animation"
                     onClick={handleClickCart}
@@ -353,7 +358,7 @@ export default function ComboCardCarousel() {
                   </button>
                 </div>
               </div>
-              <div className="modal-footer" >
+              <div className="modal-footer">
                 <button
                   type="button"
                   className="btn btn-animation btn-sm "

@@ -57,7 +57,7 @@ export const DetailsPageReleventProduct = ({ productId }) => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
         },
       },
     ],
@@ -67,7 +67,7 @@ export const DetailsPageReleventProduct = ({ productId }) => {
     <>
       <h2 className="mt-2">Relevant Products</h2>
       <span className="title-leaf"></span>
-      <div className="row mt-3">
+      <div className="row mb-4 mt-3">
         <Slider {...settings}>
           {revelentProduct?.map((product, index) => {
             // Parse the product_image JSON string to an array
@@ -82,8 +82,8 @@ export const DetailsPageReleventProduct = ({ productId }) => {
             return (
               <div
                 key={index}
-                style={{ width: "200px" }}
-                 className="w-75" // Trigger scroll to top when clicked
+                // style={{ width: "200px" }}
+                 className="col-6 col-md-6" // Trigger scroll to top when clicked
               >
                 <div>
                 <ProductBox

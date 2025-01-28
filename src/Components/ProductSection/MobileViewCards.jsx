@@ -10,8 +10,8 @@ function MobileViewCards() {
           <div className="row">
             <div className="col-12">
               {/* Example: Display products for category ID 1 */}
-              <CategoryProductCarousel categoryId={7} />
-              <CategoryProduct categoryId={7} />
+              <CategoryProductCarousel categoryId="Fresh Regular Vegetables" />
+              <CategoryProduct categoryId="Fresh Leafy Vegetables" />
             </div>
           </div>
         </div>

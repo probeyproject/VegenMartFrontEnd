@@ -522,7 +522,7 @@ function ProductSection() {
                 <div className="">
                   <div className="row g-md-4 g-3">
                     {tasty?.map((data, index) => (
-                      <div key={index} className="col-md-6 d-none d-lg-block">
+                      <div key={index} className="col-md-6 d-none d-lg-block" data-aos="zoom-in-right">
                         <div
                           className="banner-contain hover-effect bg-size blur-up lazyloaded"
                           style={{
@@ -561,7 +561,7 @@ function ProductSection() {
                     ))}
 
                     {fresh.map((data, index) => (
-                      <div key={index} className="col-12 col-md-6">
+                      <div key={index} className="col-12 col-md-6" data-aos="zoom-in-left">
                         <div
                           className="banner-contain hover-effect bg-size blur-up lazyloaded"
                           style={{
@@ -606,10 +606,10 @@ function ProductSection() {
                 <div className="title d-block">
                   <h2>Combo & Recipes</h2>
                   <span className="title-leaf"></span>
-                  <p>
+                  {/* <p>
                     These Combos is Offered By Us In Best Price With Combination
                     of Multiple Products.
-                  </p>
+                  </p> */}
                   <ComboCardCarousel />
                 </div>
 

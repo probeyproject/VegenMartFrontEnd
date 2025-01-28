@@ -33,7 +33,7 @@ const ProductBox = ({
 }) => {
   useEffect(() => {
     AOS.init({
-      duration: 100,
+      duration: 1000,
       easing: "ease-in-out",
       once: true,
       mirror: false,
@@ -262,7 +262,7 @@ const ProductBox = ({
 
   return (
     <div>
-      <div className="col-12" data-aos="fade-up">
+      <div className="col-12" data-aos="fade-zoom-in">
         <div className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`} style={{height:"300px"}}>
           <div  >
             <div className="product-image p-0 m-0  img-fluid" style={{height:"120px"}}>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../API/Api";
 import "./HomeSection.css"; // Import a CSS file for custom styles
+import Aos from "aos";
 
 function HomeSection() {
   const [banner, setBanner] = useState([]);
@@ -32,6 +33,12 @@ function HomeSection() {
     getBanner();
     getRightSideTopBanner();
     getRightSideBottomBanner();
+    Aos.init({
+      duration: 1000, 
+      offset: 100, 
+      easing: "ease-in-out", 
+      once: true, 
+    });
   }, []);
 
   const gotTOProduct = async () => {
@@ -39,11 +46,11 @@ function HomeSection() {
   };
 
   return (
-    <section className="home-section pt-2" data-aos="fade">
+    <section className="home-section pt-2" >
       <div className="container-fluid-lg">
         <div className="row ">
           {/* First Card (Left Side) */}
-          <div className="col-xl-8 col-lg-6 col-md-6 col-6 ratio_65">
+          <div className="col-xl-8 col-lg-6 col-md-6 col-6 ratio_65" data-aos="fade-right">
             {banner.map((data, index) => (
               <div key={index} className="home-contain h-100">
                 <div
@@ -87,7 +94,7 @@ function HomeSection() {
           </div>
 
           {/* Second and Third Cards (Right Side) */}
-          <div className="col-xl-4 col-lg-6 col-md-6 col-6 ratio_65">
+          <div className="col-xl-4 col-lg-6 col-md-6 col-6 ratio_65" data-aos="fade-left">
             <div className="row g-2">
               {topSide.map((data, index) => (
                 <div key={index} className="col-12 home-contain1">
@@ -123,7 +130,7 @@ function HomeSection() {
               ))}
 
               {bottom.map((data, index) => (
-                <div key={index} className="col-12 home-contain1">
+                <div key={index} className="col-12 home-contain1" data-aos="fade-left">
                   <div
                     className="home-contain1 bg-size blur-up lazyloaded"
                     style={{

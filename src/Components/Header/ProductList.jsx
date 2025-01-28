@@ -21,8 +21,10 @@ const ProductList = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${baseUrl}/search?q=${query}`);
-        setProducts(response.data.products);
+        // const response = await axios.get(`${baseUrl}/search?q=${query}`);
+        const response = await axios.get(`${baseUrl}/getProductByCategoryName/${query}`);
+
+        setProducts(response.data);
       } catch (err) {
         setError(err.message);
       } finally {

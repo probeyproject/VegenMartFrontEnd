@@ -14,6 +14,7 @@ function FilterProduct({
   const [totalPages, setTotalPages] = useState(1); // Track total pages
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState("Name (A to Z)");
+  const [filterMenuVisible, setFilterMenuVisible] = useState(false); // Toggle filter menu
 
   // Fetch filtered products
   const fetchFilteredProducts = async () => {
@@ -35,8 +36,7 @@ function FilterProduct({
       const { products: newProducts, totalPages: total } = response.data;
 
       if (page === 1) {
-        // Reset products when page is 1 (reset filter or initial load)
-        setProducts(applySorting(newProducts));
+        setProducts(applySorting(newProducts)); // Reset products
       } else {
         setProducts((prevProducts) => [
           ...prevProducts,
@@ -60,8 +60,7 @@ function FilterProduct({
 
   // Effect hook to trigger product fetch when filters or page change
   useEffect(() => {
-    // Reset to the first page when filters or sort options change
-    setPage(1);
+    setPage(1); // Reset to the first page when filters or sort options change
     fetchFilteredProducts();
   }, [
     selectedCategory,
@@ -116,14 +115,34 @@ function FilterProduct({
       <div className="show-button">
         <div className="filter-button-group mt-0">
           <div className="filter-button d-inline-block d-lg-none">
-            <a>
+            {/* Toggle Filter Menu */}
+            <a
+              onClick={() => setFilterMenuVisible((prev) => !prev)}
+              style={{ cursor: "pointer" }}
+            >
               <i className="fa-solid fa-filter" /> Filter Menu
             </a>
           </div>
         </div>
-        <div className="top-filter-menu">
-          {/* Add sorting options or other filters here */}
-        </div>
+        {/* Filter Menu */}
+        {filterMenuVisible && (
+          <div className="top-filter-menu">
+            <h5>Filter Options</h5>
+            {/* Add your filter controls here */}
+            <div className="d-flex flex-column justify-content-between ms-5">
+              <label>Sort By:</label>
+              <select
+                className="form-select"
+                value={sortOption}
+                onChange={handleSortChange}
+              >
+                <option>Name (A to Z)</option>
+                <option>Price (Low to High)</option>
+                <option>Price (High to Low)</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="title title-flex">
@@ -137,19 +156,6 @@ function FilterProduct({
                 Don't miss this opportunity at a special discount just for this
                 week.
               </p>
-            </div>
-            <div className="d-flex align-items-center">
-              <p className="text-nowrap">Sort By</p>
-              <select
-                className="form-select ms-2"
-                id="filterproduct"
-                value={sortOption}
-                onChange={handleSortChange}
-              >
-                <option>Name (A to Z)</option>
-                <option>Price (Low to High)</option>
-                <option>Price (High to Low)</option>
-              </select>
             </div>
           </div>
         </div>

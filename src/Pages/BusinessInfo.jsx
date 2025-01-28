@@ -214,7 +214,7 @@ function BusinessInfo() {
                           rows="4"
                         ></textarea>
                         <label htmlFor="message">
-                          Message.<span className="text-danger">*</span>
+                          Message.
                         </label>
                       </div>
                     </div>

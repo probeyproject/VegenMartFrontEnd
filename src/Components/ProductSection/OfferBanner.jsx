@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../API/Api";
+import AOS from "aos";
+
 
 
 function OfferBanner() {
@@ -20,6 +22,12 @@ function OfferBanner() {
 
   useEffect(() => {
     getCouponBanner();
+     AOS.init({
+      duration: 1000, // Duration of the animation in milliseconds
+      easing: "ease-in-out", // Type of easing for the animation
+      once: true, // Whether animation should happen only once - while scrolling down
+      mirror: false, // Whether elements should animate out while scrolling past them
+    });
   }, []);
 
   const gotToProduct = async () => {
@@ -32,6 +40,7 @@ function OfferBanner() {
         <div key={index} >
           <div
             className="banner-contain bg-size blur-up lazyloaded"
+            data-aos="fade-left"
             style={{
               backgroundImage:
                 `url(${data.banner_image})`,
