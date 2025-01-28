@@ -137,7 +137,7 @@ function About() {
                     {activeTab === "mission" && (
                       <div className="tab-pane fade show active p-3">
                         <h2>Mission</h2>
-                        <p>
+                        <p  style={{textAlign:"justify"}}>
                           To deliver fresh, ozone-washed, and chemical-free
                           vegetables and fruits directly to every home, ensuring
                           health, safety, and convenience. We aim to empower
@@ -150,7 +150,7 @@ function About() {
                     {activeTab === "vision" && (
                       <div className="tab-pane fade show active p-3">
                         <h2>Vision</h2>
-                        <p>
+                        <p  style={{textAlign:"justify"}}>
                           To be the most trusted and innovative platform for
                           delivering fresh, chemical-free produce, setting a
                           benchmark for quality and convenience while inspiring
@@ -161,14 +161,14 @@ function About() {
                     {activeTab === "origin" && (
                       <div className="tab-pane fade show active p-3">
                         <h2>Origin</h2>
-                        <p className="text-content">
+                        <p className="text-content"  style={{textAlign:"justify"}}>
                           Vegenmart was founded by Amit and Vaibhav, two friends
                           united by their concern for the quality of produce
                           available in the market. Both coming from corporate
                           backgrounds, they recognized the need for a healthier
                           alternative to pesticide-laden vegetables and fruits.
                         </p>
-                        <p className="text-content">
+                        <p className="text-content"  style={{textAlign:"justify"}}>
                           Vegenmart is driven by their passion for wellness and
                           sustainability, they created Vegenmart—a platform
                           committed to providing fresh, ozone-washed produce
@@ -271,14 +271,14 @@ function About() {
                   Health. Purity. Convenience.
                 </strong>
               </p>
-              <p className="text-content fs-6">
+              <p className="text-content fs-6" style={{textAlign:"justify"}}>
                 Vegenmart is your trusted partner for fresh, ozone-washed, and
                 chemical-free vegetables and fruits. Founded by two passionate
                 individuals, Amit and Vaibhav, Vegenmart was born out of the
                 shared vision to offer healthier and safer produce to families
                 everywhere.
               </p>
-              <p className="text-content fs-6">
+              <p className="text-content fs-6"  style={{textAlign:"justify"}}>
                 After experiencing the challenges of finding clean and
                 nutritious vegetables in the market, Amit and Vaibhav left their
                 corporate careers to create a solution that combines innovation,
@@ -286,14 +286,14 @@ function About() {
                 technology, we ensure that every fruit and vegetable delivered
                 to your doorstep is free from harmful pesticides and bacteria.
               </p>
-              <p className="text-content fs-6">
+              <p className="text-content fs-6"  style={{textAlign:"justify"}}>
                 At Vegenmart, we believe in transforming grocery shopping into a
                 seamless, personalized experience while making health and
                 wellness accessible to all. Whether you’re looking for everyday
                 essentials or curated combo packs, we are here to provide
                 farm-fresh produce that supports your lifestyle.
               </p>
-              <p className="text-content fs-6">
+              <p className="text-content fs-6"  style={{textAlign:"justify"}}>
                 Join us in embracing a future of cleaner, healthier living. One
                 delivery at a time.
               </p>
@@ -390,7 +390,7 @@ function About() {
                         </div>
                         <h2>10</h2>
                         <h4>Business Years</h4>
-                        <p>
+                        <p  style={{textAlign:"justify"}}> 
                         Vegenmart, founded by Amit and Vaibhav, has delivered fresh, ozone-washed, and chemical-free produce for 2 business years. Committed to quality and sustainability, it has become a trusted name, offering healthier alternatives to pesticide-laden fruits and vegetables while prioritizing customer well-being and convenience.
                         </p>
                       </div>
@@ -412,7 +412,7 @@ function About() {
                         </div>
                         <h2>80 K+</h2>
                         <h4>Products Sales</h4>
-                        <p>
+                        <p  style={{textAlign:"justify"}}>
                         Vegenmart has sold thousands of products, providing fresh, ozone-washed, and chemical-free vegetables and fruits. Each product meets high-quality standards, ensuring safety and nutrition. Direct home delivery empowers customers to make healthier, sustainable choices effortlessly.
                         </p>
                       </div>
@@ -434,7 +434,7 @@ function About() {
                         </div>
                         <h2>90%</h2>
                         <h4>Happy Customers</h4>
-                        <p>
+                        <p  style={{textAlign:"justify"}}>
                         Vegenmart’s happy customers trust its chemical-free, ozone-washed produce for safety and nutrition. The company’s focus on healthier lifestyles and sustainability has inspired communities, earning loyalty and making it a preferred choice for fresh, high-quality produce.
 
 
