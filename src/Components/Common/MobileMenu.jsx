@@ -57,9 +57,9 @@ function MobileMenu() {
     }
   };
 
-  const handleSuggestionClick = (productName) => {
-    setQuery(productName);
-    navigate(`/filters/${productName}`);
+  const handleSuggestionClick = (product_id) => {
+    setQuery(product_id);
+    navigate(`/detail_page/${product_id}`);
     setShowSearch(false); // Close offcanvas
   };
   useEffect(() => {
@@ -118,8 +118,8 @@ function MobileMenu() {
   return (
     <div className="mobile-menu d-md-none d-block mobile-cart">
       <ul>
-        <li className="active">
-          <Link to="/">
+        <li className="" style={{ background: "none", border: "none" }}>
+          <Link to="/"  >
             <FaHome className="icli" />
             <span>Home</span>
           </Link>
@@ -147,12 +147,12 @@ function MobileMenu() {
         </li>
         <li>
           <Link to={"/mywhishlist"}>
-            <FaHeart className="icli" />
+            <FaHeart className="icli"  style={{ background: "none", border: "none" }}/>
             <span>My Wish</span>
           </Link>
         </li>
-        <li>
-          <Link to={"/cart"}>
+        <li  style={{ background: "none", border: "none" }}>
+          <Link to={"/cart"} >
             <FaShoppingBag className="icli fly-cate" />
             <span>Cart</span>
           </Link>
@@ -296,9 +296,9 @@ function MobileMenu() {
                     <li
                       key={item.product_id}
                       className="list-group-item list-group-item-action"
-                      onClick={() => handleSuggestionClick(item.product_name)}
+                      onClick={() => handleSuggestionClick(item.product_id)}
                     >
-                      {/* {console.log(item.product_name)} */}
+                      {/* {console.log(item)} */}
                       <span style={{ color: "black" }}>
                         {item.product_name}
                       </span>

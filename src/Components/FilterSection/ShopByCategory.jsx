@@ -42,7 +42,7 @@ const ShopByCategory = () => {
   };
 
   return (
-    <div className="container-fluid-lg  d-none d-lg-block" data-aos="zoom-in"> {/* Added mt-4 for margin-top */}
+    <div className="container-fluid-lg  d-none d-lg-block mt-3" data-aos="zoom-in"> 
       <div className="row">
       
         <div className="col-">

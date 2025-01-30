@@ -29,7 +29,7 @@ function FilterProduct({
       params.append("foodPreference", selectedFoodPreferences.join(","));
     }
     params.append("page", page); // Pass current page
-    params.append("limit", 10); // Limit products per page
+    params.append("limit", 8); // Limit products per page
 
     try {
       const response = await axios.get(`${apiUrl}?${params.toString()}`);

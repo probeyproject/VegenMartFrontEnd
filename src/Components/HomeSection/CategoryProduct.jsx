@@ -49,12 +49,12 @@ const CategoryProduct = ({ categoryId }) => {
           <CategoryBox />
         </div>
       </div> */}
-      <div className="title me-1">
+      <div className="title me-1 ">
         <h2 className="mt-3">{categoryId}</h2>
         <span className="title-leaf"> </span>
-        <p>All Time Top Seller Of The Week</p>
+        <p className="fw-bold">All Time Top Seller Of The Week</p>
       </div>
-      <div className="product-grid">
+      <div className="product-grid p-2">
         {products.slice(0, visibleProducts).map((product) => (
           <div key={product.product_id} className="product_view">
             <ProductBox
@@ -81,7 +81,7 @@ const CategoryProduct = ({ categoryId }) => {
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-3">
-          <Link to={`/filters/${categoryId}`} className="btn btn-animation ">
+          <Link to={`/filters/${categoryId}`} className="btn btn-animation mb-3">
             View More
           </Link>
         </div>

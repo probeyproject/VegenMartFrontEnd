@@ -43,10 +43,11 @@ const Footer = () => {
                     text: "We Offers The Same Price, As Local Market. Guaranteed!",
                   },
                 ].map((service, index) => (
-                  <div className="service-box" key={index}>
+                  <div className=" service-box" key={index}>
                     <div className="service-image">
                       <img
                         src={service.imgSrc}
+                        style={{ height: "30px" }}
                         className="blur-up lazyloaded"
                         alt=""
                       />
@@ -63,9 +64,9 @@ const Footer = () => {
 
         {/* Footer Main Content */}
         <div className="main-footer section-b-space section-t-space">
-          <div className="row g-md-4 g-3">
+          <div className="row g-3">
             {/* Logo and Contact Section */}
-            <div className="col-xl-4 col-lg-4 col-sm-6" data-aos="fade-right">
+            <div className="col-md-4 col-sm-6" data-aos="fade-right">
               <div className="footer-logo">
                 <div className="theme-logo">
                   <a href="/">
@@ -78,8 +79,9 @@ const Footer = () => {
                 </div>
                 <div className="footer-logo-contain">
                   <p>
-                  Delivering Ozone-Washed vegetables and fruits for a healthier, safer lifestyle.
-                   {/* Freshness you can trust, <br /> convenience you’ll love. */}
+                    Delivering Ozone-Washed vegetables and fruits for a
+                    healthier, safer lifestyle.
+                    {/* Freshness you can trust, <br /> convenience you’ll love. */}
                   </p>
                   <ul className="address">
                     <li>
@@ -98,7 +100,9 @@ const Footer = () => {
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                         <polyline points="9 22 9 12 15 12 15 22" />
                       </svg>
-                      <a href="#">155/25E Karela Bagh Prayagraj, Uttar Pradesh, India</a>
+                      <a href="#">
+                        155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
+                      </a>
                     </li>
                     <li>
                       <svg
@@ -122,104 +126,140 @@ const Footer = () => {
                 </div>
               </div>
             </div>
+            
+            <div className="col-md-8">
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  
+                  <div className="row">
+                    {/* Categories Section */}
+                    <div className="col-md-6 col-6" data-aos="fade-up">
+                      <div className="footer-title">
+                        <h4>Categories</h4>
+                      </div>
+                      <div className="footer-contain">
+                        <ul>
+                          {[
+                            {
+                              name: "Exotic Vegetables",
+                              link: "/filters/Fresh Exotic Vegetables",
+                            },
+                            {
+                              name: "Leafy Vegetables",
+                              link: "/filters/Fresh Leafy Vegetables",
+                            },
+                            {
+                              name: "Regular Vegetables",
+                              link: "/filters/Fresh Regular vegetables",
+                            },
+                            {
+                              name: "Citrus Vegetables ",
+                              link: "/filters/citrus fruit",
+                            },
+                            { name: "Mushroom", link: "/filters/mushroom" },
+                          ].map((category, index) => (
+                            <li key={index}>
+                              <a href={category.link} className="text-content">
+                                {category.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    {/* Useful Links Section */}
+                    <div className="col-md-6 col-6" data-aos="fade-up">
+                      <div className="footer-title">
+                        <h4>Useful Links</h4>
+                      </div>
+                      <div className="footer-contain">
+                        <ul>
+                          {[
+                            { name: "Home", link: "/" },
+                            { name: "Shop", link: "/filter" },
+                            { name: "About Us", link: "/about" },
+                            { name: "Blog", link: "/blogsection" },
+                            { name: "Contact Us", link: "/contact" },
+                          ].map((link, index) => (
+                            <li key={index}>
+                              <Link to={link.link} className="text-content">
+                                {link.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Categories Section */}
-            <div
-              className="col-xl-2 col-lg-3 col-md-4 col-sm-6"
-              data-aos="fade-up"
-            >
-              <div className="footer-title">
-                <h4>Categories</h4>
-              </div>
-              <div className="footer-contain">
-                <ul>
-                  {[
-                    { name: "Exotic Vegetables", link: "/filters/exotic" },
-                    { name: "Leafy Vegetables", link: "/filters/leafy" },
-                    { name: "Regular Vegetables", link: "/filters/regular" },
-                    { name: "Citrus Vegetables ", link:"/filters/citrus"},
-                    { name: "Mushroom", link:"/filters/mushroom"},
-                  ].map((category, index) => (
-                    <li key={index}>  
-                      <a href={category.link} className="text-content">
-                        {category.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+                <div className="col-md-6">
+                  <div className="row ">
+                    {/* Help Center Section */}
+                    <div className="col-md-6 col-6" data-aos="fade-up">
+                      <div className="footer-title">
+                        <h4>Help Center</h4>
+                      </div>
+                      <div className="footer-contain">
+                        <ul>
+                          {[
+                            { name: "Your Order", link: "/myaccount" },
+                            { name: "Your Account", link: "/myaccount" },
+                            { name: "Track Order", link: "/myaccount" },
+                            { name: "Your Wishlist", link: "/mywhishlist" },
+                            { name: "FAQ", link: "/faq" },
+                          ].map((helpLink, index) => (
+                            <li key={index}>
+                              <Link to={helpLink.link} className="text-content">
+                                {helpLink.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
 
-            {/* Useful Links Section */}
-            <div className="col-xl-2 col-lg-2 col-sm-6" data-aos="fade-up">
-              <div className="footer-title">
-                <h4>Useful Links</h4>
-              </div>
-              <div className="footer-contain">
-                <ul>
-                  {[
-                    { name: 'Home', link: '/' },
-                    { name: 'Shop', link: '/filter' },
-                    { name: 'About Us', link: '/about' },
-                    { name: 'Blog', link: '/blogsection' },
-                    { name: 'Contact Us', link: '/contact' },
-                  ].map((link, index) => (
-                    <li key={index}>
-                      <Link to={link.link} className="text-content">
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Help Center Section */}
-            <div className="col-xl-2 col-sm-6" data-aos="fade-up">
-              <div className="footer-title">
-                <h4>Help Center</h4>
-              </div>
-              <div className="footer-contain">
-                <ul>
-                  {[
-                    { name: "Your Order", link: "/myaccount" },
-                    { name: "Your Account", link: "/myaccount" },
-                    { name: "Track Order", link: "/myaccount" },
-                    { name: "Your Wishlist", link: "/mywhishlist" },
-                    { name: "FAQ", link: "/faq" },
-                  ].map((helpLink, index) => (
-                    <li key={index}>
-                      <Link to={helpLink.link} className="text-content">
-                        {helpLink.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Contact Us Section */}
-            <div className="col-xl-2 col-lg-4 col-sm-6" data-aos="fade-left">
-              <div className="footer-title">
-                <h4>Terms & Conditions</h4>
-              </div>
-              <div className="footer-contain">
-                <ul>
-                  {[
-                    { name: "Privacy Policy", link: "/privacypolicy" },
-                    { name: "Shipping Policy", link: "/shippingpolicy" },
-                    { name: "Data Encryption Policy", link: "/dataencryptionpolicy" },
-                    { name: "Business Terms & Conditions", link: "/businesstermsconditions" },
-                    { name: "Refund And Rewards Policy", link: "/refundAndrewardspolicy" },
-                    { name: "Loyalty Rewards Policy", link: "/loyaltyrewardspolicy" },
-                  ].map((helpLink, index) => (
-                    <li key={index}>
-                      <Link to={helpLink.link} className="text-content">
-                        {helpLink.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                    {/* Contact Us Section */}
+                    <div className="col-md-6 col-6" data-aos="fade-left">
+                      <div className="footer-title">
+                        <h4>Terms & Conditions</h4>
+                      </div>
+                      <div className="footer-contain">
+                        <ul>
+                          {[
+                            { name: "Privacy Policy", link: "/privacypolicy" },
+                            {
+                              name: "Shipping Policy",
+                              link: "/shippingpolicy",
+                            },
+                            {
+                              name: "Data Encryption Policy",
+                              link: "/dataencryptionpolicy",
+                            },
+                            {
+                              name: "Business Terms & Conditions",
+                              link: "/businesstermsconditions",
+                            },
+                            {
+                              name: "Refund And Rewards Policy",
+                              link: "/refundAndrewardspolicy",
+                            },
+                            {
+                              name: "Loyalty Rewards Policy",
+                              link: "/loyaltyrewardspolicy",
+                            },
+                          ].map((helpLink, index) => (
+                            <li key={index}>
+                              <Link to={helpLink.link} className="text-content">
+                                {helpLink.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -229,48 +269,47 @@ const Footer = () => {
         <div className="sub-footer section-small-space">
           <div className="reserve">
             <h6 className="text-content">
-              ©2024 vegenmart All rights reserved
+              ©2024 Vegenmart All rights reserved
             </h6>
-          </div>
-          <div className="reserve"> 
-            <h6 className="text-content">
-              Developed by{" "}
+            <h6 className="text-content mt-2">
+              Developed and Managed by{" "}
               <a href="https://www.probeyservices.com/" target="_blank">
                 Probey Services
-                </a>
+              </a>
             </h6>
           </div>
-          <div className="payment">
+         
+          <div className="payment"> 
             <img
               src="https://themes.pixelstrap.com/fastkart/assets/images/payment/1.png"
               className="blur-up lazyloaded"
               alt=""
             />
           </div>
-          <div className="social-link">
+          <div className="social-link mt-3">
             <h6 className="text-content">Stay connected :</h6>
             <ul className="list-unstyled d-flex">
-              <li className="me-3">
+              <li className="me-2">
                 <a
                   href="https://www.facebook.com/profile.php?id=61568143989452"
                   target="_blank"
                 >
-                  <i className="fa-brands fa-facebook-f" />
+                  <i className="fa-brands fa-facebook-f fs-4" />
                 </a>
               </li>
-              <li className="me-3">
+              <li className="me-2">
                 <a href="https://x.com/VegenMart" target="_blank">
-                  <i className="fa-brands fa-twitter" />
+                  <i className="fa-brands fa-twitter fs-4" />
                 </a>
               </li>
-              <li className="me-3">
+              <li className="me-2">
                 <a href="https://www.instagram.com/vegenmart" target="_blank">
-                  <i className="fa-brands fa-instagram" />
+                  <i className="fa-brands fa-instagram fs-4" />
                 </a>
               </li>
               <li>
-                <a href="https://in.pinterest.com/vegenmart/" target="_blank">
-                  <i className="fa-brands fa-pinterest-p" />
+                <a href="https://in.pinterest.com/vegenmart/"  target="_blank">
+                  <i className="fa-brands fa-pinterest-p fs-4"  />
                 </a>
               </li>
             </ul>
@@ -282,4 +321,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

@@ -302,8 +302,8 @@ function HeaderMiddle() {
                             key={item.product_id}
                             className="list-group-item list-group-item-action"
                             onClick={() => {
-                              setQuery(item.product_name);
-                              navigate(`/filters/${item.product_name}`);
+                               setQuery(item.product_name);
+                              navigate(`/detail_page/${item.product_id}`);
                             }}
                             style={{ cursor: "pointer", borderBottom: "none" }}
                           >
@@ -555,7 +555,7 @@ function HeaderMiddle() {
         onHide={() => setShowModal(false)}
         size="md"
         centered
-        style={{ left: "-300px" }}
+        
       >
         <Modal.Header closeButton className="d-flex justify-content-between">
           <Modal.Title className="location-title">

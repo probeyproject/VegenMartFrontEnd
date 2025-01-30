@@ -405,10 +405,10 @@ function ProductSection() {
                     </div>
                   </div>
                   <div className="d-flex justify-content-between mb-3 d-none d-sm-block">
-                    <div className="d-flex">
-                      <p className="mt-3 me-3 fw-bold fs-6 ">Sort By:</p>
+                    <div className="d-flex justify-content-between">
+                     <p className="mt-3 me-3 fw-bold fs-6 ">Sort By:</p>
                       <select
-                        className="form-select text- w-60 "
+                        className="form-select text- w-50 "
                         id="filterproduct"
                         value={sortOption} // Set the current value to the selected sort option
                         onChange={handleSortChange} // Handle sort option change

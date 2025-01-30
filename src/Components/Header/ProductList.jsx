@@ -60,7 +60,7 @@ const ProductList = () => {
               </h3>
               <div className="mt-4 text-center">
                 {products.length === 0 ? (
-                  <div className="no-products">
+                  <div className="no-products p-3">
                     <div className="message text-center">
                       <h2>No Products Found</h2>
                       <p>

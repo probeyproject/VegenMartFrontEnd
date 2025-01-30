@@ -207,8 +207,8 @@ export default function ComboCardCarousel() {
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 5000,
-    autoPlay: true,
+    speed: 100,
+    autoPlay: false,
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
@@ -228,14 +228,14 @@ export default function ComboCardCarousel() {
   };
 
   return (
-    <div className="p-2">
+    <div className="">
       <Slider {...sliderSettings}>
         {combos.map((combo) => {
           // const productImages = safeParseJson(combo.product_image);
 
           return (
             <div
-              className="card combo-card"
+              className="card bg-light p-2 combo-card"
               key={combo.id}
               onClick={() =>
                 handleComboClick(
@@ -249,19 +249,22 @@ export default function ComboCardCarousel() {
               <img
                 src={JSON.parse(combo.product_image)}
                 className="card-img-top rounded-top"
+                style={{height:"150px", padding:"5px"}}
                 alt={combo.title}
               />{" "}
               {/* {console.log(combo)} */}
-              <div className="card-body text-center">
-                <h5 className="card-title text-truncate">{combo.title}</h5>
-                <p className="card-text text-muted small">
+              <div className="card-body text-center d-flex justify-content-between">
+                <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">{combo.title}</h5>
+                </div>
+                <p className="fw-bold text-start mb-0">₹{combo.price}</p> 
+                <p className="card-text text-muted text-capitalize">
                   {combo.description}
                 </p>
-                <p className="fw-bold">Price: ₹{combo.price}</p>
+               
                 <button className="btn btn-animation w-100 mt-2">
                   View Details
                 </button>
-              </div>
+              
             </div>
           );
         })}
@@ -281,7 +284,7 @@ export default function ComboCardCarousel() {
                   {/* {inputweight}
                   {weightType} */}
                 </span>
-                <h5 className="modal-title">{ComboData.title}</h5>
+                <h5 className="modal-title ">{ComboData.title}</h5>
                 <button
                   type="button"
                   className="btn-close"

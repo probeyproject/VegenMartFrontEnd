@@ -26274,7 +26274,7 @@ header .hot-deal-box span {
     z-index: 0;
   }
   header .navbar-expand-xl .dropdown-menu .dropdown-item:hover::after {
-    width: 40%;
+    width: 60%;
   }
   header .navbar-expand-xl .dropdown-menu .dropdown-item:active {
     color: #000;
@@ -26283,11 +26283,11 @@ header .hot-deal-box span {
     content: "";
     position: absolute;
     width: 0;
-    height: 4px;
-    bottom: 2px;
+    height: 2px;
+    bottom: -1px;
     left: 0;
     background-color: var(--theme-color);
-    opacity: 0.3;
+    opacity: 1;
     border-radius: 50px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
@@ -26625,8 +26625,8 @@ header .offcanvas-backdrop {
     top: 50%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    width: 7px;
-    height: 1px;
+    width: 10px;
+    height: 2px;
     background-color: rgba(74, 85, 104, 0.651);
     left: -4px;
   }

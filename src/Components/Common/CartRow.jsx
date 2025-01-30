@@ -9,8 +9,8 @@ function CartRow({ cart, imgages, fetchAllCart }) {
   const userState = useSelector((state) => state?.user);
   const userId = userState?.user?.id;
 
-  const [currentWeight, setCurrentWeight] = useState(Number(cart?.weight) || 0);
-  const [currentTotalPrice, setCurrentTotalPrice] = useState(cart?.total_price);
+  const [currentWeight, setCurrentWeight] = useState(Number(cart?.unit) || 1);
+  const [currentTotalPrice, setCurrentTotalPrice] = useState(cart?.price);
 
   const handleAddToWishlist = async (product_id) => {
     try {
@@ -39,7 +39,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
 
   const updateCart = async (value, currentTotalPrice) => {
     try {
-      const productId = cart?.product_id;
+      const productId = cart?.id;
 
       const updatedcart = await axios.put(
         `${baseUrl}/cart/${userId}/${productId}`,
@@ -59,7 +59,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
 
   const handleIncreaseWeight = async () => {
     try {
-      const productId = cart?.product_id;
+      const productId = cart?.id;
       const priceResponse = await axios.post(
         `${baseUrl}/calculate-price/${productId}`,
         { weight: currentWeight + 1, unitType: cart?.weight_type }
@@ -77,7 +77,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
   const handleDecreaseWeight = async () => {
     if (currentWeight > 1) {
       try {
-        const productId = cart?.product_id;
+        const productId = cart?.id;
         const priceResponse = await axios.post(
           `${baseUrl}/calculate-price/${productId}`,
           { weight: currentWeight - 1, unitType: cart?.weight_type }
@@ -148,7 +148,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
                         className="form-control input-number qty-input"
                         type="text"
                         name="quantity"
-                        value={currentWeight}
+                        value={currentWeight }
                         readOnly
                       />
                       {/* Increase button */}
@@ -184,6 +184,9 @@ function CartRow({ cart, imgages, fetchAllCart }) {
           >
             Save for later
           </Link>
+          {/* {console.log(cart.cart_id)
+          }
+           */}
           <Link
             onClick={() => handleDelete(cart.cart_id)}
             className="remove close_button"

@@ -4,25 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../API/Api";
 import AOS from "aos";
 
-
-
 function OfferBanner() {
-
   const [coupon, setCoupon] = useState([]);
   const navigate = useNavigate();
 
-
   const getCouponBanner = async () => {
-    const response = await axios.get(
-      `${baseUrl}/getBannerById/10`
-    );
+    const response = await axios.get(`${baseUrl}/getBannerById/10`);
     const data = await response.data;
     setCoupon(data);
   };
 
   useEffect(() => {
     getCouponBanner();
-     AOS.init({
+    AOS.init({
       duration: 1000, // Duration of the animation in milliseconds
       easing: "ease-in-out", // Type of easing for the animation
       once: true, // Whether animation should happen only once - while scrolling down
@@ -31,20 +25,19 @@ function OfferBanner() {
   }, []);
 
   const gotToProduct = async () => {
-    navigate('/filter')
-  }
+    navigate("/filter");
+  };
 
   return (
     <>
       {coupon.map((data, index) => (
-        <div key={index} >
+        <div key={index} className="py-3">
           <div
             className="banner-contain bg-size blur-up lazyloaded"
             data-aos="fade-left"
             style={{
-              backgroundImage:
-                `url(${data.banner_image})`,
-                height:"120px",
+              backgroundImage: `url(${data.banner_image})`,
+              height: "130px",
               backgroundSize: "cover",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",

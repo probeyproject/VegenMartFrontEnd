@@ -10,6 +10,7 @@ import DiscountModal from "../Common/DiscountModal";
 import { BsInfoCircle } from "react-icons/bs";
 import { baseUrl } from "../../API/Api";
 import LoginModal from "../Common/LoginModal";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const ProductBox = ({
   product_id,
@@ -265,9 +266,9 @@ const ProductBox = ({
       <div className="col-12" data-aos="fade-zoom-in">
         <div className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`} style={{height:"300px"}}>
           <div  >
-            <div className="product-image p-0 m-0  img-fluid" style={{height:"120px"}}>
+            <div className="product-image p-0 m-0  img-fluid" style={{height:"130px"}}>
               <div
-                className="position-absolute top-0 end-0 z-3"
+                className="position-absolute top-1 end-0 z-1"
               >
                 <BsInfoCircle
                   id="TooltipExample"
@@ -282,6 +283,7 @@ const ProductBox = ({
                     src={imageSrc[0]}
                     onClick={onImageClick}
                     className="object-fit-fill blur-up lazyloaded rounded-3"
+                    style={{height:"120px"}}
                     alt={productName}
                   />
                 </a>
@@ -362,9 +364,9 @@ const ProductBox = ({
                 </ul>
               </Link>
             </div>
-            <div className="product-detail mt-1">
+            <div className="product-detail">
               <a className="d-flex justify-content-between">
-                <h6 className="name m-0" style={{ fontSize: "10px" }}>
+                <h6 className="name m-0 text-start" style={{ fontSize: "13px" }}>
                   {productName?.length >= 15
                     ? `${productName.substring(0, 15)}...`
                     : productName}
@@ -373,12 +375,12 @@ const ProductBox = ({
                   {Math.round(weight)} {weight_type}
                 </span>
               </a>
-              <h5 className="sold text-content">
+              <h5 className="sold text-content text-start mb-0">
                 <span className="theme-color price">₹{currentPrice ? Math.floor(currentPrice) : ""}</span>
                 <del>
                   {discount_price ? Math.floor(discount_price) : ""}
                 </del>{" "}
-                <span className="offer-top text-danger mb-2 m-lg-2">
+                <span className="offer-top text-danger m-lg-2">
                   {Math.round(
                     ((discount_price - currentPrice) / discount_price) * 100
                   ) === -Infinity
@@ -486,31 +488,32 @@ const ProductBox = ({
                 <div>
                   <select
                     id="units"
-                    className="border-1 rounded-2"
+                    className="border-1 rounded-2 p-1"
                     onChange={(e) => {
                       setWeightType(e.target.value);
                       setInputWeight(""); // Clear input when weight type changes
                     }}
                     value={weightType} // Control the select with state
+                    
                   >
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>
                     )}
                     {(weight_type === "Kg" || weight_type === "g") && (
                       <>
-                        <option value="Kg">Kg</option>
-                        <option value="g">Gram</option>
+                        <option value="Kg" className="m-2">Kg</option>
+                        <option value="g" className="m-2">Gram</option>
                       </>
                     )}
                   </select>
                 </div>
-                <div className="rounded-1 w-50" style={{ height: "20px" }}>
+                <div className="rounded-1 w-50 " style={{ height: "20px" }}>
                   {weightType === "Kg" && (
                     <input
                       type="number"
                       required
                       placeholder="Weight"
-                      className="form-control h-50 border-1"
+                      className="form-control border-1 p-1"
                       defaultValue={defaultWeight ? defaultWeight : inputweight}
                       onChange={handleChange}
                     />
@@ -518,7 +521,7 @@ const ProductBox = ({
 
                   {weightType === "g" && (
                     <select
-                      className="rounded-2"
+                      className="rounded-2 p-1"
                       value={inputweight}
                       onChange={handleChange}
                     >
@@ -550,15 +553,15 @@ const ProductBox = ({
                 ) : (
                   ""
                 )}
-                <div className="add-to-cart-box w-50">
+                <div className="add-to-cart-box">
                   {finalPrice ? (
                     <button
                       className="btn btn-animation btn-md"
                       onClick={handleClick}
                       style={{
-                        width: "80px",
+                        width: "70px",
                         height: "25px",
-                        fontSize: "12px",
+                        fontSize: "11px",
                       }}
                       disabled={inStock == 0}
                     >
@@ -569,7 +572,7 @@ const ProductBox = ({
                       className="btn btn-animation btn-md"
                       onClick={handleClick}
                       style={{
-                        width: "120px",
+                        width: "100px",
                         height: "25px",
                         fontSize: "12px",
                       }}

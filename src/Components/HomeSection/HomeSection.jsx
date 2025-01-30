@@ -46,7 +46,7 @@ function HomeSection() {
   };
 
   return (
-    <section className="home-section pt-2" >
+    <section className="home-section pt-0" >
       <div className="container-fluid-lg">
         <div className="row ">
           {/* First Card (Left Side) */}

@@ -38,20 +38,20 @@ export const DetailsPageReleventProduct = ({ productId }) => {
     speed: 500, // Slide speed
     slidesToShow: 4, // Number of slides to show at once
     slidesToScroll: 1, // Number of slides to scroll at once
-    arrows: true, // Enable arrows for navigation
+    arrows: false, // Enable arrows for navigation
     autoplay: true, // Enable autoplay
     autoplaySpeed: 2000, // Set autoplay interval to 3 seconds
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
         },
       },
       {
@@ -65,7 +65,7 @@ export const DetailsPageReleventProduct = ({ productId }) => {
 
   return (
     <>
-      <h2 className="mt-2">Relevant Products</h2>
+      <h2 className="mt-4">Relevant Products</h2>
       <span className="title-leaf"></span>
       <div className="row mb-4 mt-3">
         <Slider {...settings}>
@@ -82,8 +82,8 @@ export const DetailsPageReleventProduct = ({ productId }) => {
             return (
               <div
                 key={index}
-                // style={{ width: "200px" }}
-                 className="col-6 col-md-6" // Trigger scroll to top when clicked
+                // style={{ width: "100px" }}
+                 className="col-6 col-md-6 p-3" // Trigger scroll to top when clicked
               >
                 <div>
                 <ProductBox

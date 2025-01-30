@@ -48,10 +48,10 @@
   }
 
 
-  @media (max-width: 414px) {
+  @media (max-width: 415px) {
     .product-container {
-        /* border: 2px solid; */
-      height: 60%; /* Reduced height for mobile screens */
+        border: 2px solid;
+      height: 30vh; /* Reduced height for mobile screens */
     }
   
   }
@@ -83,7 +83,9 @@
     .product-container {
       overflow-y: hidden;
       margin-bottom: -5px;
-      height: 40vh; /* Reduced height for mobile screens */
+      height: 40vh;
+      border: 3px solid red;
+       /* Reduced height for mobile screens */
     }
     
   }

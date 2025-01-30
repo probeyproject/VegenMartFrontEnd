@@ -58,7 +58,7 @@ function Cart() {
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
   const [invoiceAddress, setInvoiceAddress] = useState({});
-  // console.log(image);
+  console.log(carts);
 
   const AddressModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -110,7 +110,7 @@ function Cart() {
       // Set default quantity for each cart item
       const initialQuantities = {};
       data?.forEach((cart) => {
-        initialQuantities[cart.cart_id] = cart.quantity; // Set quantity to cart's quantity
+        initialQuantities[cart.cart_id] = cart.unit; // Set quantity to cart's quantity
       });
       setQuantities(initialQuantities);
     } catch (error) {
@@ -172,27 +172,29 @@ function Cart() {
   }, [address_id]); // Add `address_id` as a dependency to re-run the effect when it changes
 
   // console.log(invoiceAddress);
+  const totalAmount = carts?.reduce((acc, cart) => {
+   
+    
+    const quantity = quantities[cart.cart_id] || 1; // Default to 1
+    return acc + quantity * cart.product_price;
+  }, 0);
+  console.log(totalAmount);
+  useEffect(() => {
+    // Check if totalAmount is >= 200 to set the shipping cost
+    if (totalAmount >= 200) {
+      setShipping(0); // Set shipping to 0 for totalAmount >= 200
+    } else {
+      setShipping(29); // Set shipping to 29 if totalAmount is less than 200
+    }
+
+    // Always recalculate the price including shipping
+    setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29)); // Add shipping cost accordingly
+  }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
+
   // const totalAmount = carts?.reduce((acc, cart) => {
   //   const quantity = quantities[cart.cart_id] || 1; // Default to 1
   //   return acc + quantity * cart.total_price;
   // }, 0);
-
-  // useEffect(() => {
-  //   // Check if totalAmount is >= 200 to set the shipping cost
-  //   if (totalAmount >= 200) {
-  //     setShipping(0); // Set shipping to 0 for totalAmount >= 200
-  //   } else {
-  //     setShipping(29); // Set shipping to 29 if totalAmount is less than 200
-  //   }
-
-  //   // Always recalculate the price including shipping
-  //   setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29)); // Add shipping cost accordingly
-  // }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
-
-  const totalAmount = carts?.reduce((acc, cart) => {
-    const quantity = quantities[cart.cart_id] || 1; // Default to 1
-    return acc + quantity * cart.total_price;
-  }, 0);
 
   useEffect(() => {
     // Subtract the discountValue from totalAmount
@@ -213,13 +215,15 @@ function Cart() {
 
   const getProductsData = () => {
     return carts.map((cart) => ({
-      id: cart.product_id || cart.combo_id,
+    
+      
+      id: cart.id || cart.combo_id ,
       product_name: cart.product_name || cart.combo_title,
       product_image: cart.product_image || cart.combo_image,
       product_price: cart.product_price || cart.combo_price, // Assuming this is the unique ID for the product // Retrieve quantity from quantities state
       unit: cart.weight || "Kg",
       weight_type: cart.weight_type, // Adjust as per your cart data
-      price: cart.total_price, // Assuming this is the price for one unit
+      price: cart.price, // Assuming this is the price for one unit
     }));
   };
 

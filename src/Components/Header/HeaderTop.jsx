@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaUser, FaXTwitter } from "react-icons/fa6"; // Existing Twitter icon
 import {   FaPinterest,FaInstagram } from "react-icons/fa";
-import { LuFacebook } from "react-icons/lu";
+import { LuFacebook, LuLinkedin } from "react-icons/lu";
 
 import {
   Dropdown,
@@ -109,7 +109,7 @@ function HeaderTop() {
                 </div>
                 <div className="mx-2">
                   <a
-                    href="https://www.instagram.com/vegenmart"
+                    href="https://www.instagram.com/vegenmart/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -123,6 +123,15 @@ function HeaderTop() {
                     rel="noopener noreferrer"
                   >
                     <LuFacebook style={{ fontSize: "20px", color: "white" }} />
+                  </a>
+                </div>
+                <div className="mx-2">
+                  <a
+                    href="https://www.linkedin.com/company/vegenmart"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <LuLinkedin style={{ fontSize: "20px", color: "white" }} />
                   </a>
                 </div>
                 <div className="mx-2">

@@ -13,11 +13,11 @@ const ProductBox = ({ imageSrc, productName }) => (
   <div className="category-box">
     <img
       src={imageSrc}
-      style={{height:"100px", width:"100px", borderRadius:'5px'}}
+      style={{height:"80px", width:"100px", borderRadius:'10px',}}
       className="blur-up lazyloaded product-image"
       alt={productName}
     />
-    <h5 className="product-name">{productName}</h5>
+    <h5 pclassName="product-name fs-6">{productName}</h5>
   </div>
 );
 

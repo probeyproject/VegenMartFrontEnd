@@ -411,7 +411,7 @@ function DetailPage() {
                         <ProductSlider
                           imgSrc={JSON.parse(data.product_image)}
                         />
-                        <div className="wow fadeInUp">
+                        {/* <div className="wow fadeInUp">
                           <div className="right-box-contain">
                             <div className="pickup-box">
                               <div className="product-info">
@@ -437,11 +437,11 @@ function DetailPage() {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="col-xl-6 wow fadeInUp">
                         <div className="right-box-contain">
-                          <h5 className="offer-top">
+                          <h5 className="offer-top ">
                             {Math.round(
                               ((data.discount_price - data.product_price) /
                                 data.discount_price) *
@@ -473,19 +473,20 @@ function DetailPage() {
                                 onClick={() => handleDiscountModal(data.offers)}
                                 className="cursor-pointer"
                                 title="Offers"
+                                cursor={'pointer'}
                               />
                             </div>
                           </div>
 
-                          <div className="price-rating">
+                          <div className="price-rating d-flex">
                             <h3 className="theme-color price">
                               ₹{data.product_price}/{data.weight_type}{" "}
                               <del className="text-content">
                                 ₹{data.discount_price}
                               </del>{" "}
                             </h3>
-                            <div className="product-rating custom-rate">
-                              <ul className="rating">
+                            <div className="product-rating custom-rate flex-column">
+                              <ul className="rating ">
                                 {[...Array(totalStars)].map((_, index) => (
                                   <li key={index}>
                                     <svg
@@ -515,7 +516,7 @@ function DetailPage() {
 
                           {/* coustome Weight */}
 
-                          <div className="product-package d-flex gap-2 center-box">
+                          <div className="product-package d-flex gap-3 mt-3 center-box">
                             <select
                               style={{ width: "100px", height: "35px" }}
                               className="border-1 rounded"
@@ -566,7 +567,7 @@ function DetailPage() {
 
                               {weightType === "pieces" && (
                                 <input
-                                  type="number"
+                                  type="number" 
                                   required
                                   placeholder="Pieces"
                                   className="form-control  border-1"
@@ -590,6 +591,7 @@ function DetailPage() {
                               </div>
                             </div>
                           </div>
+                          <div className="d-flex justify-content-between">
                           <div className="note-box product-package">
                             <button
                               onClick={handleClickCart}
@@ -625,29 +627,57 @@ function DetailPage() {
                               >
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                               </svg>
-                              <span onClick={handleClickWishlist}>
+                              <button className="btn btn-sm" onClick={handleClickWishlist}>
                                 Add To Wishlist
-                              </span>
+                              </button>
                             </Link>
                           </div>
-                          <div className="pickup-box">
+                          </div>
+                          
+                          <div className="pickup-box d-flex justify-content-between">
                             <div className="product-title">
                               <h4>Product Info:</h4>
-                            </div>
-                            <div className="pickup-detail">
                               <h4 className="text-content">Vegenmart.com</h4>
                             </div>
+                            
                             <div className="product-title">
                               <h4>Store Information:</h4>
-                            </div>
-                            <div className="pickup-detail">
                               <h4 className="text-content">
                                 {data.store_info}
                               </h4>
                             </div>
+                            
+                          </div>
+                          <div className="wow fadeInUp">
+                          <div className="right-box-contain">
+                            <div className="pickup-box">
+                              <div className="product-info">
+                                <ul className="product-info-list product-info-list-2">
+                                  <li>
+                                    <h1></h1>
+                                    Type : <a>{data.product_type}</a>
+                                  </li>
+                                  <li>
+                                    SKU : <a>{data.sku}</a>
+                                  </li>
+                                  <li>
+                                    MFG :{" "}
+                                    <a>{formatDate(data.manufacturing_date)}</a>
+                                  </li>
+                                  <li>
+                                    Stock : <a>{data.status}</a>
+                                  </li>
+                                  <li>
+                                    Tags : <a>{data.tags}</a>{" "}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        </div>
                       </div>
+                      
                       <div className="col-12 container">
                         <div className="product-section-box">
                           <Nav tabs className="nav nav-tabs custom-nav">

@@ -16,7 +16,6 @@ const CategoryProductCarousel = ({ categoryId }) => {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const navigate = useNavigate();
 
-
   const fetchProductByCategory = async (categoryId) => {
     // selected
     try {
@@ -68,16 +67,14 @@ const CategoryProductCarousel = ({ categoryId }) => {
     fetchProductsByCategory();
   }, [categoryId]);
 
-
   useEffect(() => {
     Aos.init({
       duration: 2500,
-      offset: 100, 
-      easing: "ease-in-out", 
-      // once: true, 
+      offset: 100,
+      easing: "ease-in-out",
+      // once: true,
     });
   }, []);
-
 
   // Show only the first 8 categories
   const visibleCategories = categories.slice(0, 8);
@@ -89,93 +86,107 @@ const CategoryProductCarousel = ({ categoryId }) => {
 
   return (
     <div className="category-product-grid">
-         <div className="new_order3">
-      <div className="title">
-        <h2 className="">Browse by Categories</h2>
-        <span className="title-leaf"></span>
-        <p>Top Categories Of The Week</p>
-      </div>
+      <div className="new_order3 p- bg-white">
+        <div className="title">
+          <h2 className="" style={{color:"#1C1C1C"}}>Browse by Categories</h2>
+          <span className="title-leaf"></span>
+          <p className="fw-bold">Top Categories Of The Week</p>
+        </div>
 
-      <div
-        className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
-        data-aos="fade-left"
-      >
-        <div className="row p-3" >
-          {/* Render visible categories */}
-          {visibleCategories.map((category) => (
-            <div className="col-4 card mb-1" key={category.category_id} data-aos="zoom-in">
-              <Link
-                to={`/filters/${category.category_name}`}
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  color: "black",
-                  backgroundColor:
-                    selectedCategory === category.category_id ? "#ebd7e0" : "",
-                }}
-                className="category-card d-flex flex-column align-items-center p-2"
-              >
-                <img
-                  src={category.category_url}
-                  className="img-fluid rounded-circle mb-2"
-                  alt="loading.."
-                  style={{
-                    height: "60px",
-                    width: "60px",
-                    objectFit: "cover",
-                  }}
-                />
-                <p className="mb-0 text-center" style={{ fontSize: "10px" }}>
-                  {category.category_name}
-                </p>
-              </Link>
-            </div>
-          ))}
-
-          {/* "View More" card that redirects to /filters */}
-          {categories.length > 7 && (
-            <div className="col-4 card mb-1">
+        <div
+          className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4 "
+          data-aos="fade-right"
+        >
+          <div className="row p-3">
+            {/* Render visible categories */}
+            {visibleCategories.map((category) => (
               <div
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  color: "black",
-                }}
-                className="category-card d-flex flex-column align-items-center p-2"
-                onClick={() => navigate("/filter")}
+                className="col-3 card border-0 mx-1 ms-3 rounded-2 shadow-none mb-1 p-2" 
+                key={category.category_id}
+                data-aos="zoom-in"
+                style={{width:"90px", background:"rgb(254, 241, 247)"}}
               >
-                <div
-                  className="rounded-circle mb-2"
+                <Link
+                  to={`/filters/${category.category_name}`}
                   style={{
-                    height: "60px",
-                    width: "60px",
-                    backgroundColor: "#ddd",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "14px",
-                    fontWeight: "bold",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "black",
+                    backgroundColor:
+                      selectedCategory === category.category_id
+                        ? "#ebd7e0"
+                        : "",
                   }}
+                  className="category-card d-flex flex-column align-items-center py-1"
                 >
-                  +
-                </div>
-                <p className="mb-0 text-center" style={{ fontSize: "10px" }}>
-                  View More
-                </p>
+                  <img
+                    src={category.category_url}
+                    className="img-fluid rounded-1 mb-2"
+                    alt="loading.."
+                    style={{
+                      height: "65px",
+                      width: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <p className="mb-0 text-muted text-center fw-semibold" style={{ fontSize: "13px",color:"#1C1C1C" }}>
+                    {category.category_name}
+                  </p>
+                </Link>
               </div>
-            </div>
-          )}
+            ))}
+
+            {/* "View More" card that redirects to /filters */}
+            {categories.length > 7 && (
+              <div className="col-3 card border-0  mx-2 rounded-0 shadow-none mb-1">
+                <div
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "black",
+                    width:"80px"
+                  }}
+                  className="category-card d-flex flex-column align-items-center p-2"
+                  onClick={() => navigate("/filter")}
+                >
+                  <div
+                    className="rounded-circle mb-2"
+                    style={{
+
+                      height: "50px",
+                      width: "50px",
+                      backgroundColor: "#D22860",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "14px",
+                      color:"white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    +
+                  </div>
+                  <p className="mb-0 fw-semibold text-muted mt-2 text-" style={{ fontSize: "12px", color:"#1C1C1C" }}>
+                    View More
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-      <div className="title me-1">
-      <h2 className="mt-3">{categoryId}</h2>
+      <div className="title me-1 p-3">
+        <h2 className="mt-3" style={{color:"#1C1C1C"}}>{categoryId}</h2>
         <span className="title-leaf"> </span>
-        <p>All Time Top Veggies Of The Week</p>
+        <p className="fw-bold" >All Time Top Veggies Of The Week</p>
       </div>
-      <div className="product-grid">
+      <div className="product-grid p-2">
         {products.slice(0, visibleProducts).map((product) => (
-          <div key={product.product_id} className="product_view" data-aos="zoom-in-down">
+          <div
+            key={product.product_id}
+            className="product_view"
+            data-aos="zoom-in-down"
+          >
             <ProductBox
               style={{ height: "250px" }}
               imageSrc={JSON.parse(product.product_image || '""')}
@@ -200,7 +211,10 @@ const CategoryProductCarousel = ({ categoryId }) => {
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-3">
-          <Link to={`/filters/${categoryId}`} className="btn btn-animation ">
+          <Link
+            to={`/filters/${categoryId}`}
+            className="btn btn-animation mb-3 "
+          >
             View More
           </Link>
         </div>
