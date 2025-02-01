@@ -271,12 +271,12 @@ const ProductBox = ({
               style={{ height: "130px" }}
             >
               <div className="position-absolute top-1 end-0 z-1">
-                <BsInfoCircle
+                {/* <BsInfoCircle
                   id="TooltipExample"
                   onClick={handleDiscountModal}
                   className="cursor-pointer "
                   title="Offers"
-                />
+                /> */}
               </div>
               <Link to={`/detail_page/${product_id}`}>
                 <img
@@ -289,8 +289,8 @@ const ProductBox = ({
               </Link>
 
               <Link>
-                <ul className="d-flex align-items-center list-unstyled product-option mb gap-2">
-                  <li>
+                <ul className="d-flex align-items-center list-unstyled product-option mb gap-1">
+                  <li className="me-1">
                     <div onClick={toogleModalProduct} className="text-dark">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +309,7 @@ const ProductBox = ({
                       </svg>
                     </div>
                   </li>
-                  <li>
+                  {/* <li>
                     <div onClick={handleDiscountModal}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -328,11 +328,11 @@ const ProductBox = ({
                         <line x1="12" y1="8" x2="12" y2="8" />
                       </svg>
                     </div>
-                  </li>
+                  </li> */}
 
-                  <li>
+                  <li className="">
                     <div
-                      className={`notifi-wishlist text-dark ml-2 ${
+                      className={`notifi-wishlist text-dark ml-2 ms-2 ${
                         isInWishlist ? "text-danger" : ""
                       }`}
                       onClick={handleWishlist}
