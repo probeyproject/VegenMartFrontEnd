@@ -33,10 +33,10 @@ export const VideoAds = () => {
           <div className="video-container" data-aos="zoom-in-right">
             <h2>{video[0]?.video_heading}</h2>
             <span className="title-leaf"></span>
-            {/* <p>{video[0]?.video_text}</p> */}
+            <p className="p-2" style={{textAlign:"justify"}}>{video[0]?.video_text}</p>
             <div className="video-wrapper"> 
               <video
-                controls="false"
+                controls={false}
                 autoPlay
                 loop
                 muted

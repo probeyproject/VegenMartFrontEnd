@@ -1,12 +1,10 @@
 .product-container {
     height: 100%;
-    /* border: 2px solid;  */
   }
 
 
   @media (max-width: 1024px) {
     .product-container {
-        /* border: 2px solid; */
       height: 85vh; /* Reduced height for mobile screens */
     }
     
@@ -15,7 +13,6 @@
   
   @media (max-width: 768px) {
     .product-container {
-        /* border: 2px solid; */
       height: 85vh; /* Reduced height for mobile screens */
     }
     
@@ -23,7 +20,6 @@
 
   @media (max-width: 700px) {
     .product-container {
-        /* border: 2px solid; */
       height: 87vh; /* Reduced height for mobile screens */
     }
     
@@ -32,7 +28,6 @@
 
   @media (max-width: 576px) {
     .product-container {
-        /* border: 2px solid; */
       height: 65vh; /* Reduced height for mobile screens */
     }
     
@@ -41,7 +36,6 @@
 
   @media (max-width: 431px) {
     .product-container {
-        /* border: 2px solid; */
       height: 33vh; /* Reduced height for mobile screens */
     }
   
@@ -50,7 +44,6 @@
 
   @media (max-width: 415px) {
     .product-container {
-        border: 2px solid;
       height: 30vh; /* Reduced height for mobile screens */
     }
   
@@ -60,7 +53,6 @@
 
   @media (max-width: 426px) {
     .product-container {
-        /* border: 2px solid; */
       overflow-y: hidden;
 
       height: 50vh; /* Reduced height for mobile screens */
@@ -71,7 +63,6 @@
 
   @media (max-width: 390px) {
     .product-container {
-        /* border: 5px solid; */
       overflow-y: hidden;
 
       height: 36vh; /* Reduced height for mobile screens */
@@ -84,7 +75,6 @@
       overflow-y: hidden;
       margin-bottom: -5px;
       height: 40vh;
-      border: 3px solid red;
        /* Reduced height for mobile screens */
     }
     

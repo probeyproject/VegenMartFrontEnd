@@ -13,11 +13,11 @@ const ProductBox = ({ imageSrc, productName }) => (
   <div className="category-box">
     <img
       src={imageSrc}
-      style={{height:"80px", width:"100px", borderRadius:'10px',}}
+      style={{height:"100px", width:"100px", borderRadius:'10px',}}
       className="blur-up lazyloaded product-image"
       alt={productName}
     />
-    <h5 pclassName="product-name fs-6">{productName}</h5>
+    <h5 className="product-name fs-6">{productName}</h5>
   </div>
 );
 
@@ -43,7 +43,7 @@ const CategoryBox = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4, // Default for large screens
+    slidesToShow: 5, // Default for large screens
     slidesToScroll: 1,
     arrows: true,
     autoplay: true,

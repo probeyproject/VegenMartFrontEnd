@@ -22,6 +22,7 @@ import DiscountModal from "../Components/Common/DiscountModal";
 import { FaRegCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { CiCircleInfo } from "react-icons/ci";
+import defaultuser from '../assets/images/defauluser.webp'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -37,7 +38,7 @@ const formatDate = (dateString) => {
 
 function DetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState("4");
   const [product, setProduct] = useState([]); // Consider setting to null for clarity
   const { id } = useParams();
   const [categoryIds, setCategoryIds] = useState([]);
@@ -94,13 +95,13 @@ function DetailPage() {
     setIsModalOpen(true);
   };
 
-  const handleAuth = (e, a) => {
+  const handleAuth = (e) => {
     e.preventDefault();
 
     // Correctly prevent the default action
 
     if (authenticated) {
-      navigate(a); // Navigate if authenticated
+      navigate("/login"); // Navigate if authenticated
     } else {
       toggleLoginModal(); // Open login modal if not authenticated
     }
@@ -473,7 +474,7 @@ function DetailPage() {
                                 onClick={() => handleDiscountModal(data.offers)}
                                 className="cursor-pointer"
                                 title="Offers"
-                                cursor={'pointer'}
+                                cursor={"pointer"}
                               />
                             </div>
                           </div>
@@ -567,7 +568,7 @@ function DetailPage() {
 
                               {weightType === "pieces" && (
                                 <input
-                                  type="number" 
+                                  type="number"
                                   required
                                   placeholder="Pieces"
                                   className="form-control  border-1"
@@ -592,92 +593,95 @@ function DetailPage() {
                             </div>
                           </div>
                           <div className="d-flex justify-content-between">
-                          <div className="note-box product-package">
-                            <button
-                              onClick={handleClickCart}
-                              className="btn btn-animation"
-                              disabled={data.stock == 0}
-                            >
-                              {data.stock == 0 ? "Out of stock" : "Add To Cart"}
-                            </button>
-                          </div>
-                          <div className="buy-box">
-                            <Link>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width={24}
-                                onClick={handleClickWishlist}
-                                height={24}
-                                viewBox="0 0 24 24"
-                                fill={
-                                  isInWishlist ||
-                                  (Array.isArray(wishlist) &&
-                                    wishlist.some(
-                                      (item) =>
-                                        item.product_id === data.product_id
-                                    ))
-                                    ? "red" // Set fill to red if the product is in the wishlist
-                                    : "none" // Otherwise, set fill to none (transparent)
-                                }
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-heart"
+                            <div className="note-box product-package">
+                              <button
+                                onClick={handleClickCart}
+                                className="btn btn-animation"
+                                disabled={data.stock == 0}
                               >
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                              </svg>
-                              <button className="btn btn-sm" onClick={handleClickWishlist}>
-                                Add To Wishlist
+                                {data.stock == 0
+                                  ? "Out of stock"
+                                  : "Add To Cart"}
                               </button>
-                            </Link>
+                            </div>
+                            <div className="buy-box">
+                              <Link>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width={24}
+                                  onClick={handleClickWishlist}
+                                  height={24}
+                                  viewBox="0 0 24 24"
+                                  fill={
+                                    isInWishlist ||
+                                    (Array.isArray(wishlist) &&
+                                      wishlist.some(
+                                        (item) =>
+                                          item.product_id === data.product_id
+                                      ))
+                                      ? "red" // Set fill to red if the product is in the wishlist
+                                      : "none" // Otherwise, set fill to none (transparent)
+                                  }
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="feather feather-heart"
+                                >
+                                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                                <button
+                                  className="btn btn-sm"
+                                  onClick={handleClickWishlist}
+                                >
+                                  Add To Wishlist
+                                </button>
+                              </Link>
+                            </div>
                           </div>
-                          </div>
-                          
+
                           <div className="pickup-box d-flex justify-content-between">
                             <div className="product-title">
                               <h4>Product Info:</h4>
                               <h4 className="text-content">Vegenmart.com</h4>
                             </div>
-                            
+
                             <div className="product-title">
                               <h4>Store Information:</h4>
                               <h4 className="text-content">
                                 {data.store_info}
                               </h4>
                             </div>
-                            
                           </div>
                           <div className="wow fadeInUp">
-                          <div className="right-box-contain">
-                            <div className="pickup-box">
-                              <div className="product-info">
-                                <ul className="product-info-list product-info-list-2">
-                                  <li>
-                                    <h1></h1>
-                                    Type : <a>{data.product_type}</a>
-                                  </li>
-                                  <li>
-                                    SKU : <a>{data.sku}</a>
-                                  </li>
-                                  <li>
-                                    MFG :{" "}
-                                    <a>{formatDate(data.manufacturing_date)}</a>
-                                  </li>
-                                  <li>
-                                    Stock : <a>{data.status}</a>
-                                  </li>
-                                  <li>
-                                    Tags : <a>{data.tags}</a>{" "}
-                                  </li>
-                                </ul>
+                            <div className="right-box-contain">
+                              <div className="pickup-box">
+                                <div className="product-info">
+                                  <ul className="product-info-list product-info-list-2">
+                                    <li>
+                                      <h1></h1>
+                                      Type : <a>{data.product_type}</a>
+                                    </li>
+                                    <li>
+                                      SKU : <a>{data.sku}</a>
+                                    </li>
+                                    <li>
+                                      MFG : <a>Self Life</a>
+                                    </li>
+                                    <li>
+                                      Stock : <a>{data.status}</a>
+                                    </li>
+                                    <li>
+                                      Tags : <a>{data.tags}</a>{" "}
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        </div>
                       </div>
-                      
+
                       <div className="col-12 container">
                         <div className="product-section-box">
                           <Nav tabs className="nav nav-tabs custom-nav">
@@ -870,48 +874,50 @@ function DetailPage() {
                                               </h5>
                                             </div>
                                           </div>
-                                          <div className="col-xl-12">
-                                            <ul className="product-rating-list">
-                                              {ratingCounts.map(
-                                                (count, index) => (
-                                                  <li key={index}>
-                                                    <div className="rating-product">
-                                                      <h5>
-                                                        {index + 1}{" "}
-                                                        {/* Change to display 1 to 5 stars */}
-                                                        <svg
-                                                          xmlns="http://www.w3.org/2000/svg"
-                                                          width={24}
-                                                          height={24}
-                                                          viewBox="0 0 24 24"
-                                                          fill="none"
-                                                          stroke="currentColor"
-                                                          strokeWidth={2}
-                                                          strokeLinecap="round"
-                                                          strokeLinejoin="round"
-                                                          className="feather feather-star"
-                                                        >
-                                                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                                        </svg>
-                                                      </h5>
-                                                      <div className="progress">
-                                                        <div
-                                                          className="progress-bar"
-                                                          style={{
-                                                            width: `${(count / totalRatings) * 100}%`,
-                                                          }}
-                                                        ></div>
-                                                      </div>
-                                                      <h5 className="total">
-                                                        {count}{" "}
-                                                        {/* Show the count for each rating */}
-                                                      </h5>
+                                          <ul className="product-rating-list">
+                                            {ratingCounts
+                                              .map((count, index) => ({
+                                                rating: index + 1,
+                                                count,
+                                              })) // Map to objects
+                                              .reverse() // Reverse to make 5-star first
+                                              .map(({ rating, count }) => (
+                                                <li key={rating}>
+                                                  <div className="rating-product">
+                                                    <h5>
+                                                      {rating}{" "}
+                                                      {/* Displays stars from 5 to 1 */}
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width={24}
+                                                        height={24}
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        className="feather feather-star"
+                                                      >
+                                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                                      </svg>
+                                                    </h5>
+                                                    <div className="progress">
+                                                      <div
+                                                        className="progress-bar"
+                                                        style={{
+                                                          width: `${(count / totalRatings) * 100}%`,
+                                                        }}
+                                                      ></div>
                                                     </div>
-                                                  </li>
-                                                )
-                                              )}
-                                            </ul>
-
+                                                    <h5 className="total">
+                                                      {count}
+                                                    </h5>
+                                                  </div>
+                                                </li>
+                                              ))}
+                                          </ul>
+                                          <div className="col-xl-12">
                                             <div className="review-title-2">
                                               <h4 className="fw-bold">
                                                 Review this product
@@ -928,7 +934,7 @@ function DetailPage() {
                                                 onClick={(e) => {
                                                   if (!authenticated) {
                                                     // If the user is not authenticated, call handleAuth
-                                                    handleAuth(e, a); // Assuming 'a' is the argument you want to pass
+                                                    handleAuth(e); // Assuming 'a' is the argument you want to pass
                                                   } else {
                                                     // If the user is authenticated, call handleOpenModal
                                                     handleOpenModal(data); // Passing 'data' to handleOpenModal
@@ -961,8 +967,9 @@ function DetailPage() {
                                             reviews.map((review, index) => (
                                               <li key={index}>
                                                 <div className="people-box">
-                                                  <div>
-                                                    <div>{review.name}</div>
+                                                  <div className="d-flex">
+                                                    <div><img src={defaultuser} style={{height:"38px", borderRadius:"50%"}} alt="" /></div>
+                                                    <div className="mt-2 ms-1">{review.name}</div>
                                                   </div>
                                                   <div className="people-comment">
                                                     <div className="people-name">
@@ -1037,24 +1044,27 @@ function DetailPage() {
 
                   <div className="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
                     <div className="right-sidebar-box">
-                      <Slider {...settings}>
+                      <Slider {...settings} className="d-none">
                         {ads.map((adds, index) => (
                           <div
                             className="vendor-box border border-info"
                             key={index}
                           >
                             <div className="vendor-contain">
-                             <div className="align-item-center">
-                             <button
-                                type="button"
-                                className="btn btn-sm"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title="Your ads will show here!"
-                              >
-                              <span className="badge  bg-light text-white text-muted me-1 ">Ads.</span><BsInfoCircle />
-                              </button> 
-                             </div>
+                              <div className="align-item-center">
+                                <button
+                                  type="button"
+                                  className="btn btn-sm"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Your ads will show here!"
+                                >
+                                  <span className="badge  bg-light text-white text-muted me-1 ">
+                                    Ads.
+                                  </span>
+                                  <BsInfoCircle />
+                                </button>
+                              </div>
                               <div
                                 className="vendor-image"
                                 style={{
@@ -1106,7 +1116,7 @@ function DetailPage() {
                             <p className="vendor-detail">
                               {/* {adds.company_details} */}
                             </p>
-                            <div className="vendor-list">
+                            {/* <div className="vendor-list">
                               <ul>
                                 <li>
                                   <div className="address-contact">
@@ -1159,7 +1169,7 @@ function DetailPage() {
                                   </div>
                                 </li>
                               </ul>
-                            </div>
+                            </div> */}
                           </div>
                         ))}
                       </Slider>

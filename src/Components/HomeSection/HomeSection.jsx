@@ -73,7 +73,7 @@ function HomeSection() {
                 <div className="home-detail p-center-left w-75">
                   <div>
                     <h6>
-                      {data.banner_offer_title}{" "}
+                     <p className="fw-bold" style={{fontSize:"12px"}}>{data.banner_offer_title}</p>
                       <span>{data.banner_offer}% Off</span>
                     </h6>
                     <h1 className="text-uppercase">

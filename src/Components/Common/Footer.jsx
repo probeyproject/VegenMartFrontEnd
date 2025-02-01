@@ -2,6 +2,14 @@ import Aos from "aos";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo/1.png";
+import { FaMeta } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
+import { IoHomeOutline } from "react-icons/io5";
+import { FaPinterestP } from "react-icons/fa";
+
+import { MdOutlineMailOutline } from "react-icons/md";
+import { MdOutlinePhoneInTalk } from "react-icons/md";
 
 const Footer = () => {
   useEffect(() => {
@@ -64,73 +72,71 @@ const Footer = () => {
 
         {/* Footer Main Content */}
         <div className="main-footer section-b-space section-t-space">
-          <div className="row g-3">
+          <div className="row ">
             {/* Logo and Contact Section */}
-            <div className="col-md-4 col-sm-6" data-aos="fade-right">
+            <div
+              className="col-md-4 col-sm-6 d-none d-sm-block"
+              data-aos="fade-right"
+            >
               <div className="footer-logo">
                 <div className="theme-logo">
                   <a href="/">
                     <img
                       src={logo}
+                      style={{ height: "70px", width: "250px" }}
                       className="img-fluid blur-up lazyloaded"
                       alt="Web logo"
                     />
                   </a>
                 </div>
+                <p className="text-content text-center">
+                  Delivering Ozone-Washed vegetables and fruits for a healthier,
+                  safer lifestyle. Freshness you can trust, <br /> convenience
+                  you’ll love.
+                </p>
                 <div className="footer-logo-contain">
-                  <p>
-                    Delivering Ozone-Washed vegetables and fruits for a
-                    healthier, safer lifestyle.
-                    {/* Freshness you can trust, <br /> convenience you’ll love. */}
-                  </p>
-                  <ul className="address">
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-home"
-                      >
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                      </svg>
-                      <a href="#">
+                  <div className="address">
+                    <div className="text-enter">
+                      <p className="text-center">
+                        <IoHomeOutline className="fs-5 me-2" />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
-                      </a>
-                    </li>
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-mail"
-                      >
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                      </svg>
-                      <a href="#">info@vegenmart.com</a>
-                    </li>
-                  </ul>
+                      </p>
+                      <p className="text-center">
+                        <MdOutlineMailOutline className="fs-5 me-2" />
+
+                        <a
+                          href="info@vegenmart.com"
+                          target="_blank"
+                          className="text-muted"
+                        >
+                          info@vegenmart.com
+                        </a>
+                      </p>
+                      <p className="text-center">
+                        <MdOutlinePhoneInTalk className="fs-5 me-2" />
+                        +9191189 40094
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <div className="reserve">
+                      <h6 className="text-content ms-4 mt-3">
+                        ©2024 Vegenmart All Rights Reserved.
+                      </h6>
+                    </div>
+                    <p className="text-content text-center mt-1">
+                      "Vegenmart is owned by Vegenmart Tech India Private
+                      Limited."
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="col-md-8">
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  
                   <div className="row">
                     {/* Categories Section */}
                     <div className="col-md-6 col-6" data-aos="fade-up">
@@ -262,58 +268,170 @@ const Footer = () => {
                 </div>
               </div>
             </div>
+            {/* Logo and Contact Section */}
+            <div
+              className="col-md-4 col-sm-6 d-block d-lg-none"
+              data-aos="fade-right"
+            >
+              <hr />
+
+              <div className="footer-logo">
+                <div className="social-link mt-3">
+                  <ul className="list-unstyled d-flex justify-content-center">
+                    <li
+                      className="bg-light rounded-circle me-3 d-flex align-items-center justify-content-center"
+                      style={{ height: "40px", width: "40px" }}
+                    >
+                      <a
+                        href="https://www.facebook.com/profile.php?id=61568143989452"
+                        target="_blank"
+                      >
+                        <FaMeta />
+                      </a>
+                    </li>
+                    <li
+                      className="bg-light rounded-circle me-3 d-flex align-items-center justify-content-center"
+                      style={{ height: "40px", width: "40px" }}
+                    >
+                      <a href="https://x.com/VegenMart" target="_blank">
+                        <FaXTwitter />
+                      </a>
+                    </li>
+                    <li
+                      className="bg-light rounded-circle me-3 d-flex align-items-center justify-content-center"
+                      style={{ height: "40px", width: "40px" }}
+                    >
+                      <a
+                        href="https://www.instagram.com/vegenmart"
+                        target="_blank"
+                      >
+                        <FaInstagram />
+                      </a>
+                    </li>
+                    <li
+                      className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                      style={{ height: "40px", width: "40px" }}
+                    >
+                      <a
+                        href="https://in.pinterest.com/vegenmart/"
+                        target="_blank"
+                      >
+                        <FaPinterestP />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="theme-logo d-flex justify-content-center">
+                  <a href="/">
+                    <img
+                      src={logo}
+                      className="img-fluid blur-up lazyloaded"
+                      style={{ height: "100px", width: "300px" }}
+                      alt="Web logo"
+                    />
+                  </a>
+                </div>
+                <p className="text-center text-content mb-5">
+                  Delivering Ozone-Washed vegetables and fruits for a healthier,
+                  safer lifestyle. Freshness you can trust, <br /> convenience
+                  you’ll love.
+                </p>
+                <div className="footer-logo-contain">
+                  <div className=" ">
+                    <div className="d-flex flex-column justify-content-center">
+                      <p className="text-center">
+                        <IoHomeOutline className="fs-5 me-2" />
+                        155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
+                      </p>
+                      <p className="text-center">
+                        <MdOutlineMailOutline className="fs-5 me-2" />
+
+                        <a
+                          href="info@vegenmart.com"
+                          target="_blank"
+                          className="text-muted"
+                        >
+                          info@vegenmart.com
+                        </a>
+                      </p>
+                      <p className="text-center">
+                        <MdOutlinePhoneInTalk className="fs-5 me-2" />
+                        +9191189 40094
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-center mt-5">
+                      <h6 className="text-content text-center mt-3">
+                        ©2024 Vegenmart All Rights Reserved.
+                      </h6>
+                    <h5 className="text-content text-center mt-1 ">
+                      "Vegenmart is owned by Vegenmart Tech India Private
+                      Limited."
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Sub Footer */}
         <div className="sub-footer section-small-space">
-          <div className="reserve">
-            <h6 className="text-content">
-              ©2024 Vegenmart All rights reserved
-            </h6>
-            <h6 className="text-content mt-2">
-              Developed and Managed by{" "}
-              <a href="https://www.probeyservices.com/" target="_blank">
-                Probey Services
-              </a>
-            </h6>
-          </div>
-         
-          <div className="payment"> 
+          <div className="payment">
             <img
               src="https://themes.pixelstrap.com/fastkart/assets/images/payment/1.png"
               className="blur-up lazyloaded"
               alt=""
             />
           </div>
-          <div className="social-link mt-3">
-            <h6 className="text-content">Stay connected :</h6>
-            <ul className="list-unstyled d-flex">
-              <li className="me-2">
+
+          <div className="social-link mt-3 d-none d-sm-block">
+            <ul className="list-unstyled d-flex justify-content-evenly">
+              <li
+                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style={{ height: "35px", width: "35px" }}
+              >
                 <a
                   href="https://www.facebook.com/profile.php?id=61568143989452"
                   target="_blank"
                 >
-                  <i className="fa-brands fa-facebook-f fs-4" />
+                  <FaMeta />
                 </a>
               </li>
-              <li className="me-2">
+              <li
+                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style={{ height: "35px", width: "35px" }}
+              >
                 <a href="https://x.com/VegenMart" target="_blank">
-                  <i className="fa-brands fa-twitter fs-4" />
+                  <FaXTwitter />
                 </a>
               </li>
-              <li className="me-2">
+              <li
+                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style={{ height: "35px", width: "35px" }}
+              >
                 <a href="https://www.instagram.com/vegenmart" target="_blank">
-                  <i className="fa-brands fa-instagram fs-4" />
+                  <FaInstagram />
                 </a>
               </li>
-              <li>
-                <a href="https://in.pinterest.com/vegenmart/"  target="_blank">
-                  <i className="fa-brands fa-pinterest-p fs-4"  />
+              <li
+                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style={{ height: "35px", width: "35px" }}
+              >
+                <a href="https://in.pinterest.com/vegenmart/" target="_blank">
+                  <FaPinterestP />
                 </a>
               </li>
             </ul>
           </div>
+
+          <h6 className="text-content mt-2">
+            Developed and Managed by{" "}
+            <a href="https://www.probeyservices.com/" target="_blank">
+              Probey Services
+            </a>
+          </h6>
         </div>
       </div>
     </footer>

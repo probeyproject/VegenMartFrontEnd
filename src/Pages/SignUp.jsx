@@ -42,7 +42,6 @@ function SignUp() {
     if (password.length < 5)
       return "Password must be at least 5 characters long.";
     if (!termsAccepted) return "You must accept the terms and privacy policy.";
-    if (!profilePic) return "Profile picture is required.";
 
     return null; // No errors
   };
@@ -115,7 +114,7 @@ function SignUp() {
                         <i className="fa-solid fa-house" />
                       </a>
                     </li>
-                    <li className="breadcrumb-item active">Sign Up</li>
+                    <li className="breadcrumb-item active p-1">Sign Up</li>
                   </ol>
                 </nav>
               </div>
@@ -139,7 +138,7 @@ function SignUp() {
             <div className="col-md-7  mx-auto">
               <div className="log-in-box">
                 <div className="log-in-title">
-                  <h3>Welcome To Fastkart</h3>
+                  <h3>Welcome To Vegenmart</h3>
                   <h4>Create New Account</h4>
                 </div>
                 <div className="input-box">
@@ -251,7 +250,7 @@ function SignUp() {
                           onChange={handleChange}
                         />
                         <label htmlFor="profilePic">
-                          Profile Picture<span className="text-danger">*</span>
+                          Profile Picture
                         </label>
                       </div>
                     </div>

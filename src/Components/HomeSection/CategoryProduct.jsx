@@ -5,7 +5,6 @@ import ProductBox from "../ProductSection/ProductBox"; // Use your existing Prod
 import "./CategoryProductCarousel.css"; // Add CSS for styling
 import { Link } from "react-router-dom";
 import CategoryBox from "../ProductSection/CategoryBox";
-import("../../CSS/ProductSection.css");
 
 const CategoryProduct = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
@@ -34,27 +33,13 @@ const CategoryProduct = ({ categoryId }) => {
   };
 
   return (
-    <div className="category-product-grid mt-3">
-      {/* <div className="new_order3">
-        <div className="title">
-          <h2 className="">Browse by Categories</h2>
-          <span className="title-leaf"></span>
-          <p>Top Categories Of The Week</p>
-        </div>
-
-        <div
-          className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
-          data-aos="fade-left"
-        >
-          <CategoryBox />
-        </div>
-      </div> */}
-      <div className="title me-1 ">
+    <div className="category-product-grid ">
+      <div className="title me-1 p-3">
         <h2 className="mt-3">{categoryId}</h2>
         <span className="title-leaf"> </span>
-        <p className="fw-bold">All Time Top Seller Of The Week</p>
+        <p className="fw-bold">All Time Top Seller of The Week</p>
       </div>
-      <div className="product-grid p-2">
+      <div className="product-grid p-1">
         {products.slice(0, visibleProducts).map((product) => (
           <div key={product.product_id} className="product_view">
             <ProductBox
@@ -80,8 +65,8 @@ const CategoryProduct = ({ categoryId }) => {
       </div>
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
-        <div className="view-more-button d-flex justify-content-center mt-3">
-          <Link to={`/filters/${categoryId}`} className="btn btn-animation mb-3">
+        <div className="view-more-button d-flex justify-content-center mt-1">
+          <Link to={`/filters/${categoryId}`} className="btn btn-animation mb-2 ">
             View More
           </Link>
         </div>

@@ -236,7 +236,7 @@ export default function ComboCardCarousel() {
           return (
             <div
               className="card bg-light p-2 combo-card"
-              key={combo.id}
+              key={combo.combo_id}
               onClick={() =>
                 handleComboClick(
                   combo.combo_id,

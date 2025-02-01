@@ -43,7 +43,9 @@ export const checkAuthentication = createAsyncThunk(
   async (_, { dispatch }) => {
     // Get user and token from cookies
     const storedUser = Cookies.get('user');
-    const storedToken = Cookies.get('authToken');
+    const storedToken = Cookies.get('token');
+
+    
 console.log(storedUser);
 console.log(storedToken);
 
@@ -66,6 +68,8 @@ console.log(response);
         }
 
         const data = await response.json();
+        console.log(data);
+        
         return data; // Return user info and other details
         
       } catch (error) {
@@ -86,6 +90,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
+      
+      
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.authenticated = true;
@@ -108,6 +114,10 @@ const userSlice = createSlice({
       // Clear localStorage
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      localStorage.removeItem("authenticated")
+
+      Cookies.remove("token")
+      Cookies.remove("user")
     },
 
     addToCart: (state, action) => {
@@ -115,7 +125,7 @@ const userSlice = createSlice({
     },
 
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter(item => item.id !== action.payload.id); // Remove item from cart
+      state.cart = state.cart.filter(item => item.cartId !== action.payload.id); // Remove item from cart
     },
 
     clearCart: (state) => {
@@ -146,6 +156,8 @@ const userSlice = createSlice({
         state.cart = cart;
         state.wishlists = wishlists;
         state.rewards = rewards;
+
+        localStorage.setItem("authenticated", true)
       })
       .addCase(checkAuthentication.rejected, (state) => {
         state.user = null;

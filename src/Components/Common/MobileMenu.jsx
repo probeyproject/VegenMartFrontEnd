@@ -8,16 +8,15 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "../../assets/images/logo/1.png";
 import "../../CSS/SidebarMobile.css";
 import { GiMushroomGills } from "react-icons/gi";
-import { FaRegUser } from "react-icons/fa6";
+import { FaRegUser, FaUser } from "react-icons/fa6";
 import axios from "axios";
 import { baseUrl } from "../../API/Api";
 import "./../../CSS/MobileMenu.css";
-// import { baseUrl } from "../../API/Api";
+import logo1 from "../../assets/images/vegenmart_logo.png";
+import { checkAuthentication, logout } from "../../slices/userSlice";
+import { useSelector } from "react-redux";
+
 function MobileMenu() {
-  // product get api store
-
-  // Offcanvas search
-
   const [showSearch, setShowSearch] = useState(false); // State for offcanvas search
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -29,6 +28,7 @@ function MobileMenu() {
   const [error, setError] = useState(null);
   // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const authenticated = useSelector((state) => state.user.authenticated);
 
   const handleInputChange = async (e) => {
     const searchTerm = e.target.value;
@@ -75,12 +75,28 @@ function MobileMenu() {
     fetchAllCategory();
   }, []);
 
-  // const [dropdowns, setDropdowns] = useState({
-  //   home: false,
-  //   about: false,
-  //   services: false,
-  //   main: false,
-  // });
+  const handleLogout = async () => {
+    try {
+      // Make the API call using axios
+      const response = await axios.get(`${baseUrl}/logout`, {
+        withCredentials: true, // To include cookies in the request
+      });
+
+      dispatch(logout());
+
+      if (response.status === 200) {
+        // If successful, you can perform additional tasks (e.g., redirect, state reset)
+        console.log("Logged out successfully");
+        window.location.reload();
+        // Reload the current page
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (error) {
+      // Handle errors appropriately
+      console.error("Error during logout:", error);
+    }
+  };
 
   // Function to toggle the visibility of the dropdown
   const toggleDropdown = (categoryId) => {
@@ -119,22 +135,11 @@ function MobileMenu() {
     <div className="mobile-menu d-md-none d-block mobile-cart">
       <ul>
         <li className="" style={{ background: "none", border: "none" }}>
-          <Link to="/"  >
+          <Link to="/">
             <FaHome className="icli" />
             <span>Home</span>
           </Link>
         </li>
-        {/* <li className="mobile-category">
-          <Link
-            data-bs-toggle="offcanvas"
-            to="#offcanvasExample"
-            role="button"
-            aria-controls="offcanvasExample"
-          >
-            <GiHamburgerMenu className="icli js-link " />
-            <span>Category</span>
-          </Link>
-        </li> */}
         <li>
           <button
             onClick={() => setShowSearch(true)}
@@ -145,17 +150,52 @@ function MobileMenu() {
             <span>Search</span>
           </button>
         </li>
+
         <li>
           <Link to={"/mywhishlist"}>
-            <FaHeart className="icli"  style={{ background: "none", border: "none" }}/>
+            <FaHeart
+              className="icli"
+              style={{ background: "none", border: "none" }}
+            />
             <span>My Wish</span>
           </Link>
         </li>
-        <li  style={{ background: "none", border: "none" }}>
-          <Link to={"/cart"} >
+        <li style={{ background: "none", border: "none" }}>
+          <Link to={"/cart"}>
             <FaShoppingBag className="icli fly-cate" />
             <span>Cart</span>
           </Link>
+        </li>
+
+        {/* <li style={{ background: "none", border: "none" }}>
+          <Link to={"/cart"}>
+            <FaUser className="icli fly-cate" />
+            <span>Profile</span>
+          </Link>
+        </li> */}
+
+        <li className="right-side onhover-dropdown"  style={{ background: "none", border: "none" }}>
+          <Link to={`/myaccount`} className="delivery-login-box">
+            {authenticated && <FaUser className="text-light fs-5" />}
+          </Link >
+
+          {!authenticated && (
+            <div className="product-box-contain d-block d-md-none">
+              <FaUser className="text-light me-1" />
+              <Link to="/login" className="text-light">
+                Login
+              </Link>
+            </div>
+          )}
+          {authenticated && (
+            <div className="onhover-div onhover-div-login">
+              <ul className="user-box-name">
+                <li className="product-box-contain" style={{ background: "none", border: "none" }}>
+                  <Link to={`/myaccount`}>My Profile</Link>
+                </li>
+              </ul>
+            </div>
+          )}
         </li>
       </ul>
       <div style={{ position: "relative", zIndex: "9999" }}>
@@ -199,8 +239,8 @@ function MobileMenu() {
                     }}
                   >
                     <span className="ms-1 text-capitalize">
-                     <p className="text-capitalize"> {item.category_name}</p>
-                     
+                      <p className="text-capitalize"> {item.category_name}</p>
+
                       {dropdowns[item.category_id] ? (
                         <IoIosArrowUp className="icons__right fs-1" />
                       ) : (

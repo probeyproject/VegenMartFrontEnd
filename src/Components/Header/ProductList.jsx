@@ -18,6 +18,21 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const hasReloaded = sessionStorage.getItem("hasReloaded");
+  
+    if (!hasReloaded) {
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    }
+  
+    return () => {
+      sessionStorage.removeItem("hasReloaded"); // Reset when leaving
+    };
+  }, []);
+
+
+  useEffect(() => {
+    
     const fetchProducts = async () => {
       setLoading(true);
       try {

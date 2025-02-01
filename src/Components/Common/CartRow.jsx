@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../API/Api";
+import "./CartRow.css";
 
 function CartRow({ cart, imgages, fetchAllCart }) {
   const userState = useSelector((state) => state?.user);
@@ -99,106 +100,226 @@ function CartRow({ cart, imgages, fetchAllCart }) {
   }, [currentWeight, currentTotalPrice]);
 
   return (
-    <tr className="product-box-contain" key={cart.cart_id}>
-      <td className="product-detail">
-        <div className="product border-0">
-{/* {          console.log(cart)} */}
-          
-          <Link
-            to={`/detail_page/${cart.product_id}`}
-            className="product-image"
-            
-          >
-            <img
-              src={imgages || "Loading..."}
-              className="img-fluid blur-up lazyloaded"
-              alt={cart.product_name}
-            />
-          </Link>
-          <div className="product-detail">
-            <ul>
-              <li className="name">
-                <Link to={`/detail_page/${cart.product_id}`}>
-                  {cart.product_name||cart.combo_title}
+    <>
+      <div className="product-box-contain" key={cart.cart_id}>
+        <div className="product-detail">
+          <div className="row m-2 ">
+            <div className="border-0 p-1 col-5">
+              <div className="d-flex align-items-center">
+                <Link
+                  to={`/detail_page/${cart.product_id}`}
+                  className="product-image"
+                  style={{}}
+                >
+                  <img
+                    src={imgages || "Loading..."}
+                    style={{
+                      height: "90%",
+                      width: "95%",
+                      borderRadius: "10px",
+                    }}
+                    className="img-fluid blur-up lazyloaded"
+                    alt={cart.product_name}
+                  />
                 </Link>
-              </li>
-              <li className="text-content">
-                <span className="text-title">Sold By:</span> Vegenmart
-              </li>
-              <li className="text-content">
-                <div className="d-flex gap-1 align-items-center">
-                  <div>
-                    <span className="text-title">{cart.weight_type}</span> -
-                  </div>
-                  <div className="cart_qty qty-box open w-50">
-                    <div className="input-group">
-                      {/* Decrease button */}
-                      <button
-                        type="button"
-                        className="qty-left-minus"
-                        onClick={() => {
-                          handleDecreaseWeight();
-                        }}
-                        disabled={!!cart.combo_id} // Disable if combo_id exists
-                      >
-                        <i className="fa fa-minus" />
-                      </button>
 
-                      <input
-                        className="form-control input-number qty-input"
-                        type="text"
-                        name="quantity"
-                        value={currentWeight }
-                        readOnly
-                      />
-                      {/* Increase button */}
-                      <button
-                        type="button"
-                        className="qty-right-plus"
-                        onClick={handleIncreaseWeight}
+                <div className="border-0 col-6 ms-2 d-none d-md-block">
+                  <div
+                    className="cart__cart "
+                    to={`/detail_page/${cart.product_id}`}
+                  >
+                    <span>{cart.product_name || cart.combo_title}</span>
+                  </div>
+                  <div className="text-content">
+                    <p style={{ fontSize: "10px" }}>
+                      <span className="text-title">Sold By:</span> Vegenmart
+                    </p>
+                  </div>
+                  <div className=" d-flex justify-content-center align-items-start flex-column ">
+                    <h4
+                      className="table-title text-content fw-bold"
+                      style={{ fontSize: "14px" }}
+                    >
+                      Price:{" "}
+                      <span>₹{cart?.product_price || cart?.combo_price}</span>
+                    </h4>
+                    <div className="d-flex gap-1 align-items-center">
+                      {/* <div> */}
+                      <span
+                        className="text-title mt-1"
+                        style={{ fontSize: "13px" }}
                       >
-                        <i className="fa fa-plus" />
-                      </button>
+                        {cart.weight_type}
+                      </span>{" "}
+                      -{/* </div> */}
+                      <div className="cart_qty qty-box open ">
+                        <div className="input-group">
+                          {/* Decrease button */}
+                          <button
+                            type="button"
+                            className="qty-left-minus"
+                            onClick={() => {
+                              handleDecreaseWeight();
+                            }}
+                            disabled={!!cart.combo_id} // Disable if combo_id exists
+                          >
+                            <i className="fa fa-minus" />
+                          </button>
+
+                          <input
+                            className="form-control input-number qty-input"
+                            type="text"
+                            name="quantity"
+                            value={currentWeight}
+                            readOnly
+                          />
+                          {/* Increase button */}
+                          <button
+                            type="button"
+                            className="qty-right-plus"
+                            onClick={handleIncreaseWeight}
+                          >
+                            <i className="fa fa-plus" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
+
+                    <h4
+                      className="table-title text-content fw-bold mt-3"
+                      style={{ fontSize: "15px" }}
+                    >
+                      Total: <span>₹{currentTotalPrice}</span>
+                    </h4>
                   </div>
                 </div>
-              </li>
-            </ul>
+              </div>
+
+              <div className="mt-2 d-flex w-100 justify-content-evenly d-block d-sm-none">
+                <button
+                  className="btn btn-animation notifi-wishlist"
+                  onClick={() => handleAddToWishlist(cart.product_id)}
+                >
+                  <i className="fas fa-heart"></i>
+                </button>
+
+                <div className="d-flex justify-content-center align-items-start flex-column">
+                  <button
+                    onClick={() => handleDelete(cart.cart_id)}
+                    className="btn btn-animation"
+                  >
+                    <i
+                      className="fas fa-trash text-light"
+                      style={{ fontSize: "15px", color: "red" }}
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-0 col-7">
+              <div className="d-block d-sm-none">
+                <div
+                  className="pt-2 "
+                  to={`/detail_page/${cart.product_id}`}
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    color: "#D22860",
+                    textWrap: "pretty"
+                  }}
+                >
+                  {cart.product_name || cart.combo_title}
+                </div>
+                <div className="text-content">
+                  <p style={{ fontSize: "10px" }}>
+                    <span className="text-title">Sold By:</span> Vegenmart
+                  </p>
+                </div>
+                <div className=" d-flex justify-content-center align-items-start flex-column ">
+                  <h4
+                    className="table-title text-content fw-bold"
+                    style={{ fontSize: "14px" }}
+                  >
+                    Price:{" "}
+                    <span>₹{cart?.product_price || cart?.combo_price}</span>
+                  </h4>
+                  <div className="d-flex gap-2 align-items-center">
+                    {/* <div> */}
+                    <span
+                      className="text-title mt-1"
+                      style={{ fontSize: "13px" }}
+                    >
+                      {cart.weight_type}
+                    </span>{" "}
+                    -{/* </div> */}
+                    <div className="cart_qty qty-box open ">
+                      <div className="input-group">
+                        {/* Decrease button */}
+                        <button
+                          type="button"
+                          className="qty-left-minus"
+                          onClick={() => {
+                            handleDecreaseWeight();
+                          }}
+                          disabled={!!cart.combo_id} // Disable if combo_id exists
+                        >
+                          <i className="fa fa-minus" />
+                        </button>
+
+                        <input
+                          className="form-control input-number qty-input"
+                          type="text"
+                          name="quantity"
+                          value={currentWeight}
+                          readOnly
+                        />
+                        {/* Increase button */}
+                        <button
+                          type="button"
+                          className="qty-right-plus"
+                          onClick={handleIncreaseWeight}
+                        >
+                          <i className="fa fa-plus" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4
+                    className="table-title text-content fw-bold "
+                    style={{ fontSize: "15px", paddingTop: "30px" }}
+                  >
+                    Total: <span>₹{currentTotalPrice}</span>
+                  </h4>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-evenly mt-4 d-none d-md-flex">
+                <button
+                  className="btn btn-animation notifi-wishlist ms-"
+                  onClick={() => handleAddToWishlist(cart.product_id)}
+                >
+                  <i className="fas fa-heart"></i>
+                </button>
+
+                <div className="d-flex justify-content-center align-items-start flex-column">
+                  <button
+                    onClick={() => handleDelete(cart.cart_id)}
+                    className="btn btn-animation"
+                  >
+                    <i
+                      className="fas fa-trash text-light"
+                      style={{ fontSize: "15px", color: "red" }}
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </td>
-      <td className="price">
-        <h4 className="table-title text-content">Price</h4>
-        <h5>₹{cart?.product_price || cart?.combo_price}</h5>
-      </td>
-      <td className="subtotal">
-        <h4 className="table-title text-content">Total</h4>
-        <h5>₹{currentTotalPrice}</h5>
-      </td>
-      <td className="save-remove text-center">
-        <h4 className="table-title text-content">Action</h4>
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <Link
-            className="save notifi-wishlist mb-2"
-            onClick={() => handleAddToWishlist(cart.product_id)}
-          >
-            Save for later
-          </Link>
-          {/* {console.log(cart.cart_id)
-          }
-           */}
-          <Link
-            onClick={() => handleDelete(cart.cart_id)}
-            className="remove close_button"
-          >
-            <i
-              className="fas fa-trash"
-              style={{ fontSize: "15px", color: "red" }}
-            ></i>
-          </Link>
-        </div>
-      </td>
-    </tr>
+      </div>
+    </>
   );
 }
 

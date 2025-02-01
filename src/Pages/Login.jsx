@@ -10,6 +10,7 @@ import { baseUrl } from "../API/Api";
 import { UserContext } from "../Context/UserContrxt";
 import { useDispatch } from "react-redux"; 
 import { login } from "../slices/userSlice"; // Correct import
+import { GoogleLogin } from "@react-oauth/google";
 
 // import { loginSuccess } from "../slices/userSlice"; // Action to update Redux store
 
@@ -170,7 +171,36 @@ function Login() {
     }
   };
   
-  
+  const handleGoogleLogin = async (response) => {
+    const idToken = response.credential; // Google ID token
+
+    try {
+      const res = await fetch(`${baseUrl}/google-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: idToken }),
+        credentials: "include"
+      });
+
+      const data = await res.json();
+      console.log(data.token)
+      dispatch(
+        login({
+          user: data.user,
+          token: data.token,
+        })
+      );
+
+     
+      navigate("/")
+      console.log(data);
+      
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }
 
   return (
     <div className="container-fluid px-0 overflow-hidden">
@@ -306,6 +336,12 @@ function Login() {
                           "Log In"
                         )}
                       </button>
+
+                      <div className="mt-2">
+                      <GoogleLogin onSuccess={handleGoogleLogin}/> 
+                      </div>
+                         
+                        
                     </>
                   )}
                 </form>

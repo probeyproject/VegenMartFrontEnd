@@ -88,23 +88,25 @@ const CategoryProductCarousel = ({ categoryId }) => {
     <div className="category-product-grid">
       <div className="new_order3 p- bg-white">
         <div className="title">
-          <h2 className="" style={{color:"#1C1C1C"}}>Browse by Categories</h2>
+          <h2 className="" style={{ color: "#1C1C1C" }}>
+            Browse by Categories
+          </h2>
           <span className="title-leaf"></span>
-          <p className="fw-bold">Top Categories Of The Week</p>
+          <p className="fw-bold">Top Categories</p>
         </div>
 
         <div
-          className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4 "
+          className="category-slider-2 product-wrapper no-arrow slick-initialized slick-slider slick-dotted mb-4"
           data-aos="fade-right"
         >
-          <div className="row p-3">
+          <div className="row ms-1">
             {/* Render visible categories */}
             {visibleCategories.map((category) => (
               <div
-                className="col-3 card border-0 mx-1 ms-3 rounded-2 shadow-none mb-1 p-2" 
+                className="col-3 card border border-danger m-1 rounded-3 shadow-sm mb-1 p-2"
                 key={category.category_id}
                 data-aos="zoom-in"
-                style={{width:"90px", background:"rgb(254, 241, 247)"}}
+                style={{ width: "30%", background: "rgb(254, 241, 247)" }}
               >
                 <Link
                   to={`/filters/${category.category_name}`}
@@ -117,68 +119,89 @@ const CategoryProductCarousel = ({ categoryId }) => {
                         ? "#ebd7e0"
                         : "",
                   }}
-                  className="category-card d-flex flex-column align-items-center py-1"
+                  className="category-card d-flex flex-column shadow-0 align-items-center py-1"
                 >
                   <img
                     src={category.category_url}
-                    className="img-fluid rounded-1 mb-2"
+                    className="img-fluid shadow-0 rounded-1 mb-2"
                     alt="loading.."
                     style={{
-                      height: "65px",
-                      width: "100px",
+                      height: "100%",
+                      width: "100%",
                       objectFit: "cover",
                     }}
                   />
-                  <p className="mb-0 text-muted text-center fw-semibold" style={{ fontSize: "13px",color:"#1C1C1C" }}>
-                    {category.category_name}
-                  </p>
                 </Link>
+                <div
+                  className="d-flex align-items-bottom justify-content-center overflow-hidden"
+                  // style={{ width: "100%", whiteSpace: "nowrap" }} // Ensures text stays in one line
+                >
+                  <h6
+                    className="mt-1 text-muted fw-semibold text-center "
+                    style={{
+                      fontSize: "14px",
+                      color: "#1C1C1C",
+                      display: "inline-block",
+                      minWidth: "100%", // Ensures smooth animation
+                    }}
+                  >
+                    {category.category_name}
+                  </h6>
+                </div>
               </div>
             ))}
 
             {/* "View More" card that redirects to /filters */}
             {categories.length > 7 && (
-              <div className="col-3 card border-0  mx-2 rounded-0 shadow-none mb-1">
+              <div
+                className="col-3 card border border-danger m-1 rounded-3 shadow-sm mb-1 p-2"
+                style={{ background: "rgb(254, 241, 247)", width: "30%" }}
+              >
                 <div
                   style={{
                     cursor: "pointer",
                     textDecoration: "none",
                     color: "black",
-                    width:"80px"
+                    width: "75px",
                   }}
-                  className="category-card d-flex flex-column align-items-center p-2"
-                  onClick={() => navigate("/filter")}
+                  className="category-card d-flex flex-column align-items-center justify-centent-center m-1 py-3 ms-3"
+                  onClick={() => navigate("/pannelpage")}
                 >
                   <div
-                    className="rounded-circle mb-2"
+                    className="rounded-circle"
                     style={{
-
-                      height: "50px",
-                      width: "50px",
+                      height: "70px",
+                      width: "70px",
                       backgroundColor: "#D22860",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       fontSize: "14px",
-                      color:"white",
+                      color: "white",
                       fontWeight: "bold",
                     }}
                   >
                     +
                   </div>
-                  <p className="mb-0 fw-semibold text-muted mt-2 text-" style={{ fontSize: "12px", color:"#1C1C1C" }}>
+                  
+                </div>
+                <p
+                    className="mb-0 fw-semibold text-muted ms-3"
+                    style={{ fontSize: "14px", color: "#1C1C1C" }}
+                  >
                     View More
                   </p>
-                </div>
               </div>
             )}
           </div>
         </div>
       </div>
       <div className="title me-1 p-3">
-        <h2 className="mt-3" style={{color:"#1C1C1C"}}>{categoryId}</h2>
+        <h2 className="mt-3" style={{ color: "#1C1C1C" }}>
+          {categoryId}
+        </h2>
         <span className="title-leaf"> </span>
-        <p className="fw-bold" >All Time Top Veggies Of The Week</p>
+        <p className="fw-bold">Top Veggies of The Week</p>
       </div>
       <div className="product-grid p-2">
         {products.slice(0, visibleProducts).map((product) => (

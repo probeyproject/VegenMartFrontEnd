@@ -16,14 +16,18 @@ import { baseUrl } from "../../API/Api";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import SupportChatModal from "../Common/SupportChatModal";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuthentication, logout } from "../../slices/userSlice";
 
 function HeaderTop() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [headerAds, setHeaderAds] = useState([]);
   const [supportChat, setSupportChat] = useState(false);
   const authenticated = useSelector((state) => state.user.authenticated);
+ const dispatch = useDispatch()
 
+  
+  
 
   const handleSupportChat = () => {
     setSupportChat(true);
@@ -35,6 +39,8 @@ function HeaderTop() {
       const response = await axios.get(`${baseUrl}/logout`, {
         withCredentials: true, // To include cookies in the request
       });
+
+      dispatch(logout())
 
       if (response.status === 200) {
         // If successful, you can perform additional tasks (e.g., redirect, state reset)
@@ -65,6 +71,8 @@ function HeaderTop() {
 
   useEffect(() => {
     fetchHeadersAds();
+
+    
   }, []);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -168,22 +176,20 @@ function HeaderTop() {
                       </div>
 
                       {!authenticated && (
-                       <li className="product-box-contain d-block d-md-none">
+                       <div className="product-box-contain d-block d-md-none">
                          <FaUser className="text-light me-1"/>
                           <Link to ="/login" className="text-light">Login</Link>
-                        </li>
+                        </div>
                       )}
                       {authenticated && (
                         <div className="onhover-div onhover-div-login">
                           <ul className="user-box-name">
-                            <li className="product-box-contain">
-                              <Link to={`/myaccount`}>My Dashboard</Link>
-                            </li>
-                           
-                            <li className="product-box-contain">
-                              <i />
+                            <div className="product-box-contain">
+                              <Link to={`/myaccount`}>My Dashboard</Link><br /> 
                               <Link onClick={handleLogout}>Logout</Link>
-                            </li>
+                            </div>
+                           
+                           
                           </ul>
                         </div>
                       )}

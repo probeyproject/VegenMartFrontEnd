@@ -16,7 +16,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
 
 function HeaderMiddle() {
-  const { user } = useContext(UserContext);
+  const { user } = useSelector(store => store.user);
   const [loginModal, setLoginModal] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -226,7 +226,7 @@ function HeaderMiddle() {
                     src={logo}
                     className="img-fluid blur-up lazyloaded"
                     alt="Web logo"
-                    onClick={() => window.location.href("/")}
+                    onClick={() =>("/")}
                   />
                 </Link>
 

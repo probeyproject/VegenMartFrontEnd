@@ -173,8 +173,6 @@ function Cart() {
 
   // console.log(invoiceAddress);
   const totalAmount = carts?.reduce((acc, cart) => {
-   
-    
     const quantity = quantities[cart.cart_id] || 1; // Default to 1
     return acc + quantity * cart.product_price;
   }, 0);
@@ -215,9 +213,7 @@ function Cart() {
 
   const getProductsData = () => {
     return carts.map((cart) => ({
-    
-      
-      id: cart.id || cart.combo_id ,
+      id: cart.id || cart.combo_id,
       product_name: cart.product_name || cart.combo_title,
       product_image: cart.product_image || cart.combo_image,
       product_price: cart.product_price || cart.combo_price, // Assuming this is the unique ID for the product // Retrieve quantity from quantities state
@@ -429,6 +425,28 @@ function Cart() {
         <HeaderBottom />
       </header>
 
+      <section className="breadcrumb-section pt-0">
+              <div className="container-fluid-lg">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="breadcrumb-contain">
+                      <h4 className="fs-5 fw-semibold"> Cart</h4>
+                      <nav>
+                        <ol className="breadcrumb mb-0">
+                          <li className="breadcrumb-item">
+                            <Link to={'/'}>
+                              <i className="fa-solid fa-house" />
+                            </Link>
+                          </li>
+                          <li className="breadcrumb-item active px-2">Cart</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>  
+
       <section className="cart-section section-b-space">
         {carts.length === 0 ? (
           <div className="empty-cart text-center">
@@ -444,73 +462,71 @@ function Cart() {
             </Link>
           </div>
         ) : (
-          <div className="container-fluid-lg">
-            <div className="row g-sm-5 g-3">
-              <div className="col-xxl-9">
-                <div className="cart-table">
-                  <div className="table-responsive-xl ">
-                    <table className="table">
-                      <img style={{ height: "100px" }} src={image} alt="" />
-                      <tbody>
-                       
-                        {carts.map((cart) => {
-                          // const imageUrls = JSON.parse(cart.product_image||cart.combo_image);
-                          // console.log(imageUrls);
-                          let imageUrls = [];
+          <div className="container ">
+            <div className="row g-sm-5  g-3">
+              <div className="mb-3 d-flex justify-content-center">
+                <img src={image} style={{ height: "30px" }} alt="" />
+              </div>
+              <div className="d-flex bg-light card flex-column">
+                {/* <div className="cart-table"> */}
+                {/* <div className="table-responsive-xl"> */}
 
-                          // Check if product_image exists and parse it
-                          if (cart.product_image) {
-                            imageUrls = JSON.parse(cart.product_image);
-                          }
-                          // If product_image doesn't exist, check and parse combo_image
-                          else if (cart.combo_image) {
-                            imageUrls = JSON.parse(cart.combo_image);
-                          }
+                {carts.map((cart) => {
+                  // const imageUrls = JSON.parse(cart.product_image||cart.combo_image);
+                  // console.log(imageUrls);
+                  let imageUrls = [];
 
-                          
-                          const firstImageUrl = imageUrls[0];
-                          
-                          return (
-                            <CartRow
-                              cart={cart}
-                              key={cart.cart_id}
-                              imgages={firstImageUrl}
-                              fetchAllCart={fetchAllCart}
-                            />
-                          );
-                        })}
-                       
-                      </tbody>
-                    </table>
-                  </div>
+                  // Check if product_image exists and parse it
+                  if (cart.product_image) {
+                    imageUrls = JSON.parse(cart.product_image);
+                  }
+                  // If product_image doesn't exist, check and parse combo_image
+                  else if (cart.combo_image) {
+                    imageUrls = JSON.parse(cart.combo_image);
+                  }
 
-                  <div
-                    className="d-flex flex-column justify-content-end align-items-end"
-                    // style={{ height: "100%" }}
-                  >
-                    <div className="mt-3">
-                      <li>
-                        <Link
-                          className="btn btn-animation proceed-btn fw-bold"
-                          onClick={handlePayment}
-                        >
-                          {paymentLoading ? (
-                            <span>
-                              <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                              ></span>
-                              Processing...
-                            </span>
-                          ) : (
-                            "Process To Checkout"
-                          )}
-                        </Link>
-                      </li>
-                    </div>
-                  </div>
+                  const firstImageUrl = imageUrls[0];
+
+                  return (
+                    <>
+                      <CartRow
+                        cart={cart}
+                        key={cart.cart_id}
+                        imgages={firstImageUrl}
+                        fetchAllCart={fetchAllCart}
+                      />
+                    </>
+                  );
+                })}
+              </div>
+
+              <div
+                className="d-flex flex-column justify-content-end align-items-end"
+                // style={{ height: "100%" }}
+              >
+                <div className="mt-3">
+                  <li>
+                    <Link
+                      className="btn btn-animation proceed-btn fw-bold"
+                      onClick={handlePayment}
+                    >
+                      {paymentLoading ? (
+                        <span>
+                          <span
+                            className="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Processing...
+                        </span>
+                      ) : (
+                        "Process To Checkout"
+                      )}
+                    </Link>
+                  </li>
                 </div>
+                {/* </div> */}
+                {/* </div> */}
               </div>
 
               <div className="d-flex center p-3">
@@ -705,7 +721,7 @@ function Cart() {
                         className="btn btn-animation bg-white shopping-button text-light"
                       >
                         <i className="fa-solid fa-arrow-left-long" />
-                         Return To Shopping
+                        Return To Shopping
                       </Link>
                     </li>
                   </ul>

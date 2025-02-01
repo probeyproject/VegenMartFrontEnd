@@ -39,6 +39,8 @@ const RefundAndRewardsPolicy = lazy (()=> import("./Terms & Conditions/RefundAnd
 const LoyaltyRewardsPolicy = lazy (()=> import("./Terms & Conditions/LoyaltyRewardsPolicy"))
 const BusinessTermsConditions = lazy (()=> import("./Terms & Conditions/BusinessTermsConditions"))
 const ShippingPolicy = lazy (() => import("./Terms & Conditions/ShippingPolicy"))
+const PannelPage = lazy(()=> import("./Components/ComponentPannel/PannelPage")) 
+
 // Skeleton Loader as a fallback
 const SkeletonLoader = () => (
   <div
@@ -108,6 +110,7 @@ function App() {
           <Route path="/filters/:query" element={<ProductList />} />
           <Route path="/myInvoice/:orderId" element={<ProtectedRoute element={<MyInvoice />} />} />
           <Route path="/blogsection" element={<BlogSection/>}/>
+          <Route path="/pannelpage" element={<PannelPage/>}/>
         </Routes>
       </Suspense>
       <MobileMenu/>

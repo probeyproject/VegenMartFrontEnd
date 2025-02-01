@@ -127,7 +127,7 @@ function ContactUs() {
                               <h4>Phone</h4>
                             </div>
                             <div className="contact-detail-contain">
-                              <p>+9118 940094</p>
+                              <p>+9191189 40094</p>
                             </div>
                           </div>
                         </div>

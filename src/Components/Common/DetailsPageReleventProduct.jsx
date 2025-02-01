@@ -51,7 +51,7 @@ export const DetailsPageReleventProduct = ({ productId }) => {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
@@ -83,7 +83,7 @@ export const DetailsPageReleventProduct = ({ productId }) => {
               <div
                 key={index}
                 // style={{ width: "100px" }}
-                 className="col-6 col-md-6 p-3" // Trigger scroll to top when clicked
+                 className="col-6 col-md-4" // Trigger scroll to top when clicked
               >
                 <div>
                 <ProductBox

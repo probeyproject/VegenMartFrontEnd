@@ -493,8 +493,9 @@ function ProductSection() {
                           ))
                         ) : (
                           <img
-                            className="Defaultimage"
+                            className="Defaultimage "
                             src={vegenimg}
+                            
                             alt="Default Image"
                           />
                         )}
@@ -507,7 +508,7 @@ function ProductSection() {
                   <div className="title">
                     <h2 className="mt-4">Browse by Categories</h2>
                     <span className="title-leaf"></span>
-                    <p>Top Categories Of The Week</p>
+                    <p>Top Categories</p>
                   </div>
 
                   <div

@@ -9,6 +9,13 @@ import { FaPencil } from "react-icons/fa6";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { jsPDF } from "jspdf";
 import { IoIosArrowBack } from "react-icons/io";
+import { TbTruckDelivery } from "react-icons/tb";
+import { FaRegAddressCard } from "react-icons/fa6";
+
+import { FaStaylinked } from "react-icons/fa6";
+
+
+
 
 import {
   TabContent,
@@ -49,6 +56,8 @@ function Account() {
   const phone = userState?.user?.phone;
   const phoneno = phone?.slice(3);
   const wishlist = userState?.wishlists.length;
+  console.log(userState);
+  
   const cart = userState?.cart.length;
   const rewards = userState?.rewards;
   const points = rewards?.length > 0 ? rewards[0].points : 0;
@@ -247,11 +256,11 @@ function Account() {
                           <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
                             <div className="card" style={{ width: "200px" }}>
                               <div className="total-detail p-2">
-                                <h5>Total Cart:</h5>
-                                <h3>{cart || 0}</h3>
+                                <h5>Total Cart: <span>{cart || 0}</span></h5>
                               </div>
                             </div>
-                            <div className="total-contain mt-3">
+                            <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
+                             <span><TbTruckDelivery className="fs-4 ms-3 mb-2" /></span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -265,6 +274,8 @@ function Account() {
                                   </NavLink>
                                 </NavItem>
                               </Nav>
+                            
+                              
                             </div>
                           </div>
                           <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
@@ -273,11 +284,11 @@ function Account() {
                               style={{ width: "200px" }}
                             >
                               <div className="total-detail">
-                                <h5>Total Wishlist:</h5>
-                                <h3>{wishlist || 0}</h3>
+                                <h5>Total Wishlist: <span>{wishlist || 0}</span></h5>
                               </div>
                             </div>
-                            <div className="total-contain">
+                            <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
+                              <span><FaRegAddressCard className="ms-3 fs-4 mb-2" /></span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -299,11 +310,11 @@ function Account() {
                               style={{ width: "200px" }}
                             >
                               <div className="total-detail">
-                                <h5>Total Reward Points:</h5>
-                                <h3>{points || 0}</h3>
+                                <h5>Total Reward Points: <span>{points || 0}</span></h5>
                               </div>
                             </div>
-                            <div className="total-contain">
+                            <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
+                              <span><FaStaylinked className="fs-4 ms-3 mb-2" /></span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -351,102 +362,127 @@ function Account() {
                     <div className="table-responsive">
                       <table className="table mb-0">
                         <tbody>
-                        {order.length === 0 ? (
-  <tr>
-    <td colSpan="4" className="text-center">
-      <h3>You have no order</h3>
-      <Link
-        to="/"
-        className="btn btn-animation btn-md fw-bold mt-3 mb-2"
-      >
-        Continue to Shopping
-      </Link>
-    </td>
-  </tr>
-) : (
-  order
-    .slice()
-    .reverse()
-    .map((data) => {
-      let products = [];
-      try {
-        products = JSON.parse(data.product); // Parse the product field
-      } catch (error) {
-        console.error("Error parsing product field:", error);
-        products = []; // Fallback to an empty array
-      }
+                          {order.length === 0 ? (
+                            <tr>
+                              <td colSpan="4" className="text-center">
+                                <h3>You have no order</h3>
+                                <Link
+                                  to="/"
+                                  className="btn btn-animation btn-md fw-bold mt-3 mb-2"
+                                >
+                                  Continue to Shopping
+                                </Link>
+                              </td>
+                            </tr>
+                          ) : (
+                            order
+                              .slice()
+                              .reverse()
+                              .map((data) => {
+                                let products = [];
+                                try {
+                                  products = JSON.parse(data.product); // Parse the product field
+                                } catch (error) {
+                                  console.error(
+                                    "Error parsing product field:",
+                                    error
+                                  );
+                                  products = []; // Fallback to an empty array
+                                }
 
-      return (
-        <tr key={data.order_id}>
-          {Array.isArray(products) &&
-            products.map((product) => {
-              let productImages = [];
-              try {
-                productImages = JSON.parse(product.product_image.replace(/\\/g, '')); // Clean up and parse
-              } catch (error) {
-                console.error("Error parsing product_image:", error);
-                productImages = []; // Fallback to empty array
-              }
+                                return (
+                                  <tr key={data.order_id}>
+                                    {Array.isArray(products) &&
+                                      products.map((product) => {
+                                        let productImages = [];
+                                        try {
+                                          productImages = JSON.parse(
+                                            product.product_image.replace(
+                                              /\\/g,
+                                              ""
+                                            )
+                                          ); // Clean up and parse
+                                        } catch (error) {
+                                          console.error(
+                                            "Error parsing product_image:",
+                                            error
+                                          );
+                                          productImages = []; // Fallback to empty array
+                                        }
 
-              return (
-                <div key={product.id} className="order-item">
-                  <td className="product-detail">
-                    <div className="product border-0 d-flex">
-                      <Link
-                        to={`/tracking/${data.order_id}`}
-                        className="product-image me-3"
-                      >
-                        {productImages.length > 0 ? (
-                          <img
-                            src={productImages[0]} // Use the first image
-                            className="img-fluid blur-up lazyloaded rounded-2"
-                            alt={product.product_name}
-                          />
-                        ) : (
-                          <p>No image available</p>
-                        )}
-                      </Link>
-                      <div className="product-detail">
-                        <ul className="list-unstyled">
-                          <li className="name fw-bold">
-                            {product.product_name}
-                          </li>
-                          <li className="text-content">
-                            Qty - {product.unit} {product.weight_type}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="price">
-                    <h4 className="table-title text-content">Price</h4>
-                    <h6 className="theme-color">{product.price}</h6>
-                  </td>
-                  <td className="status">
-                    <h4 className="table-title text-content">Order Status</h4>
-                    <h6 className="theme-color">{data.order_status}</h6>
-                  </td>
-                  {data.order_status === "Delivered" && (
-                    <td className="invoice">
-                      <h4 className="table-title text-content">Invoice</h4>
-                      <a
-                        href={data.invoice}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-sm btn-success"
-                      >
-                        Download
-                      </a>
-                    </td>
-                  )}
-                </div>
-              );
-            })}
-        </tr>
-      );
-    })
-)}
-
+                                        return (
+                                          <div
+                                            key={product.id}
+                                            className="order-item"
+                                          >
+                                            <td className="product-detail">
+                                              <div className="product border-0 d-flex">
+                                                <Link
+                                                  to={`/tracking/${data.order_id}`}
+                                                  className="product-image me-3"
+                                                >
+                                                  {productImages.length > 0 ? (
+                                                    <img
+                                                      src={productImages[0]} // Use the first image
+                                                      className="img-fluid blur-up lazyloaded rounded-2"
+                                                      alt={product.product_name}
+                                                    />
+                                                  ) : (
+                                                    <p>No image available</p>
+                                                  )}
+                                                </Link>
+                                                <div className="product-detail">
+                                                  <ul className="list-unstyled">
+                                                    <li className="name fw-bold">
+                                                      {product.product_name}
+                                                    </li>
+                                                    <li className="text-content">
+                                                      Qty - {product.unit}{" "}
+                                                      {product.weight_type}
+                                                    </li>
+                                                  </ul>
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td className="price">
+                                              <h4 className="table-title text-content">
+                                                Price
+                                              </h4>
+                                              <h6 className="theme-color">
+                                                {product.price}
+                                              </h6>
+                                            </td>
+                                            <td className="status">
+                                              <h4 className="table-title text-content">
+                                                Order Status
+                                              </h4>
+                                              <h6 className="theme-color">
+                                                {data.order_status}
+                                              </h6>
+                                            </td>
+                                            {data.order_status ===
+                                              "Delivered" && (
+                                              <td className="invoice">
+                                                <h4 className="table-title text-content">
+                                                  Invoice
+                                                </h4>
+                                                <a
+                                                  href={data.invoice}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  className="btn btn-sm btn-success"
+                                                >
+                                                  Download
+                                                </a>
+                                              </td>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
+                                  </tr>
+                                );
+                              })
+                          )}
                         </tbody>
                       </table>
                     </div>

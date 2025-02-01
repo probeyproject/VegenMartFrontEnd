@@ -1,0 +1,40 @@
+@media only screen and (max-width: 600px) {
+    .product_container {
+        width:100%;
+        height: auto;
+        
+    }
+    .product_card{
+           width: 100%;
+          
+    }
+    .product_detail{
+    }
+    .title_div{
+        width: 100%;
+        display:flex ;
+    }
+    .text_des{
+        width: 60%;
+           font-size: 0.7rem;
+    }
+    .pro_weight{
+        width: 40%;
+        font-size: 0.6rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: right; 
+        margin-right: 2px;
+    }
+    ._stock_{
+          display: flex;
+         flex-direction: col;
+          justify-content: center;
+          align-items: center;
+    }
+    ._select_{
+        font-size: 1rem;
+          width: 3.5rem;
+    }
+    
+  }

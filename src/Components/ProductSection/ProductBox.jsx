@@ -11,6 +11,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import { baseUrl } from "../../API/Api";
 import LoginModal from "../Common/LoginModal";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+import "./ProductBox.css";
 
 const ProductBox = ({
   product_id,
@@ -30,7 +31,6 @@ const ProductBox = ({
   defaultWeight,
   defaultWeightType,
   onImageClick,
-  
 }) => {
   useEffect(() => {
     AOS.init({
@@ -67,7 +67,6 @@ const ProductBox = ({
   function wishlistHandler() {
     userState.useDispatch(wishlist + 1);
   }
-
 
   const handleDiscountModal = () => {
     setIsModalDiscount(true);
@@ -127,7 +126,6 @@ const ProductBox = ({
 
       setIsInWishlist(true);
 
-      
       toast.success("Add to wishlist Successful");
     } catch (error) {
       console.error("Error:", error);
@@ -253,7 +251,6 @@ const ProductBox = ({
         weight_type: unitTypeToSend,
       });
 
-      
       toast.success("Your product add to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
@@ -264,12 +261,16 @@ const ProductBox = ({
   return (
     <div>
       <div className="col-12" data-aos="fade-zoom-in">
-        <div className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`} style={{height:"300px"}}>
-          <div  >
-            <div className="product-image p-0 m-0  img-fluid" style={{height:"130px"}}>
-              <div
-                className="position-absolute top-1 end-0 z-1"
-              >
+        <div
+          className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`}
+          style={{ height: "300px" }}
+        >
+          <div>
+            <div
+              className="product-image p-0 m-0  img-fluid"
+              style={{ height: "130px" }}
+            >
+              <div className="position-absolute top-1 end-0 z-1">
                 <BsInfoCircle
                   id="TooltipExample"
                   onClick={handleDiscountModal}
@@ -278,21 +279,19 @@ const ProductBox = ({
                 />
               </div>
               <Link to={`/detail_page/${product_id}`}>
-                <a>
-                  <img
-                    src={imageSrc[0]}
-                    onClick={onImageClick}
-                    className="object-fit-fill blur-up lazyloaded rounded-3"
-                    style={{height:"120px"}}
-                    alt={productName}
-                  />
-                </a>
+                <img
+                  src={imageSrc[0]}
+                  onClick={onImageClick}
+                  className="object-fit-fill blur-up lazyloaded rounded-3"
+                  style={{ height: "120px" }}
+                  alt={productName}
+                />
               </Link>
 
               <Link>
                 <ul className="d-flex align-items-center list-unstyled product-option mb gap-2">
                   <li>
-                    <a onClick={toogleModalProduct} className="text-dark">
+                    <div onClick={toogleModalProduct} className="text-dark">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -308,10 +307,10 @@ const ProductBox = ({
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                       </svg>
-                    </a>
+                    </div>
                   </li>
                   <li>
-                    <a onClick={handleDiscountModal}>
+                    <div onClick={handleDiscountModal}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width={24}
@@ -328,11 +327,11 @@ const ProductBox = ({
                         <line x1="12" y1="16" x2="12" y2="16" />
                         <line x1="12" y1="8" x2="12" y2="8" />
                       </svg>
-                    </a>
+                    </div>
                   </li>
 
                   <li>
-                    <a
+                    <div
                       className={`notifi-wishlist text-dark ml-2 ${
                         isInWishlist ? "text-danger" : ""
                       }`}
@@ -359,16 +358,19 @@ const ProductBox = ({
                       >
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
-                    </a>
+                    </div>
                   </li>
                 </ul>
               </Link>
             </div>
             <div className="product-detail">
               <a className="d-flex justify-content-between">
-                <h6 className="name m-0 text-start" style={{ fontSize: "13px" }}>
-                  {productName?.length >= 15
-                    ? `${productName.substring(0, 15)}...`
+                <h6
+                  className="name m-0 text-start"
+                  style={{ fontSize: "14px" }}
+                >
+                  {productName?.length >= 10
+                    ? `${productName.substring(0, 13)}...`
                     : productName}
                 </h6>
                 <span className="heavyweight">
@@ -376,10 +378,10 @@ const ProductBox = ({
                 </span>
               </a>
               <h5 className="sold text-content text-start mb-0">
-                <span className="theme-color price">₹{currentPrice ? Math.floor(currentPrice) : ""}</span>
-                <del>
-                  {discount_price ? Math.floor(discount_price) : ""}
-                </del>{" "}
+                <span className="theme-color price">
+                  ₹{currentPrice ? Math.floor(currentPrice) : ""}
+                </span>
+                <del>{discount_price ? Math.floor(discount_price) : ""}</del>{" "}
                 <span className="offer-top text-danger m-lg-2">
                   {Math.round(
                     ((discount_price - currentPrice) / discount_price) * 100
@@ -478,7 +480,7 @@ const ProductBox = ({
                   </ul>
                 </div>
                 <div>
-                  <p className="theme-color small" style={{fontSize:"10px"}}>
+                  <p className="theme-color small" style={{ fontSize: "12px" }}>
                     {inStock ? "In Stock" : "Out of Stock"}
                   </p>
                 </div>
@@ -494,15 +496,18 @@ const ProductBox = ({
                       setInputWeight(""); // Clear input when weight type changes
                     }}
                     value={weightType} // Control the select with state
-                    
                   >
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>
                     )}
                     {(weight_type === "Kg" || weight_type === "g") && (
                       <>
-                        <option value="Kg" className="m-2">Kg</option>
-                        <option value="g" className="m-2">Gram</option>
+                        <option value="Kg" className="m-2">
+                          Kg
+                        </option>
+                        <option value="g" className="m-2">
+                          Gram
+                        </option>
                       </>
                     )}
                   </select>

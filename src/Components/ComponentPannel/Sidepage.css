@@ -1,0 +1,124 @@
+.sidebar_container {
+  width: 20%;
+  height: 95vh;
+  /* background-color: aqua; */
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.filter_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: red;
+  overflow-y: scroll;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.filter_cards_container {
+  width: 100%;
+}
+.cards_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: col;
+}
+
+@media only screen and (max-width: 600px) {
+  .cards_container {
+    width: 85%;
+    display: flex;
+  }
+  .sidebar_container {
+    padding: 5px;
+    width: 20%;
+  }
+  .filter_container {
+    width: 100%;
+    height: auto;
+    gap: 5px;
+  }
+  .filter_cards_container {
+    width: 48%;
+    height: auto;
+    margin: 2px;
+  }
+  .sidebar_element {
+    width: 100%;
+    height: auto;
+    /*padding:5px; */
+    display: flex;
+    padding-top: 2px;
+    flex-direction: column;
+    gap: 1px;
+    padding: 2px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 2px;
+  }
+  .sidebar_element:hover {
+    cursor: pointer;
+    background-color: #FEF0F6;
+  }
+
+  .filter_container {
+    padding: -1px 5px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: rgb(230, 226, 226);
+    flex-wrap: wrap;
+    gap: 1px;
+  }
+  .name_text {
+    font-size: 0.6rem;
+    color: gray;
+    text-align: center;
+  }
+  ._card_ {
+    width: 150px;
+    margin-top: 10px;
+    padding: 10px;
+    height: 200px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(221, 205, 205);
+  }
+  ._card_ img {
+    width: 100px;
+    height: 200x;
+  }
+  ._name_ {
+    font-size: 1.2rem;
+  }
+  ._price_ {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  ._price_ p {
+    font-size: 1.2rem;
+  }
+  ._btn_ {
+    font-size: 1.1rem;
+    padding: 2px 20px;
+    background-color: rgb(191, 191, 230);
+    border-radius: 2px;
+    border: none;
+  }
+  ._text_ {
+    margin-top: 0;
+    width: 100%;
+    background-color: white;
+    position: relative;
+    top: -2px;
+  }
+}

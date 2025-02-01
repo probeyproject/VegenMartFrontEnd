@@ -1,0 +1,25 @@
+._app_{
+    width:100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  ._wrapper_{
+       width: 100%;
+       display: flex;
+     
+       margin-top: 10px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    ._wrapper_{
+        width: 100%;
+    }
+    ._text_{
+        height:40px;
+        padding: 10px 5px;
+        font-size: 1rem;
+        font-family: sans-serif;
+    }
+  }
