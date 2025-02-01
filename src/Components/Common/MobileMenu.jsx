@@ -176,7 +176,7 @@ function MobileMenu() {
 
         <li className="right-side onhover-dropdown"  style={{ background: "none", border: "none" }}>
           <Link to={`/myaccount`} className="delivery-login-box">
-            {authenticated && <FaUser className="text-light fs-5" />}
+            {authenticated && <FaUser className="text-light fs-4" />}
           </Link >
 
           {!authenticated && (

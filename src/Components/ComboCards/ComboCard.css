@@ -1,111 +1,74 @@
 /* Large Card Styling */
+
 .large-card {
-    width: 100%;
-    margin: 20px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .carousel-cards-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .product-card {
-    width: 100%;
-    max-width: 200px;
-    cursor: pointer;
-    text-align: center;
-    margin: 10px;
-  }
-  
-  .product-image {
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  /* Ensure responsive layout for different screen sizes */
-  @media (max-width: 576px) {
-    .product-card {
-      width: 45%;
-    }
-  }
-  
-  @media (min-width: 577px) and (max-width: 992px) {
-    .product-card {
-      width: 30%;
-    }
-  }
-  
-  @media (min-width: 993px) {
-    .product-card {
-      width: 22%;
-    }
-  }
-  
+  width: 100%;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .container {
-    margin: 20px auto;
-    padding: 20px;
-  }
-  
-  .card {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  }
-  
-  .card img:hover {
-    transform: scale(1.03);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .card-img-top {
-    border-bottom: 2px solid #f0f0f0;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    text-align: center;
-    padding: 15px;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .card-text {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .card-img-top {
-      height: 150px;
-    }
-  
-    .card-body {
-      padding: 10px;
-    }
-  
-    .card-title {
-      font-size: 1rem;
-    }
-  
-    .card-text {
-      font-size: 0.8rem;
-    }
-  }
+.carousel-cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  
-  /* Modal container */
+.product-card {
+  width: 100%;
+  max-width: 200px;
+  cursor: pointer;
+  text-align: center;
+  margin: 10px;
+}
+
+.product-image {
+  height: 150px;
+  object-fit: cover;
+}
+
+.container {
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  height: auto;
+}
+
+.card img:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  /* border-bottom: 2px solid #f0f0f0; */
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  margin-top: -17px;
+  text-align: center;
+  padding: 15px;
+}
+
+.card-title_{
+  margin-top:-10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
 .modal-dialog {
   max-width: 800px;
   margin: 20px auto;
@@ -121,7 +84,7 @@
 .modal-header {
   background-color: #f8f9fa;
   border-bottom: 1px solid #ddd;
-  padding: 15px;
+  padding: 10px;
 }
 
 .modal-title {
@@ -131,12 +94,62 @@
 }
 
 .modal-body {
+  width: 100%;
   padding: 20px;
+}
+
+.combo_cantainer {
+  width: 100%;
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 1.2rem;
+}
+
+.total_price {
+  font-size: 1.2rem;
+  color: rgb(233, 103, 125);
+}
+
+.combo_card {
+  width: 12vw;
+  height: auto;
+}
+
+.card_info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.combo_button {
+  width: 12vw;
+  background-color: rgb(233, 103, 125);
+  border: 2px solid rgb(233, 103, 125);
+  border-radius: 5px;
+  height: 7vh;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.combo_description {
+  width: 120%;
+  height: auto;
+  padding: 10px;
+  background-color: rgb(250, 232, 235);
+  position: relative;
+  top: -20px;
+  left: -20px;
+  font-size: 1.2rem;
 }
 
 .modal-body img {
   width: 100%;
-  height: auto;
+  height: 20vh;
   border-radius: 5px;
   margin-bottom: 15px;
 }
@@ -148,15 +161,10 @@
 }
 
 .modal-footer {
-  /* height: 30px; */
-  /* padding: 15px; */
   background-color: #f8f9fa;
   border-top: 1px solid #ddd;
 }
 
-
-
-/* Product cards inside the modal */
 .modal-body .card {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -191,24 +199,162 @@
   margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-  .modal-dialog {
-    max-width: 90%;
+
+
+
+
+
+
+
+/* 
+@media only screen and (max-width:768px) {
+  .combo_description {
+      display: none;
   }
 
-  .modal-body img {
-    height: auto;
+  .modal-body {
+    
+    padding: -10px;
+      background-color: black;
+      width: 100vw;
+      height:50vh;
+      
   }
 
-  .modal-body .card-img-top {
-    height: 100px;
+  .combo_cantainer {
+  
+      width:100%;
+      height:20vh;
+      display: flex;
+      flex-direction: row;
+      background-color: red;
+      flex-wrap: wrap;
   }
 
-  .modal-body .card-title {
-    font-size: 0.9rem;
+  .combo_card{
+        width: 50px;
+      background-color: black;
+      
   }
 
-  .modal-body .card p {
+  .card_info {
+      width: 50vw;
+      display: flex;
+      align-items: center;
+  }
+
+  .combo_button {
+      width: 30vw;
+      height: 5vh;
+      font-size: 1rem;
+      padding: 2px;
+      color: white;
+      border: 1px solid rgb(233, 75, 101);
+      background-color: rgb(233, 75, 101);
+      border-radius: 5px;
+      outline: none;
+  }
+
+  .card-body {
+      text-align: center;
+  
+      background-color: yellow;
+  }
+
+  .card-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+  }
+
+  .card {
+      width: 100%;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      height: 25vh;
+  }
+
+  .combo_price {
+      
+      font-size: 0.8rem;
+  }
+} */
+@media only screen and (max-width: 768px) {
+  .combo_description {
+    display: none;
+  }
+
+  .modal-body {
+    padding: 10px;  /* FIXED */
+    /* background-color: black; */
+    width: 100vw;
+    min-height: 50vh;  /* FIXED */
+  }
+
+  .combo_cantainer {
+    width: 100%;
+    height: auto; /* FIXED */
+    display: flex;
+    flex-direction: row;
+   
+    /* background-color: red; */
+    flex-wrap: wrap;
+  }
+
+  .combo_card {
+    width: 39vw;  /* FIXED */
+    /* background-color: black; */
+  }
+
+  .card_info {
+    width: 100vw;
+    display: flex;
+    padding-right:20px ;
+    align-items: center;
+    
+    
+  }
+
+  .combo_button {
+    width: 30vw;
+    height: 5vh;
+    font-size: 1rem;
+    padding: 2px;
+    color: white;
+    border: 1px solid rgb(233, 75, 101);
+    background-color: rgb(233, 75, 101);
+    border-radius: 5px;
+    outline: none;
+  }
+  .card-body {
+    margin-top: -15px;
+    text-align: start;
+    padding: 0px;
+    
+  }
+ 
+
+  .card-title{
+    font-size: 0.5rem;
+    /* font-weight: bold; */
+    color: #333;
+  }
+
+  .card {
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: auto; /* FIXED */
+  }
+   .combo_button{
+        font-size: 0.8rem;
+   }
+  .combo_price {
+    margin-top: -5px;
     font-size: 0.8rem;
   }
 }

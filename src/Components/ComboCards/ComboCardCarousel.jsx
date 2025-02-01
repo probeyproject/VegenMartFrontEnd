@@ -236,7 +236,7 @@ export default function ComboCardCarousel() {
           return (
             <div
               className="card bg-light p-2 combo-card"
-              key={combo.combo_id}
+              key={combo.id}
               onClick={() =>
                 handleComboClick(
                   combo.combo_id,
@@ -249,22 +249,26 @@ export default function ComboCardCarousel() {
               <img
                 src={JSON.parse(combo.product_image)}
                 className="card-img-top rounded-top"
-                style={{height:"150px", padding:"5px"}}
+                style={{ height: "150px", padding: "5px" }}
                 alt={combo.title}
               />{" "}
               {/* {console.log(combo)} */}
               <div className="card-body text-center d-flex justify-content-between">
-                <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">{combo.title}</h5>
-                </div>
-                <p className="fw-bold text-start mb-0">₹{combo.price}</p> 
-                <p className="card-text text-muted text-capitalize">
-                  {combo.description}
-                </p>
-               
-                <button className="btn btn-animation w-100 mt-2">
-                  View Details
-                </button>
-              
+                <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
+                  {combo.title}
+                </h5>
+              </div>
+              <p className="fw-bold text-start mb-0">₹{combo.price}</p>
+              <p className="card-text text-muted text-capitalize">
+
+              {combo.description?.length >= 20
+                    ? `${combo.description.substring(0, 25)}...`
+                    : combo.description}
+                {/* {combo.description} */}
+              </p>
+              <button className="btn btn-animation w-100 mt-2">
+                View Details
+              </button>
             </div>
           );
         })}
@@ -272,46 +276,35 @@ export default function ComboCardCarousel() {
 
       {selectedCombo && (
         <div
-          className={`modal fade ${showModal ? "show" : ""}`}
+          className={`modal fade  ${showModal ? "show" : ""}`}
           style={{ display: showModal ? "block" : "none" }}
           tabIndex="-1"
           aria-hidden="true"
         >
-          <div className="modal-dialog">
-            <div className="modal-content">
+          <div className="modal-dialog  ">
+            <div className="modal-content   ">
               <div className="modal-header">
-                <span>
-                  {/* {inputweight}
-                  {weightType} */}
-                </span>
-                <h5 className="modal-title ">{ComboData.title}</h5>
+                <p className="modal-title text-capitalize ">
+                  {ComboData.title}
+                </p>
                 <button
                   type="button"
                   className="btn-close"
                   onClick={handleCloseModal}
                 ></button>
               </div>
-              <div className="modal-body">
-                {/* <img
-                  src={
-                    selectedCombo.product_image === "0"
-                      ? "default-image.jpg"
-                      : safeParseJson(selectedCombo.product_image)[0]
-                  }
-                  alt={selectedCombo.title}
-                /> */}
-                <p>{ComboData.description}</p>
 
-                <div className="but_btn d-flex justify-content-end mb-3">
-                  <p className="fw-bold text-danger">
-                    <strong style={{ fontSize: "20px" }}>
-                      Price: ₹{ComboData.price}
-                    </strong>
+              <div className="modal-body">
+                {/* combo cards prodcut */}
+                <div className="">
+                  {" "}
+                  <p className="text-muted font-bold text-capitalize">
+                    {ComboData.description}
                   </p>
                 </div>
-                <div className="row">
+                <div className="combo_cantainer ">
                   {productDetails.map((productArray, index) => {
-                    // console.log(productArray);
+                    console.log(productArray);
 
                     const product = productArray;
                     if (!product) return null;
@@ -319,13 +312,10 @@ export default function ComboCardCarousel() {
                     const productImages = safeParseJson(product.product_image);
 
                     return (
-                      <div
-                        className="col-lg-3 col-md-4 col-sm-6 mb-3"
-                        key={index}
-                      >
+                      <div className="combo_card " key={index}>
                         <Link
                           to={`/detail_page/${product.product_id}`}
-                          className="card"
+                          className="card  "
                         >
                           <img
                             src={
@@ -336,13 +326,16 @@ export default function ComboCardCarousel() {
                             className="card-img-top"
                             alt={product.product_name}
                           />
-                          <div className="card-body">
-                            <h5 className="card-title">
-                              {product.product_name}
-                            </h5>
-                            <p>
-                              <strong>
-                                Item Price: ₹{product.product_price}
+                          <div className="card-body  ">
+                            <p className="card-title_">
+                              {product.product_name.length >= 10
+                                ? product.product_name.slice(0, 10) + "..."
+                                : product.product_name}
+                              {/* {product.product_name} */}
+                            </p>
+                            <p className="combo_price">
+                              <strong className="combo_price">
+                               Price: ₹{product.product_price}
                               </strong>
                             </p>
                           </div>
@@ -351,20 +344,35 @@ export default function ComboCardCarousel() {
                     );
                   })}
                 </div>
-                <div className="d-flex justify-content-end">
+
+                <div className=" card_info ">
                   <button
                     type="button"
-                    className="btn btn-animation"
+                    className="combo_button"
                     onClick={handleClickCart}
                   >
                     Buy Combo
                   </button>
+                  <div className="but_btn d-flex justify-content-center my-3">
+                    <p className="">
+                      <strong
+                        style={{
+                          fontSize: "17px",
+                          color: "rgb(233, 103, 125)",
+                        }}
+                        className="combo_pricedet_"
+                      >
+                        Price: ₹{ComboData.price}
+                      </strong>
+                    </p>
+                  </div>
                 </div>
               </div>
+
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-animation btn-sm "
+                  className="combo_button "
                   onClick={handleCloseModal}
                 >
                   Close
