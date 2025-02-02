@@ -9,6 +9,7 @@ import { checkAuthentication } from "./slices/userSlice";
 import MobileMenu from "./Components/Common/MobileMenu";
 import ScrollToTop from "./ScrollToTop";
 import BlogSection from "./Components/ProductSection/BlogSection";
+import Checkout from "./Pages/Checkout";
 
 // Lazy loading components
 const Index = lazy(() => import("./Pages/Index"));
@@ -20,7 +21,7 @@ const Order = lazy(() => import("./Pages/Order"));
 const Tracking = lazy(() => import("./Pages/Tracking"));
 const Login = lazy(() => import("./Pages/Login"));
 const SignUp = lazy(() => import("./Pages/SignUp"));
-const Checkout = lazy(() => import("./Pages/Checkout"));
+
 const Account = lazy(() => import("./Pages/Account"));
 const Page404 = lazy(() => import("./Pages/Page404"));
 const Whislist = lazy(() => import("./Pages/Whislist"));
@@ -91,7 +92,7 @@ function App() {
           <Route path="/tracking/:orderId" element={<ProtectedRoute element={<Tracking />} />} />
           <Route path="/myaccount" element={<ProtectedRoute element={<Account />} />} />
           <Route path="/404" element={<Page404 />} />
-          <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
+          <Route path="/cart" element={<ProtectedRoute element={<Checkout />} />} />
           <Route path="/mywhishlist" element={<ProtectedRoute element={<Whislist />} />} />
           <Route path="/detail_page/:id" element={<DetailPage />} />
           <Route
@@ -110,7 +111,8 @@ function App() {
           <Route path="/filters/:query" element={<ProductList />} />
           <Route path="/myInvoice/:orderId" element={<ProtectedRoute element={<MyInvoice />} />} />
           <Route path="/blogsection" element={<BlogSection/>}/>
-          <Route path="/pannelpage" element={<PannelPage/>}/>
+          <Route path="/pannelpage/:category" element={<PannelPage/>}/>
+        
         </Routes>
       </Suspense>
       <MobileMenu/>

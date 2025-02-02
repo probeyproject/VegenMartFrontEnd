@@ -107,7 +107,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
             <div className="border-0 p-1 col-5">
               <div className="d-flex align-items-center">
                 <Link
-                  to={`/detail_page/${cart.product_id}`}
+                  to={`/detail_page/${cart.id}`}
                   className="product-image"
                   style={{}}
                 >
@@ -128,7 +128,7 @@ function CartRow({ cart, imgages, fetchAllCart }) {
                     className="cart__cart "
                     to={`/detail_page/${cart.product_id}`}
                   >
-                    <span>{cart.product_name || cart.combo_title}</span>
+                    <span>{cart.product_name}</span>
                   </div>
                   <div className="text-content">
                     <p style={{ fontSize: "10px" }}>

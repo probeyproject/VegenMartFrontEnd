@@ -1,887 +1,2134 @@
-import React, { useEffect } from "react";
+// import React, { useEffect, useState } from "react";
+// import HeaderTop from "../Components/Header/HeaderTop";
+// import HeaderMiddle from "../Components/Header/HeaderMiddle";
+// import HeaderBottom from "../Components/Header/HeaderBottom";
+// import Footer from "../Components/Common/Footer";
+// import lottie from "lottie-web";
+// import { defineElement } from "lord-icon-element";
+// import { baseUrl } from "../API/Api";
+// import { useNavigate, useParams } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import axios from "axios";
+// import { Link } from "react-router-dom";
+// import { GoPlus } from "react-icons/go";
+// import { toast } from "react-toastify";
+// import easyinvoice from "easyinvoice";
+// import HomeAddressModal from "../Components/Account/Dashboard/HomeAddressModal";
+// import EditAddressModal from "../Components/Account/Dashboard/EditAddressModal";
+// import CouponModal from "./CouponModal";
+// import { RelevantProducts } from "../Components/Common/RelevantProducts";
+// import "./Checkout.css";
+// import { FaPencil } from "react-icons/fa6";
+// import { MdDeleteForever } from "react-icons/md";
+// function Checkout() {
+//   const [carts, setCart] = useState([]);
+//   const [quantities, setQuantities] = useState();
+//   const [address, setAddress] = useState([]);
+//   const [couponCode, setCouponCode] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [responseMessage, setResponseMessage] = useState("");
+//   const [discountValue, setDiscountValue] = useState("");
+//   const [selectedSlot, setSelectedSlot] = useState("");
+//   const [paymentLoading, setPaymentLoading] = useState(false);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [selectedAddress, setSelectedAddress] = useState(null);
+//   const [locations, setLocations] = useState([]);
+//   const navigate = useNavigate();
+//   const [totalPrice, setTotalPrice] = useState("");
+//   const [quantity, setQuantity] = useState("");
+//   const [address_id, setAddress_id] = useState("");
+//   const [deliveryDate, setDeliveryDate] = useState("");
+//   const [paymentMode, setPaymentMode] = useState("");
+//   const [isEditModal, setIsEditModal] = useState(false);
+//   const userState = useSelector((state) => state.user);
+//   const userId = userState?.user?.id;
+//   const phone = userState?.user?.phone;
+//   const phoneno = phone?.slice(3);
+//   const [shipping, setShipping] = useState(29);
+//   const rewards = userState?.rewards;
+//   const points = rewards?.length > 0 ? rewards[0].points : 0;
+//   const [calculatedPrice, setCalculatedPrice] = useState();
+//   const [couponCodes, setCouponCodes] = useState("");
+//   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
+//   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
+//   const [invoiceAddress, setInvoiceAddress] = useState({});
+//   // console.log(Number(carts?.unit)); // Converts "7" -> 7
+//   console.log(carts);
+//   const [currentWeight, setCurrentWeight] = useState(carts[0]?.unit); // Default value
+//   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts[0]?.price);
+//   const { id } = useParams();
+
+//   useEffect(() => {
+//     carts.map((item, index) => {
+//       console.log(item);
+
+//       setCurrentWeight(item.unit);
+//       setCurrentTotalPrice(item.price);
+//     });
+//   }, [carts]); // Runs only when `carts` changes
+
+//   // console.log(currentWeight, currentTotalPrice);
+
+//   const AddressModal = () => {
+//     setIsModalOpen(!isModalOpen);
+//     getAddress();
+//   };
+
+//   const toggleEditModal = () => {
+//     setIsEditModal(false);
+//     getAddress();
+//   };
+
+//   const handleEditModal = (address) => {
+//     setSelectedAddress(address); // Set the address ID to delete
+//     setIsEditModal(true); // Open the delete modal
+//   };
+
+//   const handleToggleModal = () => {
+//     setIsModalOpen(!isModalOpen);
+//   };
+
+//   const handleSlotChange = (e) => {
+//     setSelectedSlot(e.target.value);
+//   };
+
+//   useEffect(() => {
+//     const fetchLocations = async () => {
+//       try {
+//         const response = await axios.get(`${baseUrl}/getAllLocation`);
+//         setLocations(response.data); // Assuming the response data is an array of locations
+//       } catch (err) {
+//         setError(err.message); // Handle error
+//       } finally {
+//         setLoading(false); // Stop loading
+//       }
+//     };
+
+//     fetchLocations();
+//   }, []);
+
+//   async function fetchAllCart() {
+//     try {
+//       const response = await axios.get(
+//         `${baseUrl}/getAllCartByUserId/${userId}`
+//       );
+//       const data = await response?.data;
+
+//       // console.log(response.data);
+
+//       setCart(data);
+//       // Set default quantity for each cart item
+//       const initialQuantities = {};
+//       data?.forEach((cart) => {
+//         initialQuantities[cart.cart_id] = cart.unit; // Set quantity to cart's quantity
+//       });
+//       setQuantities(initialQuantities);
+//     } catch (error) {
+//       console.error("Error fetching cart data:", error);
+//     }
+//   }
+
+//   const validateCoupon = async (e) => {
+//     e.preventDefault();
+//     setLoading(true); // Start loading
+
+//     try {
+//       const response = await axios.post(`${baseUrl}/coupons/validate`, {
+//         coupon_code: couponCode,
+//         user_id: userId,
+//       });
+
+//       setDiscountValue(response.data.coupon.discount_value);
+//       setResponseMessage(
+//         `${response.data.message}, Discount Value: ${discountValue}`
+//       );
+//       toast.success("Coupan Applyed Successfully!");
+//     } catch (error) {
+//       setResponseMessage(
+//         `Error: ${error.response ? error.response.data.message : error.message}`
+//       );
+//     } finally {
+//       setLoading(false); // Stop loading
+//     }
+//   };
+
+//   const getAddress = async () => {
+//     const response = await axios.get(`${baseUrl}/getAddressById/${userId}`);
+//     const data = await response.data;
+//     setAddress(data);
+//   };
+
+//   useEffect(() => {
+//     fetchAllCart();
+//     getAddress();
+//   }, []);
+//   // console.log(address);
+
+//   const fetchAddressById = async (address_id) => {
+//     try {
+//       const res = await axios.get(
+//         `${baseUrl}/getAddressByAddressId/${address_id}`
+//       );
+//       setInvoiceAddress(res.data[0]);
+//     } catch (error) {
+//       console.error("Error fetching address:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (address_id) {
+//       fetchAddressById(address_id);
+//     }
+//   }, [address_id]); // Add `address_id` as a dependency to re-run the effect when it changes
+
+//   // console.log(invoiceAddress);
+//   const totalAmount = carts?.reduce((acc, cart) => {
+//     const quantity = quantities[cart.cart_id] || 1; // Default to 1
+//     return acc + quantity * cart.product_price;
+//   }, 0);
+//   // console.log(quantity);
+//   useEffect(() => {
+//     // Check if totalAmount is >= 200 to set the shipping cost
+//     if (totalAmount >= 200) {
+//       setShipping(0); // Set shipping to 0 for totalAmount >= 200
+//     } else {
+//       setShipping(29); // Set shipping to 29 if totalAmount is less than 200
+//     }
+
+//     // Always recalculate the price including shipping
+//     setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29)); // Add shipping cost accordingly
+//   }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
+
+//   // const totalAmount = carts?.reduce((acc, cart) => {
+//   //   const quantity = quantities[cart.cart_id] || 1; // Default to 1
+//   //   return acc + quantity * cart.total_price;
+//   // }, 0);
+
+//   useEffect(() => {
+//     // Subtract the discountValue from totalAmount
+//     const amountAfterDiscount = totalAmount - (discountValue || 0); // Default to 0 if discountValue is undefined or null
+
+//     // Check if amountAfterDiscount is >= 200 to set the shipping cost
+//     if (amountAfterDiscount >= 200) {
+//       setShipping(0); // Set shipping to 0 for amountAfterDiscount >= 200
+//     } else {
+//       setShipping(29); // Set shipping to 29 if amountAfterDiscount is less than 200
+//     }
+
+//     // Always recalculate the price including shipping
+//     setCalculatedPrice(
+//       amountAfterDiscount + (amountAfterDiscount >= 200 ? 0 : 29)
+//     ); // Add shipping cost accordingly
+//   }, [totalAmount, discountValue]); // Trigger whenever totalAmount or discountValue changes
+//   // console.log(calculatedPrice);
+
+//   const getProductsData = () => {
+//     return carts.map((cart) => ({
+//       id: cart.id || cart.combo_id,
+//       product_name: cart.product_name || cart.combo_title,
+//       product_image: cart.product_image || cart.combo_image,
+//       product_price: cart.product_price || cart.combo_price, // Assuming this is the unique ID for the product // Retrieve quantity from quantities state
+//       unit: cart.unit || "1",
+//       weight_type: cart.weight_type, // Adjust as per your cart data
+//       price: cart.price, // Assuming this is the price for one unit
+//     }));
+//   };
+//   const handleAddToWishlist = async (product_id) => {
+//     if (!userId) {
+//       toast.error("User not logged in!");
+//       return;
+//     }
+//     try {
+//       const response = await axios.post(`${baseUrl}/addToWishlist`, {
+//         productId: product_id,
+//         userId: userId,
+//       });
+//       toast.success("Added to wishlist successfully");
+//     } catch (error) {
+//       console.error("Error:", error);
+//       toast.warning("This product is already in your wishlist!");
+//     }
+//   };
+
+//   const handleDelete = async (id) => {
+//     try {
+//       await axios.delete(`${baseUrl}/deleteCartById/${id}`);
+//       toast.success("Cart removed successfully");
+//       fetchAllCart();
+//     } catch (error) {
+//       console.error("Error deleting item:", error);
+//       toast.error("There was a problem removing the cart item");
+//     }
+//   };
+
+//   const updateCart = async (value, currentTotalPrice) => {
+//     if (!carts) {
+//       toast.error("Cart data is missing");
+//       return;
+//     }
+//     try {
+//       const productId = carts[0]?.id;
+//       const updatedcart = await axios.put(
+//         `${baseUrl}/cart/${userId}/${productId}`,
+//         {
+//           totalPrice: currentTotalPrice,
+//           cartStatus: "updated",
+//           weight: value,
+//           weight_type: carts?.weight_type,
+//         }
+//       );
+//       fetchAllCart();
+//     } catch (error) {
+//       console.error("Error updating cart:", error);
+//       toast.error("Failed to update cart");
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (currentWeight && currentTotalPrice) {
+//       updateCart(currentWeight, currentTotalPrice);
+//     }
+//   }, [currentWeight, currentTotalPrice]);
+
+//   const handleIncreaseWeight = async (index) => {
+//     try {
+//       const product = carts[index];
+//       if (!product) return;
+  
+//       const currentWeight = Number(product.unit) || 0; // Ensure it's a number
+  
+//       const response = await axios.post(
+//         `${baseUrl}/calculate-price/${product.id}`,
+//         { weight: currentWeight + 1, unitType: product.weight_type }
+//       );
+  
+//       const priceData = response.data;
+  
+//       // Update the specific item in the state
+//       setCart((prevCartItems) =>
+//         prevCartItems.map((item, i) =>
+//           i === index
+//             ? {
+//                 ...item,
+//                 unit: priceData.weight, // Update unit instead of weight
+//                 totalPrice: priceData.final_price,
+//               }
+//             : item
+//         )
+//       );
+  
+//       // Update cart in backend
+//       updateCart(index, priceData.weight, priceData.final_price);
+//     } catch (error) {
+//       toast.warning("Weight cannot be increased beyond allowed limits");
+//     }
+//   };
+
+//   const handleDecreaseWeight = async () => {
+//     if (!carts || currentWeight <= 1) return;
+//     try {
+//       const productId = carts?.id;
+//       const priceResponse = await axios.post(
+//         `${baseUrl}/calculate-price/${productId}`,
+//         { weight: currentWeight - 1, unitType: carts?.weight_type }
+//       );
+//       const priceData = priceResponse.data;
+
+//       setCurrentTotalPrice(priceData?.final_price);
+//       setCurrentWeight(priceData.weight);
+//     } catch (error) {
+//       toast.warning("Minimum weight limit reached");
+//     }
+//   };
+
+//   useEffect(() => {
+//     const products = getProductsData(); // Store product data in a variable
+
+//     // Set quantities based on the length of the products array
+//     setQuantity((prev) => ({
+//       ...prev,
+//       quantity: products.length, // Set quantity to the length of products
+//     }));
+//   }, [carts, quantities]);
+
+//   // Payment Function
+
+//   const order_status = "Pending";
+//   const paymentData = {
+//     products: getProductsData(),
+//     totalPrice: calculatedPrice,
+//     quantity,
+//     address_id,
+//     deliveryDate,
+//     deliveryTimeSlot: selectedSlot,
+//     payment_mode: paymentMode,
+//     orderStatus: order_status,
+//     shipping_cost: shipping,
+//   };
+//   const handlePayment = async () => {
+//     // Check for required fields
+//     if (!address_id) {
+//       toast.warning("Please select an address.");
+//       return;
+//     }
+
+//     if (!paymentMode) {
+//       toast.warning("Please select a Payment Option.");
+//       return;
+//     }
+
+//     setPaymentLoading(true);
+
+//     try {
+//       if (paymentMode === "Cash On Delivery") {
+//         const response = await axios.post(
+//           `${baseUrl}/create/order/${userId}`,
+//           paymentData
+//         );
+//         console.log("Order Response:", response);
+
+//         if (response.data.orderId) {
+//           await generateAndUploadInvoice(response.data.orderId);
+//           toast.success("Order created successfully with Cash On Delivery!");
+//           navigate("/order", { state: { orderId: response.data.orderId } });
+//         } else {
+//           console.error("Order creation failed:", response.data);
+//           toast.error("Order creation failed. Please try again.");
+//         }
+
+//         return; // Ensure no further execution
+//       }
+
+//       if (paymentMode === "online") {
+//         const options = {
+//           key: "rzp_test_y06V2AOq27a4Lt",
+//           amount: calculatedPrice * 100,
+//           currency: "INR",
+//           name: "Vegenmart",
+//           description: "Product Purchases",
+//           handler: async (paymentResponse) => {
+//             toast.success("Payment Successful!");
+
+//             try {
+//               const orderData = {
+//                 ...paymentData,
+//                 razorpayOrderId: paymentResponse.razorpay_order_id,
+//                 payment: paymentResponse.razorpay_payment_id,
+//               };
+
+//               const finalResponse = await axios.post(
+//                 `${baseUrl}/create/order/${userId}`,
+//                 orderData
+//               );
+//               console.log("Final Order Response:", finalResponse);
+
+//               if (finalResponse.data.orderId) {
+//                 await generateAndUploadInvoice(finalResponse.data.orderId);
+//                 navigate("/order", {
+//                   state: { orderId: finalResponse.data.orderId },
+//                 });
+//               }
+//             } catch (error) {
+//               console.error("Error during order creation:", error);
+//               toast.error("Error during order creation. Please try again.");
+//             }
+//           },
+//           theme: { color: "#0da487" },
+//         };
+
+//         const razor = new window.Razorpay(options);
+//         razor.open();
+//       }
+//     } catch (error) {
+//       console.error(
+//         "Error creating order:",
+//         error.response.data.message.split(" ").slice(0, 4).join(" ")
+//       );
+
+//       // toast.error(data.message);
+//       toast.error(error.response.data.message.split(" ").slice(0, 4).join(" "));
+//     } finally {
+//       setPaymentLoading(false);
+//     }
+//   };
+
+//   // Function to Generate and Upload Invoice
+//   const generateAndUploadInvoice = async (orderId) => {
+//     try {
+//       const invoiceData = {
+//         sender: {
+//           company: "VegenMart Tech India Pvt. Ltd",
+//           address: "155/25E Karela Bagh",
+//           city: "Prayagraj, Uttar Pradesh",
+//           country: "India",
+//         },
+//         client: {
+//           company: `${userState?.user?.name.split(" ")[0]}`,
+//           address: `${invoiceAddress?.name} (${invoiceAddress?.phone}) ${invoiceAddress?.address_type}, ${invoiceAddress?.area}, ${invoiceAddress?.flat}, ${invoiceAddress?.floor}, ${invoiceAddress?.landmark}, (${invoiceAddress?.postal_code}), ${invoiceAddress?.state}`,
+//           country: "India",
+//           contact: `${userState?.user?.email || userState?.user?.phone}`,
+//         },
+//         products: paymentData.products.map((product) => ({
+//           quantity: product.quantity,
+//           description: product.product_name,
+//           price: product.product_price,
+//         })),
+//         information: {
+//           number: orderId, // Order ID
+//           date: new Date().toISOString().split("T")[0], // Current Date
+//           "Shipping Cost": shipping, // Add Shipping Cost (Make sure this value is defined)
+//           "Payment Method": paymentMode, // COD, Online, etc.
+//           "Discount Applied": discountValue || 0, // Add Discount (If applicable)
+//           "Total Amount": calculatedPrice, // Final total price
+//         },
+//         "bottom-notice": "Thank you for shopping with VegenMart!",
+//         settings: {
+//           currency: "INR", // Set currency to Indian Rupees
+//         },
+//       };
+
+//       const invoice = await easyinvoice.createInvoice(invoiceData);
+//       const invoiceBase64 = invoice.pdf;
+
+//       const response = await axios.post(`${baseUrl}/upload-invoice`, {
+//         orderId,
+//         userId,
+//         invoiceBase64,
+//       });
+
+//       if (response.data.cloudinary_url) {
+//         toast.success("Invoice uploaded successfully!");
+
+//         // Show confirmation dialog
+//         const userConfirmed = window.confirm(
+//           "Do you want to download the invoice?"
+//         );
+//         if (userConfirmed) {
+//           window.open(response.data.cloudinary_url, "_blank"); // Open in new tab
+//         }
+//       } else {
+//         toast.error("Invoice uploaded but no download link available.");
+//       }
+//     } catch (error) {
+//       console.error("Invoice Generation Error:", error);
+//       toast.error("Failed to generate invoice.");
+//     }
+//   };
+
+//   // Fetch all available coupons (this could come from your API)
+//   const fetchCoupons = async () => {
+//     try {
+//       const response = await axios.get(`${baseUrl}/getAllCoupon`);
+//       setCoupons(response.data);
+//     } catch (error) {
+//       console.error("Error fetching coupons:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchCoupons(); // Fetch available coupons when component mounts
+//   }, []);
+
+//   const handleCouponClick = (couponCode) => {
+//     setCouponCodes(couponCodes); // Copy the coupon code into the input field
+//     setIsModalOpens(false); // Close the modal after selection
+//   };
+
+//   return (
+//     <div className="container-fluid px-0 overflow-hidden ">
+//       <header className="pb-md-4 pb-0">
+//         <HeaderTop />
+//         <HeaderMiddle />
+//         <HeaderBottom />
+//       </header>
+//       {carts.length === 0 ? (
+//         <section className="breadcrumb-section pt-0">
+//           <div className="empty-cart text-center">
+//             <h3>Your cart is empty</h3>
+//             <p>It looks like you haven't added anything to your cart yet.</p>
+//             <Link
+//               to={"/"}
+//               className="d-flex justify-content-center align-items-center"
+//             >
+//               <button className="btn btn-animation">
+//                 Continue to Shopping
+//               </button>
+//             </Link>
+//           </div>
+
+//           <div className="container-fluid-lg">
+//             <div className="row">
+//               <div className="col-12">
+//                 <div className="breadcrumb-contain">
+//                   <h2>Checkout</h2>
+//                   <nav>
+//                     <ol className="breadcrumb mb-0">
+//                       <li className="breadcrumb-item">
+//                         <a href="index.html">
+//                           <i className="fa-solid fa-house" />
+//                         </a>
+//                       </li>
+//                       <li className="breadcrumb-item active">Checkout</li>
+//                     </ol>
+//                   </nav>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </section>
+//       ) : (
+//         <section className="checkout-section-2 section-b-space">
+//           <div className="container-fluid-lg">
+//             <div className="row g-sm-4 g-3">
+//               <div className="col-lg-4">
+//                 {/* <button
+//                 onClick={() => (window.location.href = "/order")}
+//                 className="btn theme-bg-color mb-2 text-white btn-md w-100 mt-4 fw-bold"
+//               >
+//                 Place Order
+//               </button> */}
+//                 <div className="right-side-summery-box">
+//                   <div className="summery-box-2">
+//                     <div className="summery-header">
+//                       <h3>Order Summary</h3>
+//                     </div>
+//                     <ul className="summery-contain">
+//                       {carts.map((cart) => (
+//                         <li key={cart.cart_id}>
+//                           <Link to={`/detail_page/${id}`}>
+//                             <img
+//                               src={JSON.parse(cart.product_image)[0]}
+//                               className="img-fluid blur-up lazyloaded checkout-image"
+//                               alt={cart.product_name}
+//                             />
+//                           </Link>
+//                           <div className="cart_qty qty-box open w-50">
+//                             <div className="input-group">
+//                               {/* Decrease button */}
+//                               <button
+//                                 type="button"
+//                                 className="qty-left-minus"
+//                                 onClick={() => {
+//                                   handleDecreaseWeight();
+//                                 }}
+//                                 // Disable if combo_id exists
+//                               >
+//                                 <i className="fa fa-minus" />
+//                               </button>
+
+//                               <input
+//                                 className="form-control input-number qty-input"
+//                                 type="text"
+//                                 name="quantity"
+//                                 value={currentWeight}
+//                                 readOnly
+//                               />
+//                               {/* Increase button */}
+//                               <button
+//                                 type="button"
+//                                 className="qty-right-plus"
+//                                 onClick={handleIncreaseWeight}
+//                               >
+//                                 <i className="fa fa-plus" />
+//                               </button>
+//                             </div>
+//                           </div>
+//                           <h4 className="price">₹{currentTotalPrice}</h4>
+//                           <Link  onClick={() => handleDelete(cart.cart_id)}>
+//                           <MdDeleteForever className="text-danger fs-3 ms-3"/>
+//                           </Link>
+//                         </li>
+//                       ))}
+//                     </ul>
+//                     <div className="bg-white mt-2 rounded-4 summery-contain p-3 ">
+//                       <div className="coupon-cart">
+//                         <h6 className="text-content mb-2">Coupon Apply</h6>
+//                         <div className="coupon-box input-group">
+//                           <input
+//                             type="text" // Use "text" for coupon code
+//                             className="form-control"
+//                             id="exampleFormControlInput1"
+//                             placeholder="Enter Coupon Code Here..."
+//                             value={couponCode}
+//                             onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
+//                             required
+//                           />
+//                           <button
+//                             className="btn-apply btn-apply-input"
+//                             type="submit"
+//                             onClick={validateCoupon}
+//                             disabled={loading}
+//                           >
+//                             {loading ? (
+//                               <>
+//                                 <span
+//                                   className="spinner-border spinner-border-sm"
+//                                   role="status"
+//                                   aria-hidden="true"
+//                                 ></span>
+//                                 Loading...
+//                               </>
+//                             ) : (
+//                               "Apply"
+//                             )}
+//                           </button>
+//                           <button
+//                             className="btn-apply view-coupon-cart-btn"
+//                             onClick={() => setIsModalOpens(true)}
+//                           >
+//                             View Coupons
+//                           </button>
+//                         </div>
+//                         <span className="">
+//                           {responseMessage && <p>{responseMessage}</p>}
+//                         </span>
+//                       </div>
+//                       <ul>
+//                         <li>
+//                           <h4>Your Points </h4>
+//                           <h4 className="price">{points}</h4>
+//                         </li>
+
+//                         <li>
+//                           <h4>Subtotal</h4>
+//                           <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
+//                         </li>
+//                         {/* <li>
+//                         <h4>Actual Amount</h4>
+//                         <h4 className="price">₹00.00</h4>
+//                       </li> */}
+//                         <li>
+//                           <h4>Coupon Discount</h4>
+//                           <h4 className="price">
+//                             ₹{discountValue ? discountValue : "---"}
+//                           </h4>
+//                         </li>
+
+//                         <li className="align-items-start">
+//                           <h4>Shipping Cost</h4>
+//                           <h4 className="price text-end">
+//                             {shipping === 0 ? "Free" : shipping}
+//                           </h4>
+//                         </li>
+//                         <li>
+//                           <h4>Total Cost</h4>
+//                           <h4 className="price">₹{calculatedPrice}</h4>
+//                         </li>
+//                       </ul>
+//                     </div>
+//                     <ul className="summery-total">
+//                       <li className="list-total border-top-0">
+//                         <h4>Total (INR)</h4>
+//                         <h4 className="price theme-color">
+//                           ₹{calculatedPrice}
+//                         </h4>{" "}
+//                         {/* Add shipping to total */}
+//                       </li>
+//                     </ul>
+//                   </div>
+//                   <div className="checkout-offer">
+//                     <div className="offer-title">
+//                       <div className="offer-icon">
+//                         <img
+//                           src="../assets/images/inner-page/offer.svg"
+//                           className="img-fluid"
+//                           alt=""
+//                         />
+//                       </div>
+//                       <div className="offer-name">
+//                         <h6>Available Offers</h6>
+//                       </div>
+//                     </div>
+//                     <ul className="offer-detail">
+//                       <li>
+//                         <p>
+//                           Combo: BB Royal Almond/Badam Californian, Extra Bold
+//                           100 gm...
+//                         </p>
+//                       </li>
+//                       <li>
+//                         <p>
+//                           Combo: Royal Cashew Californian, Extra Bold 100 gm +
+//                           BB Royal Honey 500 gm
+//                         </p>
+//                       </li>
+//                     </ul>
+//                   </div>
+//                 </div>
+//               </div>
+//               <div className="col-lg-8">
+//                 <div className="left-sidebar-checkout">
+//                   <div className="checkout-detail-box">
+//                     <ul>
+//                       <li>
+//                         <div className="checkout-icon">
+//                           <lord-icon
+//                             target=".nav-item"
+//                             src="https://cdn.lordicon.com/ggihhudh.json"
+//                             trigger="loop-on-hover"
+//                             colors="primary:#121331,secondary:#646e78,tertiary:#0baf9a"
+//                             className="lord-icon"
+//                           ></lord-icon>
+//                         </div>
+//                         <div className="checkout-box">
+//                           <div className="checkout-title">
+//                             <h4>Delivery Address</h4>
+//                           </div>
+
+//                           <div className="checkout-detail">
+//                             <Link onClick={handleToggleModal}>
+//                               <div className="d-flex gap-2 center mt-2">
+//                                 <div>
+//                                   <GoPlus />
+//                                 </div>
+//                                 <div>Add new address</div>
+//                               </div>
+//                             </Link>
+//                             <div
+//                               className="overflow-auto"
+//                               style={{ maxHeight: "400px" }}
+//                             >
+//                               <div className="checkout-detail ">
+//                                 <div className="col-12 d-flex flex-row gap-2">
+//                                   {address?.map((data, index) => (
+//                                     <div
+//                                       key={index}
+//                                       className=" align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
+//                                     >
+//                                       <div className="card p-3 border-0">
+//                                         <div className=" d-flex">
+//                                           <div className="form-check">
+//                                             <input
+//                                               className="form-check-input mt-1"
+//                                               type="radio"
+//                                               name="jack"
+//                                               id="flexRadioDefault1"
+//                                               value={data.address_id}
+//                                               onChange={(e) =>
+//                                                 setAddress_id(e.target.value)
+//                                               }
+//                                             />
+//                                           </div>
+//                                           <div className="d-flex justify-content-between align-items-top gap-lg-5 ">
+//                                             <div className="badge bg-dangeer">
+//                                               <p className="p-1 rounded bg-danger">
+//                                                 {data.address_type}
+//                                               </p>
+//                                             </div>
+//                                             <div>
+//                                               <Link>
+//                                                 <div
+//                                                   onClick={() =>
+//                                                     handleEditModal(data)
+//                                                   }
+//                                                 >
+//                                                   <FaPencil />
+//                                                 </div>
+//                                               </Link>
+//                                             </div>
+//                                           </div>
+//                                         </div>
+//                                         <ul className="delivery-address-detail list-unstyled">
+//                                           <li>
+//                                             <h6 className="">{data.name}</h6>
+//                                           </li>
+//                                           <li>
+//                                             <p className="text-content">
+//                                               <span className="text-title">
+//                                                 Address:{" "}
+//                                               </span>
+//                                               {data.flat}, {data.floor},{" "}
+//                                               {data.area}, {data.landmark},
+//                                               {data.state},
+//                                             </p>
+//                                           </li>
+//                                           <li>
+//                                             <h6 className="text-content">
+//                                               <span className="text-title">
+//                                                 Pin Code:{" "}
+//                                               </span>
+//                                               {data.postal_code},
+//                                             </h6>
+//                                           </li>
+//                                           <li>
+//                                             <h6 className="text-content p-1">
+//                                               <span className="text-title">
+//                                                 Phone:{" "}
+//                                               </span>{" "}
+//                                               {data.phone}
+//                                             </h6>
+//                                           </li>
+//                                         </ul>
+//                                       </div>
+//                                     </div>
+//                                   ))}
+//                                 </div>
+//                               </div>
+//                             </div>
+//                           </div>
+//                         </div>
+//                       </li>
+
+//                       <li>
+//                         <div className="checkout-icon">
+//                           <lord-icon
+//                             target=".nav-item"
+//                             src="https://cdn.lordicon.com/oaflahpk.json"
+//                             trigger="loop-on-hover"
+//                             colors="primary:#0baf9a"
+//                             className="lord-icon"
+//                           ></lord-icon>
+//                         </div>
+//                       </li>
+
+//                       <div className="checkout-container">
+//                         <div className="row justify-content-center">
+//                           {/* Time & Date Section */}
+//                           <div className="col-md-6">
+//                             <div className="card checkout-card">
+//                               <div className="card-body">
+//                                 <h2 className="text-center fw-bold">
+//                                   Choose a Time & Date
+//                                 </h2>
+
+//                                 <div className="slot-options">
+//                                   <input
+//                                     type="date"
+//                                     id="datePicker"
+//                                     className="form-control w-75 mt-2"
+//                                     onChange={(e) =>
+//                                       setDeliveryDate(e.target.value)
+//                                     }
+//                                   />
+//                                   {[
+//                                     "6 AM - 8 AM",
+//                                     "8 AM - 10 AM",
+//                                     "10 AM - 12 PM",
+//                                     "12 PM - 2 PM",
+//                                   ].map((slot, index) => (
+//                                     <div
+//                                       className="form-check mb-1"
+//                                       key={index}
+//                                     >
+//                                       <input
+//                                         className="form-check-input"
+//                                         type="radio"
+//                                         name="timeSlot"
+//                                         id={`slot${index}`}
+//                                         value={slot}
+//                                         checked={selectedSlot === slot}
+//                                         onChange={handleSlotChange}
+//                                       />
+//                                       <label
+//                                         className="form-check-label"
+//                                         htmlFor={`slot${index}`}
+//                                       >
+//                                         {slot}
+//                                       </label>
+//                                     </div>
+//                                   ))}
+//                                 </div>
+//                               </div>
+//                             </div>
+//                           </div>
+
+//                           {/* Payment Options Section */}
+//                           <div className="col-md-6">
+//                             <div className="card checkout-card">
+//                               <div className="card-body">
+//                                 <h2 className="text-center fw-bold">
+//                                   Payment Option
+//                                 </h2>
+//                                 <div className="payment-options">
+//                                   <div className="form-check mb-2">
+//                                     <input
+//                                       className="form-check-input"
+//                                       type="radio"
+//                                       name="paymentMode"
+//                                       id="online"
+//                                       value="online"
+//                                       checked={paymentMode === "online"}
+//                                       onChange={(e) =>
+//                                         setPaymentMode(e.target.value)
+//                                       }
+//                                     />
+//                                     <label
+//                                       className="form-check-label"
+//                                       htmlFor="online"
+//                                     >
+//                                       Online Payment
+//                                     </label>
+//                                   </div>
+//                                   <div className="form-check">
+//                                     <input
+//                                       className="form-check-input"
+//                                       type="radio"
+//                                       name="paymentMode"
+//                                       id="cash"
+//                                       value="Cash On Delivery"
+//                                       checked={
+//                                         paymentMode === "Cash On Delivery"
+//                                       }
+//                                       onChange={(e) =>
+//                                         setPaymentMode(e.target.value)
+//                                       }
+//                                     />
+//                                     <label
+//                                       className="form-check-label"
+//                                       htmlFor="cash"
+//                                     >
+//                                       Cash On Delivery
+//                                     </label>
+//                                   </div>
+//                                 </div>
+//                               </div>
+//                             </div>
+//                           </div>
+//                         </div>
+
+//                         {/* Checkout Button */}
+//                         <div className="text-center mt-3">
+//                           <Link
+//                             className="btn theme-bg-color mb-2 text-white btn-md w-100 mt-4 fw-bold"
+//                             onClick={handlePayment}
+//                           >
+//                             {paymentLoading ? (
+//                               <span>
+//                                 <span
+//                                   className="spinner-border spinner-border-sm"
+//                                   role="status"
+//                                   aria-hidden="true"
+//                                 ></span>
+//                                 Processing...
+//                               </span>
+//                             ) : (
+//                               "Proceed to Checkout"
+//                             )}
+//                           </Link>
+//                         </div>
+//                       </div>
+
+//                       <li>
+//                         <div className="checkout-icon">
+//                           <lord-icon
+//                             target=".nav-item"
+//                             src="https://cdn.lordicon.com/qmcsqnle.json"
+//                             trigger="loop-on-hover"
+//                             colors="primary:#0baf9a,secondary:#0baf9a"
+//                             className="lord-icon"
+//                           ></lord-icon>
+//                         </div>
+//                       </li>
+//                     </ul>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <div className="mt-4">
+//                 <RelevantProducts />
+//               </div>
+//             </div>
+//           </div>
+//         </section>
+//       )}
+
+//       <HomeAddressModal
+//         locations={locations}
+//         isOpen={isModalOpen}
+//         toggle={handleToggleModal}
+//         userId={userId}
+//         phone={phoneno}
+//         onClose={AddressModal}
+//       />
+
+//       <EditAddressModal
+//         locations={locations}
+//         isOpen={isEditModal}
+//         toggle={() => setIsEditModal(false)}
+//         data={selectedAddress}
+//         userId={userId}
+//         onClose={toggleEditModal}
+//       />
+
+//       <Footer />
+//       <CouponModal
+//         isModalOpen={isModalOpens}
+//         setIsModalOpen={setIsModalOpens}
+//         coupons={coupons}
+//         handleCouponClick={handleCouponClick}
+//       />
+//     </div>
+//   );
+// }
+
+// export default Checkout;
+
+import React, { useEffect, useState } from "react";
 import HeaderTop from "../Components/Header/HeaderTop";
 import HeaderMiddle from "../Components/Header/HeaderMiddle";
 import HeaderBottom from "../Components/Header/HeaderBottom";
 import Footer from "../Components/Common/Footer";
-import lottie from 'lottie-web';
-import { defineElement } from 'lord-icon-element';
+import lottie from "lottie-web";
+import { defineElement } from "lord-icon-element";
+import { baseUrl } from "../API/Api";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { GoPlus } from "react-icons/go";
+import { toast } from "react-toastify";
+import easyinvoice from "easyinvoice";
+import HomeAddressModal from "../Components/Account/Dashboard/HomeAddressModal";
+import EditAddressModal from "../Components/Account/Dashboard/EditAddressModal";
+import CouponModal from "./CouponModal";
+import { RelevantProducts } from "../Components/Common/RelevantProducts";
+import { MdDeleteForever } from "react-icons/md";
 
-
+import "./Checkout.css";
+import { FaHeart, FaPencil } from "react-icons/fa6";
 function Checkout() {
-    useEffect(() => {
-        defineElement(lottie.loadAnimation);
-      }, []);
-    
-    return (
+  const [carts, setCart] = useState([]);
+  const [quantities, setQuantities] = useState();
+  const [address, setAddress] = useState([]);
+  const [couponCode, setCouponCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [discountValue, setDiscountValue] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState("");
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [locations, setLocations] = useState([]);
+  const navigate = useNavigate();
+  const [totalPrice, setTotalPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [address_id, setAddress_id] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [paymentMode, setPaymentMode] = useState("");
+  const [isEditModal, setIsEditModal] = useState(false);
+  const userState = useSelector((state) => state.user);
+  const userId = userState?.user?.id;
+  const phone = userState?.user?.phone;
+  const phoneno = phone?.slice(3);
+  const [shipping, setShipping] = useState(29);
+  const rewards = userState?.rewards;
+  const points = rewards?.length > 0 ? rewards[0].points : 0;
+  const [calculatedPrice, setCalculatedPrice] = useState();
+  const [couponCodes, setCouponCodes] = useState("");
+  const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
+  const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
+  const [invoiceAddress, setInvoiceAddress] = useState({});
+  const [cartItems, setCartItems] = useState([]);
+  // console.log(Number(carts?.unit)); // Converts "7" -> 7
+  console.log(carts);
+  // const [currentWeight, setCurrentWeight] = useState(1); // Default value
+  // const [currentTotalPrice, setCurrentTotalPrice] = useState(1);
+  const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
+  const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
+  console.log(currentWeight);
+
+  useEffect(() => {
+    carts.map((item, index) => {
+      // console.log(item);
+    });
+  }, [currentWeight]); // Runs only when `carts` changes
+
+  // console.log(currentWeight, currentTotalPrice);
+
+  const AddressModal = () => {
+    setIsModalOpen(!isModalOpen);
+    getAddress();
+  };
+
+  const toggleEditModal = () => {
+    setIsEditModal(false);
+    getAddress();
+  };
+
+  const handleEditModal = (address) => {
+    setSelectedAddress(address); // Set the address ID to delete
+    setIsEditModal(true); // Open the delete modal
+  };
+
+  const handleToggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleSlotChange = (e) => {
+    setSelectedSlot(e.target.value);
+  };
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/getAllLocation`);
+        setLocations(response.data); // Assuming the response data is an array of locations
+      } catch (err) {
+        setError(err.message); // Handle error
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+
+    fetchLocations();
+  }, []);
+  useEffect(() => {
+    fetchAllCart();
+    getAddress();
+  }, []);
+
+
+ async function fetchAllCart() {
+  try {
+    const response = await axios.get(`${baseUrl}/getAllCartByUserId/${userId}`);
+    const data = response?.data || [];
+
+    // Ensure quantities is set correctly
+    const initialQuantities = {};
+    data.forEach((cart) => {
+      initialQuantities[cart.cart_id] = cart.unit || 1; // Default to 1
+    });
+
+    setCart(data);
+    setQuantities(initialQuantities); // Store in state
+  } catch (error) {
+    console.error("Error fetching cart data:", error);
+  }
+}
+
+
+  const validateCoupon = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Start loading
+
+    try {
+      const response = await axios.post(`${baseUrl}/coupons/validate`, {
+        coupon_code: couponCode,
+        user_id: userId,
+      });
+
+      setDiscountValue(response.data.coupon.discount_value);
+      setResponseMessage(
+        `${response.data.message}, Discount Value: ${discountValue}`
+      );
+      toast.success("Coupan Applyed Successfully!");
+    } catch (error) {
+      setResponseMessage(
+        `Error: ${error.response ? error.response.data.message : error.message}`
+      );
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  const getAddress = async () => {
+    const response = await axios.get(`${baseUrl}/getAddressById/${userId}`);
+    const data = await response.data;
+    setAddress(data);
+  };
+
+  
+  // console.log(address);
+
+  const fetchAddressById = async (address_id) => {
+    try {
+      const res = await axios.get(
+        `${baseUrl}/getAddressByAddressId/${address_id}`
+      );
+      setInvoiceAddress(res.data[0]);
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (address_id) {
+      fetchAddressById(address_id);
+    }
+  }, [address_id]);
+
+ 
+  const getProductsData = () => {
+    return carts.map((cart) => ({
+      id: cart.id || cart.combo_id,
+      product_name: cart.product_name || cart.combo_title,
+      product_image: cart.product_image || cart.combo_image,
+      product_price: cart.product_price || cart.combo_price, // Assuming this is the unique ID for the product // Retrieve quantity from quantities state
+      unit: cart.unit || "1",
+      weight_type: cart.weight_type, // Adjust as per your cart data
+      price: cart.price, // Assuming this is the price for one unit
+    }));
+  };
+
+
+  const handleAddToWishlist = async (product_id) => {
+    if (!userId) {
+      toast.error("User not logged in!");
+      return;
+    }
+    try {
+      const response = await axios.post(`${baseUrl}/addToWishlist`, {
+        productId: product_id,
+        userId: userId,
+      });
+      toast.success("Added to wishlist successfully");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.warning("This product is already in your wishlist!");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${baseUrl}/deleteCartById/${id}`);
+      toast.success("Cart removed successfully");
+      fetchAllCart();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      toast.error("There was a problem removing the cart item");
+    }
+  };
+
+ 
+
+  const handleIncreaseWeight = async (index) => {
+    try {
+      const product = carts[index];
+      if (!product) return;
+  
+      const currentWeight = Number(product.unit) || 0; // Ensure it's a number
+  
+      const response = await axios.post(
+        `${baseUrl}/calculate-price/${product.id}`,
+        { weight: currentWeight + 1, unitType: product.weight_type }
+      );
+  
+      const priceData = response.data;
+  
+      // Update the specific item in the state
+      setCart((prevCartItems) =>
+        prevCartItems.map((item, i) =>
+          i === index
+            ? {
+                ...item,
+                unit: priceData.weight, // Update `unit` instead of `weight`
+                totalPrice: priceData.final_price,
+              }
+            : item
+        )
+      );
+  
+      // Update cart in backend
+      updateCart(index, priceData.weight, priceData.final_price);
+    } catch (error) {
+      toast.warning("Weight cannot be increased beyond allowed limits");
+    }
+  };
+  
+
+  const handleDecreaseWeight = async (index) => {
+    try {
+      const product = carts[index];
+      if (!product || product.weight <= 1) return;
+  
+      const response = await axios.post(
+        `${baseUrl}/calculate-price/${product.id}`,
+        { weight: product.unit - 1, unitType: product.weight_type }
+      );
+  
+      const priceData = response.data;
+  
+      // Update only the specific item in the cartItems state
+      setCart((prevCartItems) =>
+        prevCartItems.map((item, i) =>
+          i === index
+            ? { ...item, weight: priceData.weight, totalPrice: priceData.final_price }
+            : item
+        )
+      );
+  
+      // Call updateCart with the updated values
+      updateCart(index, priceData.weight, priceData.final_price);
+    } catch (error) {
+      toast.warning("Minimum weight limit reached");
+    }
+  };
+
+  const updateCart = async (index, newWeight, newTotalPrice) => {
+    try {
+      const product = carts[index];
+      if (!product) {
+        toast.error("Cart data is missing");
+        return;
+      }
+
+      await axios.put(`${baseUrl}/cart/${userId}/${product.id}`, {
+        totalPrice: newTotalPrice,
+        cartStatus: "updated",
+        weight: newWeight,
+        weight_type: product.weight_type,
+      });
+
+      fetchAllCart(); // Refresh cart after update
+    } catch (error) {
+      toast.error("Failed to update cart");
+    }
+  };
+
+
+console.log(carts);
+
+const totalAmount = carts?.reduce((acc, cart) => {
+  const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
+  const price = parseFloat(cart.product_price) || 0; // Ensure price is a number
+  return acc + quantity * price;
+}, 0);
+
+  useEffect(() => {
+    if (totalAmount >= 200) {
+      setShipping(0);
+    } else {
+      setShipping(29);
+    }
+
+    setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29));
+  }, [totalAmount, discountValue]);
+
+  useEffect(() => {
+    const amountAfterDiscount = totalAmount - (discountValue || 0);
+    if (amountAfterDiscount >= 200) {
+      setShipping(0);
+    } else {
+      setShipping(29);
+    }
+
+    setCalculatedPrice(
+      amountAfterDiscount + (amountAfterDiscount >= 200 ? 0 : 29)
+    );
+  }, [totalAmount, discountValue]);
+
+
+  useEffect(() => {
+    const products = getProductsData(); // Store product data in a variable
+
+    // Set quantities based on the length of the products array
+    setQuantity((prev) => ({
+      ...prev,
+      quantity: products.length, // Set quantity to the length of products
+    }));
+  }, [carts, quantities]);
+
+  // Payment Function
+
+  const order_status = "Pending";
+  const paymentData = {
+    products: getProductsData(),
+    totalPrice: calculatedPrice,
+    quantity,
+    address_id,
+    deliveryDate,
+    deliveryTimeSlot: selectedSlot,
+    payment_mode: paymentMode,
+    orderStatus: order_status,
+    shipping_cost: shipping,
+  };
+  const handlePayment = async () => {
+    // Check for required fields
+    if (!address_id) {
+      toast.warning("Please select an address.");
+      return;
+    }
+
+    if (!paymentMode) {
+      toast.warning("Please select a Payment Option.");
+      return;
+    }
+
+    setPaymentLoading(true);
+
+    try {
+      if (paymentMode === "Cash On Delivery") {
+        const response = await axios.post(
+          `${baseUrl}/create/order/${userId}`,
+          paymentData
+        );
+        console.log("Order Response:", response);
+
+        if (response.data.orderId) {
+          await generateAndUploadInvoice(response.data.orderId);
+          toast.success("Order created successfully with Cash On Delivery!");
+          navigate("/order", { state: { orderId: response.data.orderId } });
+        } else {
+          console.error("Order creation failed:", response.data);
+          toast.error("Order creation failed. Please try again.");
+        }
+
+        return; // Ensure no further execution
+      }
+
+      if (paymentMode === "online") {
+        const options = {
+          key: "rzp_test_y06V2AOq27a4Lt",
+          amount: calculatedPrice * 100,
+          currency: "INR",
+          name: "Vegenmart",
+          description: "Product Purchases",
+          handler: async (paymentResponse) => {
+            toast.success("Payment Successful!");
+
+            try {
+              const orderData = {
+                ...paymentData,
+                razorpayOrderId: paymentResponse.razorpay_order_id,
+                payment: paymentResponse.razorpay_payment_id,
+              };
+
+              const finalResponse = await axios.post(
+                `${baseUrl}/create/order/${userId}`,
+                orderData
+              );
+              console.log("Final Order Response:", finalResponse);
+
+              if (finalResponse.data.orderId) {
+                await generateAndUploadInvoice(finalResponse.data.orderId);
+                navigate("/order", {
+                  state: { orderId: finalResponse.data.orderId },
+                });
+              }
+            } catch (error) {
+              console.error("Error during order creation:", error);
+              toast.error("Error during order creation. Please try again.");
+            }
+          },
+          theme: { color: "#0da487" },
+        };
+
+        const razor = new window.Razorpay(options);
+        razor.open();
+      }
+    } catch (error) {
+      console.error(
+        "Error creating order:",
+        error.response.data.message.split(" ").slice(0, 4).join(" ")
+      );
+
+      // toast.error(data.message);
+      toast.error(error.response.data.message.split(" ").slice(0, 4).join(" "));
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
+  // Function to Generate and Upload Invoice
+  const generateAndUploadInvoice = async (orderId) => {
+    try {
+      const invoiceData = {
+        sender: {
+          company: "VegenMart Tech India Pvt. Ltd",
+          address: "155/25E Karela Bagh",
+          city: "Prayagraj, Uttar Pradesh",
+          country: "India",
+        },
+        client: {
+          company: `${userState?.user?.name.split(" ")[0]}`,
+          address: `${invoiceAddress?.name} (${invoiceAddress?.phone}) ${invoiceAddress?.address_type}, ${invoiceAddress?.area}, ${invoiceAddress?.flat}, ${invoiceAddress?.floor}, ${invoiceAddress?.landmark}, (${invoiceAddress?.postal_code}), ${invoiceAddress?.state}`,
+          country: "India",
+          contact: `${userState?.user?.email || userState?.user?.phone}`,
+        },
+        products: paymentData.products.map((product) => ({
+          quantity: product.quantity,
+          description: product.product_name,
+          price: product.product_price,
+        })),
+        information: {
+          number: orderId, // Order ID
+          date: new Date().toISOString().split("T")[0], // Current Date
+          "Shipping Cost": shipping, // Add Shipping Cost (Make sure this value is defined)
+          "Payment Method": paymentMode, // COD, Online, etc.
+          "Discount Applied": discountValue || 0, // Add Discount (If applicable)
+          "Total Amount": calculatedPrice, // Final total price
+        },
+        "bottom-notice": "Thank you for shopping with VegenMart!",
+        settings: {
+          currency: "INR", // Set currency to Indian Rupees
+        },
+      };
+
+      const invoice = await easyinvoice.createInvoice(invoiceData);
+      const invoiceBase64 = invoice.pdf;
+
+      const response = await axios.post(`${baseUrl}/upload-invoice`, {
+        orderId,
+        userId,
+        invoiceBase64,
+      });
+
+      if (response.data.cloudinary_url) {
+        toast.success("Invoice uploaded successfully!");
+
+        // Show confirmation dialog
+        const userConfirmed = window.confirm(
+          "Do you want to download the invoice?"
+        );
+        if (userConfirmed) {
+          window.open(response.data.cloudinary_url, "_blank"); // Open in new tab
+        }
+      } else {
+        toast.error("Invoice uploaded but no download link available.");
+      }
+    } catch (error) {
+      console.error("Invoice Generation Error:", error);
+      toast.error("Failed to generate invoice.");
+    }
+  };
+
+  // Fetch all available coupons (this could come from your API)
+  const fetchCoupons = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/getAllCoupon`);
+      setCoupons(response.data);
+    } catch (error) {
+      console.error("Error fetching coupons:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCoupons(); // Fetch available coupons when component mounts
+  }, []);
+
+  const handleCouponClick = (couponCode) => {
+    setCouponCodes(couponCodes); // Copy the coupon code into the input field
+    setIsModalOpens(false); // Close the modal after selection
+  };
+
+  return (
     <div className="container-fluid px-0 overflow-hidden ">
       <header className="pb-md-4 pb-0">
         <HeaderTop />
         <HeaderMiddle />
         <HeaderBottom />
       </header>
-      <section className="breadcrumb-section pt-0">
-        <div className="container-fluid-lg">
-          <div className="row">
-            <div className="col-12">
-              <div className="breadcrumb-contain">
-                <h2>Checkout</h2>
-                <nav>
-                  <ol className="breadcrumb mb-0">
-                    <li className="breadcrumb-item">
-                      <a href="index.html">
-                        <i className="fa-solid fa-house" />
-                      </a>
-                    </li>
-                    <li className="breadcrumb-item active">Checkout</li>
-                  </ol>
-                </nav>
+      {carts.length === 0 ? (
+        <section className="breadcrumb-section pt-0">
+          <div className="empty-cart text-center">
+            <h3>Your cart is empty</h3>
+            <p>It looks like you haven't added anything to your cart yet.</p>
+            <Link
+              to={"/"}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <button className="btn btn-animation">
+                Continue to Shopping
+              </button>
+            </Link>
+          </div>
+
+          <div className="container-fluid-lg">
+            <div className="row">
+              <div className="col-12">
+                <div className="breadcrumb-contain">
+                  <h2>Checkout</h2>
+                  <nav>
+                    <ol className="breadcrumb mb-0">
+                      <li className="breadcrumb-item">
+                        <a href="index.html">
+                          <i className="fa-solid fa-house" />
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item active">Checkout</li>
+                    </ol>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <section className="checkout-section-2 section-b-space">
+          <div className="container-fluid-lg">
+            <div className="row g-sm-4 g-3">
+              <div className="col-lg-4">
+                {/* <button
+                onClick={() => (window.location.href = "/order")}
+                className="btn theme-bg-color mb-2 text-white btn-md w-100 mt-4 fw-bold"
+              >
+                Place Order
+              </button> */}
+                <div className="right-side-summery-box">
+                  <div className="summery-box-2">
+                    <div className="summery-header">
+                      <h3>Order Summary</h3>
+                    </div>
+                    <ul className="summery-contain">
+                      {carts.map((cart, index) => (
+                        <li key={cart.cart_id}>
+                          {console.log(cart)
+                          }
+                          <img
+                            src={JSON.parse(cart.product_image)[0]}
+                            className="img-fluid blur-up lazyloaded checkout-image"
+                            alt={cart.product_name}
+                          />
+                          <div className="cart_qty qty-box open w-50">
+                            <div className="input-group">
+                              {/* Decrease button */}
+                              <button
+                                type="button"
+                                className="qty-left-minus"
+                                onClick={() => handleDecreaseWeight(index)}
+                              >
+                                <i className="fa fa-minus" />
+                              </button>
 
-      <section className="checkout-section-2 section-b-space">
-        <div className="container-fluid-lg">
-          <div className="row g-sm-4 g-3">
-            <div className="col-lg-8">
-              <div className="left-sidebar-checkout">
-                <div className="checkout-detail-box">
-                  <ul>
-                    <li>
-                      <div className="checkout-icon">
-                        <lord-icon
-                          target=".nav-item"
-                          src="https://cdn.lordicon.com/ggihhudh.json"
-                          trigger="loop-on-hover"
-                          colors="primary:#121331,secondary:#646e78,tertiary:#0baf9a"
-                          className="lord-icon"
-                        ></lord-icon>
-                      </div>
-                      <div className="checkout-box">
-                        <div className="checkout-title">
-                          <h4>Delivery Address</h4>
-                        </div>
-                        <div className="checkout-detail">
-                          <div className="row g-4">
-                            <div className="col-xxl-6 col-lg-12 col-md-6">
-                              <div className="delivery-address-box">
-                                <div>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="jack"
-                                      id="flexRadioDefault1"
-                                    />
-                                  </div>
-                                  <div className="label">
-                                    <label>Home</label>
-                                  </div>
-                                  <ul className="delivery-address-detail">
-                                    <li>
-                                      <h4 className="fw-500">Jack Jennas</h4>
-                                    </li>
-                                    <li>
-                                      <p className="text-content">
-                                        <span className="text-title">
-                                          Address :{" "}
-                                        </span>
-                                        8424 James Lane South San Francisco, CA
-                                        94080
-                                      </p>
-                                    </li>
-                                    <li>
-                                      <h6 className="text-content">
-                                        <span className="text-title">
-                                          Pin Code :
-                                        </span>{" "}
-                                        +380
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="text-content mb-0">
-                                        <span className="text-title">
-                                          Phone :
-                                        </span>{" "}
-                                        + 380 (0564) 53 - 29 - 68
-                                      </h6>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-xxl-6 col-lg-12 col-md-6">
-                              <div className="delivery-address-box">
-                                <div>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="jack"
-                                      id="flexRadioDefault2"
-                                      defaultChecked="checked"
-                                    />
-                                  </div>
-                                  <div className="label">
-                                    <label>Office</label>
-                                  </div>
-                                  <ul className="delivery-address-detail">
-                                    <li>
-                                      <h4 className="fw-500">Jack Jennas</h4>
-                                    </li>
-                                    <li>
-                                      <p className="text-content">
-                                        <span className="text-title">
-                                          Address :
-                                        </span>
-                                        Nakhimovskiy R-N / Lastovaya Ul., bld.
-                                        5/A, appt. 12
-                                      </p>
-                                    </li>
-                                    <li>
-                                      <h6 className="text-content">
-                                        <span className="text-title">
-                                          Pin Code :
-                                        </span>
-                                        +380
-                                      </h6>
-                                    </li>
-                                    <li>
-                                      <h6 className="text-content mb-0">
-                                        <span className="text-title">
-                                          Phone :
-                                        </span>{" "}
-                                        + 380 (0564) 53 - 29 - 68
-                                      </h6>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
+                              <input
+                                className="form-control input-number qty-input"
+                                type="text"
+                                name="quantity"
+                                value={cart.unit}
+                                readOnly
+                              />
+
+                              {/* Increase button */}
+                              <button
+                                type="button"
+                                className="qty-right-plus"
+                                onClick={() => handleIncreaseWeight(index)}
+                              >
+                                <i className="fa fa-plus" />
+                              </button>
                             </div>
                           </div>
+                          <h4 className="price">₹{cart.price}</h4>
+                          <Link  onClick={() => handleDelete(cart.cart_id)}>
+                          <MdDeleteForever className="text-danger fs-3 ms-3"/>
+                          </Link>
+                          <Link onClick={()=>handleAddToWishlist(cart.id)}>
+                          <FaHeart className="text-danger fs-4 ms-3"/>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="bg-white mt-2 rounded-4 summery-contain">
+                      <div className="coupon-cart">
+                        <h6 className="text-content mb-2">Coupon Apply</h6>
+                        <div className="coupon-box input-group">
+                          <input
+                            type="text" // Use "text" for coupon code
+                            className="form-control"
+                            id="exampleFormControlInput1"
+                            placeholder="Enter Coupon Code Here..."
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)} // Correctly handle state update
+                            required
+                          />
+                          <button
+                            className="btn-apply btn-apply-input"
+                            type="submit"
+                            onClick={validateCoupon}
+                            disabled={loading}
+                          >
+                            {loading ? (
+                              <>
+                                <span
+                                  className="spinner-border spinner-border-sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                ></span>
+                                Loading...
+                              </>
+                            ) : (
+                              "Apply"
+                            )}
+                          </button>
+                          <button
+                            className="btn-apply view-coupon-cart-btn"
+                            onClick={() => setIsModalOpens(true)}
+                          >
+                            View Coupons
+                          </button>
                         </div>
+                        <span className="">
+                          {responseMessage && <p>{responseMessage}</p>}
+                        </span>
                       </div>
-                    </li>
-                    <li>
+                      <ul>
+                        <li>
+                          <h4>Your Points </h4>
+                          <h4 className="price">{points}</h4>
+                        </li>
+
+                        <li>
+                          <h4>Subtotal</h4>
+                          <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
+                        </li>
+                        {/* <li>
+                        <h4>Actual Amount</h4>
+                        <h4 className="price">₹00.00</h4>
+                      </li> */}
+                        <li>
+                          <h4>Coupon Discount</h4>
+                          <h4 className="price">
+                            ₹{discountValue ? discountValue : "---"}
+                          </h4>
+                        </li>
+
+                        <li className="align-items-start">
+                          <h4>Shipping Cost</h4>
+                          <h4 className="price text-end">
+                            {shipping === 0 ? "Free" : shipping}
+                          </h4>
+                        </li>
+                        <li>
+                          <h4>Total Cost</h4>
+                          <h4 className="price">₹{calculatedPrice}</h4>
+                        </li>
+                      </ul>
+                    </div>
+                    <ul className="summery-total">
+                      <li className="list-total border-top-0">
+                        <h4>Total (INR)</h4>
+                        <h4 className="price theme-color">
+                          ₹{calculatedPrice}
+                        </h4>{" "}
+                        {/* Add shipping to total */}
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="checkout-offer">
+                    <div className="offer-title">
+                      <div className="offer-icon">
+                        <img
+                          src="../assets/images/inner-page/offer.svg"
+                          className="img-fluid"
+                          alt=""
+                        />
+                      </div>
+                      <div className="offer-name">
+                        <h6>Available Offers</h6>
+                      </div>
+                    </div>
+                    <ul className="offer-detail">
+                      <li>
+                        <p>
+                          Combo: BB Royal Almond/Badam Californian, Extra Bold
+                          100 gm...
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Combo: Royal Cashew Californian, Extra Bold 100 gm +
+                          BB Royal Honey 500 gm
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-8">
+                <div className="left-sidebar-checkout">
+                 <div className="checkout-detail-box">
+                    <ul>
+                      <li>
                       <div className="checkout-icon">
-                        <lord-icon
-                          target=".nav-item"
-                          src="https://cdn.lordicon.com/oaflahpk.json"
-                          trigger="loop-on-hover"
-                          colors="primary:#0baf9a"
-                          className="lord-icon"
-                        ></lord-icon>
-                      </div>
-                      <div className="checkout-box">
-                        <div className="checkout-title">
-                          <h4>Delivery Option</h4>
+                          <lord-icon
+                            target=".nav-item"
+                            src="https://cdn.lordicon.com/ggihhudh.json"
+                            trigger="loop-on-hover"
+                            colors="primary:#121331,secondary:#646e78,tertiary:#0baf9a"
+                            className="lord-icon"
+                          ></lord-icon>
                         </div>
-                        <div className="checkout-detail">
-                          <div className="row g-4">
-                            <div className="col-xxl-6">
-                              <div className="delivery-option">
-                                <div className="delivery-category">
-                                  <div className="shipment-detail">
-                                    <div className="form-check custom-form-check hide-check-box">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="standard"
-                                        id="standard"
-                                        defaultChecked=""
-                                      />
-                                      <label
-                                        className="form-check-label"
-                                        htmlFor="standard"
-                                      >
-                                        Standard Delivery Option
-                                      </label>
-                                    </div>
-                                  </div>
+                        <div className="checkout-box">
+                          <div className="checkout-title">
+                            <h4>Delivery Address</h4>
+                          </div>
+
+                          <div className="checkout-detail">
+                            <Link onClick={handleToggleModal}>
+                              <div className="d-flex gap-2 center mt-2">
+                                <div>
+                                  <GoPlus />
                                 </div>
+                                <div>Add new address</div>
                               </div>
-                            </div>
-                            <div className="col-xxl-6">
-                              <div className="delivery-option">
-                                <div className="delivery-category">
-                                  <div className="shipment-detail">
-                                    <div className="form-check mb-0 custom-form-check show-box-checked">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="standard"
-                                        id="future"
-                                      />
-                                      <label
-                                        className="form-check-label"
-                                        htmlFor="future"
-                                      >
-                                        Future Delivery Option
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-12 future-box show">
-                              <div className="future-option">
-                                <div className="row g-md-0 gy-4">
-                                  <div className="col-md-6">
-                                    <div className="delivery-items">
-                                      <div>
-                                        <h5 className="items text-content">
-                                          <span>3 Items</span>@ $693.48
-                                        </h5>
-                                        <h5 className="charge text-content">
-                                          Delivery Charge $34.67
-                                          <button
-                                            type="button"
-                                            className="btn p-0"
-                                            data-bs-toggle="tooltip"
-                                            data-bs-placement="top"
-                                            title=""
-                                            data-bs-original-title="Extra Charge"
-                                          >
-                                            <i className="fa-solid fa-circle-exclamation" />
-                                          </button>
-                                        </h5>
+                            </Link>
+                            <div
+                              className="overflow-auto"
+                              style={{ maxHeight: "400px" }}
+                            >
+                              <div className="checkout-detail ">
+                                <div className="col-12 d-flex flex-row gap-2">
+                                  {address?.map((data, index) => (
+                                    <div
+                                      key={index}
+                                      className=" align-items-center bg-white custom-accordion d-flex justify-content-between rounded-4 mb-4"
+                                    >
+                                      <div className="card p-3 border-0">
+                                        <div className=" d-flex">
+                                          <div className="form-check">
+                                            <input
+                                              className="form-check-input mt-1"
+                                              type="radio"
+                                              name="jack"
+                                              id="flexRadioDefault1"
+                                              value={data.address_id}
+                                              onChange={(e) =>
+                                                setAddress_id(e.target.value)
+                                              }
+                                            />
+                                          </div>
+                                          <div className="d-flex justify-content-between align-items-top gap-lg-5 ">
+                                            <div className="badge bg-dangeer">
+                                              <p className="p-1 rounded bg-danger">
+                                                {data.address_type}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <Link>
+                                                <div
+                                                  onClick={() =>
+                                                    handleEditModal(data)
+                                                  }
+                                                >
+                                                  <FaPencil />
+                                                </div>
+                                              </Link>
+                                              
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <ul className="delivery-address-detail list-unstyled">
+                                          <li>
+                                            <h6 className="">{data.name}</h6>
+                                          </li>
+                                          <li>
+                                            <p className="text-content">
+                                              <span className="text-title">
+                                                Address:{" "}
+                                              </span>
+                                              {data.flat}, {data.floor},{" "}
+                                              {data.area}, {data.landmark},
+                                              {data.state},
+                                            </p>
+                                          </li>
+                                          <li>
+                                            <h6 className="text-content">
+                                              <span className="text-title">
+                                                Pin Code:{" "}
+                                              </span>
+                                              {data.postal_code},
+                                            </h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="text-content p-1">
+                                              <span className="text-title">
+                                                Phone:{" "}
+                                              </span>{" "}
+                                              {data.phone}
+                                            </h6>
+                                          </li>
+                                        </ul>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="col-md-6">
-                                    <form className="form-floating theme-form-floating date-box">
-                                      <input
-                                        type="date"
-                                        className="form-control"
-                                      />
-                                      <label>Select Date</label>
-                                    </form>
-                                  </div>
+                                  ))}
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="checkout-icon">
-                        <lord-icon
-                          target=".nav-item"
-                          src="https://cdn.lordicon.com/qmcsqnle.json"
-                          trigger="loop-on-hover"
-                          colors="primary:#0baf9a,secondary:#0baf9a"
-                          className="lord-icon"
-                        ></lord-icon>
-                      </div>
-                      <div className="checkout-box">
-                        <div className="checkout-title">
-                          <h4>Payment Option</h4>
+                      </li>
+
+                      <li>
+                        <div className="checkout-icon">
+                          <lord-icon
+                            target=".nav-item"
+                            src="https://cdn.lordicon.com/oaflahpk.json"
+                            trigger="loop-on-hover"
+                            colors="primary:#0baf9a"
+                            className="lord-icon"
+                          ></lord-icon>
                         </div>
-                        <div className="checkout-detail">
-                          <div
-                            className="accordion accordion-flush custom-accordion"
-                            id="accordionFlushExample"
-                          >
-                            <div className="accordion-item">
-                              <div
-                                className="accordion-header"
-                                id="flush-headingFour"
-                              >
-                                <div
-                                  className="accordion-button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#flush-collapseFour"
-                                  aria-expanded="true"
-                                >
-                                  <div className="custom-form-check form-check mb-0">
+                      </li>
+
+                      <div className="checkout-container">
+                        <div className="row justify-content-center">
+                          {/* Time & Date Section */}
+                          <div className="col-md-6">
+                            <div className="card checkout-card">
+                              <div className="card-body">
+                                <h2 className="text-center fw-bold">
+                                  Choose a Time & Date
+                                </h2>
+
+                                <div className="slot-options">
+                                  <input
+                                    type="date"
+                                    id="datePicker"
+                                    className="form-control w-75 mt-2"
+                                    onChange={(e) =>
+                                      setDeliveryDate(e.target.value)
+                                    }
+                                  />
+                                  {[
+                                    "6 AM - 8 AM",
+                                    "8 AM - 10 AM",
+                                    "10 AM - 12 PM",
+                                    "12 PM - 2 PM",
+                                  ].map((slot, index) => (
+                                    <div
+                                      className="form-check mb-1"
+                                      key={index}
+                                    >
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="timeSlot"
+                                        id={`slot${index}`}
+                                        value={slot}
+                                        checked={selectedSlot === slot}
+                                        onChange={handleSlotChange}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`slot${index}`}
+                                      >
+                                        {slot}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Payment Options Section */}
+                          <div className="col-md-6">
+                            <div className="card checkout-card">
+                              <div className="card-body">
+                                <h2 className="text-center fw-bold">
+                                  Payment Option
+                                </h2>
+                                <div className="payment-options">
+                                  <div className="form-check mb-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="paymentMode"
+                                      id="online"
+                                      value="online"
+                                      checked={paymentMode === "online"}
+                                      onChange={(e) =>
+                                        setPaymentMode(e.target.value)
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="online"
+                                    >
+                                      Online Payment
+                                    </label>
+                                  </div>
+                                  <div className="form-check">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="paymentMode"
+                                      id="cash"
+                                      value="Cash On Delivery"
+                                      checked={
+                                        paymentMode === "Cash On Delivery"
+                                      }
+                                      onChange={(e) =>
+                                        setPaymentMode(e.target.value)
+                                      }
+                                    />
                                     <label
                                       className="form-check-label"
                                       htmlFor="cash"
                                     >
-                                      <input
-                                        className="form-check-input mt-0"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="cash"
-                                        defaultChecked=""
-                                      />{" "}
                                       Cash On Delivery
                                     </label>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                id="flush-collapseFour"
-                                className="accordion-collapse collapse show"
-                                data-bs-parent="#accordionFlushExample"
-                                style={{}}
-                              >
-                                <div className="accordion-body">
-                                  <p className="cod-review">
-                                    Pay digitally with SMS Pay Link. Cash may
-                                    not be accepted in COVID restricted areas.{" "}
-                                    <a href="javascript:void(0)">Know more.</a>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="accordion-item">
-                              <div
-                                className="accordion-header"
-                                id="flush-headingOne"
-                              >
-                                <div
-                                  className="accordion-button collapsed"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#flush-collapseOne"
-                                  aria-expanded="false"
-                                >
-                                  <div className="custom-form-check form-check mb-0">
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="credit"
-                                    >
-                                      <input
-                                        className="form-check-input mt-0"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="credit"
-                                      />
-                                      Credit or Debit Card
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                id="flush-collapseOne"
-                                className="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample"
-                                style={{}}
-                              >
-                                <div className="accordion-body">
-                                  <div className="row g-2">
-                                    <div className="col-12">
-                                      <div className="payment-method">
-                                        <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
-                                          <input
-                                            type="text"
-                                            className="form-control"
-                                            id="credit2"
-                                            placeholder="Enter Credit & Debit Card Number"
-                                          />
-                                          <label htmlFor="credit2">
-                                            Enter Credit &amp; Debit Card Number
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="col-xxl-4">
-                                      <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
-                                        <input
-                                          type="text"
-                                          className="form-control"
-                                          id="expiry"
-                                          placeholder="Enter Expiry Date"
-                                        />
-                                        <label htmlFor="expiry">
-                                          Expiry Date
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-xxl-4">
-                                      <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
-                                        <input
-                                          type="text"
-                                          className="form-control"
-                                          id="cvv"
-                                          placeholder="Enter CVV Number"
-                                        />
-                                        <label htmlFor="cvv">CVV Number</label>
-                                      </div>
-                                    </div>
-                                    <div className="col-xxl-4">
-                                      <div className="form-floating mb-lg-3 mb-2 theme-form-floating">
-                                        <input
-                                          type="password"
-                                          className="form-control"
-                                          id="password"
-                                          placeholder="Enter Password"
-                                        />
-                                        <label htmlFor="password">
-                                          Password
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="button-group mt-0">
-                                      <ul>
-                                        <li>
-                                          <button className="btn btn-light shopping-button">
-                                            Cancel
-                                          </button>
-                                        </li>
-                                        <li>
-                                          <button className="btn btn-animation">
-                                            Use This Card
-                                          </button>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="accordion-item">
-                              <div
-                                className="accordion-header"
-                                id="flush-headingTwo"
-                              >
-                                <div
-                                  className="accordion-button collapsed"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#flush-collapseTwo"
-                                  aria-expanded="false"
-                                >
-                                  <div className="custom-form-check form-check mb-0">
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="banking"
-                                    >
-                                      <input
-                                        className="form-check-input mt-0"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="banking"
-                                      />
-                                      Net Banking
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                id="flush-collapseTwo"
-                                className="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample"
-                                style={{}}
-                              >
-                                <div className="accordion-body">
-                                  <h5 className="text-uppercase mb-4">
-                                    Select Your Bank
-                                  </h5>
-                                  <div className="row g-2">
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank1"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank1"
-                                        >
-                                          Industrial &amp; Commercial Bank
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank2"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank2"
-                                        >
-                                          Agricultural Bank
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank3"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank3"
-                                        >
-                                          Bank of America
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank4"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank4"
-                                        >
-                                          Construction Bank Corp.
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank5"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank5"
-                                        >
-                                          HSBC Holdings
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="bank6"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="bank6"
-                                        >
-                                          JPMorgan Chase &amp; Co.
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-12">
-                                      <div className="select-option">
-                                        <div className="form-floating theme-form-floating">
-                                          <select className="form-select theme-form-select">
-                                            <option value="hsbc">
-                                              HSBC Holdings
-                                            </option>
-                                            <option value="loyds">
-                                              Lloyds Banking Group
-                                            </option>
-                                            <option value="natwest">
-                                              Nat West Group
-                                            </option>
-                                            <option value="Barclays">
-                                              Barclays
-                                            </option>
-                                            <option value="other">
-                                              Others Bank
-                                            </option>
-                                          </select>
-                                          <label>Select Other Bank</label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="accordion-item">
-                              <div
-                                className="accordion-header"
-                                id="flush-headingThree"
-                              >
-                                <div
-                                  className="accordion-button collapsed"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#flush-collapseThree"
-                                  aria-expanded="false"
-                                >
-                                  <div className="custom-form-check form-check mb-0">
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="wallet"
-                                    >
-                                      <input
-                                        className="form-check-input mt-0"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="wallet"
-                                      />
-                                      My Wallet
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                id="flush-collapseThree"
-                                className="accordion-collapse collapse"
-                                data-bs-parent="#accordionFlushExample"
-                                style={{}}
-                              >
-                                <div className="accordion-body">
-                                  <h5 className="text-uppercase mb-4">
-                                    Select Your Wallet
-                                  </h5>
-                                  <div className="row">
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="amazon"
-                                        >
-                                          <input
-                                            className="form-check-input mt-0"
-                                            type="radio"
-                                            name="flexRadioDefault"
-                                            id="amazon"
-                                          />
-                                          Amazon Pay
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="gpay"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="gpay"
-                                        >
-                                          Google Pay
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="airtel"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="airtel"
-                                        >
-                                          Airtel Money
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="paytm"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="paytm"
-                                        >
-                                          Paytm Pay
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="jio"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="jio"
-                                        >
-                                          JIO Money
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                      <div className="custom-form-check form-check">
-                                        <input
-                                          className="form-check-input mt-0"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="free"
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="free"
-                                        >
-                                          Freecharge
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
                           </div>
                         </div>
+
+                        {/* Checkout Button */}
+                        <div className="text-center mt-3">
+                          <Link
+                            className="btn theme-bg-color mb-2 text-white btn-md w-100 mt-4 fw-bold"
+                            onClick={handlePayment}
+                          >
+                            {paymentLoading ? (
+                              <span>
+                                <span
+                                  className="spinner-border spinner-border-sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                ></span>
+                                Processing...
+                              </span>
+                            ) : (
+                              "Proceed to Checkout"
+                            )}
+                          </Link>
+                        </div>
                       </div>
-                    </li>
-                  </ul>
+
+                      <li>
+                        <div className="checkout-icon">
+                          <lord-icon
+                            target=".nav-item"
+                            src="https://cdn.lordicon.com/qmcsqnle.json"
+                            trigger="loop-on-hover"
+                            colors="primary:#0baf9a,secondary:#0baf9a"
+                            className="lord-icon"
+                          ></lord-icon>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            
-
-            <div className="col-lg-4">
-            <button onClick={() => (window.location.href = "/order")} className="btn theme-bg-color mb-2 text-white btn-md w-100 mt-4 fw-bold">
-                  Place Order
-                </button>
-              <div className="right-side-summery-box">
-              
-                <div className="summery-box-2">
-                  <div className="summery-header">
-                    <h3>Order Summery</h3>
-                  </div>
-                  <ul className="summery-contain">
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/1.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Bell pepper <span>X 1</span>
-                      </h4>
-                      <h4 className="price">$32.34</h4>
-                    </li>
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/2.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Eggplant <span>X 3</span>
-                      </h4>
-                      <h4 className="price">$12.23</h4>
-                    </li>
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/3.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Onion <span>X 2</span>
-                      </h4>
-                      <h4 className="price">$18.27</h4>
-                    </li>
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/4.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Potato <span>X 1</span>
-                      </h4>
-                      <h4 className="price">$26.90</h4>
-                    </li>
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/5.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Baby Chili <span>X 1</span>
-                      </h4>
-                      <h4 className="price">$19.28</h4>
-                    </li>
-                    <li>
-                      <img
-                        src="../assets/images/vegetable/product/6.png"
-                        className="img-fluid blur-up lazyloaded checkout-image"
-                        alt=""
-                      />
-                      <h4>
-                        Broccoli <span>X 2</span>
-                      </h4>
-                      <h4 className="price">$29.69</h4>
-                    </li>
-                  </ul>
-                  <ul className="summery-total">
-                    <li>
-                      <h4>Subtotal</h4>
-                      <h4 className="price">$111.81</h4>
-                    </li>
-                    <li>
-                      <h4>Shipping</h4>
-                      <h4 className="price">$8.90</h4>
-                    </li>
-                    <li>
-                      <h4>Tax</h4>
-                      <h4 className="price">$29.498</h4>
-                    </li>
-                    <li>
-                      <h4>Coupon/Code</h4>
-                      <h4 className="price">$-23.10</h4>
-                    </li>
-                    <li className="list-total">
-                      <h4>Total (USD)</h4>
-                      <h4 className="price">$19.28</h4>
-                    </li>
-                  </ul>
-                </div>
-                <div className="checkout-offer">
-                  <div className="offer-title">
-                    <div className="offer-icon">
-                      <img
-                        src="../assets/images/inner-page/offer.svg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </div>
-                    <div className="offer-name">
-                      <h6>Available Offers</h6>
-                    </div>
-                  </div>
-                  <ul className="offer-detail">
-                    <li>
-                      <p>
-                        Combo: BB Royal Almond/Badam Californian, Extra Bold 100
-                        gm...
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        combo: Royal Cashew Californian, Extra Bold 100 gm + BB
-                        Royal Honey 500 gm
-                      </p>
-                    </li>
-                  </ul>
-                </div>
-                
+              <div className="mt-4">
+                <RelevantProducts />
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+       )} 
+
+      <HomeAddressModal
+        locations={locations}
+        isOpen={isModalOpen}
+        toggle={handleToggleModal}
+        userId={userId}
+        phone={phoneno}
+        onClose={AddressModal}
+      />
+
+      <EditAddressModal
+        locations={locations}
+        isOpen={isEditModal}
+        toggle={() => setIsEditModal(false)}
+        data={selectedAddress}
+        userId={userId}
+        onClose={toggleEditModal}
+      />
 
       <Footer />
+      <CouponModal
+        isModalOpen={isModalOpens}
+        setIsModalOpen={setIsModalOpens}
+        coupons={coupons}
+        handleCouponClick={handleCouponClick}
+      />
     </div>
   );
 }
 
 export default Checkout;
+

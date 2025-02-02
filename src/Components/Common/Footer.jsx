@@ -91,7 +91,7 @@ const Footer = () => {
                 </div>
                 <p className="text-content text-center">
                   Delivering Ozone-Washed vegetables and fruits for a healthier,
-                  safer lifestyle. Freshness you can trust, <br /> convenience
+                  safer lifestyle. Freshness you can trust, convenience
                   you’ll love.
                 </p>
                 <div className="footer-logo-contain">

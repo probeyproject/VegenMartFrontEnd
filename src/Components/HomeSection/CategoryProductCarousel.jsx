@@ -109,7 +109,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
                 style={{ width: "30%", background: "rgb(254, 241, 247)" }}
               >
                 <Link
-                  to={`/filters/${category.category_name}`}
+                  to={`/pannelpage/${category.category_name}`}
                   style={{
                     cursor: "pointer",
                     textDecoration: "none",
@@ -164,7 +164,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
                     color: "black",
                     width: "75px",
                   }}
-                  className="category-card d-flex flex-column align-items-center justify-centent-center m-1 py-3 ms-3"
+                  className="category-card d-flex flex-column align-items-center justify-centent-center m-1 py-3 ms-2"
                   onClick={() => navigate("/pannelpage")}
                 >
                   <div
@@ -186,7 +186,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
                   
                 </div>
                 <p
-                    className="mb-0 fw-semibold text-muted ms-3"
+                    className="mb-0 fw-semibold text-muted ms-2"
                     style={{ fontSize: "14px", color: "#1C1C1C" }}
                   >
                     View More

@@ -260,11 +260,11 @@ export default function ComboCardCarousel() {
               </div>
               <p className="fw-bold text-start mb-0">₹{combo.price}</p>
               <p className="card-text text-muted text-capitalize">
-
-              {combo.description?.length >= 20
-                    ? `${combo.description.substring(0, 25)}...`
-                    : combo.description}
-                {/* {combo.description} */}
+                {combo.description
+                  ? combo.description.length >= 10  
+                    ? `${combo.description.substring(0, 10)}...`
+                    : combo.description
+                  : "Loading.. description "}
               </p>
               <button className="btn btn-animation w-100 mt-2">
                 View Details
@@ -328,14 +328,11 @@ export default function ComboCardCarousel() {
                           />
                           <div className="card-body  ">
                             <p className="card-title_">
-                              {product.product_name.length >= 10
-                                ? product.product_name.slice(0, 10) + "..."
-                                : product.product_name}
-                              {/* {product.product_name} */}
+                              {product.product_name}
                             </p>
                             <p className="combo_price">
                               <strong className="combo_price">
-                               Price: ₹{product.product_price}
+                                Price: ₹{product.product_price}
                               </strong>
                             </p>
                           </div>

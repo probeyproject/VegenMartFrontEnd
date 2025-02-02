@@ -14,9 +14,6 @@ import { FaRegAddressCard } from "react-icons/fa6";
 
 import { FaStaylinked } from "react-icons/fa6";
 
-
-
-
 import {
   TabContent,
   TabPane,
@@ -57,7 +54,7 @@ function Account() {
   const phoneno = phone?.slice(3);
   const wishlist = userState?.wishlists.length;
   console.log(userState);
-  
+
   const cart = userState?.cart.length;
   const rewards = userState?.rewards;
   const points = rewards?.length > 0 ? rewards[0].points : 0;
@@ -256,11 +253,15 @@ function Account() {
                           <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
                             <div className="card" style={{ width: "200px" }}>
                               <div className="total-detail p-2">
-                                <h5>Total Cart: <span>{cart || 0}</span></h5>
+                                <h5>
+                                  Total Cart: <span>{cart || 0}</span>
+                                </h5>
                               </div>
                             </div>
                             <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
-                             <span><TbTruckDelivery className="fs-4 ms-3 mb-2" /></span>
+                              <span>
+                                <TbTruckDelivery className="fs-4 ms-3 mb-2" />
+                              </span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -274,8 +275,6 @@ function Account() {
                                   </NavLink>
                                 </NavItem>
                               </Nav>
-                            
-                              
                             </div>
                           </div>
                           <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
@@ -284,11 +283,15 @@ function Account() {
                               style={{ width: "200px" }}
                             >
                               <div className="total-detail">
-                                <h5>Total Wishlist: <span>{wishlist || 0}</span></h5>
+                                <h5>
+                                  Total Wishlist: <span>{wishlist || 0}</span>
+                                </h5>
                               </div>
                             </div>
                             <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
-                              <span><FaRegAddressCard className="ms-3 fs-4 mb-2" /></span>
+                              <span>
+                                <FaRegAddressCard className="ms-3 fs-4 mb-2" />
+                              </span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -310,11 +313,16 @@ function Account() {
                               style={{ width: "200px" }}
                             >
                               <div className="total-detail">
-                                <h5>Total Reward Points: <span>{points || 0}</span></h5>
+                                <h5>
+                                  Total Reward Points:{" "}
+                                  <span>{points || 0}</span>
+                                </h5>
                               </div>
                             </div>
                             <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
-                              <span><FaStaylinked className="fs-4 ms-3 mb-2" /></span>
+                              <span>
+                                <FaStaylinked className="fs-4 ms-3 mb-2" />
+                              </span>
                               <Nav>
                                 <NavItem>
                                   <NavLink
@@ -437,7 +445,7 @@ function Account() {
                                                       {product.product_name}
                                                     </li>
                                                     <li className="text-content">
-                                                      Qty - {product.unit}{" "}
+                                                      Qty - {product.quantity}{" "}
                                                       {product.weight_type}
                                                     </li>
                                                   </ul>

@@ -223,7 +223,7 @@ function SignUp() {
                         </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-floating theme-form-floating">
                         <select
                           className="form-control"
@@ -238,7 +238,7 @@ function SignUp() {
                           Role<span className="text-danger">*</span>
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                     </div> 
                     <div className="row mb-3">
                     <div className="col-md-6 mb-3">

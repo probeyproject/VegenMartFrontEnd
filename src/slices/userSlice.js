@@ -99,6 +99,8 @@ const userSlice = createSlice({
            // Save user data and token to cookies
            Cookies.set('user', JSON.stringify(action.payload.user), { expires: 7, secure: true, sameSite: 'Strict' });
            Cookies.set('token', action.payload.token, { expires: 7, secure: true, sameSite: 'Strict' });
+
+           localStorage.setItem("authenticated", true)
               
     },
 

@@ -82,13 +82,13 @@ function ShippingPolicy() {
               <div className="accordion-body">
                 <ul>
                   <li>
-                    <strong>Free Shipping:</strong> Orders with a value of ₹99
+                    <strong>Free Shipping:</strong> Orders with a value of ₹199
                     or above are eligible for free delivery.
                   </li>
                   <br />
                   <li>
-                    <strong>Shipping Fee:</strong> Orders below ₹99 will incur a
-                    delivery charge of ₹50.
+                    <strong>Shipping Fee:</strong> Orders below ₹199 will incur a
+                    delivery charge of ₹29.
                   </li>
                 </ul>
               </div>

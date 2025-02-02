@@ -54,6 +54,8 @@ function HeaderMiddle() {
         withCredentials: true, // To include cookies in the request
       });
 
+      dispatch(logout())
+
       if (response.status === 200) {
         // If successful, you can perform additional tasks (e.g., redirect, state reset)
         console.log("Logged out successfully");

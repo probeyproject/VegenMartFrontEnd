@@ -100,7 +100,7 @@ function ContactUs() {
       <section className="contact-box-section">
         <div className="container-fluid-lg">
           <div className="row g-lg-5 g-3">
-            <div className="col-lg-6">
+            <div className="col-lg-6 mb-5">
               <div className="left-sidebar-box">
                 <div className="row">
                   <div className="col-xl-12">
@@ -166,7 +166,7 @@ function ContactUs() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="col-lg-6 mb-3">
               <div className="right-sidebar-box mb-2">
                 <form onSubmit={handleSubmit}>
                   <div className="row">

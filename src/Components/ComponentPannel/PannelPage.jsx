@@ -6,9 +6,14 @@ import HeaderTop from "../Header/HeaderTop";
 import HeaderMiddle from "../Header/HeaderMiddle";
 import HeaderBottom from "../Header/HeaderBottom";
 import Footer from "../Common/Footer";
+import { useParams } from "react-router-dom";
 
 function PannelPage() {
+  const {category} = useParams()
   const [data, setdata] = useState("Mushroom");
+  useState(()=>{
+    setdata(category)
+  },[])
   return (
 
     

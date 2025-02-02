@@ -13,7 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import WriteReviewModal from "../Components/Detail_Page/WriteReviewModal";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../API/Api";
 import LoginModal from "../Components/Common/LoginModal";
 import { DetailsPageReleventProduct } from "../Components/Common/DetailsPageReleventProduct";
@@ -23,6 +23,7 @@ import { FaRegCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { CiCircleInfo } from "react-icons/ci";
 import defaultuser from '../assets/images/defauluser.webp'
+import { addToCart } from "../slices/userSlice";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -79,7 +80,7 @@ function DetailPage() {
   const userStates = useSelector((state) => state?.user);
   const cart = userStates?.cart;
   const wishlist = userStates?.wishlists;
-
+ const dispatch = useDispatch()
   const handleDiscountModal = (offersData) => {
     setModalData(offersData);
     setIsModalDiscount(true);
@@ -349,6 +350,10 @@ function DetailPage() {
         weight: responseWeight,
         weight_type: unitTypeToSend,
       });
+
+
+      dispatch(addToCart(response.data))
+      
 
       toast.success("Your product add to cart successfully");
     } catch (error) {
@@ -666,7 +671,7 @@ function DetailPage() {
                                       SKU : <a>{data.sku}</a>
                                     </li>
                                     <li>
-                                      MFG : <a>Self Life</a>
+                                    Self Life: <a>Min. 5 days</a>
                                     </li>
                                     <li>
                                       Stock : <a>{data.status}</a>

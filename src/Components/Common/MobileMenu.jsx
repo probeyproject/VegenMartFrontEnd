@@ -29,6 +29,8 @@ function MobileMenu() {
   // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const authenticated = useSelector((state) => state.user.authenticated);
+    const [selectedCategory, setSelectedCategory] = useState(null); // selected
+
 
   const handleInputChange = async (e) => {
     const searchTerm = e.target.value;
@@ -140,6 +142,7 @@ function MobileMenu() {
             <span>Home</span>
           </Link>
         </li>
+
         <li>
           <button
             onClick={() => setShowSearch(true)}
@@ -151,15 +154,18 @@ function MobileMenu() {
           </button>
         </li>
 
-        <li>
-          <Link to={"/mywhishlist"}>
-            <FaHeart
-              className="icli"
-              style={{ background: "none", border: "none" }}
-            />
-            <span>My Wish</span>
+        <li className="mobile-category">
+          <Link
+            data-bs-toggle="offcanvas"
+            to="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample"
+          >
+            <GiHamburgerMenu className="icli js-link " />
+            <span>Category</span>
           </Link>
         </li>
+
         <li style={{ background: "none", border: "none" }}>
           <Link to={"/cart"}>
             <FaShoppingBag className="icli fly-cate" />
@@ -227,61 +233,42 @@ function MobileMenu() {
           </div>
           {/* sidebar */}
           <div className="offcanvas-header">
-            <div className="sidenav">
-              {categories.map((item) => (
-                <div key={item.category_id}>
-                  {/* Dropdown for each category */}
-                  <button
-                    className={`dropdown-btn text-dark ${dropdowns[item.category_id] ? "active" : ""}`}
-                    onClick={() => {
-                      fetchProductsByCategoryId(item.category_id); // Fetch products for this category
-                      toggleDropdown(item.category_id); // Toggle the dropdown visibility for this category
-                    }}
-                  >
-                    <span className="ms-1 text-capitalize">
-                      <p className="text-capitalize"> {item.category_name}</p>
-
-                      {dropdowns[item.category_id] ? (
-                        <IoIosArrowUp className="icons__right fs-1" />
-                      ) : (
-                        <IoIosArrowDown className="icons__right fs-1" />
-                      )}
-                    </span>
-                  </button>
-                  <div
-                    className="dropdown-container"
-                    style={{
-                      display: dropdowns[item.category_id] ? "block" : "none",
-                    }}
-                  >
-                    {loading ? (
-                      <p>Loading...</p>
-                    ) : error ? (
-                      <p>{error}</p>
-                    ) : products.length === 0 ? (
-                      <p>No products found</p>
-                    ) : (
-                      products.map((product, productIndex) => (
-                        <a
-                          href="#"
-                          className="text-capitalize"
-                          key={productIndex}
-                          onClick={() =>
-                            navigate(`/detail_page/${product.product_id}`)
-                          }
-                        >
-                          <span data-bs-dismiss="offcanvacls">
-                            <h1>jatin</h1>
-                            {product.product_name}
-                          </span>
-                        </a>
-                      ))
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+                      <div className="row">
+                        {categories.map((category, index) => (
+                          
+                            <div className="col-6 mb-1" key={category.category_id}>
+                              <Link
+                               to={`/pannelpage/${category.category_name}`}
+                                style={{
+                                  cursor: "pointer",
+                                  textDecoration:"none",
+                                  color:"black",
+                                  backgroundColor:
+                                    selectedCategory === category.category_id
+                                      ? "#ebd7e0"
+                                      : "",
+                                }}
+                                className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
+                              >
+                                <img
+                                  src={category.category_url}
+                                  className="img-fluid rounded-circle mb-2"
+                                  alt="loading.."
+                                  style={{
+                                    height: "50px",
+                                    width: "50px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                                <p className="mb-0 text-center" style={{fontSize:"10px"}}>
+                                  {category.category_name}
+                                </p>
+                              </Link>
+                            </div>
+                         
+                        ))}
+                      </div>
+                    </div>
           <div className="offcanvas-body"></div>
         </div>
       </div>
@@ -355,6 +342,8 @@ function MobileMenu() {
           </div>
         </div>
       </div>
+
+      
     </div>
   );
 }

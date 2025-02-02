@@ -12,6 +12,7 @@ import { baseUrl } from "../../API/Api";
 import LoginModal from "../Common/LoginModal";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 import "./ProductBox.css";
+import { addToCart } from "../../slices/userSlice";
 
 const ProductBox = ({
   product_id,
@@ -54,6 +55,8 @@ const ProductBox = ({
   const [isModalDiscount, setIsModalDiscount] = useState(false);
   const [modal, setModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+
+  const dispatch = useDispatch()
 
   const authenticated = useSelector((state) => state?.user?.authenticated);
   const userState = useSelector((state) => state.user);
@@ -250,6 +253,8 @@ const ProductBox = ({
         weight: responseWeight,
         weight_type: unitTypeToSend,
       });
+
+      dispatch(addToCart(response.data))
 
       toast.success("Your product add to cart successfully");
     } catch (error) {

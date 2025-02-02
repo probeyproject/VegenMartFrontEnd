@@ -58,7 +58,7 @@ function Cart() {
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
   const [invoiceAddress, setInvoiceAddress] = useState({});
-  console.log(carts);
+  // console.log(carts);
 
   const AddressModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -176,7 +176,7 @@ function Cart() {
     const quantity = quantities[cart.cart_id] || 1; // Default to 1
     return acc + quantity * cart.product_price;
   }, 0);
-  console.log(totalAmount);
+  // console.log(totalAmount);
   useEffect(() => {
     // Check if totalAmount is >= 200 to set the shipping cost
     if (totalAmount >= 200) {
@@ -301,7 +301,7 @@ function Cart() {
 
             try {
               // Add a log here to confirm that this block is executed
-              console.log("Payment Response received:", paymentResponse);
+              // console.log("Payment Response received:", paymentResponse);
 
               // Now call the API to create the order with payment details
               const orderData = {
@@ -311,18 +311,18 @@ function Cart() {
               };
 
               // Log before making the final API call to create the order
-              console.log("Calling the API to create the order...");
+              // console.log("Calling the API to create the order...");
 
               const finalResponse = await axios.post(
                 `${baseUrl}/create/order/${userId}`,
                 orderData
               );
-              console.log(finalResponse);
+              // console.log(finalResponse);
 
               const finalOrderId = finalResponse.data.orderId;
 
               // Log the response to verify it's correct
-              console.log("Final Order Response:", finalResponse);
+              // console.log("Final Order Response:", finalResponse);
 
               if (finalOrderId) {
                 const invoiceData = {
@@ -357,7 +357,7 @@ function Cart() {
                 const invoiceBase64 = invoice.pdf;
 
                 // Log the generated invoice
-                console.log("Generated Invoice Base64:", invoiceBase64);
+                // console.log("Generated Invoice Base64:", invoiceBase64);
                 try {
                   const response = await axios.post(
                     `${baseUrl}/upload-invoice`,
@@ -368,7 +368,7 @@ function Cart() {
                     }
                   );
 
-                  console.log("Invoice upload response:", response);
+                  // console.log("Invoice upload response:", response);
                   toast.success("Invoice generated and sent successfully!");
                 } catch (error) {
                   console.log(error);
@@ -471,7 +471,7 @@ function Cart() {
                 {/* <div className="cart-table"> */}
                 {/* <div className="table-responsive-xl"> */}
 
-                {carts.map((cart) => {
+                {carts.map((cart, index) => {
                   // const imageUrls = JSON.parse(cart.product_image||cart.combo_image);
                   // console.log(imageUrls);
                   let imageUrls = [];
@@ -892,26 +892,26 @@ function Cart() {
                     </div>
                   </div>
 
-                  <div class="container mt-2">
-                    <div class="row d-flex align-content-center justify-content-center">
-                      <div class="col-md-6 mb-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Prepaid Order</h5>
-                            <p class="card-text">
+                  <div className="container mt-2">
+                    <div className="row d-flex align-content-center justify-content-center">
+                      <div className="col-md-6 mb-3">
+                        <div className="card">
+                          <div className="card-body">
+                            <h5 className="card-title">Prepaid Order</h5>
+                            <p className="card-text">
                               You will get{" "}
-                              <span class="badge bg-success">10% Points</span>
+                              <span className="badge bg-success">10% Points</span>
                             </p>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6 mb-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">COD Order</h5>
-                            <p class="card-text">
+                      <div className="col-md-6 mb-3">
+                        <div className="card">
+                          <div className="card-body">
+                            <h5 className="card-title">COD Order</h5>
+                            <p className="card-text">
                               You will get{" "}
-                              <span class="badge bg-warning">5% Points</span>
+                              <span className="badge bg-warning">5% Points</span>
                             </p>
                           </div>
                         </div>
