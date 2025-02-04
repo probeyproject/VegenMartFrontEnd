@@ -42,7 +42,7 @@ function HomeSection() {
   }, []);
 
   const gotTOProduct = async () => {
-    navigate("/filter");
+    navigate("/pannelpage/Mushroom");
   };
 
   return (

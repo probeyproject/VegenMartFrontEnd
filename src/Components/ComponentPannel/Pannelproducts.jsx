@@ -23,8 +23,9 @@ function Pannelproducts({ data }) {
 
   return (
     <div className="cards_container ">
+      <h2 className="_text_ mx-4">Buy {data}</h2>
       <div className="filter_container">
-        <h2 className="_text_">Buy {data}</h2>
+        
 
         {sortedProducts.map((product, index) => {
           return (

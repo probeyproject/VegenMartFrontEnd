@@ -5,7 +5,7 @@ function MobileViewCategory({closeModal}) {
   const [showModal, setShowModal] = useState(false);
 
   // Function to open the modal
-  const openModal = () => setShowModal(true);
+  const openModal = () => setShowModal(!showModal);
 
   // Function to close the modal
 //   const closeModal = () => setShowModal(false);

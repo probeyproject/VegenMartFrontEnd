@@ -510,12 +510,14 @@ function HeaderMiddle() {
         <Offcanvas.Body>
           {/* sidebar */}
           <div className="offcanvas-header">
-            <div className="row">
+            <div className="row">{
+              
+              console.log(categories)}
               {categories.map((category, index) => (
                 
                   <div className="col-6 mb-1" key={category.category_id}>
                     <Link
-                     to={`/filters/${category.category_name}`}
+                     to={`/pannelpage/${category.category_name}`}
                       style={{
                         cursor: "pointer",
                         textDecoration:"none",

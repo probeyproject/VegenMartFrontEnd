@@ -182,7 +182,7 @@ const Footer = () => {
                         <ul>
                           {[
                             { name: "Home", link: "/" },
-                            { name: "Shop", link: "/filter" },
+                            { name: "Shop", link: "/pannelpage/Mushroom" },
                             { name: "About Us", link: "/about" },
                             { name: "Blog", link: "/blogsection" },
                             { name: "Contact Us", link: "/contact" },

@@ -17,7 +17,7 @@ function PannelPage() {
   return (
 
     
-    <div className="_app_ d-sm-none">
+    <div className="_app_ ">
        <header className="pb-md-4 pb-0">
               <HeaderTop />
               <HeaderMiddle />

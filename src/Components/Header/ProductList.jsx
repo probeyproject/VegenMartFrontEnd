@@ -30,14 +30,14 @@ const ProductList = () => {
     };
   }, []);
 
-
+console.log(products)
   useEffect(() => {
     
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        // const response = await axios.get(`${baseUrl}/search?q=${query}`);
-        const response = await axios.get(`${baseUrl}/getProductByCategoryName/${query}`);
+        const response = await axios.get(`${baseUrl}/search?q=${query}`);
+        // const response = await axios.get(`${baseUrl}/getProductByCategoryName/${query}`);
 
         setProducts(response.data);
       } catch (err) {
@@ -96,7 +96,7 @@ const ProductList = () => {
                   </div>
                 ) : (
                   <div className="row g-3 g-md-4 g-lg-5 product-list-section">
-                    {products.map((product, index) => (
+                    {products?.products?.map((product, index) => (
                       <div
                         className="col-6 col-md-4 col-lg-3 col-xl-3 mb-4"
                         key={index}
