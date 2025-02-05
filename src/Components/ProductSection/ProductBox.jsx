@@ -49,7 +49,7 @@ const ProductBox = ({
 
   // const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
-  const [weightType, setWeightType] = useState(weight_type || "Kg");
+  const [weightType, setWeightType] = useState(weight_type || "kg");
   const [inputweight, setInputWeight] = useState("");
   const [warningMsg, setWarningMsg] = useState("");
   const [isModalDiscount, setIsModalDiscount] = useState(false);
@@ -147,7 +147,7 @@ const ProductBox = ({
     }
 
     // Proceed with checking the weightType only if value is not empty
-    if (weightType === "Kg") {
+    if (weightType === "kg") {
       if (Number(value) < 1 || Number(value) > 15) {
         setWarningMsg("Enter 1 to 15 Kg");
       } else {
@@ -162,7 +162,7 @@ const ProductBox = ({
         setWarningMsg(""); // Clear the warning if the condition is met
       }
     } else {
-      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "Kg" or "pieces"
+      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "kg" or "pieces"
     }
   };
 
@@ -179,7 +179,7 @@ const ProductBox = ({
     if (numericWeight && weightType) {
       // Check weight conditions based on weight type
       if (
-        (weightType === "Kg" && numericWeight <= 15 && numericWeight >= 1) || // Kg condition
+        (weightType === "kg" && numericWeight <= 15 && numericWeight >= 1) || // Kg condition
         (weightType === "pieces" &&
           numericWeight >= 5 &&
           numericWeight <= 30) || // pieces condition (numericWeight between 5 and 30)
@@ -196,7 +196,7 @@ const ProductBox = ({
 
       // Change unitType to kg if it's grams
       if (weightType === "gram") {
-        unitTypeToSend = "Kg"; // Change unitType to kg
+        unitTypeToSend = "kg"; // Change unitType to kg
       }
 
       const response = await axios.post(
@@ -226,9 +226,9 @@ const ProductBox = ({
 
     // Check if inputWeight is valid based on weightType
     if (
-      (weightType === "Kg" &&
+      (weightType === "kg" &&
         (isNaN(numericWeight) ||
-          (numericWeight < 0.9 && numericWeight >= 15))) ||
+          (numericWeight < 0.1 && numericWeight >= 15))) ||
       (weightType === "gram" && (isNaN(numericWeight) || numericWeight < 0.25)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
@@ -243,7 +243,7 @@ const ProductBox = ({
     let unitTypeToSend = weightType;
 
     if (weightType === "gram") {
-      unitTypeToSend = "Kg"; // Change unitType to kg
+      unitTypeToSend = "kg"; // Change unitType to kg
     }
 
     try {
@@ -378,9 +378,9 @@ const ProductBox = ({
                     ? `${productName.substring(0, 13)}...`
                     : productName}
                 </h6>
-                <span className="heavyweight">
+                {/* <span className="heavyweight">
                   {Math.round(weight)} {weight_type}
-                </span>
+                </span> */}
               </a>
               <h5 className="sold text-content text-start mb-0">
                 <span className="theme-color price">
@@ -505,20 +505,20 @@ const ProductBox = ({
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>
                     )}
-                    {(weight_type === "Kg" || weight_type === "gram") && (
-                      <>
-                        <option value="Kg" className="m-2">
-                          Kg
-                        </option>
-                        <option value="gram" className="m-2">
-                          Gram
-                        </option>
-                      </>
-                    )}
+                   {weight_type === "pieces" && (
+                                <option value="pieces">Pieces</option>
+                              )}
+                              {(weight_type === "kg" ||
+                                weight_type === "gram") && (
+                                <>
+                                  <option value="kg">Kg</option>
+                                  <option value="gram">Gram</option>
+                                </>
+                              )}
                   </select>
                 </div>
                 <div className="rounded-1 w-50 " style={{ height: "20px" }}>
-                  {weightType === "Kg" && (
+                  {weightType === "kg" && (
                     <input
                       type="number"
                       required
@@ -536,6 +536,8 @@ const ProductBox = ({
                       onChange={handleChange}
                     >
                       <option>Select</option>
+                      <option value="0.05">50 g</option>
+                      <option value="0.1">100 g</option>
                       <option value="0.25">250 g</option>
                       <option value="0.5">500 g</option>
                       <option value="0.75">750 g</option>

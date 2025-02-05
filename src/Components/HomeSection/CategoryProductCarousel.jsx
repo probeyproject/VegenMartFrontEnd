@@ -235,7 +235,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-3">
           <Link
-            to={`/filters/${categoryId}`}
+            to={`/pannelpage/${categoryId}`}
             className="btn btn-animation mb-3 "
           >
             View More

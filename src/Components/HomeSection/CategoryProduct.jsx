@@ -66,7 +66,7 @@ const CategoryProduct = ({ categoryId }) => {
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-1">
-          <Link to={`/filters/${categoryId}`} className="btn btn-animation mb-2 ">
+          <Link to={`/pannelpage/${categoryId}`} className="btn btn-animation mb-2 ">
             View More
           </Link>
         </div>

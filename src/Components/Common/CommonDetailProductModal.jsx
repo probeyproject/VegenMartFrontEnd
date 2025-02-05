@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Modal, ModalBody, Button } from "reactstrap";
 import { baseUrl } from "../../API/Api";
 import LoginModal from "./LoginModal";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CommonDetailProductModal = ({
   show,
@@ -27,8 +28,10 @@ const CommonDetailProductModal = ({
   defaultWeightType,
   discount_price,
 }) => {
+
+  
   // const [weights, setWeights] = useState([]);
-  const [weightType, setWeightType] = useState(weight_type || "Kg");
+  const [weightType, setWeightType] = useState(weight_type || "kg");
   const [inputweight, setInputWeight] = useState("");
   const [warningMsg, setWarningMsg] = useState("");
   const [finalPrice, setFinalPrice] = useState("");
@@ -55,7 +58,7 @@ const CommonDetailProductModal = ({
     }
 
     // Proceed with checking the weightType only if value is not empty
-    if (weightType === "Kg") {
+    if (weightType === "kg") {
       if (Number(value) < 1 || Number(value) > 15) {
         setWarningMsg("Enter 1 to 15 Kg");
       } else {
@@ -70,7 +73,7 @@ const CommonDetailProductModal = ({
         setWarningMsg(""); // Clear the warning if the condition is met
       }
     } else {
-      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "Kg" or "pieces"
+      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "kg" or "pieces"
     }
   };
 
@@ -87,7 +90,7 @@ const CommonDetailProductModal = ({
     if (numericWeight && weightType) {
       // Check weight conditions based on weight type
       if (
-        (weightType === "Kg" && numericWeight >= 1) ||
+        (weightType === "kg" && numericWeight >= 1) ||
         (weightType === "pieces" && numericWeight >= 5) ||
         weightType === "gram"
       ) {
@@ -102,7 +105,7 @@ const CommonDetailProductModal = ({
 
       // Change unitType to kg if it's grams
       if (weightType === "gram") {
-        unitTypeToSend = "Kg"; // Change unitType to kg
+        unitTypeToSend = "kg"; // Change unitType to kg
       }
 
       const response = await axios.post(
@@ -155,9 +158,9 @@ const CommonDetailProductModal = ({
 
     // Check if inputWeight is valid based on weightType
     if (
-      (weightType === "Kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
+      (weightType === "kg" && (isNaN(numericWeight) || numericWeight < 0.01)) ||
       (weightType === "gram" &&
-        (isNaN(numericWeight) || numericWeight < 0.25)) ||
+        (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
       toast.warning(`Please enter a valid input for ${weightType}.`);
@@ -167,7 +170,7 @@ const CommonDetailProductModal = ({
     let unitTypeToSend = weightType;
 
     if (weightType === "gram") {
-      unitTypeToSend = "Kg"; // Change unitType to kg
+      unitTypeToSend = "kg"; // Change unitType to kg
     }
 
     try {
@@ -189,223 +192,191 @@ const CommonDetailProductModal = ({
     }
   };
 
-  return (
-    <Modal
-      isOpen={show}
-      toggle={handleClose}
-      className="modal-lg modal-fullscreen-sm-down"
-
-    >
-      <ModalBody className="position-relative  mt-3 p-2">
-        {/* Close button aligned to top-right corner */}
-        <button
-          type="button"
-          className="btn-close position-absolute custom-close-btn"
+ return (
+    show && (
+      <div
+        className="modal-overlay d-flex justify-content-center align-items-center"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          zIndex: 1050,
+        }}
+      >
+        <div
+          className="card modal-content-container p-3"
           style={{
-            top: "-17px",
-            right: "-1px",
-            // backgroundColor: "#00a885",
-            // color: "#fff",
-            width: "30px",
-            height: "30px",
-            borderRadius: "5px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "none",
-            cursor: "pointer",
+            width: "90%",
+            maxWidth: "700px",
+            backgroundColor: "#fff",
+            position: "relative",
           }}
-          data-bs-dismiss="modal"
-          onClick={handleClose}
         >
-          <i className="fa-solid fa-xmark" style={{ fontSize: "18px" }}></i>
-        </button>
+          {/* Close Button */}
+          <button
+            type="button"
+            className="btn-close position-absolute"
+            style={{ top: "10px", right: "10px", cursor: "pointer" }}
+            onClick={handleClose}
+          ></button>
 
-        <div className="row g-4">
-          {/* Image container */}
-          <div className="col-md-6">
-            <div
-              className="slider-image"
-              style={{
-                width: "300px",
-                height: "300px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={image[0]}
-                className="img-fluid rounded object-fit-fill shadow p-4"
-                alt={productName}
-                style={{
-                  width: "auto",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
+          <div className="row g-4">
+            {/* Image Section */}
+            <div className="col-md-6 text-center">
+              <div className="slider-image">
+                <img
+                  src={image[0]}
+                  className="img-fluid rounded shadow p-2"
+                  alt={productName}
+                  style={{ width: "100%", maxHeight: "250px", objectFit: "cover" }}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="col-md-6">
-            <div className="right-sidebar-modal">
-              <h5 className="offer-top text-danger mb-2">
-                {Math.round(
-                  ((discount_price - currentPrice) / discount_price) * 100
-                ) === -Infinity
-                  ? 0
-                  : Math.round(
-                      ((discount_price - currentPrice) / discount_price) * 100
-                    )}
-                % off
+            {/* Product Details */}
+            <div className="col-md-6">
+              <h5 className="text-danger mb-2">
+                {Math.round(((discount_price - currentPrice) / discount_price) * 100) || 0}% off
               </h5>
-              <h5 className="title-name">{productName}</h5>
-              {/* <span className="mt-2 mb-2">
-                {Math.round(weight)} {weight_type}
-              </span> */}
+              <h5 className="fw-bold">{productName}</h5>
               <h5 className="theme-color price p-2">
                 ₹{currentPrice}/{weight_type}{" "}
-                <del className="text-content">₹{discount_price}</del>{" "}
+                <del className="text-muted">₹{discount_price}</del>
               </h5>
-              <div className="product-rating mb-3">
-                <ul className="rating list-unstyled d-flex">
+
+              {/* Rating */}
+              <div className="product-rating mb-3 d-flex align-items-center">
+                <ul className="rating list-unstyled d-flex mb-0">
                   {[...Array(5)].map((_, index) => (
                     <li key={index} className="me-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
-                        fill={index < 4 ? "currentColor" : "none"}
-                        stroke="currentColor"
+                        fill={index < 4 ? "gold" : "none"}
+                        stroke="gold"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={`feather feather-star ${
-                          index < 4 ? "fill" : ""
-                        }`}
                       >
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                       </svg>
                     </li>
                   ))}
                 </ul>
-                <span className="ms-2">8 Reviews</span>
-              </div>
-              <hr style={{ border: "0.1px dashed #b7b7b7" }} />
-
-              <div className="product-detail mb-3">
-                <h5>Product Details :</h5>
-                <p>{productDetail}</p>
+                <span className="ms-2 small">8 Reviews</span>
               </div>
 
-              <div className="container mt-4">
-                <ul className="d-flex flex-column list-unstyled mb-3 ">
-                  <li className="align-items-center d-flex mb-2">
-                    <h5 className="mb-1">Brand Name:</h5>
-                    <h6 className="text-muted ms-3">{brand_name}</h6>
-                  </li>
-                  <li className="align-items-center d-flex mb-2">
-                    <h5 className="mb-1">SKU Code:</h5>
-                    <h6 className="text-muted ms-3">{sku}</h6>
-                  </li>
-                  <li className="align-items-center d-flex mb-2">
-                    <h5 className="mb-1">Product Type:</h5>
-                    <h6 className="text-muted ms-3">{productType}</h6>
-                  </li>
+              <hr />
+
+              {/* Product Details */}
+              {/* <h6 className="fw-bold">Product Details:</h6>
+              <p className="small text-muted">{productDetail}</p> */}
+
+              {/* <div className="container mt-3">
+                <ul className="list-unstyled d-flex flex-column">
+                  <li><strong>Brand:</strong> {brand_name}</li>
+                  <li><strong>SKU Code:</strong> {sku}</li>
+                  <li><strong>Product Type:</strong> {productType}</li>
                 </ul>
-              </div>
-              <hr style={{ border: "0.1px dashed #b7b7b7" }} />
-              <div className="select-size mb-2 d-flex align-items-center gap-2">
-                <select
-                  style={{ width: '100px', height: '30px' }}
-                  className="border-1 rounded"
-                  onChange={(e) => {
-                    setWeightType(e.target.value);
-                    setInputWeight(""); // Clear input when weight type changes
-                  }}
-                  value={weightType} // Control the select with state
-                >
-                  {weight_type === "pieces" && (
-                    <option value="pieces">Pieces</option>
-                  )}
-                  {(weight_type === "Kg" || weight_type === "g") && (
-                    <>
-                      <option value="Kg">Kg</option>
-                      <option value="g">Gram</option>
-                    </>
-                  )}
-                </select>
+              </div> */}
 
-                <div className="rounded-1">
-                  {weightType === "Kg" && (
-                    <input
-                      style={{ width: '100px', height: '30px' }}
-                      type="number"
-                      required
-                      placeholder="Weight"
-                      className="form-control  border-1"
-                      defaultValue={defaultWeight? defaultWeight : inputweight}
-                      onChange={handleChange}
-                    />
-                  )}
+             
 
-                  {weightType === "g" && (
-                    <select
-                      style={{ width: '100px', height: '30px' }}
-                      className="rounded-2"
-                      value={inputweight}
-                      onChange={handleChange}
-                    >
-                      <option>Select</option>
-                      <option value="0.25">250 g</option>
-                      <option value="0.5">500 g</option>
-                      <option value="0.75">750 g</option>
-                    </select>
-                  )}
+              {/* Weight Selection */}
+              <div className="d-flex justify-content-evenly">
+                              <div>
+                                <select
+                                  id="units"
+                                  className="border-1 rounded-2 p-1"
+                                  onChange={(e) => {
+                                    setWeightType(e.target.value);
+                                    setInputWeight(""); // Clear input when weight type changes
+                                  }}
+                                  value={weightType} // Control the select with state
+                                >
+                                  {weight_type === "pieces" && (
+                                    <option value="pieces">Pieces</option>
+                                  )}
+                                 {weight_type === "pieces" && (
+                                              <option value="pieces">Pieces</option>
+                                            )}
+                                            {(weight_type === "kg" ||
+                                              weight_type === "gram") && (
+                                              <>
+                                                <option value="kg">Kg</option>
+                                                <option value="gram">Gram</option>
+                                              </>
+                                            )}
+                                </select>
+                              </div>
+                              <div className="rounded-1 w-50 " style={{ height: "20px" }}>
+                                {weightType === "kg" && (
+                                  <input
+                                    type="number"
+                                    required
+                                    placeholder="Weight"
+                                    className="form-control border-1 p-1"
+                                    defaultValue={defaultWeight ? defaultWeight : inputweight}
+                                    onChange={handleChange}
+                                  />
+                                )}
+              
+                                {weightType === "gram" && (
+                                  <select
+                                    className="rounded-2 p-1"
+                                    value={inputweight}
+                                    onChange={handleChange}
+                                  >
+                                    <option>Select</option>
+                                    <option value="0.05">50 g</option>
+                                    <option value="0.1">100 g</option>
+                                    <option value="0.25">250 g</option>
+                                    <option value="0.5">500 g</option>
+                                    <option value="0.75">750 g</option>
+                                  </select>
+                                )}
+              
+                                {weightType === "pieces" && (
+                                  <input
+                                    type="number"
+                                    required
+                                    placeholder="Pieces"
+                                    className="form-control h-50 border-1"
+                                    defaultValue={defaultWeight ? defaultWeight : inputweight}
+                                    onChange={handleChange}
+                                  />
+                                )}
+                              </div>
+                            </div>
 
-                  {weightType === "pieces" && (
-                    <input
-                      style={{ width: '100px', height: '30px' }}
-                      type="number"
-                      required
-                      placeholder="Pieces"
-                      className="form-control  border-1"
-                      defaultValue={defaultWeight? defaultWeight : inputweight}
-                      onChange={handleChange}
-                    />
-                  )}
-                  <div className="text-danger small">{warningMsg}</div>
-                </div>
-                {finalPrice ? (
-                <div className="text-success small">MRP: ₹{finalPrice}</div>
-              ) : (
-                ""
-              )}
-              </div>
+              <div className="text-danger small mt-2">{warningMsg}</div>
 
-              <div className="modal-button d-flex gap-2 mb-4">
+              {/* Buttons */}
+              <div className="d-flex gap-2 mt-3">
                 <Button
-                  // Custom color
                   className="btn btn-animation"
                   onClick={handleClick}
-                  disabled={inStock == 0}
+                  disabled={inStock === 0}
                 >
-                  {inStock == 0 ? "Out of stock" : " Add To Cart"}
+                  {inStock === 0 ? "Out of Stock" : "Add to Cart"}
                 </Button>
                 <Button
-                  className="btn btn-sm btn-animation"
-                  onClick={() =>
-                    (window.location.href = `/detail_page/${product_id}`)
-                  }
+                  className="btn btn-animation"
+                  onClick={() => (window.location.href = `/detail_page/${product_id}`)}
                 >
-                  View More Details
+                  View More
                 </Button>
               </div>
             </div>
           </div>
-          <LoginModal isOpen={loginModal} toggle={toggleLoginModal} />
         </div>
-      </ModalBody>
-    </Modal>
+      </div>
+    )
   );
 };
 

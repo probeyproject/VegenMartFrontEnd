@@ -309,9 +309,7 @@ function ProductSection() {
                   />
                   <div className="home-detail p-top-left home-p-medium">
                     <div>
-                      <h4 className="text-yellow text-exo home-banner">
-                        Organic
-                      </h4>
+                     
                       <h2 className="text-uppercase fw-normal mb-0 text-russo theme-color">
                         {data.banner_offer_title}
                       </h2>
