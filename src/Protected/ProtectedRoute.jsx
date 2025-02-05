@@ -7,10 +7,10 @@ const ProtectedRoute = ({ element }) => {
 
   
   const  authenticated  = localStorage.getItem('authenticated')
-  console.log("auth " + authenticated)
+ 
 
 
-  return (authenticated ? element : <Navigate to="/" replace />);
+  return (authenticated ? element : <Navigate to="/login" replace />);
 };
 
 export default ProtectedRoute;

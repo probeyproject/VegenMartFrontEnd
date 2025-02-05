@@ -421,7 +421,7 @@ function Account() {
                                         return (
                                           <div
                                             key={product.id}
-                                            className="order-item"
+                                            className="order-item d-flex justify-content-between"
                                           >
                                             <td className="product-detail">
                                               <div className="product border-0 d-flex">
@@ -431,9 +431,12 @@ function Account() {
                                                 >
                                                   {productImages.length > 0 ? (
                                                     <img
+                                                    
                                                       src={productImages[0]} // Use the first image
                                                       className="img-fluid blur-up lazyloaded rounded-2"
                                                       alt={product.product_name}
+
+                                                      style={{ width: "80px", height: "80px" }}
                                                     />
                                                   ) : (
                                                     <p>No image available</p>

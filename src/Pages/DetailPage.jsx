@@ -56,13 +56,17 @@ function DetailPage() {
   const [warningMsg, setWarningMsg] = useState("");
   const [finalPrice, setFinalPrice] = useState("");
   const [weight_type, setWeight_type] = useState("");
-  const [weightType, setWeightType] = useState(weight_type || "Kg");
+  const [weightType, setWeightType] = useState(weight_type || "kg");
   const [modal, setModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isModalDiscount, setIsModalDiscount] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [responseWeight, setResponseWeight] = useState("");
+
+  const[weight,setWeight] = useState("")
+
+  console.log(product)
 
   const settings = {
     dots: false,
@@ -134,7 +138,15 @@ function DetailPage() {
 
       const data = await response.data;
       console.log(data);
+
+      
       setProduct(data);
+
+      if(data[0].weight_type === "gram"){
+        setWeight(data[0].weight/1000)
+      } else{
+        setWeight(Math.trunc(data[0].weight))
+      }
 
       const categories = data.map((product) => product.category_id);
       const weight = data[0].weight_type;
@@ -259,7 +271,7 @@ function DetailPage() {
     }
 
     // Proceed with checking the weightType only if value is not empty
-    if (weightType === "Kg") {
+    if (weightType === "kg") {
       if (Number(value) < 1 || Number(value) > 15) {
         setWarningMsg("Enter 1 to 15 Kg");
       } else {
@@ -274,7 +286,7 @@ function DetailPage() {
         setWarningMsg(""); // Clear the warning if the condition is met
       }
     } else {
-      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "Kg" or "pieces"
+      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "kg" or "pieces"
     }
   };
 
@@ -288,9 +300,9 @@ function DetailPage() {
     if (numericWeight && weightType) {
       // Check weight conditions based on weight type
       if (
-        (weightType === "Kg" && numericWeight >= 1) ||
+        (weightType === "kg" && numericWeight >= 1) ||
         (weightType === "pieces" && numericWeight >= 5) ||
-        weightType === "g"
+        weightType === "gram"
       ) {
         calculatePrice(numericWeight); // Call the API only if valid
       }
@@ -302,8 +314,8 @@ function DetailPage() {
       let unitTypeToSend = weightType;
 
       // Change unitType to kg if it's grams
-      if (weightType === "g") {
-        unitTypeToSend = "Kg"; // Change unitType to kg
+      if (weightType === "gram") {
+        unitTypeToSend = "kg"; // Change unitType to kg
       }
 
       const response = await axios.post(`${baseUrl}/calculate-price/${id}`, {
@@ -329,8 +341,8 @@ function DetailPage() {
 
     // Check if inputWeight is valid based on weightType
     if (
-      (weightType === "Kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
-      (weightType === "g" && (isNaN(numericWeight) || numericWeight < 0.25)) ||
+      (weightType === "kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
+      (weightType === "gram" && (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
       toast.warning(`Please enter a valid input for ${weightType}.`);
@@ -339,8 +351,8 @@ function DetailPage() {
 
     let unitTypeToSend = weightType;
 
-    if (weightType === "g") {
-      unitTypeToSend = "Kg"; // Change unitType to kg
+    if (weightType === "gram") {
+      unitTypeToSend = "kg"; // Change unitType to kg
     }
 
     try {
@@ -486,7 +498,7 @@ function DetailPage() {
 
                           <div className="price-rating d-flex">
                             <h3 className="theme-color price">
-                              ₹{data.product_price}/{data.weight_type}{" "}
+                              ₹{data.product_price * weight}{" "}/{" "}{Math.trunc(data.weight)} {" "}{data.weight_type}{" "}
                               <del className="text-content">
                                 ₹{data.discount_price}
                               </del>{" "}
@@ -535,17 +547,17 @@ function DetailPage() {
                               {weight_type === "pieces" && (
                                 <option value="pieces">Pieces</option>
                               )}
-                              {(weight_type === "Kg" ||
-                                weight_type === "g") && (
+                              {(weight_type === "kg" ||
+                                weight_type === "gram") && (
                                 <>
-                                  <option value="Kg">Kg</option>
-                                  <option value="g">Gram</option>
+                                  <option value="kg">Kg</option>
+                                  <option value="gram">Gram</option>
                                 </>
                               )}
                             </select>
 
                             <div className="rounded-1">
-                              {weightType === "Kg" && (
+                              {weightType === "kg" && (
                                 <input
                                   type="number"
                                   required
@@ -557,7 +569,7 @@ function DetailPage() {
                                 />
                               )}
 
-                              {weightType === "g" && (
+                              {weightType === "gram" && (
                                 <select
                                   style={{ width: "100px", height: "35px" }}
                                   className="rounded-2"
@@ -565,6 +577,8 @@ function DetailPage() {
                                   onChange={handleChange}
                                 >
                                   <option>Select</option>
+                                  <option value="0.05">50 g</option>
+                                  <option value="0.1">100 g</option>
                                   <option value="0.25">250 g</option>
                                   <option value="0.5">500 g</option>
                                   <option value="0.75">750 g</option>

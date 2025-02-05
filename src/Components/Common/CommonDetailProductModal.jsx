@@ -89,7 +89,7 @@ const CommonDetailProductModal = ({
       if (
         (weightType === "Kg" && numericWeight >= 1) ||
         (weightType === "pieces" && numericWeight >= 5) ||
-        weightType === "g"
+        weightType === "gram"
       ) {
         calculatePrice(numericWeight); // Call the API only if valid
       }
@@ -101,7 +101,7 @@ const CommonDetailProductModal = ({
       let unitTypeToSend = weightType;
 
       // Change unitType to kg if it's grams
-      if (weightType === "g") {
+      if (weightType === "gram") {
         unitTypeToSend = "Kg"; // Change unitType to kg
       }
 
@@ -156,7 +156,7 @@ const CommonDetailProductModal = ({
     // Check if inputWeight is valid based on weightType
     if (
       (weightType === "Kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
-      (weightType === "g" &&
+      (weightType === "gram" &&
         (isNaN(numericWeight) || numericWeight < 0.25)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
@@ -166,7 +166,7 @@ const CommonDetailProductModal = ({
 
     let unitTypeToSend = weightType;
 
-    if (weightType === "g") {
+    if (weightType === "gram") {
       unitTypeToSend = "Kg"; // Change unitType to kg
     }
 
@@ -194,6 +194,7 @@ const CommonDetailProductModal = ({
       isOpen={show}
       toggle={handleClose}
       className="modal-lg modal-fullscreen-sm-down"
+
     >
       <ModalBody className="position-relative  mt-3 p-2">
         {/* Close button aligned to top-right corner */}
@@ -391,7 +392,7 @@ const CommonDetailProductModal = ({
                   {inStock == 0 ? "Out of stock" : " Add To Cart"}
                 </Button>
                 <Button
-                  className="btn btn btn-animation"
+                  className="btn btn-sm btn-animation"
                   onClick={() =>
                     (window.location.href = `/detail_page/${product_id}`)
                   }

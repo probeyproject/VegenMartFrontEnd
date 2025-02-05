@@ -183,7 +183,7 @@ const ProductBox = ({
         (weightType === "pieces" &&
           numericWeight >= 5 &&
           numericWeight <= 30) || // pieces condition (numericWeight between 5 and 30)
-        weightType === "g" // g condition (no numericWeight restriction)
+        weightType === "gram" // g condition (no numericWeight restriction)
       ) {
         calculatePrice(numericWeight); // Call the API only if valid
       }
@@ -195,7 +195,7 @@ const ProductBox = ({
       let unitTypeToSend = weightType;
 
       // Change unitType to kg if it's grams
-      if (weightType === "g") {
+      if (weightType === "gram") {
         unitTypeToSend = "Kg"; // Change unitType to kg
       }
 
@@ -229,10 +229,10 @@ const ProductBox = ({
       (weightType === "Kg" &&
         (isNaN(numericWeight) ||
           (numericWeight < 0.9 && numericWeight >= 15))) ||
-      (weightType === "g" && (isNaN(numericWeight) || numericWeight < 0.25)) ||
+      (weightType === "gram" && (isNaN(numericWeight) || numericWeight < 0.25)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
-      if (weightType === "g") {
+      if (weightType === "gram") {
         toast.warning("Please enter a valid input for Gram");
       } else {
         toast.warning(`Please enter a valid input for ${weightType}`);
@@ -242,7 +242,7 @@ const ProductBox = ({
 
     let unitTypeToSend = weightType;
 
-    if (weightType === "g") {
+    if (weightType === "gram") {
       unitTypeToSend = "Kg"; // Change unitType to kg
     }
 
@@ -505,12 +505,12 @@ const ProductBox = ({
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>
                     )}
-                    {(weight_type === "Kg" || weight_type === "g") && (
+                    {(weight_type === "Kg" || weight_type === "gram") && (
                       <>
                         <option value="Kg" className="m-2">
                           Kg
                         </option>
-                        <option value="g" className="m-2">
+                        <option value="gram" className="m-2">
                           Gram
                         </option>
                       </>
@@ -529,7 +529,7 @@ const ProductBox = ({
                     />
                   )}
 
-                  {weightType === "g" && (
+                  {weightType === "gram" && (
                     <select
                       className="rounded-2 p-1"
                       value={inputweight}
