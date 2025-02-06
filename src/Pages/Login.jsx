@@ -299,11 +299,14 @@ function Login() {
       });
 
       setNewPassword("");
-      setNewPassword("");
+      setConfirmPassword("");
 
       setOtp("");
       setOtpSent(false);
       setEmail("");
+      setCanResend(false)
+      setIsOtpVerified(false)
+      
 
       toast.success("Password Reset Successfull");
 

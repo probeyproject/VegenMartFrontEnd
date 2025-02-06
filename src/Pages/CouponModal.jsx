@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import "../CSS/CouponModal.css";
 
 const CouponModal = ({ isModalOpen, setIsModalOpen, coupons, handleCouponClick }) => {
-  const [copiedCoupon, setCopiedCoupon] = useState(null); // Store the coupon that was copied
+  // const [copiedCoupon, setCopiedCoupon] = useState(null); // Store the coupon that was copied
 
   // Function to handle copying the coupon code
-  const handleCopyCoupon = (couponCode) => {
-    navigator.clipboard.writeText(couponCode) // Write the coupon code to clipboard
-      .then(() => {
-        setCopiedCoupon(couponCode); // Set the copied coupon code
-        setTimeout(() => {
-          setCopiedCoupon(null); // Reset after 2 seconds
-        }, 2000);
-      })
-      .catch(() => {
-        alert("Failed to copy the coupon code.");
-      });
-  };
+  // const handleCopyCoupon = (couponCode) => {
+  //   navigator.clipboard.writeText(couponCode) // Write the coupon code to clipboard
+  //     .then(() => {
+  //       setCopiedCoupon(couponCode); // Set the copied coupon code
+  //       setTimeout(() => {
+  //         setCopiedCoupon(null); // Reset after 2 seconds
+  //       }, 2000);
+  //     })
+  //     .catch(() => {
+  //       alert("Failed to copy the coupon code.");
+  //     });
+  // };
 
+
+  
   if (!isModalOpen) return null;
 
   return (
@@ -34,9 +36,9 @@ const CouponModal = ({ isModalOpen, setIsModalOpen, coupons, handleCouponClick }
                 <span className="coupon-code">{coupon.coupon_code}</span>
                 <button
                   className="btn-copy"
-                  onClick={() => handleCopyCoupon(coupon.coupon_code)}
+                  onClick={(e) => handleCouponClick(e,coupon.coupon_code)}
                 >
-                  {copiedCoupon === coupon.coupon_code ? "Copied!" : "Copy"}
+                  Apply
                 </button>
               </div>
             </li>

@@ -211,7 +211,7 @@ const ProductBox = ({
       setResponseWeight(response.data.weight);
     } catch (error) {
       console.error("Error:", error);
-      toast.warning("Please provide valide input & try again.");
+      toast.warning("Please provide valid input & try again.");
     }
   };
 
@@ -228,8 +228,9 @@ const ProductBox = ({
     if (
       (weightType === "kg" &&
         (isNaN(numericWeight) ||
-          (numericWeight < 0.1 && numericWeight >= 15))) ||
-      (weightType === "gram" && (isNaN(numericWeight) || numericWeight < 0.25)) ||
+          (numericWeight < 0.05 && numericWeight >= 15))) ||
+      (weightType === "gram" &&
+        (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
       if (weightType === "gram") {
@@ -254,7 +255,7 @@ const ProductBox = ({
         weight_type: unitTypeToSend,
       });
 
-      dispatch(addToCart(response.data))
+      dispatch(addToCart(response.data));
 
       toast.success("Your product add to cart successfully");
     } catch (error) {
@@ -294,7 +295,33 @@ const ProductBox = ({
               </Link>
 
               <Link>
-                <ul className="d-flex align-items-center list-unstyled product-option mb gap-1">
+                <div
+                  className={`notifi-wishlist text-dark ms-2 product-option d-sm-none ${
+                    isInWishlist ? "text-danger" : ""
+                  }`}
+                  onClick={handleWishlist}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill={
+                      isInWishlist ||
+                      wishlist.some((item) => item.product_id === product_id)
+                        ? "red"
+                        : "none"
+                    } // Either isInWishlist or product_id in wishlist
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-heart"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </div>
+                <ul className="d-flex align-items-center list-unstyled product-option mb gap-1 d-none d-sm-block">
                   <li className="me-1">
                     <div onClick={toogleModalProduct} className="text-dark">
                       <svg
@@ -335,9 +362,9 @@ const ProductBox = ({
                     </div>
                   </li> */}
 
-                  <li className="">
+                  <li className="mx-1">
                     <div
-                      className={`notifi-wishlist text-dark ml-2 ms-2 ${
+                      className={`notifi-wishlist text-dark ms-2 ${
                         isInWishlist ? "text-danger" : ""
                       }`}
                       onClick={handleWishlist}
@@ -505,16 +532,15 @@ const ProductBox = ({
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>
                     )}
-                   {weight_type === "pieces" && (
-                                <option value="pieces">Pieces</option>
-                              )}
-                              {(weight_type === "kg" ||
-                                weight_type === "gram") && (
-                                <>
-                                  <option value="kg">Kg</option>
-                                  <option value="gram">Gram</option>
-                                </>
-                              )}
+                    {weight_type === "pieces" && (
+                      <option value="pieces">Pieces</option>
+                    )}
+                    {(weight_type === "kg" || weight_type === "gram") && (
+                      <>
+                        <option value="kg">Kg</option>
+                        <option value="gram">Gram</option>
+                      </>
+                    )}
                   </select>
                 </div>
                 <div className="rounded-1 w-50 " style={{ height: "20px" }}>
@@ -561,7 +587,9 @@ const ProductBox = ({
 
               <div className="d-flex justify-content-between align-content-center center p-1 mt-1">
                 {finalPrice ? (
-                  <div className="text-success small">₹{finalPrice}</div>
+                  <div className="text-success small">
+                    ₹{finalPrice.toFixed(2)}
+                  </div>
                 ) : (
                   ""
                 )}

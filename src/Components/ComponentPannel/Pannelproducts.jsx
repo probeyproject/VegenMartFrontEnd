@@ -38,9 +38,9 @@ function Pannelproducts({ data }) {
                 currentPrice={product.product_price}
                 product_id={product.product_id}
                 minWeight={product.min_weight}
-                discount_price={product.discount_price}
-                inStock={product.stock}
-                offers={product.offers}
+                discock={product.stock}
+                offerunt_price={product.discount_price}
+                inStos={product.offers}
               />
             </div>
           );

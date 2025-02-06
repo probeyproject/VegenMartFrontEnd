@@ -51,6 +51,8 @@ function Checkout() {
   const [calculatedPrice, setCalculatedPrice] = useState();
   const [couponCodes, setCouponCodes] = useState("");
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
+  const [minDiscountPrice,setMinDiscountPrice] = useState(0)
+  const [savedAmount, setSavedAmount] = useState(0);
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
   const [invoiceAddress, setInvoiceAddress] = useState({});
   const [cartItems, setCartItems] = useState([]);
@@ -60,7 +62,9 @@ function Checkout() {
   // const [currentTotalPrice, setCurrentTotalPrice] = useState(1);
   const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
-  console.log(currentWeight);
+ 
+
+  
 
   useEffect(() => {
     carts.map((item, index) => {
@@ -139,25 +143,42 @@ function Checkout() {
 
 console.log(quantities)
 
-  const validateCoupon = async (e) => {
+  const validateCoupon = async (e,selectedCoupan) => {
     e.preventDefault();
     setLoading(true); // Start loading
 
+
+    console.log("Hii")
+
     try {
       const response = await axios.post(`${baseUrl}/coupons/validate`, {
-        coupon_code: couponCode,
+        
+        coupon_code: selectedCoupan,
         user_id: userId,
+        total_price:totalPrice
       });
+
+
+      setMinDiscountPrice(response.data.coupon.Min_Order_Value)
 
       setDiscountValue(response.data.coupon.discount_value);
       setResponseMessage(
         `${response.data.message}, Discount Value: ${discountValue}`
       );
-      toast.success("Coupan Applyed Successfully!");
+
+      
+      toast.success("Coupan Applied Successfully!");
+
     } catch (error) {
       setResponseMessage(
         `Error: ${error.response ? error.response.data.message : error.message}`
       );
+
+      if(error.status === 500){
+        toast.error("Invalid Coupan Code")
+      }
+
+      toast.error(error.response.data.message)
     } finally {
       setLoading(false); // Stop loading
     }
@@ -326,28 +347,28 @@ const totalAmount = carts?.reduce((acc, cart) => {
   return acc + quantity * price;
 }, 0);
 
-  useEffect(() => {
-    if (totalAmount >= 200) {
-      setShipping(0);
-    } else {
-      setShipping(29);
-    }
+useEffect(() => {
+  // Calculate shipping based on totalAmount (before discount)
+  const shippingCharge = totalAmount >= 200 ? 0 : 29;
+  setShipping(shippingCharge);
 
-    setCalculatedPrice(totalAmount + (totalAmount >= 200 ? 0 : 29));
-  }, [totalAmount, discountValue]);
+  // Update total price and calculated price
+  setTotalPrice(totalAmount);
+  setCalculatedPrice(totalAmount + shippingCharge);
+}, [totalAmount]); // Removed unnecessary dependencies
 
-  useEffect(() => {
-    const amountAfterDiscount = totalAmount - (discountValue || 0);
-    if (amountAfterDiscount >= 200) {
-      setShipping(0);
-    } else {
-      setShipping(29);
-    }
+useEffect(() => {
+  // Apply discount but keep shipping based on totalAmount
 
-    setCalculatedPrice(
-      amountAfterDiscount + (amountAfterDiscount >= 200 ? 0 : 29)
-    );
-  }, [totalAmount, discountValue]);
+ if(totalAmount < minDiscountPrice) setDiscountValue(0)
+
+  const discount = discountValue || 0;
+  const amountAfterDiscount = totalAmount - discount;
+  const finalAmount = amountAfterDiscount + (totalAmount >= 200 ? 0 : 29);
+
+  setCalculatedPrice(finalAmount);
+  setSavedAmount(totalAmount + (totalAmount >= 200 ? 29 : 0) - finalAmount );
+}, [totalAmount, discountValue]);
 
 
   useEffect(() => {
@@ -538,9 +559,15 @@ const totalAmount = carts?.reduce((acc, cart) => {
     fetchCoupons(); // Fetch available coupons when component mounts
   }, []);
 
-  const handleCouponClick = (couponCode) => {
-    setCouponCodes(couponCodes); // Copy the coupon code into the input field
+  const handleCouponClick = (e,couponCode) => {
+
+    
+    setCouponCode(couponCode)
+
+   
     setIsModalOpens(false); // Close the modal after selection
+
+    validateCoupon(e, couponCode)
   };
 
   return (
@@ -650,7 +677,7 @@ const totalAmount = carts?.reduce((acc, cart) => {
                         </li>
                       ))}
                     </ul>
-                    <div className="bg-white mt-2 rounded-4 summery-contain">
+                    <div className="bg-white mt-2 rounded-4 summery-contain p-2">
                       <div className="coupon-cart">
                         <h6 className="text-content mb-2">Coupon Apply</h6>
                         <div className="coupon-box input-group">
@@ -664,9 +691,9 @@ const totalAmount = carts?.reduce((acc, cart) => {
                             required
                           />
                           <button
-                            className="btn-apply btn-apply-input"
+                            className="btn-apply btn-apply-input  px-2"
                             type="submit"
-                            onClick={validateCoupon}
+                            onClick={(e) => validateCoupon(e,couponCode)}
                             disabled={loading}
                           >
                             {loading ? (
@@ -689,9 +716,9 @@ const totalAmount = carts?.reduce((acc, cart) => {
                             View Coupons
                           </button>
                         </div>
-                        <span className="">
+                        {/* <p className="text-content">
                           {responseMessage && <p>{responseMessage}</p>}
-                        </span>
+                        </p> */}
                       </div>
                       <ul>
                         <li>
@@ -733,6 +760,12 @@ const totalAmount = carts?.reduce((acc, cart) => {
                           ₹{calculatedPrice}
                         </h4>{" "}
                         {/* Add shipping to total */}
+                      </li>
+
+                      <li>
+                        <p>
+                          Your total saving ₹ {savedAmount < 0 ? 0 : savedAmount}
+                        </p>
                       </li>
                     </ul>
                   </div>
@@ -895,7 +928,7 @@ const totalAmount = carts?.reduce((acc, cart) => {
                       <div className="checkout-container">
                         <div className="row justify-content-center">
                           {/* Time & Date Section */}
-                          <div className="col-md-6">
+                          <div className="col-md-6 mb-2">
                             <div className="card checkout-card">
                               <div className="card-body">
                                 <h2 className="text-center fw-bold">
@@ -906,7 +939,7 @@ const totalAmount = carts?.reduce((acc, cart) => {
                                   <input
                                     type="date"
                                     id="datePicker"
-                                    className="form-control w-75 mt-2"
+                                    className="form-control w-75 my-2"
                                     onChange={(e) =>
                                       setDeliveryDate(e.target.value)
                                     }
@@ -922,7 +955,7 @@ const totalAmount = carts?.reduce((acc, cart) => {
                                       key={index}
                                     >
                                       <input
-                                        className="form-check-input"
+                                        className="form-check-input mx-2"
                                         type="radio"
                                         name="timeSlot"
                                         id={`slot${index}`}
@@ -947,13 +980,13 @@ const totalAmount = carts?.reduce((acc, cart) => {
                           <div className="col-md-6">
                             <div className="card checkout-card">
                               <div className="card-body">
-                                <h2 className="text-center fw-bold">
+                                <h2 className="text-center fw-bold my-2">
                                   Payment Option
                                 </h2>
                                 <div className="payment-options">
                                   <div className="form-check mb-2">
                                     <input
-                                      className="form-check-input"
+                                      className="form-check-input mx-2"
                                       type="radio"
                                       name="paymentMode"
                                       id="online"
@@ -972,7 +1005,7 @@ const totalAmount = carts?.reduce((acc, cart) => {
                                   </div>
                                   <div className="form-check">
                                     <input
-                                      className="form-check-input"
+                                      className="form-check-input mx-2"
                                       type="radio"
                                       name="paymentMode"
                                       id="cash"
