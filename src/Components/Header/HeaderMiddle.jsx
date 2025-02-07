@@ -117,7 +117,7 @@ function HeaderMiddle() {
     navigate(a); // Navigate if authenticated
 
     // Correctly prevent the default action
-    console.log("from header", user);
+   
     if (user) {
     } else {
       toggleLoginModal(); // Open login modal if not authenticated
@@ -161,7 +161,7 @@ function HeaderMiddle() {
         `${baseUrl}/getCategoryById/${categoryId}`
       );
       const fetchedProducts = response.data;
-      console.log(fetchedProducts);
+    
 
       // After fetching, sort the products based on the selected sorting option
       // applySorting(fetchedProducts);
@@ -510,9 +510,7 @@ function HeaderMiddle() {
         <Offcanvas.Body>
           {/* sidebar */}
           <div className="offcanvas-header">
-            <div className="row">{
-              
-              console.log(categories)}
+            <div className="row">
               {categories.map((category, index) => (
                 
                   <div className="col-6 mb-1" key={category.category_id}>

@@ -62,8 +62,9 @@ function Checkout() {
   // const [currentTotalPrice, setCurrentTotalPrice] = useState(1);
   const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
- 
+  const [reedemedPoints,setReedemedPoints] = useState(0)
 
+  console.log("points "+rewards,points)
   
 
   useEffect(() => {
@@ -355,20 +356,39 @@ useEffect(() => {
   // Update total price and calculated price
   setTotalPrice(totalAmount);
   setCalculatedPrice(totalAmount + shippingCharge);
-}, [totalAmount]); // Removed unnecessary dependencies
+}, [totalPrice,totalAmount]); // Removed unnecessary dependencies
+
+
+useEffect(() => {
+  const maxRedeemablePoints = Math.min(points, Math.floor(totalPrice / 2)); // Limit to 50% of total price
+
+  console.log(maxRedeemablePoints)
+
+  setReedemedPoints(maxRedeemablePoints)
+
+  console.log("reedem :" + reedemedPoints)
+
+},[reedemedPoints,totalPrice,points])
 
 useEffect(() => {
   // Apply discount but keep shipping based on totalAmount
 
- if(totalAmount < minDiscountPrice) setDiscountValue(0)
+ if(totalPrice < minDiscountPrice) setDiscountValue(0)
 
-  const discount = discountValue || 0;
-  const amountAfterDiscount = totalAmount - discount;
-  const finalAmount = amountAfterDiscount + (totalAmount >= 200 ? 0 : 29);
+
+  console.log("discount", discountValue)
+
+  
+
+  let amountAfterDiscount = totalPrice - (discountValue || 0); // Subtract the discount
+  amountAfterDiscount -= reedemedPoints;
+
+  console.log("amount after "+amountAfterDiscount)
+  const finalAmount = amountAfterDiscount + (totalPrice >= 200 ? 0 : 29);
 
   setCalculatedPrice(finalAmount);
-  setSavedAmount(totalAmount + (totalAmount >= 200 ? 29 : 0) - finalAmount );
-}, [totalAmount, discountValue]);
+  setSavedAmount(totalPrice  - finalAmount );
+}, [totalAmount, discountValue,totalPrice,reedemedPoints]);
 
 
   useEffect(() => {
@@ -386,15 +406,22 @@ useEffect(() => {
   const order_status = "Pending";
   const paymentData = {
     products: getProductsData(),
-    totalPrice: calculatedPrice,
     quantity,
     address_id,
+    totalPrice: calculatedPrice, pointsUsed: reedemedPoints,
     deliveryDate,
     deliveryTimeSlot: selectedSlot,
     payment_mode: paymentMode,
     orderStatus: order_status,
     shipping_cost: shipping,
   };
+
+
+  
+
+
+
+
   const handlePayment = async () => {
     // Check for required fields
     if (!address_id) {
@@ -410,14 +437,22 @@ useEffect(() => {
     setPaymentLoading(true);
 
     try {
+   
+
+     
+
+
       if (paymentMode === "Cash On Delivery") {
+
         const response = await axios.post(
           `${baseUrl}/create/order/${userId}`,
-          paymentData
+         paymentData
         );
+
+
         console.log("Order Response:", response);
 
-        if (response.data.orderId) {
+        if (response?.data?.orderId) {
           await generateAndUploadInvoice(response.data.orderId);
           toast.success("Order created successfully with Cash On Delivery!");
           navigate("/order", { state: { orderId: response.data.orderId } });
@@ -442,6 +477,7 @@ useEffect(() => {
             try {
               const orderData = {
                 ...paymentData,
+                totalPrice: finalPrice, pointsUsed: maxRedeemablePoints,
                 razorpayOrderId: paymentResponse.razorpay_order_id,
                 payment: paymentResponse.razorpay_payment_id,
               };
@@ -472,11 +508,11 @@ useEffect(() => {
     } catch (error) {
       console.error(
         "Error creating order:",
-        error.response.data.message.split(" ").slice(0, 4).join(" ")
+        error?.response?.data?.message.split(" ").slice(0, 4).join(" ")
       );
 
       // toast.error(data.message);
-      toast.error(error.response.data.message.split(" ").slice(0, 4).join(" "));
+      toast.error(error?.response?.data?.message.split(" ").slice(0, 4).join(" "));
     } finally {
       setPaymentLoading(false);
     }
@@ -729,6 +765,10 @@ useEffect(() => {
                         <li>
                           <h4>Subtotal</h4>
                           <h4 className="price">₹{totalAmount.toFixed(2)}</h4>
+                        </li>
+                        <li>
+                          <h4>Points Used </h4>
+                          <h4 className="price">{reedemedPoints}</h4>
                         </li>
                         {/* <li>
                         <h4>Actual Amount</h4>

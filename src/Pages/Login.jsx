@@ -172,7 +172,7 @@ function Login() {
       }
 
       const data = await response.json();
-      console.log(data);
+      
       dispatch(
         login({
           user: data.user,
@@ -329,7 +329,7 @@ function Login() {
       });
 
       const data = await res.json();
-      console.log(data.token);
+      
       dispatch(
         login({
           user: data.user,
@@ -338,7 +338,7 @@ function Login() {
       );
 
       navigate("/");
-      console.log(data);
+      
     } catch (error) {
       console.error("Error during login:", error);
     }
