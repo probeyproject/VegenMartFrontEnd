@@ -74,6 +74,9 @@ function App() {
     (state) => state.user
   );
 
+
+  console.log("rewards : " + rewards)
+
   useEffect(() => {}, [user, authenticated, cart, wishlists, rewards]); // Run effect when these values change
 
   return (

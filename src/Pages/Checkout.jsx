@@ -28,7 +28,7 @@ function Checkout() {
   const [couponCode, setCouponCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
-  const [discountValue, setDiscountValue] = useState("");
+  const [discountValue, setDiscountValue] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState("");
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -360,15 +360,14 @@ useEffect(() => {
 
 
 useEffect(() => {
-  const maxRedeemablePoints = Math.min(points, Math.floor(totalPrice / 2)); // Limit to 50% of total price
+  if (totalPrice >= 500) {
+  if(discountValue === 0) { const maxRedeemablePoints = Math.min(points, Math.floor(totalPrice / 2)); // Limit to 50% of total price
+    setReedemedPoints(maxRedeemablePoints);}
+  } else {
+    setReedemedPoints(0); // No redemption allowed for orders below ₹500
+  }
 
-  console.log(maxRedeemablePoints)
-
-  setReedemedPoints(maxRedeemablePoints)
-
-  console.log("reedem :" + reedemedPoints)
-
-},[reedemedPoints,totalPrice,points])
+},[reedemedPoints,totalPrice,points,discountValue])
 
 useEffect(() => {
   // Apply discount but keep shipping based on totalAmount
@@ -376,7 +375,7 @@ useEffect(() => {
  if(totalPrice < minDiscountPrice) setDiscountValue(0)
 
 
-  console.log("discount", discountValue)
+  if(discountValue > 0) setReedemedPoints(0)
 
   
 
@@ -755,6 +754,13 @@ useEffect(() => {
                         {/* <p className="text-content">
                           {responseMessage && <p>{responseMessage}</p>}
                         </p> */}
+
+                        <p>
+                          {discountValue > 0 &&  <p onClick={() => {
+                            setDiscountValue(0)
+                            setCouponCode("")
+                          }}> Remove Coupan</p>}
+                        </p>
                       </div>
                       <ul>
                         <li>

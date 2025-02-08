@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeaderTop from "../Components/Header/HeaderTop";
 import HeaderMiddle from "../Components/Header/HeaderMiddle";
 import HeaderBottom from "../Components/Header/HeaderBottom";
@@ -13,10 +13,24 @@ import Testimonials from "../Components/HomeSection/Testimonials";
 import Testimonial from "../Components/Common/Testimonial";
 import ShopByCategory from "../Components/FilterSection/ShopByCategory";
 import MobileViewCards from "../Components/ProductSection/MobileViewCards";
+import { checkAuthentication } from "../slices/userSlice";
+import { useDispatch } from "react-redux";
 
 
 function Index() {
 
+  const dispatch = useDispatch()
+
+    useEffect(() => {
+      dispatch(checkAuthentication())
+        .unwrap()
+        .then(() => {
+          console.log('User is authenticated');
+        })
+        .catch((error) => {
+          console.error('Error on app initialization:', error);
+        });
+    }, []);
 
   return (
     <div className="container-fluid px-0 overflow-hidden">
