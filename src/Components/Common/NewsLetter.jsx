@@ -2,33 +2,32 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { baseUrl } from '../../API/Api'
+import { baseUrl } from "../../API/Api";
 
 function NewsLetter() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-   
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccess(false);
     setLoading(true);
 
     // Prepare the data to send to the API
-    const data = { email};
+    const data = { email };
 
     try {
       // Make the API POST request using Axios
       const response = await axios.post(`${baseUrl}/create/newsEmail`, data);
-      
 
       // Handle success response
       setSuccess(true);
-      toast.success("Email Successfully subscribed")
+      toast.success("Email Successfully subscribed");
     } catch (err) {
       // Handle error response
-      console.error('Error:', err);
-      toast.error("This Email already subscribed")
+      console.error("Error:", err);
+      toast.error("This Email already subscribed");
     } finally {
       // Set loading to false after API call finishes (success or error)
       setLoading(false);
@@ -44,7 +43,6 @@ function NewsLetter() {
     });
   }, []);
 
-
   return (
     <section className="newsletter-section" data-aos="fade-up">
       <div className="container-fluid-lg">
@@ -53,7 +51,7 @@ function NewsLetter() {
           style={{
             background:
               "url('https://themes.pixelstrap.com/fastkart/assets/images/vegetable/newsletter/1.jpg')",
-              height:"170px"
+            height: "170px",
           }}
         >
           <div className="newsletter-contain py-3">
@@ -61,8 +59,14 @@ function NewsLetter() {
               <div className="row">
                 <div className="col-xxl-4 col-lg-5 col-md-7 col-sm-9 offset-xxl-2 offset-md-1">
                   <div className="newsletter-detail">
-                    <h2>Join our newsletter and get...</h2>
-                    <h5>₹20 discount for your first order</h5>
+                    <h2>Join the Vegenmart Newsletter!</h2>
+                    <h6
+                      className="text-warning mb-2"
+                      style={{ fontSize: "15px", fontWeight: "bolder" }}
+                    >
+                      Stay updated on the freshest ozone-washed fruits and
+                      vegetables.
+                    </h6>
                     <div className="input-box">
                       <input
                         type="email"
@@ -81,7 +85,12 @@ function NewsLetter() {
                           <i className="fa-solid fa-spinner fa-spin icon" /> // Loading spinner icon
                         ) : (
                           <>
-                            <span className="d-sm-block d-none" onClick={handleSubmit}>Subscribe</span>
+                            <span
+                              className="d-sm-block d-none"
+                              onClick={handleSubmit}
+                            >
+                              Subscribe
+                            </span>
                             <i className="fa-solid fa-arrow-right icon" />
                           </>
                         )}
