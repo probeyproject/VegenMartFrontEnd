@@ -309,7 +309,6 @@ function ProductSection() {
                   />
                   <div className="home-detail p-top-left home-p-medium">
                     <div>
-                     
                       <h2 className="text-uppercase fw-normal mb-0 text-russo theme-color">
                         {data.banner_offer_title}
                       </h2>
@@ -341,19 +340,18 @@ function ProductSection() {
 
             <div className="section-t-space">
               <div className="category-menu">
-                <h3>Customer Comment</h3>
+                <h3>Founder Notes</h3>
                 <div className="review-box">
                   <div className="review-contain">
-                    <h5 className="w-100">
-                      We Care About Our Customer Experience
-                    </h5>
+                    <h5 className="w-100">We Care About Your Health</h5>
                     <p>
-                      Services is very good and also products are fresh and good
-                      in quality.
+                      At Vegenmart, we are committed to delivering ozone-washed
+                      fruits and vegetables that are free from harmful chemicals
+                      and bacteria, ensuring purity and nutrition in every bite.
                     </p>
                   </div>
 
-                  <div className="review-profile">
+                  {/* <div className="review-profile">
                     <div className="review-image">
                       <img
                         src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/review/1.jpg"
@@ -365,7 +363,7 @@ function ProductSection() {
                       <h5>Tina Mehata</h5>
                       <h6>Prayagraj.</h6>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -404,14 +402,14 @@ function ProductSection() {
                   </div>
                   <div className="d-flex justify-content-between mb-3 d-none d-sm-block">
                     <div className="d-flex justify-content-between">
-                     <p className="mt-3 me-3 fw-bold fs-6 ">Sort By:</p>
+                      <p className="mt-3 me-3 fw-bold fs-6 ">Sort By:</p>
                       <select
                         className="form-select text- w-50 "
                         id="filterproduct"
                         value={sortOption} // Set the current value to the selected sort option
                         onChange={handleSortChange} // Handle sort option change
                       >
-                        <option>Name (A to Z)</option>
+                        <option>--Select--</option>
                         <option>Price (Low to High)</option>
                         <option>Price (High to Low)</option>
                       </select>
@@ -493,7 +491,6 @@ function ProductSection() {
                           <img
                             className="Defaultimage "
                             src={vegenimg}
-                            
                             alt="Default Image"
                           />
                         )}
@@ -521,7 +518,11 @@ function ProductSection() {
                 <div className="">
                   <div className="row g-md-4 g-3">
                     {tasty?.map((data, index) => (
-                      <div key={index} className="col-md-6 d-none d-lg-block" data-aos="zoom-in-right">
+                      <div
+                        key={index}
+                        className="col-md-6 d-none d-lg-block"
+                        data-aos="zoom-in-right"
+                      >
                         <div
                           className="banner-contain hover-effect bg-size blur-up lazyloaded"
                           style={{
@@ -560,7 +561,11 @@ function ProductSection() {
                     ))}
 
                     {fresh.map((data, index) => (
-                      <div key={index} className="col-12 col-md-6" data-aos="zoom-in-left">
+                      <div
+                        key={index}
+                        className="col-12 col-md-6"
+                        data-aos="zoom-in-left"
+                      >
                         <div
                           className="banner-contain hover-effect bg-size blur-up lazyloaded"
                           style={{

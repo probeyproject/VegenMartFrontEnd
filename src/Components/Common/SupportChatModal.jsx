@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./ChatBotCSS.css";
 import { Modal } from "reactstrap";
-import { baseUrl } from '../../API/Api'
+import { baseUrl } from "../../API/Api";
 
-function SupportChatModal({isOpen, toggle}) {
+function SupportChatModal({ isOpen, toggle }) {
   const [messages, setMessages] = useState([]);
   const [userQuery, setUserQuery] = useState("");
   const [availableQueries, setAvailableQueries] = useState([
@@ -21,10 +21,9 @@ function SupportChatModal({isOpen, toggle}) {
   // Handle pre-defined query selection (hello, order issue, etc.)
   const handleQuerySelection = async (query) => {
     try {
-      const response = await axios.post(
-        `${baseUrl}/handle-query`,
-        { question: query }
-      );
+      const response = await axios.post(`${baseUrl}/handle-query`, {
+        question: query,
+      });
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: query, sender: "user" },
@@ -59,10 +58,9 @@ function SupportChatModal({isOpen, toggle}) {
     setUserQuery(""); // Reset input field
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/handle-query`,
-        { question: userQuery }
-      );
+      const response = await axios.post(`${baseUrl}/handle-query`, {
+        question: userQuery,
+      });
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: response.data.answer, sender: "bot" },

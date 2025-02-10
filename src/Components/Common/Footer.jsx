@@ -89,19 +89,19 @@ const Footer = () => {
                     />
                   </a>
                 </div>
-                <p className="text-content text-center">
+                <p className="text-content">
                   Delivering Ozone-Washed vegetables and fruits for a healthier,
-                  safer lifestyle. Freshness you can trust, convenience
-                  you’ll love.
+                  safer lifestyle. Freshness you can trust, convenience you’ll
+                  love.
                 </p>
-                <div className="footer-logo-contain">
+                <div className="footer-logo-contain d-flex flex-column gap-1">
                   <div className="address">
-                    <div className="text-enter">
-                      <p className="text-center">
+                    <div className="text-start d-flex flex-column gap-1">
+                      <p className="">
                         <IoHomeOutline className="fs-5 me-2" />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
                       </p>
-                      <p className="text-center">
+                      <p className="">
                         <MdOutlineMailOutline className="fs-5 me-2" />
 
                         <a
@@ -112,20 +112,19 @@ const Footer = () => {
                           info@vegenmart.com
                         </a>
                       </p>
-                      <p className="text-center">
-                        <MdOutlinePhoneInTalk className="fs-5 me-2" />
+                      <p className="">
+                        <MdOutlinePhoneInTalk className="fs-5" />
                         +9191189 40094
                       </p>
                     </div>
                   </div>
 
-                  <div className="">
-                    <div className="reserve">
-                      <h6 className="text-content ms-4 mt-3">
-                        ©2024 Vegenmart All Rights Reserved.
-                      </h6>
-                    </div>
-                    <p className="text-content text-center mt-1">
+                  <div className="d-flex flex-column gap-1">
+                    <h6 className="text-content">
+                      ©2024 Vegenmart All Rights Reserved.
+                    </h6>
+
+                    <p className="text-content">
                       "Vegenmart is owned by Vegenmart Tech India Private
                       Limited."
                     </p>
@@ -362,9 +361,9 @@ const Footer = () => {
                   </div>
 
                   <div className="text-center mt-5">
-                      <h6 className="text-content text-center mt-3">
-                        ©2024 Vegenmart All Rights Reserved.
-                      </h6>
+                    <h6 className="text-content text-center mt-3">
+                      ©2024 Vegenmart All Rights Reserved.
+                    </h6>
                     <h5 className="text-content text-center mt-1 ">
                       "Vegenmart is owned by Vegenmart Tech India Private
                       Limited."

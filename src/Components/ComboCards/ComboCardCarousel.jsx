@@ -32,6 +32,12 @@ export default function ComboCardCarousel() {
   const userStates = useSelector((state) => state?.user);
   const cart = userStates?.cart;
 
+  const [comboList, setComboList] = useState()
+
+  console.log(combos)
+
+
+
   useEffect(() => {
     axios
       .get(`${baseUrl}/getAllCombos`)
@@ -129,12 +135,41 @@ export default function ComboCardCarousel() {
       });
   };
 
+
+
+  useEffect(() => {
+    if (!combos || combos.length === 0) return; // Prevent unnecessary API calls
+  
+    const fetchComboDetails = async () => {
+      try {
+        const responses = await Promise.all(
+          combos.map((combo) =>
+            axios.get(`${baseUrl}/getCombo/${combo.combo_id}`)
+          )
+        );
+  
+        // Extract structured data
+        const comboData = responses.map((res) => res.data);
+
+        
+  
+      setComboList(comboData)
+      } catch (error) {
+        console.error("Error fetching combo details:", error);
+      }
+    };
+  
+    fetchComboDetails();
+  }, [combos]);
+  
+  console.log(comboList)
+
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedCombo(null);
     setSelectedProducts([]);
   };
-  const createCart = async () => {
+  const createCart = async (id,price,weight,weight_type) => {
     const numericWeight = parseFloat(inputweight);
 
     // Check if inputWeight is valid based on weightType
@@ -156,12 +191,12 @@ export default function ComboCardCarousel() {
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
         // productId: id,
-        combo_id: ComboData?.combo_id,
-        totalPrice: ComboData?.price,
-        weight: inputweight,
-        weight_type: weightType,
-        quantity: "1",
-        final_price: ComboData?.price,
+        combo_id: id,
+        totalPrice: price,
+        weight: weight,
+        weight_type: weight_type,
+        quantity: 1,
+        final_price: price,
       });
 
       toast.success("Your product add to cart successfully");
@@ -185,14 +220,14 @@ export default function ComboCardCarousel() {
   };
 
   ``;
-  const handleClickCart = (e, a) => {
+  const handleClickCart = (e, a, id,price,weight,weight_type) => {
     // console.log(a);
     if (!authenticated) {
       // If the user is not authenticated, call handleAuth
       handleAuth(e, a); // Pass event (e) and the argument (a)
     } else {
       // If the user is authenticated, call createCart
-      createCart(); // Call createCart directly
+      createCart(id,price,weight,weight_type); // Call createCart directly
     }
   };
 
@@ -209,7 +244,7 @@ export default function ComboCardCarousel() {
     infinite: true,
     speed: 100,
     autoPlay: false,
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
     responsive: [
       {
@@ -227,52 +262,80 @@ export default function ComboCardCarousel() {
     ],
   };
 
+
+
+
   return (
     <div className="">
-      <Slider {...sliderSettings}>
-        {combos.map((combo) => {
-          // const productImages = safeParseJson(combo.product_image);
+  <Slider {...sliderSettings}>
+  {comboList?.map((combo) => (
+    <div
+      className="card bg-light p-2 combo-card"
+      key={combo.combo_id}
+      data-aos="fade-up"
+    >
+      {/* Display the first image of each product inside the combo */}
+      <div className="d-flex flex-wrap justify-content-center">
+        {combo.products.length > 0 ? (
+          combo.products.map((product, index) => {
+            let productImages = [];
 
-          return (
-            <div
-              className="card bg-light p-2 combo-card"
-              key={combo.id}
-              onClick={() =>
-                handleComboClick(
-                  combo.combo_id,
-                  safeParseJson(combo.product_id)
-                )
-              }
-              data-aos="fade-up"
-            >
-              {/* {console.log(combo)} */}
+            try {
+              productImages = product.product_image
+                ? JSON.parse(product.product_image) // Parse JSON if it's an array
+                : ["default-image.jpg"];
+            } catch (error) {
+              console.error("Error parsing product images:", error);
+              productImages = ["default-image.jpg"];
+            }
+
+            return (
               <img
-                src={JSON.parse(combo.product_image)}
-                className="card-img-top rounded-top"
-                style={{ height: "150px", padding: "5px" }}
-                alt={combo.title}
-              />{" "}
-              {/* {console.log(combo)} */}
-              <div className="card-body text-center d-flex justify-content-between">
-                <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
-                  {combo.title}
-                </h5>
-              </div>
-              <p className="fw-bold text-start mb-0">₹{combo.price}</p>
-              <p className="card-text text-muted text-capitalize">
-                {combo.description
-                  ? combo.description.length >= 10  
-                    ? `${combo.description.substring(0, 10)}...`
-                    : combo.description
-                  : "Loading.. description "}
-              </p>
-              <button className="btn btn-animation w-100 mt-2">
-                View Details
-              </button>
-            </div>
-          );
-        })}
-      </Slider>
+                key={index}
+                src={productImages[0]} // Only show the first image
+                className="card-img-top rounded m-1"
+                style={{
+                  height: "100px",
+                  width: "100px",
+                  objectFit: "cover",
+                }}
+                alt={product.product_name}
+              />
+            );
+          })
+        ) : (
+          <img
+            src="default-image.jpg"
+            className="card-img-top rounded"
+            style={{ height: "100px", width: "100px", objectFit: "cover" }}
+            alt="Default"
+          />
+        )}
+      </div>
+
+      {/* ✅ Display combo details correctly */}
+      <div className="card-body text-center">
+        <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
+          {combo.title || `Combo ${combo.combo_id}`}
+        </h5>
+      </div>
+
+      <p className="fw-bold text-start mb-0">₹{combo.price || "N/A"}</p>
+
+      <p className="card-text text-muted text-capitalize">
+        {combo.description
+          ? combo.description.length >= 10
+            ? `${combo.description.substring(0, 10)}...`
+            : combo.description
+          : "Loading.. description"}
+      </p>
+
+      <button className="btn btn-animation w-100 mt-2" onClick={(e,a)=>handleClickCart(e,a,combo.combo_id,combo.price,combo.weight,combo.weight_type)}>Add to cart</button>
+    </div>
+  ))}
+</Slider>
+
+
 
       {selectedCombo && (
         <div

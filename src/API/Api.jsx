@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// export const baseUrl = "http://localhost:9000/api";
-export const baseUrl = "https://www.api.vegenmart.com/api";
+export const baseUrl = "http://localhost:9000/api";
+// export const baseUrl = "https://www.api.vegenmart.com/api";
 
 export const fetchHeadersAds = async () => {
     try {

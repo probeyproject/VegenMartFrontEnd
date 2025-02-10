@@ -3,14 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaUser, FaXTwitter } from "react-icons/fa6"; // Existing Twitter icon
-import {   FaPinterest,FaInstagram } from "react-icons/fa";
+import { FaPinterest, FaInstagram } from "react-icons/fa";
 import { LuFacebook, LuLinkedin } from "react-icons/lu";
 
-import {
-  Dropdown,
-  DropdownToggle,
- 
-} from "reactstrap";
+import { Dropdown, DropdownToggle } from "reactstrap";
 import axios from "axios";
 import { baseUrl } from "../../API/Api";
 import { MdOutlineSupportAgent } from "react-icons/md";
@@ -24,10 +20,7 @@ function HeaderTop() {
   const [headerAds, setHeaderAds] = useState([]);
   const [supportChat, setSupportChat] = useState(false);
   const authenticated = useSelector((state) => state.user.authenticated);
- const dispatch = useDispatch()
-
-  
-  
+  const dispatch = useDispatch();
 
   const handleSupportChat = () => {
     setSupportChat(true);
@@ -40,7 +33,7 @@ function HeaderTop() {
         withCredentials: true, // To include cookies in the request
       });
 
-      dispatch(logout())
+      dispatch(logout());
 
       if (response.status === 200) {
         // If successful, you can perform additional tasks (e.g., redirect, state reset)
@@ -56,13 +49,9 @@ function HeaderTop() {
     }
   };
 
-
-
   const fetchHeadersAds = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/getAllHeaderAds`
-      );
+      const response = await axios.get(`${baseUrl}/getAllHeaderAds`);
       setHeaderAds(response.data);
     } catch (error) {
       console.log(error);
@@ -71,8 +60,6 @@ function HeaderTop() {
 
   useEffect(() => {
     fetchHeadersAds();
-
-    
   }, []);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -85,18 +72,16 @@ function HeaderTop() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-    arrows: false,  
+    arrows: false,
   };
 
   return (
     <div className="header-top">
-      <div className="container-fluid-lg">
+      <div className="container-fluid-lg d-flex">
         <div className="row d-flex justify-content-between">
-        
-
           <div className="col-xxl-6 col-lg-9 d-lg-block d-none">
             <div className="header-offer d-flex justify-content-between">
-            <div className="timer-notification d-flex">
+              <div className="timer-notification d-flex">
                 <div className="mx-2">
                   <a
                     href="https://x.com/VegenMart"
@@ -142,15 +127,6 @@ function HeaderTop() {
                     <LuLinkedin style={{ fontSize: "20px", color: "white" }} />
                   </a>
                 </div>
-                <div className="mx-2">
-                  <a
-                    onClick={handleSupportChat}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <MdOutlineSupportAgent  style={{ fontSize: "22px", color: "white", cursor : 'pointer' }} />
-                  </a>
-                </div>
               </div>
 
               <div>
@@ -166,34 +142,48 @@ function HeaderTop() {
           </div>
 
           <div className="col-lg-3">
-            <ul className="about-list right-nav-about">
-              
+            <ul className="about-list right-nav-about d-flex justify-content-between">
               <li className="right-side onhover-dropdown">
-                      <div className="delivery-login-box">
-                        {authenticated && (
-                          <FaUser className="text-light fs-5"/>
-                        )}
-                      </div>
+                <div className="delivery-login-box">
+                  {authenticated && <FaUser className="text-light fs-5" />}
+                </div>
 
-                      {!authenticated && (
-                       <div className="product-box-contain d-block d-md-none">
-                         <FaUser className="text-light me-1"/>
-                          <Link to ="/login" className="text-light">Login</Link>
-                        </div>
-                      )}
-                      {authenticated && (
-                        <div className="onhover-div onhover-div-login">
-                          <ul className="user-box-name">
-                            <div className="product-box-contain">
-                              <Link to={`/myaccount`}>My Dashboard</Link><br /> 
-                              <Link onClick={handleLogout}>Logout</Link>
-                            </div>
-                           
-                           
-                          </ul>
-                        </div>
-                      )}
-                    </li>
+                {!authenticated && (
+                  <div className="product-box-contain d-block d-md-none">
+                    <FaUser className="text-light me-1" />
+                    <Link to="/login" className="text-light">
+                      Login
+                    </Link>
+                  </div>
+                )}
+                {authenticated && (
+                  <div className="onhover-div onhover-div-login">
+                    <ul className="user-box-name">
+                      <div className="product-box-contain">
+                        <Link to={`/myaccount`}>My Dashboard</Link>
+                        <br />
+                        <Link onClick={handleLogout}>Logout</Link>
+                      </div>
+                    </ul>
+                  </div>
+                )}
+              </li>
+
+              <li>
+                <a
+                  onClick={handleSupportChat}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MdOutlineSupportAgent
+                    style={{
+                      fontSize: "22px",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                  />
+                </a>
+              </li>
             </ul>
           </div>
         </div>
