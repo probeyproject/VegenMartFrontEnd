@@ -16,7 +16,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
 
 function HeaderMiddle() {
-  const { user } = useSelector(store => store.user);
+  const { user } = useSelector((store) => store.user);
   const [loginModal, setLoginModal] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -54,7 +54,7 @@ function HeaderMiddle() {
         withCredentials: true, // To include cookies in the request
       });
 
-      dispatch(logout())
+      dispatch(logout());
 
       if (response.status === 200) {
         // If successful, you can perform additional tasks (e.g., redirect, state reset)
@@ -117,7 +117,7 @@ function HeaderMiddle() {
     navigate(a); // Navigate if authenticated
 
     // Correctly prevent the default action
-   
+
     if (user) {
     } else {
       toggleLoginModal(); // Open login modal if not authenticated
@@ -161,7 +161,6 @@ function HeaderMiddle() {
         `${baseUrl}/getCategoryById/${categoryId}`
       );
       const fetchedProducts = response.data;
-    
 
       // After fetching, sort the products based on the selected sorting option
       // applySorting(fetchedProducts);
@@ -228,92 +227,97 @@ function HeaderMiddle() {
                     src={logo}
                     className="img-fluid blur-up lazyloaded"
                     alt="Web logo"
-                    onClick={() =>("/")}
+                    onClick={() => "/"}
                   />
                 </Link>
 
-                <div className="middle-box">
-                  <div className="location-box p-2">
-                    <button
-                      onClick={() => setShowModal(true)}
-                      className="btn location-button"
-                    >
-                      <span className="location-arrow">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          height={24}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="feather feather-map-pin"
-                        >
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                          <circle cx={12} cy={10} r={3} />
-                        </svg>
-                      </span>
-                    </button>
-                    <div className="ms-2">
-                      <button className="border-0 bg-white">
-                        {selectedLocation
-                          ? `${selectedLocation.society_name.substring(0, 15)}...`
-                          : "Please Choose Location"}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="search-box">
-                    <div className="input-group">
-                      <input
-                        type="search"
-                        className="form-control"
-                        placeholder="I'm searching for product..."
-                        value={query}
-                        onChange={handleInputChange}
-                        onKeyPress={handleKeyPress} // Trigger search on Enter key
-                      />
+                <div className="row">
+                  <div className="middle-box">
+                    <div className="location-box p-2">
                       <button
-                        onClick={handleSearchClick}
-                        className="btn btn-outline-secondary"
-                        type="button"
-                        id="button-addon2"
+                        onClick={() => setShowModal(true)}
+                        className="btn location-button"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          height={24}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="feather feather-search"
-                        >
-                          <circle cx={11} cy={11} r={8} />
-                          <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                        </svg>
-                      </button>
-                    </div>
-                    {suggestions.length > 0 && (
-                      <ul className="list-group mt-2 suggestions-list">
-                        {suggestions.map((item) => (
-                          <li
-                            key={item.product_id}
-                            className="list-group-item list-group-item-action"
-                            onClick={() => {
-                               setQuery(item.product_name);
-                              navigate(`/detail_page/${item.product_id}`);
-                            }}
-                            style={{ cursor: "pointer", borderBottom: "none" }}
+                        <span className="location-arrow">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-map-pin"
                           >
-                            {item.product_name}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx={12} cy={10} r={3} />
+                          </svg>
+                        </span>
+                      </button>
+                      <div className="ms-2">
+                        <button className="border-0 bg-white">
+                          {selectedLocation
+                            ? `${selectedLocation.society_name.substring(0, 15)}...`
+                            : "Please Choose Location"}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="search-box">
+                      <div className="input-group">
+                        <input
+                          type="search"
+                          className="form-control"
+                          placeholder="I'm searching for product..."
+                          value={query}
+                          onChange={handleInputChange}
+                          onKeyPress={handleKeyPress} // Trigger search on Enter key
+                        />
+                        <button
+                          onClick={handleSearchClick}
+                          className="btn btn-outline-secondary"
+                          type="button"
+                          id="button-addon2"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-search"
+                          >
+                            <circle cx={11} cy={11} r={8} />
+                            <line x1={21} y1={21} x2="16.65" y2="16.65" />
+                          </svg>
+                        </button>
+                      </div>
+                      {suggestions.length > 0 && (
+                        <ul className="list-group mt-2 suggestions-list">
+                          {suggestions.map((item) => (
+                            <li
+                              key={item.product_id}
+                              className="list-group-item list-group-item-action"
+                              onClick={() => {
+                                setQuery(item.product_name);
+                                navigate(`/detail_page/${item.product_id}`);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {item.product_name}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -512,37 +516,38 @@ function HeaderMiddle() {
           <div className="offcanvas-header">
             <div className="row">
               {categories.map((category, index) => (
-                
-                  <div className="col-6 mb-1" key={category.category_id}>
-                    <Link
-                     to={`/pannelpage/${category.category_name}`}
+                <div className="col-6 mb-1" key={category.category_id}>
+                  <Link
+                    to={`/pannelpage/${category.category_name}`}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      color: "black",
+                      backgroundColor:
+                        selectedCategory === category.category_id
+                          ? "#ebd7e0"
+                          : "",
+                    }}
+                    className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
+                  >
+                    <img
+                      src={category.category_url}
+                      className="img-fluid rounded-circle mb-2"
+                      alt="loading.."
                       style={{
-                        cursor: "pointer",
-                        textDecoration:"none",
-                        color:"black",
-                        backgroundColor:
-                          selectedCategory === category.category_id
-                            ? "#ebd7e0"
-                            : "",
+                        height: "50px",
+                        width: "50px",
+                        objectFit: "cover",
                       }}
-                      className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
+                    />
+                    <p
+                      className="mb-0 text-center"
+                      style={{ fontSize: "10px" }}
                     >
-                      <img
-                        src={category.category_url}
-                        className="img-fluid rounded-circle mb-2"
-                        alt="loading.."
-                        style={{
-                          height: "50px",
-                          width: "50px",
-                          objectFit: "cover",
-                        }}
-                      />
-                      <p className="mb-0 text-center" style={{fontSize:"10px"}}>
-                        {category.category_name}
-                      </p>
-                    </Link>
-                  </div>
-               
+                      {category.category_name}
+                    </p>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -557,7 +562,6 @@ function HeaderMiddle() {
         onHide={() => setShowModal(false)}
         size="md"
         centered
-        
       >
         <Modal.Header closeButton className="d-flex justify-content-between">
           <Modal.Title className="location-title">

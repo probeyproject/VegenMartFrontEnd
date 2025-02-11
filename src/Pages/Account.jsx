@@ -182,8 +182,8 @@ function Account() {
                   />
                 </div>
                 <div className="profile-contain">
-                  <div className="profile-name">
-                    <h3>{phoneno}</h3>
+                  <div className="profile-name d-flex gap-1 justify-content-center">
+                    <h3>Hi,</h3> <h3>{phone}</h3>
                   </div>
                 </div>
               </div>
@@ -431,12 +431,13 @@ function Account() {
                                                 >
                                                   {productImages.length > 0 ? (
                                                     <img
-                                                    
                                                       src={productImages[0]} // Use the first image
                                                       className="img-fluid blur-up lazyloaded rounded-2"
                                                       alt={product.product_name}
-
-                                                      style={{ width: "80px", height: "80px" }}
+                                                      style={{
+                                                        width: "80px",
+                                                        height: "80px",
+                                                      }}
                                                     />
                                                   ) : (
                                                     <p>No image available</p>

@@ -33,6 +33,11 @@ export default function ComboCardCarousel() {
   const cart = userStates?.cart;
 
   const [comboList, setComboList] = useState();
+  const [visibleCount, setVisibleCount] = useState(2); // Initially show 4 combos
+
+  const showMoreCombos = () => {
+    setVisibleCount((prevCount) => prevCount + 2); // Show 4 more on each click
+  };
 
   console.log(combos);
 
@@ -189,7 +194,7 @@ export default function ComboCardCarousel() {
         totalPrice: price,
         weight: weight,
         weight_type: weight_type,
-        quantity: 1,
+        quantity: "1",
         final_price: price,
       });
 
@@ -258,124 +263,121 @@ export default function ComboCardCarousel() {
 
   return (
     <div className="">
-      <Slider {...sliderSettings}>
-        {comboList?.map((combo) => {
-          // Calculate the total price of the combo based on individual products and their quantities
-          let totalPrice = 0;
-          combo.products.forEach((product) => {
-            totalPrice += product.product_price * product.quantity; // Assuming product_price is per unit
-          });
+      <div className="container">
+        <div className="row">
+          {comboList?.slice(0, visibleCount).map((combo) => {
+            let totalPrice = combo.products.reduce(
+              (sum, product) => sum + product.product_price * product.quantity,
+              0
+            );
 
-          // If a discounted price exists, calculate the discounted price
-          const discountedPrice = combo.price;
+            const discountedPrice = combo.price;
 
-          return (
-            <div
-              className="card bg-light p-2 combo-card"
-              key={combo.combo_id}
-              data-aos="fade-up"
-            >
-              {/* Display first 6 products in a horizontal row */}
-              <div className="d-flex flex-wrap justify-content-start gap-2">
-                {combo.products.slice(0, 6).map((product, index) => {
-                  let productImages = [];
-
-                  try {
-                    productImages = product.product_image
-                      ? JSON.parse(product.product_image) // Parse JSON if it's an array
-                      : ["default-image.jpg"];
-                  } catch (error) {
-                    console.error("Error parsing product images:", error);
-                    productImages = ["default-image.jpg"];
-                  }
-
-                  return (
-                    <div
-                      key={index}
-                      className="d-flex flex-column align-items-center"
-                    >
-                      {/* Display product image */}
-                      <img
-                        src={productImages[0]} // Only show the first image
-                        className="card-img-top rounded m-1"
-                        style={{
-                          height: "80px", // Smaller image size
-                          width: "80px", // Smaller image size
-                          objectFit: "cover",
-                        }}
-                        alt={product.product_name}
-                      />
-                      {/* Display product name and weight */}
-                      <div className="text-center mt-2">
-                        <p>{product.product_name}</p>
-                        <p>
-                          {product.quantity} {product.quantity_type}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Combo details */}
-              <div className="mt-3">
-                <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
-                  {combo.title || `Combo ${combo.combo_id}`}
-                </h5>
-              </div>
-
-              <div className="d-flex gap-2 align-items-center">
-                {/* Price and discount details */}
-
-                {discountedPrice && discountedPrice < totalPrice && (
-                  <p className="fw-bold text-start mb-0">
-                    ₹{discountedPrice.toFixed(2)}
-                  </p>
-                )}
-                <p className="text-start mb-0  text-decoration-line-through">
-                  ₹{totalPrice.toFixed(2)}
-                </p>
-
-                {/* Discount percentage */}
-                {discountedPrice && discountedPrice < totalPrice && (
-                  <p className="text-muted mb-0 text-danger">
-                    {(
-                      ((totalPrice - discountedPrice) / totalPrice) *
-                      100
-                    ).toFixed(0)}
-                    % OFF
-                  </p>
-                )}
-              </div>
-              {/* Combo description */}
-              {/* <p className="card-text text-muted text-capitalize">
-                {combo.description
-                  ? combo.description.length >= 10
-                    ? `${combo.description.substring(0, 10)}...`
-                    : combo.description
-                  : "Loading.. description"}
-              </p> */}
-
-              {/* Add to cart button */}
-              <button
-                className="btn btn-animation w-100 mt-2"
-                onClick={(e, a) =>
-                  handleClickCart(
-                    e,
-                    a,
-                    combo.combo_id,
-                    discountedPrice || totalPrice, // Use discounted price if available
-                    combo.weight,
-                    combo.weight_type
-                  )
-                }
+            return (
+              <div
+                className="col-12 col-md-6 mb-4"
+                key={combo.combo_id}
+                data-aos="fade-up"
               >
-                Add to cart
-              </button>
-            </div>
-          );
-        })}
-      </Slider>
+                <div className="card bg-light p-2 combo-card">
+                  {/* Product Images Grid (3x2) */}
+                  <div className="row g-1">
+                    {combo.products.slice(0, 6).map((product, index) => {
+                      let productImages = [];
+                      try {
+                        productImages = product.product_image
+                          ? JSON.parse(product.product_image)
+                          : ["default-image.jpg"];
+                      } catch (error) {
+                        console.error("Error parsing product images:", error);
+                        productImages = ["default-image.jpg"];
+                      }
+
+                      return (
+                        <div
+                          key={index}
+                          className="col-4 d-flex flex-column align-items-center"
+                        >
+                          <img
+                            src={productImages[0]}
+                            className="card-img-top rounded"
+                            style={{
+                              height: "60px",
+                              width: "60px",
+                              objectFit: "cover",
+                            }}
+                            alt={product.product_name}
+                          />
+                          <p style={{ fontSize: "12px", width: "80px" }}>
+                            {product.product_name.split("(")[0].trim()}
+                          </p>
+                          <p style={{ fontSize: "12px", width: "80px" }}>
+                            {product.quantity} {product.quantity_type}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Combo details */}
+                  <div className="mt-3">
+                    <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
+                      {combo.title || `Combo ${combo.combo_id}`}
+                    </h5>
+                  </div>
+
+                  <div className="d-flex gap-2 align-items-center">
+                    {discountedPrice && discountedPrice < totalPrice && (
+                      <p className="fw-bold text-start mb-0">
+                        ₹{discountedPrice.toFixed(2)}
+                      </p>
+                    )}
+                    <p className="text-start mb-0 text-decoration-line-through">
+                      ₹{totalPrice.toFixed(2)}
+                    </p>
+
+                    {discountedPrice && discountedPrice < totalPrice && (
+                      <p className="text-muted mb-0 text-danger">
+                        {(
+                          ((totalPrice - discountedPrice) / totalPrice) *
+                          100
+                        ).toFixed(0)}
+                        % OFF
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Add to cart button */}
+                  <button
+                    className="btn btn-animation w-100 mt-2"
+                    onClick={(e, a) =>
+                      handleClickCart(
+                        e,
+                        a,
+                        combo.combo_id,
+                        discountedPrice || totalPrice,
+                        combo.weight,
+                        combo.weight_type
+                      )
+                    }
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* View More Button */}
+        {visibleCount < comboList?.length && (
+          <div className="text-center mt-3 d-flex justify-content-center">
+            <button className="btn btn-animation" onClick={showMoreCombos}>
+              View More
+            </button>
+          </div>
+        )}
+      </div>
 
       {selectedCombo && (
         <div

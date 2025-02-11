@@ -22,7 +22,7 @@ import DiscountModal from "../Components/Common/DiscountModal";
 import { FaRegCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { CiCircleInfo } from "react-icons/ci";
-import defaultuser from '../assets/images/defauluser.webp'
+import defaultuser from "../assets/images/defauluser.webp";
 import { addToCart } from "../slices/userSlice";
 
 const formatDate = (dateString) => {
@@ -64,9 +64,9 @@ function DetailPage() {
   const [modalData, setModalData] = useState(null);
   const [responseWeight, setResponseWeight] = useState("");
 
-  const[weight,setWeight] = useState("")
+  const [weight, setWeight] = useState("");
 
-  console.log(product)
+  console.log(product);
 
   const settings = {
     dots: false,
@@ -84,7 +84,7 @@ function DetailPage() {
   const userStates = useSelector((state) => state?.user);
   const cart = userStates?.cart;
   const wishlist = userStates?.wishlists;
- const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleDiscountModal = (offersData) => {
     setModalData(offersData);
     setIsModalDiscount(true);
@@ -139,13 +139,12 @@ function DetailPage() {
       const data = await response.data;
       console.log(data);
 
-      
       setProduct(data);
 
-      if(data[0].weight_type === "gram"){
-        setWeight(data[0].weight/1000)
-      } else{
-        setWeight(Math.trunc(data[0].weight))
+      if (data[0].weight_type === "gram") {
+        setWeight(data[0].weight / 1000);
+      } else {
+        setWeight(Math.trunc(data[0].weight));
       }
 
       const categories = data.map((product) => product.category_id);
@@ -342,7 +341,8 @@ function DetailPage() {
     // Check if inputWeight is valid based on weightType
     if (
       (weightType === "kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
-      (weightType === "gram" && (isNaN(numericWeight) || numericWeight < 0.05)) ||
+      (weightType === "gram" &&
+        (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
       toast.warning(`Please enter a valid input for ${weightType}.`);
@@ -363,9 +363,7 @@ function DetailPage() {
         weight_type: unitTypeToSend,
       });
 
-
-      dispatch(addToCart(response.data))
-      
+      dispatch(addToCart(response.data));
 
       toast.success("Your product add to cart successfully");
     } catch (error) {
@@ -498,7 +496,8 @@ function DetailPage() {
 
                           <div className="price-rating d-flex">
                             <h3 className="theme-color price">
-                              ₹{data.product_price * weight}{" "}/{" "}{Math.trunc(data.weight)} {" "}{data.weight_type}{" "}
+                              ₹{data.product_price * weight} /{" "}
+                              {Math.trunc(data.weight)} {data.weight_type}{" "}
                               <del className="text-content">
                                 ₹{data.discount_price}
                               </del>{" "}
@@ -685,7 +684,7 @@ function DetailPage() {
                                       SKU : <a>{data.sku}</a>
                                     </li>
                                     <li>
-                                    Self Life: <a>Min. 5 days</a>
+                                      Self Life: <a>Min. 5 days</a>
                                     </li>
                                     <li>
                                       Stock : <a>{data.status}</a>
@@ -987,8 +986,19 @@ function DetailPage() {
                                               <li key={index}>
                                                 <div className="people-box">
                                                   <div className="d-flex">
-                                                    <div><img src={defaultuser} style={{height:"38px", borderRadius:"50%"}} alt="" /></div>
-                                                    <div className="mt-2 ms-1">{review.name}</div>
+                                                    <div>
+                                                      <img
+                                                        src={defaultuser}
+                                                        style={{
+                                                          height: "38px",
+                                                          borderRadius: "50%",
+                                                        }}
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                    <div className="mt-2 ms-1">
+                                                      {review.name}
+                                                    </div>
                                                   </div>
                                                   <div className="people-comment">
                                                     <div className="people-name">
@@ -1222,10 +1232,12 @@ function DetailPage() {
                       <div className="banner-details p-center banner-b-space w-100 text-center">
                         <div>
                           <h6 className="ls-expanded theme-color mb-sm-3 mb-1">
-                            SUMMER
+                            OZONE WASHED
                           </h6>
-                          <h2>VEGETABLE</h2>
-                          <p className="mx-auto mt-1">Save up to 5% OFF</p>
+                          <h2>VEGETABLES</h2>
+                          <p className="mx-auto mt-1">
+                            Get ₹ 50 off on your first order
+                          </p>
                         </div>
                       </div>
                     </div>

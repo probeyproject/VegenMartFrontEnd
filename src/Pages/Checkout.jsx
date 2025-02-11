@@ -51,7 +51,7 @@ function Checkout() {
   const [calculatedPrice, setCalculatedPrice] = useState();
   const [couponCodes, setCouponCodes] = useState("");
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
-  const [minDiscountPrice,setMinDiscountPrice] = useState(0)
+  const [minDiscountPrice, setMinDiscountPrice] = useState(0);
   const [savedAmount, setSavedAmount] = useState(0);
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
   const [invoiceAddress, setInvoiceAddress] = useState({});
@@ -62,10 +62,9 @@ function Checkout() {
   // const [currentTotalPrice, setCurrentTotalPrice] = useState(1);
   const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
-  const [reedemedPoints,setReedemedPoints] = useState(0)
+  const [reedemedPoints, setReedemedPoints] = useState(0);
 
-  console.log("points "+rewards,points)
-  
+  console.log("points " + rewards, points);
 
   useEffect(() => {
     carts.map((item, index) => {
@@ -117,69 +116,59 @@ function Checkout() {
     getAddress();
   }, []);
 
+  async function fetchAllCart() {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/getAllCartByUserId/${userId}`
+      );
+      const data = response?.data || [];
 
- async function fetchAllCart() {
-  try {
-    const response = await axios.get(`${baseUrl}/getAllCartByUserId/${userId}`);
-    const data = response?.data || [];
+      // Ensure quantities is set correctly
+      const initialQuantities = {};
+      data.forEach((cart) => {
+        initialQuantities[cart.cart_id] = cart.quantity || 1; // Default to 1
+      });
 
-    // Ensure quantities is set correctly
-    const initialQuantities = {};
-    data.forEach((cart) => {
-
-      // if(cart.weight_type === "kg"){
-      //   initialQuantities[cart.cart_id] = 1
-      // } else{
-        
-      // }
-      initialQuantities[cart.cart_id] = cart.unit || 1; // Default to 1
-    });
-
-    setCart(data);
-    setQuantities(initialQuantities); // Store in state
-  } catch (error) {
-    console.error("Error fetching cart data:", error);
+      setCart(data);
+      setQuantities(initialQuantities); // Store in state
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
   }
-}
 
-console.log(quantities)
+  console.log(quantities);
 
-  const validateCoupon = async (e,selectedCoupan) => {
+  const validateCoupon = async (e, selectedCoupan) => {
     e.preventDefault();
     setLoading(true); // Start loading
 
-
-    console.log("Hii")
+    console.log("Hii");
 
     try {
       const response = await axios.post(`${baseUrl}/coupons/validate`, {
-        
         coupon_code: selectedCoupan,
         user_id: userId,
-        total_price:totalPrice
+        total_price: totalPrice,
       });
 
-
-      setMinDiscountPrice(response.data.coupon.Min_Order_Value)
+      setMinDiscountPrice(response.data.coupon.Min_Order_Value);
 
       setDiscountValue(response.data.coupon.discount_value);
       setResponseMessage(
         `${response.data.message}, Discount Value: ${discountValue}`
       );
 
-      
       toast.success("Coupan Applied Successfully!");
-
     } catch (error) {
       setResponseMessage(
         `Error: ${error.response ? error.response.data.message : error.message}`
       );
 
-      if(error.status === 500){
-        toast.error("Invalid Coupan Code")
+      if (error.status === 500) {
+        toast.error("Invalid Coupan Code");
       }
 
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false); // Stop loading
     }
@@ -191,7 +180,6 @@ console.log(quantities)
     setAddress(data);
   };
 
-  
   // console.log(address);
 
   const fetchAddressById = async (address_id) => {
@@ -211,7 +199,6 @@ console.log(quantities)
     }
   }, [address_id]);
 
- 
   const getProductsData = () => {
     return carts.map((cart) => ({
       id: cart.id || cart.combo_id,
@@ -223,7 +210,6 @@ console.log(quantities)
       price: cart.price, // Assuming this is the price for one unit
     }));
   };
-
 
   const handleAddToWishlist = async (product_id) => {
     if (!userId) {
@@ -253,22 +239,20 @@ console.log(quantities)
     }
   };
 
- 
-
   const handleIncreaseWeight = async (index) => {
     try {
       const product = carts[index];
       if (!product) return;
-  
+
       const currentWeight = Number(product.unit) || 0; // Ensure it's a number
-  
+
       const response = await axios.post(
         `${baseUrl}/calculate-price/${product.id}`,
         { weight: currentWeight + 1, unitType: product.weight_type }
       );
-  
+
       const priceData = response.data;
-  
+
       // Update the specific item in the state
       setCart((prevCartItems) =>
         prevCartItems.map((item, i) =>
@@ -281,36 +265,39 @@ console.log(quantities)
             : item
         )
       );
-  
+
       // Update cart in backend
       updateCart(index, priceData.weight, priceData.final_price);
     } catch (error) {
       toast.warning("Weight cannot be increased beyond allowed limits");
     }
   };
-  
 
   const handleDecreaseWeight = async (index) => {
     try {
       const product = carts[index];
       if (!product || product.weight <= 1) return;
-  
+
       const response = await axios.post(
         `${baseUrl}/calculate-price/${product.id}`,
         { weight: product.unit - 1, unitType: product.weight_type }
       );
-  
+
       const priceData = response.data;
-  
+
       // Update only the specific item in the cartItems state
       setCart((prevCartItems) =>
         prevCartItems.map((item, i) =>
           i === index
-            ? { ...item, weight: priceData.weight, totalPrice: priceData.final_price }
+            ? {
+                ...item,
+                weight: priceData.weight,
+                totalPrice: priceData.final_price,
+              }
             : item
         )
       );
-  
+
       // Call updateCart with the updated values
       updateCart(index, priceData.weight, priceData.final_price);
     } catch (error) {
@@ -339,56 +326,54 @@ console.log(quantities)
     }
   };
 
+  console.log(carts);
 
-console.log(carts);
+  const totalAmount = carts?.reduce((acc, cart) => {
+    const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
+    const price = parseFloat(cart.product_price) || 0; // Ensure price is a number
+    return acc + quantity * price;
+  }, 0);
 
-const totalAmount = carts?.reduce((acc, cart) => {
-  const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
-  const price = parseFloat(cart.product_price) || 0; // Ensure price is a number
-  return acc + quantity * price;
-}, 0);
+  useEffect(() => {
+    // Calculate shipping based on totalAmount (before discount)
+    const shippingCharge = totalAmount >= 200 ? 0 : 29;
+    setShipping(shippingCharge);
 
-useEffect(() => {
-  // Calculate shipping based on totalAmount (before discount)
-  const shippingCharge = totalAmount >= 200 ? 0 : 29;
-  setShipping(shippingCharge);
+    // Update total price and calculated price
+    setTotalPrice(totalAmount);
+    setCalculatedPrice(totalAmount + shippingCharge);
+  }, [totalPrice, totalAmount]); // Removed unnecessary dependencies
 
-  // Update total price and calculated price
-  setTotalPrice(totalAmount);
-  setCalculatedPrice(totalAmount + shippingCharge);
-}, [totalPrice,totalAmount]); // Removed unnecessary dependencies
+  useEffect(() => {
+    if (totalPrice >= 500) {
+      if (discountValue === 0) {
+        const maxRedeemablePoints = Math.min(
+          points,
+          Math.floor(totalPrice / 2)
+        ); // Limit to 50% of total price
+        setReedemedPoints(maxRedeemablePoints);
+      }
+    } else {
+      setReedemedPoints(0); // No redemption allowed for orders below ₹500
+    }
+  }, [reedemedPoints, totalPrice, points, discountValue]);
 
+  useEffect(() => {
+    // Apply discount but keep shipping based on totalAmount
 
-useEffect(() => {
-  if (totalPrice >= 500) {
-  if(discountValue === 0) { const maxRedeemablePoints = Math.min(points, Math.floor(totalPrice / 2)); // Limit to 50% of total price
-    setReedemedPoints(maxRedeemablePoints);}
-  } else {
-    setReedemedPoints(0); // No redemption allowed for orders below ₹500
-  }
+    if (totalPrice < minDiscountPrice) setDiscountValue(0);
 
-},[reedemedPoints,totalPrice,points,discountValue])
+    if (discountValue > 0) setReedemedPoints(0);
 
-useEffect(() => {
-  // Apply discount but keep shipping based on totalAmount
+    let amountAfterDiscount = totalPrice - (discountValue || 0); // Subtract the discount
+    amountAfterDiscount -= reedemedPoints;
 
- if(totalPrice < minDiscountPrice) setDiscountValue(0)
+    console.log("amount after " + amountAfterDiscount);
+    const finalAmount = amountAfterDiscount + (totalPrice >= 200 ? 0 : 29);
 
-
-  if(discountValue > 0) setReedemedPoints(0)
-
-  
-
-  let amountAfterDiscount = totalPrice - (discountValue || 0); // Subtract the discount
-  amountAfterDiscount -= reedemedPoints;
-
-  console.log("amount after "+amountAfterDiscount)
-  const finalAmount = amountAfterDiscount + (totalPrice >= 200 ? 0 : 29);
-
-  setCalculatedPrice(finalAmount);
-  setSavedAmount(totalPrice  - finalAmount );
-}, [totalAmount, discountValue,totalPrice,reedemedPoints]);
-
+    setCalculatedPrice(finalAmount);
+    setSavedAmount(totalPrice - finalAmount);
+  }, [totalAmount, discountValue, totalPrice, reedemedPoints]);
 
   useEffect(() => {
     const products = getProductsData(); // Store product data in a variable
@@ -407,19 +392,14 @@ useEffect(() => {
     products: getProductsData(),
     quantity,
     address_id,
-    totalPrice: calculatedPrice, pointsUsed: reedemedPoints,
+    totalPrice: calculatedPrice,
+    pointsUsed: reedemedPoints,
     deliveryDate,
     deliveryTimeSlot: selectedSlot,
     payment_mode: paymentMode,
     orderStatus: order_status,
     shipping_cost: shipping,
   };
-
-
-  
-
-
-
 
   const handlePayment = async () => {
     // Check for required fields
@@ -436,18 +416,11 @@ useEffect(() => {
     setPaymentLoading(true);
 
     try {
-   
-
-     
-
-
       if (paymentMode === "Cash On Delivery") {
-
         const response = await axios.post(
           `${baseUrl}/create/order/${userId}`,
-         paymentData
+          paymentData
         );
-
 
         console.log("Order Response:", response);
 
@@ -476,7 +449,8 @@ useEffect(() => {
             try {
               const orderData = {
                 ...paymentData,
-                totalPrice: finalPrice, pointsUsed: maxRedeemablePoints,
+                totalPrice: finalPrice,
+                pointsUsed: maxRedeemablePoints,
                 razorpayOrderId: paymentResponse.razorpay_order_id,
                 payment: paymentResponse.razorpay_payment_id,
               };
@@ -511,7 +485,9 @@ useEffect(() => {
       );
 
       // toast.error(data.message);
-      toast.error(error?.response?.data?.message.split(" ").slice(0, 4).join(" "));
+      toast.error(
+        error?.response?.data?.message.split(" ").slice(0, 4).join(" ")
+      );
     } finally {
       setPaymentLoading(false);
     }
@@ -594,15 +570,12 @@ useEffect(() => {
     fetchCoupons(); // Fetch available coupons when component mounts
   }, []);
 
-  const handleCouponClick = (e,couponCode) => {
+  const handleCouponClick = (e, couponCode) => {
+    setCouponCode(couponCode);
 
-    
-    setCouponCode(couponCode)
-
-   
     setIsModalOpens(false); // Close the modal after selection
 
-    validateCoupon(e, couponCode)
+    validateCoupon(e, couponCode);
   };
 
   return (
@@ -666,8 +639,7 @@ useEffect(() => {
                     <ul className="summery-contain">
                       {carts.map((cart, index) => (
                         <li key={cart.cart_id}>
-                          {console.log(cart)
-                          }
+                          {console.log(cart)}
                           <img
                             src={JSON.parse(cart.product_image)[0]}
                             className="img-fluid blur-up lazyloaded checkout-image"
@@ -703,11 +675,11 @@ useEffect(() => {
                             </div>
                           </div>
                           <h4 className="price">₹{cart.price}</h4>
-                          <Link  onClick={() => handleDelete(cart.cart_id)}>
-                          <MdDeleteForever className="text-danger fs-3 ms-3"/>
+                          <Link onClick={() => handleDelete(cart.cart_id)}>
+                            <MdDeleteForever className="text-danger fs-3 ms-3" />
                           </Link>
-                          <Link onClick={()=>handleAddToWishlist(cart.id)}>
-                          <FaHeart className="text-danger fs-4 ms-3"/>
+                          <Link onClick={() => handleAddToWishlist(cart.id)}>
+                            <FaHeart className="text-danger fs-4 ms-3" />
                           </Link>
                         </li>
                       ))}
@@ -728,7 +700,7 @@ useEffect(() => {
                           <button
                             className="btn-apply btn-apply-input  px-2"
                             type="submit"
-                            onClick={(e) => validateCoupon(e,couponCode)}
+                            onClick={(e) => validateCoupon(e, couponCode)}
                             disabled={loading}
                           >
                             {loading ? (
@@ -756,10 +728,17 @@ useEffect(() => {
                         </p> */}
 
                         <p>
-                          {discountValue > 0 &&  <p onClick={() => {
-                            setDiscountValue(0)
-                            setCouponCode("")
-                          }}> Remove Coupan</p>}
+                          {discountValue > 0 && (
+                            <p
+                              onClick={() => {
+                                setDiscountValue(0);
+                                setCouponCode("");
+                              }}
+                            >
+                              {" "}
+                              Remove Coupan
+                            </p>
+                          )}
                         </p>
                       </div>
                       <ul>
@@ -810,7 +789,8 @@ useEffect(() => {
 
                       <li>
                         <p>
-                          Your total saving ₹ {savedAmount < 0 ? 0 : savedAmount}
+                          Your total saving ₹{" "}
+                          {savedAmount < 0 ? 0 : savedAmount}
                         </p>
                       </li>
                     </ul>
@@ -847,10 +827,10 @@ useEffect(() => {
               </div>
               <div className="col-lg-8">
                 <div className="left-sidebar-checkout">
-                 <div className="checkout-detail-box">
+                  <div className="checkout-detail-box">
                     <ul>
                       <li>
-                      <div className="checkout-icon">
+                        <div className="checkout-icon">
                           <lord-icon
                             target=".nav-item"
                             src="https://cdn.lordicon.com/ggihhudh.json"
@@ -914,7 +894,6 @@ useEffect(() => {
                                                   <FaPencil />
                                                 </div>
                                               </Link>
-                                              
                                             </div>
                                           </div>
                                         </div>
@@ -1120,7 +1099,7 @@ useEffect(() => {
             </div>
           </div>
         </section>
-       )} 
+      )}
 
       <HomeAddressModal
         locations={locations}
@@ -1152,4 +1131,3 @@ useEffect(() => {
 }
 
 export default Checkout;
-

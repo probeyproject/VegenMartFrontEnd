@@ -40,15 +40,15 @@ const Footer = () => {
                       "https://themes.pixelstrap.com/fastkart/assets/svg/delivery.svg",
                     text: "Get Extra Cashback on Prepaid Orders",
                   },
-                  {
-                    imgSrc:
-                      "https://themes.pixelstrap.com/fastkart/assets/svg/discount.svg",
-                    text: "Get Discount On Prepaid Orders",
-                  },
+                  // {
+                  //   imgSrc:
+                  //     "https://themes.pixelstrap.com/fastkart/assets/svg/discount.svg",
+                  //   text: "Get Discount On Prepaid Orders",
+                  // },
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/market.svg",
-                    text: "We Offers The Same Price, As Local Market. Guaranteed!",
+                    text: "We Offer The Same Price, As Local Market. Guaranteed!",
                   },
                 ].map((service, index) => (
                   <div className=" service-box" key={index}>

@@ -275,18 +275,28 @@ function ProductSection() {
                     alt=""
                     style={{ display: "none" }}
                   />
-                  <div className="home-detail p-top-left home-p-medium">
+                  <div
+                    className="home-detail p-top-left home-p-medium h-100"
+                    style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                  >
                     <div>
-                      <h6 className="text-yellow home-banner">
+                      <h2 className="text-uppercase fw-normal text-russo theme-color fw-bold">
                         {banners.banner_title}
-                      </h6>
+                      </h2>
+                      <h2 className="text-uppercase fw-normal text-light">
+                        {banners.banner_offer_title}
+                      </h2>
                       <h3 className="text-uppercase fw-normal">
-                        <span className="theme-color fw-bold">
+                        {/* <span className="theme-color mb-3 fw-bold">
                           {banners.banner_offer_title.split(" ")[0]}
                         </span>{" "}
-                        {banners.banner_offer_title.split(" ")[1]}
+                        <span className="text-light">
+                          {banners.banner_offer_title.split(" ")[1]}
+                        </span> */}
                       </h3>
-                      <h3 className="fw-light">{banners.banner_title_small}</h3>
+                      <p className="text-light fw-bold">
+                        {banners.banner_title_small}
+                      </p>
                       <button
                         onClick={handleClick}
                         className="btn btn-animation btn-md fw-bold mend-auto"
@@ -304,19 +314,30 @@ function ProductSection() {
                 <div className="home-contain hover-effect">
                   <img
                     src={data.banner_image}
+                    // style={{height:"100%"}}
                     className="img-fluid blur-up lazyloaded"
                     alt=""
                   />
-                  <div className="home-detail p-top-left home-p-medium">
+                  <div
+                    className="home-detail p-top-left home-p-medium h-100"
+                    style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                  >
                     <div>
-                      <h2 className="text-uppercase fw-normal mb-0 text-russo theme-color">
+                      <h2 className="text-uppercase fw-normal text-russo theme-color fw-bold">
                         {data.banner_offer_title}
                       </h2>
-                      <h2 className="text-uppercase fw-normal text-title">
+                      <h2 className="text-uppercase fw-normal text-light">
                         {data.banner_title}
                       </h2>
-                      <p className="mb-3">
+                      {/* <p
+                        className="mb-3 text-light fw-bold"
+                        style={{ fontSize: "17px" }}
+                      >
                         Super Offer to {data.banner_offer}% Off
+                      </p> */}
+
+                      <p className="text-light fw-bold">
+                        {data.banner_title_small}
                       </p>
                       <button
                         onClick={handleClick}
@@ -537,16 +558,25 @@ function ProductSection() {
                             src={data.banner_image}
                             className="bg-img blur-up lazyload"
                             alt=""
-                            style={{ display: "none" }}
+                            style={{
+                              display: "none",
+                              filter: "brightness(50%",
+                            }}
                           />
-                          <div className="banner-details p-center-left p-4">
+                          <div
+                            className="banner-details p-center-left p-4 h-100"
+                            style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                          >
                             <div>
-                              <h3 className="text-exo">
+                              {/* <h3 className="text-exo">
                                 {data.banner_offer}% offer
-                              </h3>
-                              <h4 className="text-russo fw-normal theme-color mb-2">
+                              </h3> */}
+                              <h4 className="text-russo fw-bold theme-color mb-2">
                                 {data.banner_offer_title}
                               </h4>
+                              <p className="text-light fw-bold">
+                                {data.banner_title_small}
+                              </p>
                               <button
                                 onClick={handleClick}
                                 className="btn btn-animation btn-sm mend-auto"
@@ -580,16 +610,26 @@ function ProductSection() {
                             src={data.banner_image}
                             className="bg-img blur-up lazyload"
                             alt=""
-                            style={{ display: "none" }}
+                            style={{
+                              display: "none",
+                              filter: "brightness(50%)",
+                            }}
                           />
-                          <div className="banner-details p-center-left p-3">
+                          <div
+                            className="banner-details p-center-left p-3 h-100"
+                            style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                          >
                             <div>
-                              <h3 className="text-exo">
+                              {/* <h3 className="text-exo">
                                 {data.banner_offer}% offer
-                              </h3>
-                              <h4 className="text-russo fw-normal theme-color mb-2">
+                              </h3> */}
+                              <h4 className="text-russo fw-bold theme-color mb-2">
                                 {data.banner_offer_title}
                               </h4>
+
+                              <p className="text-light fw-bold">
+                                {data.banner_title_small}
+                              </p>
                               <button
                                 onClick={handleClick}
                                 className="btn btn-animation btn-sm mend-auto"

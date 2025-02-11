@@ -141,7 +141,7 @@ function HeaderTop() {
             </div>
           </div>
 
-          <div className="col-lg-3">
+          <div className="col-lg-3 d-flex justify-content-end align-items-center gap-4">
             <ul className="about-list right-nav-about d-flex justify-content-between">
               <li className="right-side onhover-dropdown">
                 <div className="delivery-login-box">
@@ -168,23 +168,22 @@ function HeaderTop() {
                   </div>
                 )}
               </li>
-
-              <li>
-                <a
-                  onClick={handleSupportChat}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MdOutlineSupportAgent
-                    style={{
-                      fontSize: "22px",
-                      color: "white",
-                      cursor: "pointer",
-                    }}
-                  />
-                </a>
-              </li>
             </ul>
+            <div className="">
+              <a
+                onClick={handleSupportChat}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MdOutlineSupportAgent
+                  style={{
+                    fontSize: "22px",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
