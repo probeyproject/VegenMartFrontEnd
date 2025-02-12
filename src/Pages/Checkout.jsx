@@ -126,7 +126,7 @@ function Checkout() {
       // Ensure quantities is set correctly
       const initialQuantities = {};
       data.forEach((cart) => {
-        initialQuantities[cart.cart_id] = cart.quantity || 1; // Default to 1
+        initialQuantities[cart.cart_id] = cart.unit || 1; // Default to 1
       });
 
       setCart(data);

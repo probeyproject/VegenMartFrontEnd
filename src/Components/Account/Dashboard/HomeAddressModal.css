@@ -1,0 +1,29 @@
+/* Ensure Modal is Always Centered */
+.custom-modal .modal-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Fix Modal Width */
+  .custom-modal .modal-content {
+    width: 90%;
+    max-width: 800px; /* Adjust width as needed */
+    margin: auto;
+  }
+  
+  /* Button Hover & Active State */
+  .custom-btn {
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom-btn:hover,
+  .custom-btn.active {
+    background-color: #dc3545 !important;
+    color: white !important;
+    box-shadow: 0px 0px 10px rgba(220, 53, 69, 0.5);
+  }
+  

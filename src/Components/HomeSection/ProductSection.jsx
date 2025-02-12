@@ -252,6 +252,8 @@ function ProductSection() {
                       </div>
                     </li>
                   ))}
+
+                  
                 </ul>
               </div>
             </div>
@@ -565,13 +567,13 @@ function ProductSection() {
                           />
                           <div
                             className="banner-details p-center-left p-4 h-100"
-                            style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                            style={{ background: "rgba(0, 0, 0, 0.3)" }}
                           >
                             <div>
                               {/* <h3 className="text-exo">
                                 {data.banner_offer}% offer
                               </h3> */}
-                              <h4 className="text-russo fw-bold theme-color mb-2">
+                              <h4 className="text-russo fw-bold theme-color mb-2 ">
                                 {data.banner_offer_title}
                               </h4>
                               <p className="text-light fw-bold">
@@ -617,7 +619,7 @@ function ProductSection() {
                           />
                           <div
                             className="banner-details p-center-left p-3 h-100"
-                            style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                            style={{ background: "rgba(0, 0, 0, 0.2)" }}
                           >
                             <div>
                               {/* <h3 className="text-exo">

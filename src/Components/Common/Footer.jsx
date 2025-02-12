@@ -2,7 +2,7 @@ import Aos from "aos";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo/1.png";
-import { FaMeta } from "react-icons/fa6";
+import { FaFacebook, FaMeta } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
@@ -412,6 +412,14 @@ const Footer = () => {
               >
                 <a href="https://www.instagram.com/vegenmart" target="_blank">
                   <FaInstagram />
+                </a>
+              </li>
+              <li
+                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style={{ height: "35px", width: "35px" }}
+              >
+                <a href="https://www.facebook.com/vegenmart" target="_blank">
+                  <FaFacebook />
                 </a>
               </li>
               <li

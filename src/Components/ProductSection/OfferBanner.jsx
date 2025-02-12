@@ -37,7 +37,7 @@ function OfferBanner() {
             data-aos="fade-left"
             style={{
               backgroundImage: `url(${data.banner_image})`,
-              height: "130px",
+              height: "150px",
               backgroundSize: "cover",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",
@@ -55,6 +55,7 @@ function OfferBanner() {
                 <h3 className="lh-base fw-bold offer-text">
                   {data.banner_offer_title}
                 </h3>
+                <p>This Offer Is Valid For First Order</p>
                 <h6 className="coupon-code">Use Code : {data.banner_title}</h6>
               </div>
             </div>

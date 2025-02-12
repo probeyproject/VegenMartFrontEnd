@@ -72,7 +72,7 @@ function Login() {
     }
     setIsContinue(true);
     setTimer(30);
-    setCanResend(false)
+    setCanResend(false);
   };
 
   //Resend otp timer
@@ -172,7 +172,7 @@ function Login() {
       }
 
       const data = await response.json();
-      
+
       dispatch(
         login({
           user: data.user,
@@ -250,19 +250,15 @@ function Login() {
   const handleSendOtp = async (e) => {
     e.preventDefault();
 
-
-
     try {
       const response = await axios.post(`${baseUrl}/forgot-password`, {
         email,
       });
 
-
       setTimer(30);
-      setCanResend(false)
+      setCanResend(false);
       setOtpSent(true);
 
-     
       toast.success("OTP sent to email");
     } catch (error) {
       console.log(error);
@@ -304,9 +300,8 @@ function Login() {
       setOtp("");
       setOtpSent(false);
       setEmail("");
-      setCanResend(false)
-      setIsOtpVerified(false)
-      
+      setCanResend(false);
+      setIsOtpVerified(false);
 
       toast.success("Password Reset Successfull");
 
@@ -329,7 +324,7 @@ function Login() {
       });
 
       const data = await res.json();
-      
+
       dispatch(
         login({
           user: data.user,
@@ -338,7 +333,6 @@ function Login() {
       );
 
       navigate("/");
-      
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -370,134 +364,19 @@ function Login() {
             </div>
             <div className="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
               <div className="log-in-box">
-                <div className="log-in-title text-center">
+                <div className="log-in-title mb-0  text-center">
                   <img
                     className="img-fluid w-50 h-10"
                     src={logo}
                     alt="vegenmart"
                   />
-                  {/* <h3>VegenMart</h3> */}
                 </div>
 
-                {/* <div className="text-center">
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input "
-                      type="radio"
-                      name="loginMethod"
-                      value="mobile"
-                      checked={loginMethod === "mobile"}
-                      onChange={handleLoginMethodChange}
-                    />
-                    <label className="form-check-label">Login with Mobile</label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="loginMethod"
-                      value="email"
-                      checked={loginMethod === "email"}
-                      onChange={handleLoginMethodChange}
-                    />
-                    <label className="form-check-label">Login with Email</label>
-                  </div>
-                </div> */}
-
-                <h3 className="text-center">
-                  Deliver Ozone Washed Vegetables and Fruits
+                <h3 className="text-center fw-bold">
+                  Delivering Ozone Washed Vegetables and Fruits
                 </h3>
 
-                <div className="text-center mt-2 fs-6">Login or Signup</div>
-
-                {/* <form className="mt-4">
-                  {loginMethod === "mobile" ? (
-                    <>
-                      {!otpSent ? (
-                        <div className="input-group mb-3">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter mobile number"
-                            value={mobileNumber}
-                            onChange={(e) => setMobileNumber(e.target.value)}
-                            maxLength="10"
-                          />
-                        </div>
-                      ) : (
-                        <div className="input-group mb-3">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter OTP"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            maxLength="6"
-                          />
-                        </div>
-                      )}
-                      <button
-                        className="btn btn-animation w-100"
-                        onClick={otpSent ? handleVerifyOtp : handleGenerateOtp}
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <span
-                            className="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                        ) : otpSent ? (
-                          "Verify OTP"
-                        ) : (
-                          "Generate OTP"
-                        )}
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div className="input-group mb-3">
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="Enter email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </div>
-                      <div className="input-group mb-3">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Enter password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
-                      </div>
-                      <button
-                        className="btn btn-animation w-100"
-                        onClick={handleLoginWithEmail}
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <span
-                            className="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                        ) : (
-                          "Log In"
-                        )}
-                      </button>
-
-                      <div className="mt-2">
-                      <GoogleLogin onSuccess={handleGoogleLogin}/> 
-                      </div>
-                         
-                        
-                    </>
-                  )}
-                </form> */}
+                <div className="text-center mt-2 fs-6">Login or Sign Up</div>
 
                 {!isForgotPassword ? (
                   <form className="mt-4">
@@ -517,22 +396,11 @@ function Login() {
                               maxLength="10"
                             />
                           </div>
-
-                          <div className="pt-2">or</div>
-
-                          {/* Email input */}
-                          <input
-                            type="email"
-                            className="form-control w-100 w-md-auto"
-                            placeholder="example@gmail.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
                         </div>
 
-                        <div className="mt-2">
-                          <GoogleLogin onSuccess={handleGoogleLogin} />
-                        </div>
+                        {/* <div className="mt-2">
+                    <GoogleLogin onSuccess={handleGoogleLogin} />
+                  </div> */}
 
                         <button
                           className="btn btn-animation w-auto py-1 px-3 mx-auto mt-3"
@@ -542,14 +410,24 @@ function Login() {
                         </button>
 
                         {/* Forgot Password Link */}
-                        <p className="text-center mt-3">
+                        {/* <p className="text-center mt-3">
                           <a href="#" onClick={() => setIsForgotPassword(true)}>
                             Forgot password?
                           </a>
-                        </p>
+                        </p> */}
                       </>
                     ) : (
                       <div className="mt-3">
+                        {/* Back icon */}
+                        <div
+                          className="d-flex align-items-center mb-2"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setIsContinue(false)}
+                        >
+                          <i className="fas fa-arrow-left me-2"></i>
+                          <span>Back</span>
+                        </div>
+
                         {loginMethod === "mobile" && (
                           <input
                             type="text"
@@ -561,26 +439,12 @@ function Login() {
                           />
                         )}
 
-                        {loginMethod === "email" && (
-                          <input
-                            type="password"
-                            className="form-control w-75 w-md-50 mx-auto"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
-                        )}
-
                         <button
                           type="submit"
                           className="btn btn-animation w-auto px-2 py-1 mx-auto mt-3"
-                          onClick={
-                            otpSent
-                              ? (e) => handleVerifyOtp(e)
-                              : (e) => handleLoginWithEmail(e)
-                          }
+                          onClick={(e) => handleVerifyOtp(e)}
                         >
-                          {mobileNumber ? "Submit OTP" : "Submit Password"}
+                          Submit OTP
                         </button>
 
                         {otpSent &&
@@ -606,11 +470,13 @@ function Login() {
                     {!otpSent ? (
                       <>
                         <input
-                          type="email"
+                          type="number"
+                          min={0}
                           className="form-control w-75 w-md-50 mx-auto"
-                          placeholder="Enter your email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Enter mobile number"
+                          value={mobileNumber}
+                          onChange={(e) => setMobileNumber(e.target.value)}
+                          maxLength="10"
                         />
 
                         <button
@@ -622,6 +488,16 @@ function Login() {
                       </>
                     ) : !isOtpVerified ? (
                       <>
+                        {/* Back icon */}
+                        <div
+                          className="d-flex align-items-center mb-2"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setIsForgotPassword(false)}
+                        >
+                          <i className="fas fa-arrow-left me-2"></i>
+                          <span>Back</span>
+                        </div>
+
                         <input
                           type="text"
                           className="form-control py-1 w-75 w-md-50 mx-auto"
@@ -637,6 +513,7 @@ function Login() {
                         >
                           Verify OTP
                         </button>
+
                         {otpSent &&
                           (canResend ? (
                             <p
@@ -688,11 +565,10 @@ function Login() {
                   </div>
                 )}
 
-                <p className="text-center mt-3">
-                  Don't have an account ? <a href="/signup">Signup</a>
-                </p>
-
-                <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
+                <p
+                  className="mt-3 text-muted text-center"
+                  style={{ fontSize: "12px" }}
+                >
                   By continuing, you agree to our{" "}
                   <Link href="/terms">Terms of service</Link> &{" "}
                   <Link href="/privacypolicy">Privacy policy</Link>.

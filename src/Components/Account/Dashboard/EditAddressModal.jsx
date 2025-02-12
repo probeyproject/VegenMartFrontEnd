@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, Spinner } from "reactstrap";
+import { Modal, Button, Spinner, Form, Row, Col } from "react-bootstrap";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { IoHome } from "react-icons/io5";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../../API/Api";
 
-function EditAddressModal({ isOpen, toggle, data, userId, onClose, locations }) {
+import "./EditAddressModal.css";
+
+function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
   const [flat, setFlat] = useState("");
   const [floor, setFloor] = useState("");
   const [area, setArea] = useState("");
@@ -30,19 +32,23 @@ function EditAddressModal({ isOpen, toggle, data, userId, onClose, locations }) 
       setName(data.name || "");
       setState(data.state || "");
       setAddressId(data.address_id);
-      setPhoneNumber(data.phone ? data.phone.replace("+91", "") : ""); // Ensure clean number
+      setPhoneNumber(data.phone ? data.phone.replace("+91", "") : "");
     }
   }, [data]);
 
-  // Validate phone number
-  const validatePhoneNumber = (input) => {
-    const phonePattern = /^[6-9]\d{9}$/; // Ensures 10-digit number starting with 6-9
-    return phonePattern.test(input);
+  const handleButtonClick = (type) => {
+    setSelectedButton(type);
   };
 
   const handlePhoneChange = (e) => {
-    let input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    let input = e.target.value.replace(/\D/g, "");
     setPhoneNumber(input);
+  };
+
+  // Validate phone number
+  const validatePhoneNumber = (input) => {
+    const phonePattern = /^[6-9]\d{9}$/;
+    return phonePattern.test(input);
   };
 
   const handleSubmit = async (event) => {
@@ -64,7 +70,7 @@ function EditAddressModal({ isOpen, toggle, data, userId, onClose, locations }) 
       state,
       postal_code: postalCode,
       name,
-      phone: phoneNumber.startsWith("+91") ? phoneNumber : `+91${phoneNumber}`, // Ensure +91
+      phone: phoneNumber.startsWith("+91") ? phoneNumber : `+91${phoneNumber}`,
     };
 
     try {
@@ -79,224 +85,186 @@ function EditAddressModal({ isOpen, toggle, data, userId, onClose, locations }) 
     }
   };
 
-  const handleDelete = async () => {
-    if (!addressId) {
-      toast.warn("No address selected for deletion.");
-      return;
-    }
-
-    if (!window.confirm("Are you sure you want to delete this address?")) return;
-
-    setLoading(true);
-
-    try {
-      const response = await axios.delete(`${baseUrl}/deleteAddressById/${addressId}`);
-      if (response.status === 201) {
-        toast.success("Address deleted successfully!");
-        onClose();
-      } else {
-        toast.error("Failed to delete address. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error deleting address:", error);
-      toast.error("Network error. Unable to delete address.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div>
-      <Modal
-        isOpen={isOpen}
-        toggle={toggle}
-        size="md"
-        className="modal-dialog-centered"
-      >
-        <ModalHeader toggle={toggle} className="fw-bold text-center">
-          <h5>Edit Address</h5>
-        </ModalHeader>
-        <ModalBody>
-          {/* Address Form Section */}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="selectaddressbutton" className="form-label">
-                Select Address Type:<span className="text-danger">*</span>
-              </label>
-              <div className="d-flex justify-content-evenly">
-                <button
-                  type="button"
-                  className={`btn btn-outline-danger ${
-                    selectedButton === "Home" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("Home")}
+    <Modal
+      show={isOpen}
+      onHide={toggle}
+      size="xl"
+      centered
+      className="custom-modal"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Address</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          {/* Address Type Selection */}
+          <Form.Group className="mb-3 text-center">
+            <Form.Label className="fw-bold">
+              Select Address Type: <span className="text-danger">*</span>
+            </Form.Label>
+            <div className="d-flex justify-content-center gap-3">
+              <Button
+                variant="outline-danger"
+                className={`d-flex align-items-center px-4 py-2 custom-btn ${
+                  selectedButton === "Home" ? "active" : ""
+                }`}
+                onClick={() => handleButtonClick("Home")}
+              >
+                <IoHome className="me-2" /> Home
+              </Button>
+              <Button
+                variant="outline-danger"
+                className={`d-flex align-items-center px-4 py-2 custom-btn ${
+                  selectedButton === "Office" ? "active" : ""
+                }`}
+                onClick={() => handleButtonClick("Office")}
+              >
+                <HiBuildingOffice2 className="me-2" /> Office
+              </Button>
+            </div>
+          </Form.Group>
+
+          {/* Address Fields - Responsive Layout */}
+          <Row className="g-3">
+            <Col md={6}>
+              <Form.Group controlId="flat">
+                <Form.Label>Flat / House No / Building Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={flat}
+                  onChange={(e) => setFlat(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="area">
+                <Form.Label>Society / Locality</Form.Label>
+                <Form.Select
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
                 >
-                  <IoHome />
-                  <span> Home</span>
-                </button>
-                <button
-                  type="button"
-                  className={`btn btn-outline-danger ${
-                    selectedButton === "Office" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("Office")}
+                  <option disabled>Your Society</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.society_name}>
+                      {location.society_name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="floor">
+                <Form.Label>Address</Form.Label>
+                <Form.Select
+                  value={floor}
+                  onChange={(e) => setFloor(e.target.value)}
                 >
-                  <HiBuildingOffice2 /> Office
-                </button>
-              </div>
-            </div>
+                  <option disabled>Your Address</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.address}>
+                      {location.address}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
-            {/* Address Fields */}
-            <div className="form-floating ">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter house no"
-                value={flat}
-                onChange={(e) => setFlat(e.target.value)}
-                required
-              />
-              <label>Flat / House No / Building Name</label>
-            </div>
-            <div className="form-floating mt-3">
-              <select
-                className="form-select"
-                style={{ height: "28px" }}
-                onChange={(e) => setArea(e.target.value)}
-                value={area}
-              >
-                <option disabled>Your Society</option>
-                {locations?.map((location) => (
-                  <option
-                    style={{ fontSize: "0.85rem" }}
-                    key={location.id}
-                    value={location.society_name}
-                  >
-                    {" "}
-                    {`${location.society_name.substring(0, 19)}...`}
-                  </option>
-                ))}
-              </select>
-              <label>Society / Locality</label>
-            </div>
+            <Col md={6}>
+              <Form.Group controlId="landmark">
+                <Form.Label>Nearby Landmark</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={landmark}
+                  onChange={(e) => setLandmark(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
 
-            <div className="form-floating mt-3">
-              <select
-                className="form-select"
-                style={{ height: "28px" }}
-                onChange={(e) => setFloor(e.target.value)}
-                value={floor}
-              >
-                <option disabled>Your Address</option>
-                {locations?.map((location) => (
-                  <option
-                    style={{ fontSize: "0.85rem" }}
-                    key={location.id}
-                    value={location.address}
-                  >
-                    {" "}
-                    {`${location.address.substring(0, 19)}...`}
-                  </option>
-                ))}
-              </select>
-              <label>Address</label>
-            </div>
+            <Col md={6}>
+              <Form.Group controlId="name">
+                <Form.Label>Your Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
 
-            <div className="form-floating mt-3">
-              <input
-                type="text"
-                className="form-control"
-                value={landmark}
-                onChange={(e) => setLandmark(e.target.value)}
-                placeholder="Enter nearby landmark"
-                required
-              />
-              <label>Nearby Landmark </label>
-            </div>
+            <Col md={6}>
+              <Form.Group controlId="phone">
+                <Form.Label>Your Phone No.</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  maxLength="10"
+                  required
+                />
+              </Form.Group>
+            </Col>
 
-            <div className="form-floating mt-3">
-              <input
-                type="text"
-                className="form-control"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                required
-              />
-              <label>Your Name</label>
-            </div>
+            <Col md={6}>
+              <Form.Group controlId="state">
+                <Form.Label>State</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
 
-            <div className="form-floating mt-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Phone"
-                value={phoneNumber}
-                onChange={handlePhoneChange}
-                maxLength="10"
-                required
-              />
-              <label>Your Phone No.</label>
-            </div>
+            <Col md={6}>
+              <Form.Group controlId="postalCode">
+                <Form.Label>
+                  Pincode <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                >
+                  <option disabled>Pincode</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.pin_code}>
+                      {location.pin_code}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
 
-            <div className="form-floating mt-3">
-              <input
-                type="text"
-                className="form-control"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                placeholder="Enter state"
-              />
-              <label>State</label>
-            </div>
-
-            <div className="form-floating mt-3">
-              <select
-                className="form-select"
-                style={{ height: "28px" }}
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-              >
-                <option disabled>Pincode</option>
-                {locations?.map((location) => (
-                  <option
-                    style={{ fontSize: "0.85rem" }}
-                    key={location.id}
-                    value={location.pin_code}
-                  >
-                    {" "}
-                    {location.pin_code}
-                  </option>
-                ))}
-              </select>
-              <label>
-                Pincode <span className="text-danger">*</span>
-              </label>
-            </div>
-
-            <div className="d-flex justify-content-evenly">
-              {/* Save Button */}
-              <button
-                type="submit"
-                className="btn btn-animation mt-4"
-                disabled={loading}
-              >
-                {loading ? <Spinner size="sm" /> : "Save Address"}
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-animation mt-4"
-                onClick={handleDelete}
-                disabled={loading}
-              >
-                {loading ? <Spinner size="sm" /> : "Delete"}
-              </button>
-            </div>
-          </form>
-        </ModalBody>
-      </Modal>
-    </div>
+          {/* Buttons */}
+          <div className="d-flex align-items-center justify-content-evenly mt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-animation px-2 py-2"
+            >
+              {loading ? (
+                <Spinner size="sm" animation="border" />
+              ) : (
+                "Save Address"
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="btn btn-animation px-3 py-2"
+            >
+              Cancel
+            </button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 

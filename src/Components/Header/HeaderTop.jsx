@@ -143,7 +143,7 @@ function HeaderTop() {
 
           <div className="col-lg-3 d-flex justify-content-end align-items-center gap-4">
             <ul className="about-list right-nav-about d-flex justify-content-between">
-              <li className="right-side onhover-dropdown">
+              <li className="right-side onhover-dropdown d-none d-lg-block">
                 <div className="delivery-login-box">
                   {authenticated && <FaUser className="text-light fs-5" />}
                 </div>

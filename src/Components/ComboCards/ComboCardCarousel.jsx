@@ -192,7 +192,7 @@ export default function ComboCardCarousel() {
         // productId: id,
         combo_id: id,
         totalPrice: price,
-        weight: weight,
+        weight: 1,
         weight_type: weight_type,
         quantity: "1",
         final_price: price,
@@ -308,8 +308,18 @@ export default function ComboCardCarousel() {
                             }}
                             alt={product.product_name}
                           />
-                          <p style={{ fontSize: "12px", width: "80px" }}>
-                            {product.product_name.split("(")[0].trim()}
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              width: "80px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {product.product_name.length > 12
+                              ? product.product_name.slice(0, 12) + "..."
+                              : product.product_name}
                           </p>
                           <p style={{ fontSize: "12px", width: "80px" }}>
                             {product.quantity} {product.quantity_type}

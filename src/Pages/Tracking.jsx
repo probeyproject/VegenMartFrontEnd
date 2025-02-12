@@ -7,32 +7,32 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../API/Api";
 
-const orderDetails = [
-  {
-    description: "Order Placed",
-    date: "2 Jan 2025",
-    time: "12:30 PM",
-    location: "Noida",
-  },
-  {
-    description: "Preparing to Ship",
-    date: "02 Jan 2025",
-    time: "2:15 PM",
-    location: "Noida Sector 62",
-  },
-  {
-    description: "Shipped",
-    date: "02 Jan 2025",
-    time: "05:00 PM",
-    location: "Near Noida Sector 62",
-  },
-  {
-    description: "Delivered",
-    date: "03 Jan 2025",
-    time: "09:00 AM",
-    location: "At your doorstep",
-  },
-];
+// const orderDetails = [
+//   {
+//     description: "Order Placed",
+//     date: "2 Jan 2025",
+//     time: "12:30 PM",
+//     location: "Noida",
+//   },
+//   {
+//     description: "Preparing to Ship",
+//     date: "02 Jan 2025",
+//     time: "2:15 PM",
+//     location: "Noida Sector 62",
+//   },
+//   {
+//     description: "Shipped",
+//     date: "02 Jan 2025",
+//     time: "05:00 PM",
+//     location: "Near Noida Sector 62",
+//   },
+//   {
+//     description: "Delivered",
+//     date: "03 Jan 2025",
+//     time: "09:00 AM",
+//     location: "At your doorstep",
+//   },
+// ];
 
 function Tracking() {
   const [trackProduct, setTrackProduct] = useState([]);
@@ -337,7 +337,7 @@ function Tracking() {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 overflow-hidden">
+                <div className="col-12 overflow-hidden mb-5">
                   <ol className="progtrckr">
                     {statuses.map((status, index) => (
                       <li
@@ -359,7 +359,7 @@ function Tracking() {
         </div>
       </section>
 
-      <section className="order-table-section section-b-space">
+      {/* <section className="order-table-section section-b-space">
       <div className="container-fluid-lg">
         <div className="row">
           <div className="col-12">
@@ -388,7 +388,7 @@ function Tracking() {
           </div>
         </div>
       </div>
-    </section>
+    </section> */}
       <Footer />
     </div>
   );

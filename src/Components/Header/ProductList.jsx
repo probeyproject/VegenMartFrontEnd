@@ -7,8 +7,8 @@ import Footer from "../Common/Footer";
 import NoProduct from "../../assets/images/error.jpg";
 import ProductBox from "../ProductSection/ProductBox";
 import { baseUrl } from "../../API/Api";
-import { BounceLoader } from 'react-spinners';
-import './ProductList.css'; // Ensure your CSS is properly responsive
+import { BounceLoader } from "react-spinners";
+import "./ProductList.css"; // Ensure your CSS is properly responsive
 
 const ProductList = () => {
   const { query } = useParams();
@@ -19,20 +19,19 @@ const ProductList = () => {
 
   useEffect(() => {
     const hasReloaded = sessionStorage.getItem("hasReloaded");
-  
+
     if (!hasReloaded) {
       sessionStorage.setItem("hasReloaded", "true");
       window.location.reload();
     }
-  
+
     return () => {
       sessionStorage.removeItem("hasReloaded"); // Reset when leaving
     };
   }, []);
 
-console.log(products)
+  console.log(products);
   useEffect(() => {
-    
     const fetchProducts = async () => {
       setLoading(true);
       try {
@@ -50,7 +49,7 @@ console.log(products)
     if (query) {
       fetchProducts();
     }
-  }, [query]); 
+  }, [query]);
 
   if (loading) {
     return (
@@ -74,13 +73,13 @@ console.log(products)
                 Products related to "{query}"
               </h3>
               <div className="mt-4 text-center">
-                {products.length === 0 ? (
+                {products?.length === 0 ? (
                   <div className="no-products p-3">
                     <div className="message text-center">
                       <h2>No Products Found</h2>
                       <p>
-                        We're sorry, but there are no products available at
-                        this time.
+                        We're sorry, but there are no products available at this
+                        time.
                       </p>
                     </div>
                     <div className="animation text-center">

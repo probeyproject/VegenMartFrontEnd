@@ -13,7 +13,7 @@ const ProductBox = ({ imageSrc, productName }) => (
   <div className="category-box">
     <img
       src={imageSrc}
-      style={{height:"100px", width:"100px", borderRadius:'10px',}}
+      style={{ height: "100px", width: "100px", borderRadius: "10px" }}
       className="blur-up lazyloaded product-image"
       alt={productName}
     />

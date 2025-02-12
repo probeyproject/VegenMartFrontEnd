@@ -1,38 +1,45 @@
 import React, { useState } from "react";
-import { Modal, ModalHeader, ModalBody, Spinner } from "reactstrap";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { baseUrl } from "../../../API/Api";
-import { selectSelectedLocation } from "../../../slices/locationSlice";
+import { Modal, Button, Spinner, Form, Row, Col } from "react-bootstrap";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { IoHome } from "react-icons/io5";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { baseUrl } from "../../../API/Api";
+import { useSelector } from "react-redux";
+import { selectSelectedLocation } from "../../../slices/locationSlice";
+import "./HomeAddressModal.css";
 
 function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
   const selectedLocation = useSelector(selectSelectedLocation);
 
-  const [addresses, setAddresses] = useState(selectedLocation?.address || "");
-  const [area, setArea] = useState(selectedLocation?.society_name || "");
-  const [postalCode, setPostalCode] = useState(
-    selectedLocation?.pin_code || ""
-  );
-  const [loading, setLoading] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectAddType, setSelectAddType] = useState("Home");
-  const [selectedButton, setSelectedButton] = useState("Office");
+  const [flat, setFlat] = useState(selectedLocation?.address || "");
   const [floor, setFloor] = useState("");
+  const [area, setArea] = useState(selectedLocation?.society_name || "");
   const [landmark, setLandmark] = useState("");
   const [name, setName] = useState("");
   const [state, setState] = useState("");
-  const handleButtonClick = (buttonName) => {
-    setSelectedButton(buttonName);
-    setSelectAddType(buttonName);
-  };
+  const [postalCode, setPostalCode] = useState(
+    selectedLocation?.pin_code || ""
+  );
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedButton, setSelectedButton] = useState("Home");
+  const [loading, setLoading] = useState(false);
+
+  const handleButtonClick = (type) => setSelectedButton(type);
+  const handlePhoneChange = (e) =>
+    setPhoneNumber(e.target.value.replace(/\D/g, ""));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!addresses || !area || !postalCode || !phoneNumber || !name || !state) {
+    if (
+      !flat ||
+      !floor ||
+      !area ||
+      !postalCode ||
+      !phoneNumber ||
+      !name ||
+      !state
+    ) {
       toast.warn("Please fill in all required fields.");
       return;
     }
@@ -40,11 +47,11 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
     setLoading(true);
     const addressData = {
       user_id: userId,
-      address_type: selectAddType,
+      address_type: selectedButton,
+      flat,
       floor,
       landmark,
       state,
-      flat: addresses,
       area,
       postal_code: postalCode,
       name,
@@ -70,165 +77,181 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} size="md">
-      <ModalHeader toggle={toggle}>Enter Complete Address</ModalHeader>
-      <ModalBody>
-        <form onSubmit={handleSubmit} className="needs-validation">
-          <div className="mb-3">
-            <label htmlFor="selectaddressbutton" className="form-label">
-              Select Address Type:<span className="text-danger">*</span>
-            </label>
-            <div className="d-flex justify-content-evenly">
-              <button
-                type="button"
-                className={`btn btn-outline-danger ${
-                  selectedButton === "Home" ? "active" : ""
-                }`}
+    <Modal
+      show={isOpen}
+      onHide={toggle}
+      size="xl"
+      centered
+      className="custom-modal"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Enter Complete Address</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          {/* Address Type Selection */}
+          <Form.Group className="mb-3 text-center">
+            <Form.Label className="fw-bold">
+              Select Address Type: <span className="text-danger">*</span>
+            </Form.Label>
+            <div className="d-flex justify-content-center gap-3">
+              <Button
+                variant="outline-danger"
+                className={`d-flex align-items-center px-4 py-2 custom-btn ${selectedButton === "Home" ? "active" : ""}`}
                 onClick={() => handleButtonClick("Home")}
               >
-                <IoHome />
-                <span> Home</span>
-              </button>
-              <button
-                type="button"
-                className={`btn btn-outline-danger ${
-                  selectedButton === "Office" ? "active" : ""
-                }`}
+                <IoHome className="me-2" /> Home
+              </Button>
+              <Button
+                variant="outline-danger"
+                className={`d-flex align-items-center px-4 py-2 custom-btn ${selectedButton === "Office" ? "active" : ""}`}
                 onClick={() => handleButtonClick("Office")}
               >
-                <HiBuildingOffice2 /> <span>Office</span>
-              </button>
+                <HiBuildingOffice2 className="me-2" /> Office
+              </Button>
             </div>
-          </div>
+          </Form.Group>
 
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your Name"
-              required
-            />
-            <label>Your Name:<span className="text-danger">*</span></label>
-          </div>
+          {/* Address Fields - Responsive Layout */}
+          <Row className="g-3">
+            <Col md={6}>
+              <Form.Group controlId="flat">
+                <Form.Label>Flat / House No / Building Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={flat}
+                  onChange={(e) => setFlat(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
 
-          <div className="form-floating form-group mb-3">
-            <select
-              className="form-select"
-              // style={{ height: '28px' }}
-              onChange={(e) => setArea(e.target.value)}
-              value={area}
-            >
-              <option disabled>Your Society:<span className="text-danger">*</span></option>
-              {locations?.map((location) => (
-                <option
-                  style={{ fontSize: "0.85rem" }}
-                  key={location.id}
-                  value={location.society_name}
+            <Col md={6}>
+              <Form.Group controlId="area">
+                <Form.Label>Society / Locality</Form.Label>
+                <Form.Select
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
                 >
-                  {" "}
-                  {`${location.society_name.substring(0, 19)}...`}
-                </option>
-              ))}
-            </select>
-            <label className="">Society / Locality:<span className="text-danger">*</span></label>
+                  <option disabled>Your Society</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.society_name}>
+                      {location.society_name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
-          </div>
-
-          <div className="form-floating mt-3">
-
-            <select
-              className="form-select mb-3"
-              // style={{ height: '28px' }}
-              onChange={(e) => setFloor(e.target.value)}
-              value={floor}
-            >
-              <option disabled>Your Address</option>
-              {locations?.map((location) => (
-                <option
-                  style={{ fontSize: "0.85rem" }}
-                  key={location.id}
-                  value={location.address}
+            <Col md={6}>
+              <Form.Group controlId="floor">
+                <Form.Label>Address</Form.Label>
+                <Form.Select
+                  value={floor}
+                  onChange={(e) => setFloor(e.target.value)}
                 >
-                  {" "}
-                  {`${location.address.substring(0, 19)}...`}
-                </option>
-              ))}
-            </select>
-            <label>Address:<span className="text-danger">*</span></label>
+                  <option disabled>Your Address</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.address}>
+                      {location.address}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
 
+            <Col md={6}>
+              <Form.Group controlId="landmark">
+                <Form.Label>Nearby Landmark</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={landmark}
+                  onChange={(e) => setLandmark(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="name">
+                <Form.Label>Your Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="phone">
+                <Form.Label>Your Phone No.</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  maxLength="10"
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="state">
+                <Form.Label>State</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="postalCode">
+                <Form.Label>
+                  Pincode <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                >
+                  <option disabled>Pincode</option>
+                  {locations?.map((location) => (
+                    <option key={location.id} value={location.pin_code}>
+                      {location.pin_code}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          {/* Buttons */}
+          <div className="d-flex align-items-center justify-content-evenly mt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-animation px-2 py-2"
+            >
+              {loading ? (
+                <Spinner size="sm" animation="border" />
+              ) : (
+                "Save Address"
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="btn btn-animation px-3 py-2"
+            >
+              Cancel
+            </button>
           </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={addresses}
-              onChange={(e) => setAddresses(e.target.value)}
-              placeholder="Flat / House No"
-              required
-            />
-            <label>Flat / House No / Building Name:<span className="text-danger">*</span></label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={landmark}
-              onChange={(e) => setLandmark(e.target.value)}
-              placeholder="Landmark"
-              required
-            />
-            <label>Nearby Landmark:<span className="text-danger">*</span></label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              placeholder="State"
-              required
-            />
-            <label>State:<span className="text-danger">*</span></label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={postalCode}
-              onChange={(e) => setPostalCode(e.target.value)}
-              placeholder="Pincode"
-              required
-            />
-            <label>Pincode:<span className="text-danger">*</span></label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="Phone Number"
-              required
-            />
-            <label>Phone Number:<span className="text-danger">*</span></label>
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-animation w-100"
-            disabled={loading}
-          >
-            {loading ? <Spinner size="sm" /> : "Save Address"}
-          </button>
-        </form>
-      </ModalBody>
+        </Form>
+      </Modal.Body>
     </Modal>
   );
 }
