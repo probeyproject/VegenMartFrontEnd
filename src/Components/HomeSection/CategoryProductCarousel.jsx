@@ -165,7 +165,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
                     width: "75px",
                   }}
                   className="category-card d-flex flex-column align-items-center justify-centent-center m-1 py-3 ms-2"
-                  onClick={() => navigate("/pannelpage")}
+                  onClick={() => navigate("/pannelpage/mushroom")}
                 >
                   <div
                     className="rounded-circle"

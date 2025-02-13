@@ -233,7 +233,9 @@ function HeaderMiddle() {
 
                 <div className="row">
                   <div className="middle-box">
-                    <div className="location-box p-2">
+                    <div className="row d-flex flex-row">
+                      <div className="col-md-6">
+                    <div className="location-box p-1">
                       <button
                         onClick={() => setShowModal(true)}
                         className="btn location-button"
@@ -259,12 +261,14 @@ function HeaderMiddle() {
                       <div className="ms-2">
                         <button className="border-0 bg-white">
                           {selectedLocation
-                            ? `${selectedLocation.society_name.substring(0, 15)}...`
+                            ? `${selectedLocation.society_name.substring(0, 40)}...`
                             : "Please Choose Location"}
                         </button>
                       </div>
                     </div>
-                    <div className="search-box">
+                    </div>
+                    <div className="col-md-6">
+                    <div className="">
                       <div className="input-group">
                         <input
                           type="search"
@@ -276,7 +280,7 @@ function HeaderMiddle() {
                         />
                         <button
                           onClick={handleSearchClick}
-                          className="btn btn-outline-secondary"
+                          className="btn btn-animation"
                           type="button"
                           id="button-addon2"
                         >
@@ -317,6 +321,8 @@ function HeaderMiddle() {
                           ))}
                         </ul>
                       )}
+                    </div>
+                    </div>
                     </div>
                   </div>
                 </div>

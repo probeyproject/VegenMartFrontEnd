@@ -35,7 +35,7 @@ const ProductBox = ({
 }) => {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 100,
       easing: "ease-in-out",
       once: true,
       mirror: false,

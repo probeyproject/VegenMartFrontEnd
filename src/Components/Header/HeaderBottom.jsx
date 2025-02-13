@@ -97,13 +97,16 @@ function HeaderBottom() {
                     className="w-100"
                     onMouseLeave={handleMouseLeave}
                   >
-                    {Object.keys(categories).map((categoryName, index) => (
-                      <DropdownItem
+                    {Object.keys(categories).map((categoryName, index) =>{
+                    
+                      return(
+                        <DropdownItem
                         key={index}
                         className="onhover-category-list"
                         header
                         onMouseEnter={() =>
                           handleCategoryMouseEnter(categoryName)
+                          
                         }
                         onMouseLeave={() => setHoveredCategory(null)}
                       >
@@ -145,7 +148,9 @@ function HeaderBottom() {
                             </div>
                           )}
                       </DropdownItem>
-                    ))}
+                      )
+                    })
+                    }
                   </DropdownMenu>
                 </Dropdown>
               </div>

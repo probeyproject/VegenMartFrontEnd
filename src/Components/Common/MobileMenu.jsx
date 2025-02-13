@@ -15,6 +15,8 @@ import "./../../CSS/MobileMenu.css";
 import logo1 from "../../assets/images/vegenmart_logo.png";
 import { checkAuthentication, logout } from "../../slices/userSlice";
 import { useSelector } from "react-redux";
+import { TbCategoryFilled } from "react-icons/tb";
+
 
 function MobileMenu() {
   const [showSearch, setShowSearch] = useState(false); // State for offcanvas search
@@ -161,7 +163,7 @@ function MobileMenu() {
             role="button"
             aria-controls="offcanvasExample"
           >
-            <GiHamburgerMenu className="icli js-link " />
+            <TbCategoryFilled  className="icli js-link " />
             <span>Category</span>
           </Link>
         </li>
@@ -288,7 +290,7 @@ function MobileMenu() {
               <button
                 className="btn-close me-3"
                 onClick={() => setShowSearch(false)}
-                aria-label="Close"
+                aria-label="Close"  
               ></button>
             </div>
             <div className="offcanvas-body">

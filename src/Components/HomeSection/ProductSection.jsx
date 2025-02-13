@@ -252,8 +252,6 @@ function ProductSection() {
                       </div>
                     </li>
                   ))}
-
-                  
                 </ul>
               </div>
             </div>
@@ -562,7 +560,7 @@ function ProductSection() {
                             alt=""
                             style={{
                               display: "none",
-                              filter: "brightness(50%",
+                              filter: "brightness(50%)",
                             }}
                           />
                           <div
@@ -573,7 +571,7 @@ function ProductSection() {
                               {/* <h3 className="text-exo">
                                 {data.banner_offer}% offer
                               </h3> */}
-                              <h4 className="text-russo fw-bold theme-color mb-2 ">
+                              <h4 className="text-russo fw-bold theme-color mb-2 text-dark bg-opacity-25">
                                 {data.banner_offer_title}
                               </h4>
                               <p className="text-light fw-bold">
