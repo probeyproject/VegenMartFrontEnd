@@ -4,14 +4,20 @@ import HeaderMiddle from "../Components/Header/HeaderMiddle";
 import HeaderBottom from "../Components/Header/HeaderBottom";
 import Footer from "../Components/Common/Footer";
 import { GoPlus } from "react-icons/go";
-import { FaBriefcase, FaHome } from "react-icons/fa";
+import { FaBriefcase, FaHome, FaRegUserCircle } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { jsPDF } from "jspdf";
 import { IoIosArrowBack } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FaRegAddressCard } from "react-icons/fa6";
-
+import { Input, Button, Form, FormGroup, Label } from "reactstrap";
+import {
+  FaTachometerAlt,
+  FaShoppingBag,
+  FaMapMarkerAlt,
+  FaUserFriends,
+} from "react-icons/fa";
 import { FaStaylinked } from "react-icons/fa6";
 
 import {
@@ -20,10 +26,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col,
 } from "reactstrap";
@@ -37,6 +39,7 @@ import EditAddressModal from "../Components/Account/Dashboard/EditAddressModal";
 import Referral from "../Components/Common/Referral";
 import { baseUrl } from "../API/Api";
 import "./Account.css";
+import { LuClipboardList } from "react-icons/lu";
 
 function Account() {
   const { tab } = useParams();
@@ -63,7 +66,53 @@ function Account() {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { user } = useSelector((store) => store.user);
+
   const navigate = useNavigate();
+
+  const parseUserData = (user) => {
+    const nameParts =
+      user.name && user.name !== "null null null"
+        ? user.name.split(" ")
+        : ["", ""];
+    return {
+      firstName: nameParts[0] !== "null" ? nameParts[0] : "",
+      lastName: nameParts[1] !== "null" ? nameParts[1] : "",
+      email: user.email !== "null" && user.email !== null ? user.email : "",
+      phone: user.phone || "",
+    };
+  };
+
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUserData(parseUserData(user));
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    const updatedData = {
+      firstName: userData.firstName || "null",
+      lastName: userData.lastName || "null",
+      email: userData.email || "null",
+    };
+    try {
+      const response = await axios.put(
+        `${baseUrl}/editUserById/${user?.id}`,
+        updatedData
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    setIsEditing(false);
+  };
 
   const parseProducts = (productString) => {
     try {
@@ -176,6 +225,7 @@ function Account() {
                 isSidebarOpen ? "open" : ""
               }`}
             >
+              {/* Close Button (Mobile View) */}
               <div className="close-button d-flex d-lg-none">
                 <button
                   className="close-sidebar"
@@ -185,12 +235,13 @@ function Account() {
                 </button>
               </div>
 
+              {/* Profile Section */}
               <div className="profile-box">
                 <div className="cover-image">
                   <img
                     src="https://themes.pixelstrap.com/fastkart/assets/images/inner-page/cover-img.jpg"
                     className="img-fluid blur-up lazyloaded"
-                    alt=""
+                    alt="Cover"
                   />
                 </div>
                 <div className="profile-contain">
@@ -200,13 +251,14 @@ function Account() {
                 </div>
               </div>
 
+              {/* Sidebar Navigation with Icons */}
               <Nav pills className="user-nav-pills">
                 <NavItem>
                   <NavLink
                     className={classnames({ active: activeTab === "1" })}
                     onClick={() => toggle("1")}
                   >
-                    Dashboard
+                    <FaRegUserCircle className="nav-icon" /> Account
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -214,7 +266,8 @@ function Account() {
                     className={classnames({ active: activeTab === "2" })}
                     onClick={() => toggle("2")}
                   >
-                    My Order
+                    <LuClipboardList className="nav-icon" />
+                    My Orders
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -222,7 +275,7 @@ function Account() {
                     className={classnames({ active: activeTab === "3" })}
                     onClick={() => toggle("3")}
                   >
-                    My Addresses
+                    <FaMapMarkerAlt className="nav-icon" /> My Addresses
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -230,12 +283,11 @@ function Account() {
                     className={classnames({ active: activeTab === "4" })}
                     onClick={() => toggle("4")}
                   >
-                    Manage Referrals
+                    <FaUserFriends className="nav-icon" /> Manage Referrals
                   </NavLink>
                 </NavItem>
               </Nav>
             </div>
-
             {/* Main Content */}
             <TabContent
               activeTab={activeTab}
@@ -248,29 +300,114 @@ function Account() {
                   <Col sm="12">
                     <div className="dashboard-home p-3">
                       <div className="title">
-                        <h3>My Dashboard</h3>
+                        <h3>My Account</h3>
                         <span className="title-leaf"></span>
                       </div>
-                      <div className="dashboard-user-name">
-                        <h6 className="text-content">Hello,</h6>
-                        <p className="text-content">
-                          From your My Dashboard you have the ability to view a
-                          snapshot of your recent account activity and update
-                          your account information. Select a link below to view
-                          or edit information.
-                        </p>
+
+                      {/* User Profile Section */}
+                      <div className="user-profile-section p-3">
+                        <Form className="w-100">
+                          <Row>
+                            <Col md="6">
+                              <FormGroup>
+                                <Label>First Name</Label>
+                                <Input
+                                  type="text"
+                                  value={userData.firstName}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      firstName: e.target.value,
+                                    })
+                                  }
+                                  disabled={!isEditing}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col md="6">
+                              <FormGroup>
+                                <Label>Last Name</Label>
+                                <Input
+                                  type="text"
+                                  value={userData.lastName}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      lastName: e.target.value,
+                                    })
+                                  }
+                                  disabled={!isEditing}
+                                />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+
+                          <Row>
+                            <Col md="6">
+                              <FormGroup>
+                                <Label>Email</Label>
+                                <Input
+                                  type="email"
+                                  value={userData.email}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      email: e.target.value,
+                                    })
+                                  }
+                                  disabled={!isEditing}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col md="6">
+                              <FormGroup>
+                                <Label>Phone</Label>
+                                <Input
+                                  type="text"
+                                  value={userData.phone}
+                                  disabled
+                                />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+
+                          <div className="d-flex justify-content-between mt-3">
+                            {!isEditing ? (
+                              <Button
+                                color="primary"
+                                onClick={() => setIsEditing(true)}
+                              >
+                                Edit Profile
+                              </Button>
+                            ) : (
+                              <>
+                                <Button color="success" onClick={handleSave}>
+                                  Save Changes
+                                </Button>
+                                <Button
+                                  color="danger"
+                                  onClick={() => setIsEditing(false)}
+                                >
+                                  Cancel
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        </Form>
                       </div>
-                      <div className="total-box">
-                        <div className="row g-sm-4 g-3">
-                          <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                            <div className="card" style={{ width: "200px" }}>
-                              <div className="total-detail p-2">
+
+                      {/* Existing Dashboard Sections */}
+                      <div className="total-box mt-4">
+                        <Row className="g-sm-4 g-3">
+                          <Col xl="4" lg="6" md="6" sm="12">
+                            <div className="card shadow-sm">
+                              <div className="total-detail p-3">
                                 <h5>
                                   Total Cart: <span>{cart || 0}</span>
                                 </h5>
                               </div>
                             </div>
-                            <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
+                            <div className="card p-2 mt-3 d-flex flex-row justify-content-between align-items-center">
                               <span>
                                 <TbTruckDelivery className="fs-4 ms-3 mb-2" />
                               </span>
@@ -288,69 +425,8 @@ function Account() {
                                 </NavItem>
                               </Nav>
                             </div>
-                          </div>
-                          <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                            <div
-                              className="card p-2 mb-3"
-                              style={{ width: "200px" }}
-                            >
-                              <div className="total-detail">
-                                <h5>
-                                  Total Wishlist: <span>{wishlist || 0}</span>
-                                </h5>
-                              </div>
-                            </div>
-                            <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
-                              <span>
-                                <FaRegAddressCard className="ms-3 fs-4 mb-2" />
-                              </span>
-                              <Nav>
-                                <NavItem>
-                                  <NavLink
-                                    className={classnames({
-                                      active: activeTab === "1",
-                                    })}
-                                    onClick={() => toggle("3")}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    My Addresses
-                                  </NavLink>
-                                </NavItem>
-                              </Nav>
-                            </div>
-                          </div>
-                          <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                            <div
-                              className="card p-2 mb-3"
-                              style={{ width: "200px" }}
-                            >
-                              <div className="total-detail">
-                                <h5>
-                                  Total Reward Points:{" "}
-                                  <span>{points || 0}</span>
-                                </h5>
-                              </div>
-                            </div>
-                            <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
-                              <span>
-                                <FaStaylinked className="fs-4 ms-3 mb-2" />
-                              </span>
-                              <Nav>
-                                <NavItem>
-                                  <NavLink
-                                    className={classnames({
-                                      active: activeTab === "1",
-                                    })}
-                                    onClick={() => toggle("4")}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    My Referrals
-                                  </NavLink>
-                                </NavItem>
-                              </Nav>
-                            </div>
-                          </div>
-                        </div>
+                          </Col>
+                        </Row>
                       </div>
                     </div>
                   </Col>
@@ -573,10 +649,11 @@ function Account() {
               </TabPane>
 
               <TabPane tabId="3">
-                <div className="dashboard-profile">
-                  <div className="title p-3 mb-5">
+                <div className="dashboard-profile p-3">
+                  {/* Header Section */}
+                  <div className="title p-3">
                     <h3>My Address</h3>
-                    <span className="title-leaf"></span>
+                    <span className="title-leaf title-leaf-gray"></span>
                     <Nav>
                       <NavItem>
                         <NavLink
@@ -591,84 +668,79 @@ function Account() {
                         </NavLink>
                       </NavItem>
                     </Nav>
+                  </div>
 
-                    <div
-                      className="profile-about dashboard-bg-box overflow-auto"
-                      // style={{ maxHeight: "400px" }}
+                  {/* Add Address Button */}
+                  <div className="d-flex align-items-center gap-2 mb-3">
+                    <GoPlus size={20} className="text-primary" />
+                    <Link
+                      onClick={handleToggleModal}
+                      className="text-primary fw-semibold"
+                      style={{ textDecoration: "none" }}
                     >
-                      <div className="row">
-                        <div className="dashboard-title">
-                          <h3>My Addresses</h3>
+                      Add new address
+                    </Link>
+                  </div>
+
+                  {/* Full-Width Address List */}
+                  <div className="address-list-container">
+                    {address.map((data) => (
+                      <div key={data.address_id} className="address-card">
+                        {/* Address Content (Left Side) */}
+                        <div className="address-content">
+                          {/* Address Type Icon */}
+                          <div className="address-header">
+                            {data.address_type === "Home" ? (
+                              <FaHome size={24} className="text-primary" />
+                            ) : data.address_type === "Office" ? (
+                              <FaBriefcase
+                                size={22}
+                                className="text-secondary"
+                              />
+                            ) : (
+                              <FaMapMarkerAlt
+                                size={22}
+                                className="text-warning"
+                              />
+                            )}
+                          </div>
+
+                          {/* Name & Address */}
+                          <div className="address-text-container">
+                            <h6 className="mb-0 fw-bold text-dark">
+                              {data.address_type}
+                            </h6>
+
+                            {/* Name (Fully Visible) */}
+
+                            <div className="d-flex gap-1">
+                              <div className="address-name">{data.name}</div>
+
+                              {/* Address (Truncated if Needed) */}
+                              <div className="address-text">
+                                {data.flat}, {data.floor}, {data.area},{" "}
+                                {data.landmark}, {data.state},{" "}
+                                {data.postal_code}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="table-responsive">
-                          <Link onClick={handleToggleModal}>
-                            <div className="d-flex gap-3 center">
-                              <div>
-                                <GoPlus />
-                              </div>
-                              <div>Add new address</div>
-                            </div>
-                          </Link>
 
-                          {address.map((data) => (
-                            <div
-                              key={data.address_id}
-                              className="card mb-3 mt-4"
-                            >
-                              <div className="card-body">
-                                <div className="d-flex justify-content-between">
-                                  <div className="d-flex align-items-center mb-3">
-                                    {data.address_type === "Home" ? (
-                                      <FaHome size={20} className="me-2" />
-                                    ) : data.address_type === "Office" ? (
-                                      <FaBriefcase size={19} className="me-2" />
-                                    ) : null}
-                                    <h6 className="mb-0">
-                                      {data.address_type}
-                                    </h6>
-                                  </div>
-                                  <div className="mt-2 d-flex gap-3">
-                                    <Link>
-                                      <div
-                                        onClick={() => handleEditModal(data)}
-                                      >
-                                        <FaPencil />
-                                      </div>
-                                    </Link>
-                                    <Link>
-                                      <div
-                                        onClick={() =>
-                                          handleDeleteModal(data.address_id)
-                                        }
-                                      >
-                                        <RiDeleteBin5Line />
-                                      </div>
-                                    </Link>
-                                  </div>
-                                </div>
-
-                                <div className="d-flex gap-5">
-                                  <div className="work-info-details">
-                                    <span className="text-muted">
-                                      {data.name}
-                                    </span>
-                                    <br />
-                                    <span>
-                                      {data.phone && data.phone.length > 3
-                                        ? data.phone.slice(3)
-                                        : data.phone}
-                                      , {data.flat}, {data.floor}, {data.area},{" "}
-                                      {data.landmark}, {data.state},{" "}
-                                      {data.postal_code}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
+                        {/* Edit & Delete Icons (Right Side) */}
+                        <div className="icon-actions">
+                          <FaPencil
+                            size={16}
+                            className="text-success cursor-pointer"
+                            onClick={() => handleEditModal(data)}
+                          />
+                          <RiDeleteBin5Line
+                            size={16}
+                            className="text-danger cursor-pointer"
+                            onClick={() => handleDeleteModal(data.address_id)}
+                          />
                         </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </TabPane>
