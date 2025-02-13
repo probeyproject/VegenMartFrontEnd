@@ -1,155 +1,155 @@
-import React, { useState } from 'react'
-import { FaShareAlt, FaShoppingBag, FaRupeeSign } from 'react-icons/fa'
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { FaShareAlt, FaShoppingBag, FaRupeeSign } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Referral = () => {
-  
   const userState = useSelector((state) => state.user);
   const referralCode = userState?.user?.referral_code; // Your referral code
+  const referralLink = `https://vegenmart.com/?referralCode=${referralCode}`;
 
-  const referralLink = `https://vegenmart.com/?referralCode=${referralCode}`
-
-  const [showAlert, setShowAlert] = useState(false)
+  const [showAlert, setShowAlert] = useState(false);
 
   // Function to copy link to clipboard
   const handleCopyLink = () => {
     navigator.clipboard
       .writeText(referralLink)
       .then(() => setShowAlert(true))
-      .catch((err) => console.error('Error copying to clipboard: ', err))
-      nav
-  }
+      .catch((err) => console.error("Error copying to clipboard: ", err));
+
+    // Auto-hide alert after 3 seconds
+    setTimeout(() => setShowAlert(false), 3000);
+  };
 
   return (
-    <div className="container mt-2">
-      <h3>Manage Referrals</h3>
-      <span className="title-leaf"></span>
-      <h4 className='mt-4'>How it works</h4>
-      <div className="row align-items-start mt-4">
-        <div className="col-1 d-flex flex-column align-items-center">
-          <FaShareAlt size={10} />
-          <div style={{ height: '40px', borderLeft: '2px solid #ddd' }}></div>
-          <FaShoppingBag size={10} />
-          <div style={{ height: '40px', borderLeft: '2px solid #ddd' }}></div>
-          <FaRupeeSign size={10} />
+    <div className="container mt-4 p-4 shadow-sm bg-white rounded">
+      <h3 className="text-center mb-3"> Manage Referrals</h3>
+      <h4 className="mt-4">How it works</h4>
+
+      <div className="row mt-4">
+        <div className="col-auto d-flex flex-column align-items-center">
+          <FaShareAlt size={18} className="text-primary mb-2" />
+          <div
+            style={{ height: "40px", width: "2px", backgroundColor: "#ddd" }}
+          ></div>
+          <FaShoppingBag size={18} className="text-success mb-2" />
+          <div
+            style={{ height: "40px", width: "2px", backgroundColor: "#ddd" }}
+          ></div>
+          <FaRupeeSign size={18} className="text-warning" />
         </div>
 
-        <div className="col ">
-          <p>Share the referral link with your friend & family</p>
+        <div className="col d-flex flex-column justify-content-center gap-4">
           <p>
-            After your friend places their login, you will get 50 
-            <br/>
-            reward points.
+            <strong>Share the referral link</strong> with your friends & family.
           </p>
-          <p>This Rewards you will use in your order to discounts</p>
+          <p>
+            Once they <strong>sign up</strong>, you{" "}
+            <strong>earn 50 points</strong>.
+          </p>
+          <p>
+            Use rewards to <strong>get discounts</strong> on your orders!
+          </p>
         </div>
       </div>
 
-      <h4 className="text-center mb-3 mt-5">Share Your Referral Code</h4>
-
-      <p className="text-center mb-5">
-        Invite your friends to join using your referral code and earn rewards!
+      <h4 className="text-center mt-5 mb-2">🚀 Share Your Referral Code</h4>
+      <p className="text-center text-muted">
+        Invite friends to join and earn exciting rewards!
       </p>
 
       {/* Show alert when link is copied */}
       {showAlert && (
-        <div className="alert alert-success alert-dismissible fade show" role="alert">
-          Referral link copied to clipboard!
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
+        <div className="alert alert-success text-center py-2">
+          ✅ Referral link copied!
+          <span
+            className="close float-end"
             onClick={() => setShowAlert(false)}
+            style={{ cursor: "pointer" }}
           >
-            <span aria-hidden="true" className=''>&times;</span>
-          </button>
+            &times;
+          </span>
         </div>
       )}
 
       {/* Referral Code Display */}
-      <div className="mb-3 text-center">
-        <h4>
-          Your Referral Code: <span className="text-info font-weight-bold">{referralCode}</span>
-        </h4>
+      <div className="text-center my-4">
+        <h5 className="d-inline-block px-3 py-2 bg-light rounded">
+          <span className="text-info fw-bold">{referralCode}</span>
+        </h5>
       </div>
 
-      {/* Input Group to display the referral link */}
-      <div className="input-group mb-4">
-        <input type="text" className="form-control" value={referralLink} readOnly />
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary ms-2" onClick={handleCopyLink}>
-            Copy Link
-          </button>
-        </div>
+      {/* Copy Link Input Group */}
+      <div className="input-group mb-4 shadow-sm rounded">
+        <input
+          type="text"
+          className="form-control rounded-start"
+          value={referralLink}
+          readOnly
+        />
+        <button
+          className="btn btn-animation px-3 rounded-end"
+          onClick={handleCopyLink}
+        >
+        Copy Link
+        </button>
       </div>
 
-      {/* Social Media Share buttons with Custom Icons */}
-      <div className="d-flex justify-content-center">
-        {/* Share on Facebook */}
+      {/* Social Media Share Buttons */}
+      <div className="d-flex justify-content-center gap-3">
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`}
           target="_blank"
-          className="btn btn-primary mx-2 btn-lg"
+          className="btn btn-primary btn-lg rounded-circle"
           role="button"
         >
-          {/* Custom Facebook Icon */}
           <img
-            src="https://img.icons8.com/?size=100&id=uLWV5A9vXIPu&format=png&color=000000"
+            src="https://img.icons8.com/?size=100&id=uLWV5A9vXIPu&format=png"
             alt="Facebook Icon"
-            style={{ width: '30px', height: '30px' }} // Adjust size
+            style={{ width: "25px" }}
           />
         </a>
 
-        {/* Share on Twitter */}
         <a
           href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(referralLink)}`}
           target="_blank"
-          className="btn btn-info mx-2 btn-lg"
+          className="btn btn-info btn-lg rounded-circle"
           role="button"
         >
-          {/* Custom Twitter Icon */}
           <img
-            src="https://img.icons8.com/?size=100&id=yoQabS8l0qpr&format=png&color=000000"
+            src="https://img.icons8.com/?size=100&id=yoQabS8l0qpr&format=png"
             alt="Twitter Icon"
-            style={{ width: '30px', height: '30px' }} // Adjust size
+            style={{ width: "25px" }}
           />
         </a>
 
-        {/* Share on WhatsApp */}
         <a
           href={`https://wa.me/?text=${encodeURIComponent(`Check out this referral link: ${referralLink}`)}`}
           target="_blank"
-          className="btn btn-success mx-2 btn-lg"
+          className="btn btn-success btn-lg rounded-circle"
           role="button"
         >
-          {/* Custom WhatsApp Icon */}
           <img
-            src="https://img.icons8.com/?size=100&id=16713&format=png&color=000000"
+            src="https://img.icons8.com/?size=100&id=16713&format=png"
             alt="WhatsApp Icon"
-            style={{ width: '30px', height: '30px' }} // Adjust size
+            style={{ width: "25px" }}
           />
         </a>
 
-        {/* Share on Instagram */}
         <a
           href={`https://www.instagram.com/?url=${encodeURIComponent(referralLink)}`}
           target="_blank"
-          className="btn btn-danger mx-2 btn-lg"
+          className="btn btn-danger btn-lg rounded-circle"
           role="button"
         >
-          {/* Custom Instagram Icon */}
           <img
-            src="https://img.icons8.com/?size=100&id=BrU2BBoRXiWq&format=png&color=000000"
+            src="https://img.icons8.com/?size=100&id=BrU2BBoRXiWq&format=png"
             alt="Instagram Icon"
-            style={{ width: '30px', height: '30px' }} // Adjust size
+            style={{ width: "25px" }}
           />
         </a>
-
-        {/* Custom Share Invite Link button */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Referral
+export default Referral;

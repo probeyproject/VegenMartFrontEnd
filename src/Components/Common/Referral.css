@@ -1,0 +1,147 @@
+/* Referral Container */
+.referral-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* How It Works */
+.how-it-works {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+}
+
+.step-icon {
+  font-size: 28px;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+/* Referral Code */
+.referral-code-box {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.referral-code {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Copy Link Box */
+.copy-link-box {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.copy-input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  outline: none;
+}
+
+.copy-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: #0056b3;
+}
+
+/* Floating Copy Notification */
+.copy-alert {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Social Media Buttons */
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.social-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.fb {
+  background: #3b5998;
+}
+
+.twitter {
+  background: #1da1f2;
+}
+
+.whatsapp {
+  background: #25d366;
+}
+
+.insta {
+  background: #e4405f;
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}

@@ -279,7 +279,7 @@ export default function ComboCardCarousel() {
                 key={combo.combo_id}
                 data-aos="fade-up"
               >
-                <div className="card bg-light p-2 combo-card">
+                <div className="card bg-light p-3 combo-card">
                   {/* Product Images Grid (3x2) */}
                   <div className="row g-1">
                     {combo.products.slice(0, 6).map((product, index) => {
@@ -303,7 +303,7 @@ export default function ComboCardCarousel() {
                             className="card-img-top rounded"
                             style={{
                               height: "60px",
-                              width: "60px",
+                              width: "80px",
                               objectFit: "cover",
                             }}
                             alt={product.product_name}
@@ -311,7 +311,7 @@ export default function ComboCardCarousel() {
                           <p
                             style={{
                               fontSize: "12px",
-                              width: "80px",
+                              width: "70px",
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
@@ -321,7 +321,13 @@ export default function ComboCardCarousel() {
                               ? product.product_name.slice(0, 12) + "..."
                               : product.product_name}
                           </p>
-                          <p style={{ fontSize: "12px", width: "80px" }}>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              width: "70px",
+                              margin: 0,
+                            }}
+                          >
                             {product.quantity} {product.quantity_type}
                           </p>
                         </div>

@@ -65,7 +65,8 @@ function Checkout() {
   const [reedemedPoints, setReedemedPoints] = useState(0);
 
   console.log("points " + rewards, points);
-
+  
+  
   useEffect(() => {
     carts.map((item, index) => {
       // console.log(item);
@@ -795,7 +796,7 @@ function Checkout() {
                       </li>
                     </ul>
                   </div>
-                  <div className="checkout-offer">
+                  {/* <div className="checkout-offer">
                     <div className="offer-title">
                       <div className="offer-icon">
                         <img
@@ -822,7 +823,7 @@ function Checkout() {
                         </p>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col-lg-8">
@@ -965,6 +966,26 @@ function Checkout() {
                                     type="date"
                                     id="datePicker"
                                     className="form-control w-75 my-2"
+                                    min={(() => {
+                                      const tomorrow = new Date();
+
+                                      // Set the date to tomorrow
+                                      tomorrow.setDate(tomorrow.getDate() + 1);
+
+                                      // Ensure that the date is adjusted to IST (Indian Standard Time: UTC +5:30)
+                                      const offset = 5.5 * 60; // IST offset in minutes
+                                      const istTime = new Date(
+                                        tomorrow.getTime() + offset * 60000
+                                      ); // Adjusting for IST
+
+                                      // Set time to midnight to ensure it’s tomorrow at midnight IST
+                                      istTime.setHours(0, 0, 0, 0);
+
+                                      // Return the date in 'YYYY-MM-DD' format for the min attribute
+                                      return istTime
+                                        .toISOString()
+                                        .split("T")[0];
+                                    })()}
                                     onChange={(e) =>
                                       setDeliveryDate(e.target.value)
                                     }

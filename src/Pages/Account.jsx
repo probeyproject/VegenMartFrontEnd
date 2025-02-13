@@ -12,6 +12,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FaRegAddressCard } from "react-icons/fa6";
 import { Input, Button, Form, FormGroup, Label } from "reactstrap";
+import { AiOutlineLogout } from "react-icons/ai";
+import { PiWalletThin } from "react-icons/pi";
+
 import {
   FaTachometerAlt,
   FaShoppingBag,
@@ -32,7 +35,7 @@ import {
 import classnames from "classnames";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import HomeAddressModal from "../Components/Account/Dashboard/HomeAddressModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import DeleteAddressModal from "../Components/Account/DeleteAddressModal";
 import EditAddressModal from "../Components/Account/Dashboard/EditAddressModal";
@@ -40,6 +43,9 @@ import Referral from "../Components/Common/Referral";
 import { baseUrl } from "../API/Api";
 import "./Account.css";
 import { LuClipboardList } from "react-icons/lu";
+import { logout } from "../slices/userSlice";
+import { IoLocationOutline } from "react-icons/io5";
+import { HiOutlineUsers } from "react-icons/hi2";
 
 function Account() {
   const { tab } = useParams();
@@ -70,6 +76,8 @@ function Account() {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const parseUserData = (user) => {
     const nameParts =
       user.name && user.name !== "null null null"
@@ -77,7 +85,7 @@ function Account() {
         : ["", ""];
     return {
       firstName: nameParts[0] !== "null" ? nameParts[0] : "",
-      lastName: nameParts[1] !== "null" ? nameParts[1] : "",
+      lastName: nameParts[2] !== "null" ? nameParts[2] : "",
       email: user.email !== "null" && user.email !== null ? user.email : "",
       phone: user.phone || "",
     };
@@ -102,6 +110,7 @@ function Account() {
       firstName: userData.firstName || "null",
       lastName: userData.lastName || "null",
       email: userData.email || "null",
+      phone: user.phone,
     };
     try {
       const response = await axios.put(
@@ -207,6 +216,29 @@ function Account() {
     OrderByUser();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      // Make the API call using axios
+      const response = await axios.get(`${baseUrl}/logout`, {
+        withCredentials: true, // To include cookies in the request
+      });
+
+      dispatch(logout());
+
+      if (response.status === 200) {
+        // If successful, you can perform additional tasks (e.g., redirect, state reset)
+        console.log("Logged out successfully");
+        window.location.reload();
+        // Reload the current page
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (error) {
+      // Handle errors appropriately
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
     <div className="container-fluid px-0 overflow-hidden">
       <header className="pb-md-4 pb-0">
@@ -275,7 +307,8 @@ function Account() {
                     className={classnames({ active: activeTab === "3" })}
                     onClick={() => toggle("3")}
                   >
-                    <FaMapMarkerAlt className="nav-icon" /> My Addresses
+                    <IoLocationOutline className="nav-icon" />
+                    My Addresses
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -283,7 +316,24 @@ function Account() {
                     className={classnames({ active: activeTab === "4" })}
                     onClick={() => toggle("4")}
                   >
-                    <FaUserFriends className="nav-icon" /> Manage Referrals
+                    <HiOutlineUsers className="nav-icon" /> Manage Referrals
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "5" })}
+                    onClick={() => toggle("5")}
+                  >
+                    <PiWalletThin className="nav-icon" /> My Wallet
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "6" })}
+                    onClick={handleLogout}
+                  >
+                    <AiOutlineLogout className="nav-icon" />
+                    Logout
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -295,10 +345,10 @@ function Account() {
                 isSidebarOpen ? "sidebar-open" : ""
               }`}
             >
-              <TabPane tabId="1">
+              <TabPane tabId="1" >
                 <Row>
                   <Col sm="12">
-                    <div className="dashboard-home p-3">
+                    <div className="dashboard-home bg-light p-3">
                       <div className="title">
                         <h3>My Account</h3>
                         <span className="title-leaf"></span>
@@ -374,18 +424,21 @@ function Account() {
                           <div className="d-flex justify-content-between mt-3">
                             {!isEditing ? (
                               <Button
-                                color="primary"
+                                className="btn btn-animation"
                                 onClick={() => setIsEditing(true)}
                               >
                                 Edit Profile
                               </Button>
                             ) : (
                               <>
-                                <Button color="success" onClick={handleSave}>
+                                <Button
+                                  className="btn btn-animation"
+                                  onClick={handleSave}
+                                >
                                   Save Changes
                                 </Button>
                                 <Button
-                                  color="danger"
+                                  className="btn btn-animation"
                                   onClick={() => setIsEditing(false)}
                                 >
                                   Cancel
@@ -397,7 +450,7 @@ function Account() {
                       </div>
 
                       {/* Existing Dashboard Sections */}
-                      <div className="total-box mt-4">
+                      {/* <div className="total-box mt-4">
                         <Row className="g-sm-4 g-3">
                           <Col xl="4" lg="6" md="6" sm="12">
                             <div className="card shadow-sm">
@@ -427,32 +480,32 @@ function Account() {
                             </div>
                           </Col>
                         </Row>
-                      </div>
+                      </div> */}
                     </div>
                   </Col>
                 </Row>
               </TabPane>
 
               {/* Other TabPanes (My Order, My Addresses, Manage Referrals) */}
-              <TabPane tabId="2">
-                <div className="dashboard-order">
+              <TabPane tabId="2" className="bg-light">
+                <Nav>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === "1",
+                      })}
+                      onClick={() => toggle("1")}
+                      style={{ cursor: "pointer", color: "red" }}
+                    >
+                      <IoIosArrowBack />
+                      Go Back
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <div className="dashboard-order bg-light">
                   <div className="title p-3">
                     <h3>My Orders History</h3>
                     <span className="title-leaf title-leaf-gray"></span>
-                    <Nav>
-                      <NavItem>
-                        <NavLink
-                          className={classnames({
-                            active: activeTab === "1",
-                          })}
-                          onClick={() => toggle("1")}
-                          style={{ cursor: "pointer", color: "red" }}
-                        >
-                          <IoIosArrowBack />
-                          Go Back
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
                   </div>
                   <div className="container py-3">
                     {/* Order List */}
@@ -648,26 +701,26 @@ function Account() {
                 </div>
               </TabPane>
 
-              <TabPane tabId="3">
-                <div className="dashboard-profile p-3">
+              <TabPane tabId="3" className="bg-light">
+                <Nav>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === "1",
+                      })}
+                      onClick={() => toggle("1")}
+                      style={{ cursor: "pointer", color: "red" }}
+                    >
+                      <IoIosArrowBack />
+                      Go Back
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <div className="dashboard-profile bg-light p-3">
                   {/* Header Section */}
                   <div className="title p-3">
                     <h3>My Address</h3>
                     <span className="title-leaf title-leaf-gray"></span>
-                    <Nav>
-                      <NavItem>
-                        <NavLink
-                          className={classnames({
-                            active: activeTab === "1",
-                          })}
-                          onClick={() => toggle("1")}
-                          style={{ cursor: "pointer", color: "red" }}
-                        >
-                          <IoIosArrowBack />
-                          Go Back
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
                   </div>
 
                   {/* Add Address Button */}
@@ -745,7 +798,7 @@ function Account() {
                 </div>
               </TabPane>
 
-              <TabPane tabId="4">
+              <TabPane tabId="4" className="bg-light">
                 <Nav>
                   <NavItem>
                     <NavLink
@@ -761,6 +814,43 @@ function Account() {
                   </NavItem>
                 </Nav>
                 <Referral />
+              </TabPane>
+
+              <TabPane tabId="5" className="bg-light">
+                <Nav>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({ active: activeTab === "1" })}
+                      onClick={() => toggle("1")}
+                      style={{ cursor: "pointer", color: "red" }}
+                    >
+                      <IoIosArrowBack /> Go Back
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+
+                <div className="container mt-3">
+                  <h3>My Wallet</h3>
+                  <p>Check your balance and rewards below:</p>
+
+                  {/* Wallet Balance Section */}
+                  <div className="card p-3 shadow-sm mb-3">
+                    <h4>
+                      Wallet Balance:{" "}
+                      <span className="text-success">₹{points}</span>
+                    </h4>
+                  </div>
+
+                  {/* My Rewards Section */}
+                  {/* <div className="card p-3 shadow-sm">
+      <h4>My Rewards</h4>
+      <ul>
+        <li>Referral Bonus: <span className="text-success">+50 points</span></li>
+        <li>First Order Bonus: <span className="text-success">+100 points</span></li>
+        <li>Festive Offer: <span className="text-success">+200 points</span></li>
+      </ul>
+    </div> */}
+                </div>
               </TabPane>
             </TabContent>
           </div>
