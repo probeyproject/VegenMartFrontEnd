@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidePannel from "./SidePannel";
 import Pannelproducts from "./Pannelproducts";
 import "./PannelComp.css";
@@ -11,9 +11,13 @@ import { useParams } from "react-router-dom";
 function PannelPage() {
   const {category} = useParams()
   const [data, setdata] = useState("Mushroom");
-  useState(()=>{
+
+
+ 
+
+  useEffect(()=>{
     setdata(category)
-  },[])
+  },[data])
   return (
 
     

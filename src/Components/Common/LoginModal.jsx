@@ -2,59 +2,61 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "reactstrap";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyOTP } from "../../slices/userSlice";
-import { Link, useLocation } from "react-router-dom";
+import { login } from "../../slices/userSlice";
+import { useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo/1.png";
 import { baseUrl } from "../../API/Api";
+import { X } from "lucide-react";
+import "./LoginModal.css";
 
 function LoginModal({ isOpen, toggle }) {
   const [mobileNumber, setMobileNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
-  const [referralCode, setReferralCode] = useState(""); // Referral code is now optional, default to empty string
+  const [referralCode, setReferralCode] = useState("");
   const dispatch = useDispatch();
-  const location = useLocation(); // Get location outside useEffect
-
-  const userState = useSelector((state) => state.user);
-  const referralCodes = userState?.user?.referral_code; // Your referral code
+  const location = useLocation();
+  const [canResend, setCanResend] = useState(false);
+  const [timer, setTimer] = useState(30);
 
   const isValidMobileNumber = (number) => /^[6-9]\d{9}$/.test(number);
 
-  const handleInputChange = (e) => setMobileNumber(e.target.value);
+  useEffect(() => {
+    let interval = null;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      setCanResend(true);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
 
-  const handleOtpChange = (e) => setOtp(e.target.value);
-
-  // Check for referral code in URL when the component mounts
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get("referralCode");
     if (code) {
-      setReferralCode(code); // Store referral code if it exists in the URL
+      setReferralCode(code);
     }
-  }, [location]); // Correct dependency: location
+  }, [location]);
 
   const handleGenerateOtp = async () => {
-    if (!mobileNumber) {
-      toast.warning("Please enter a mobile number!");
-      return;
-    }
     if (!isValidMobileNumber(mobileNumber)) {
-      toast.error("Please enter a valid 10-digit mobile number!");
+      toast.error("Enter a valid 10-digit mobile number!");
       return;
     }
 
     setLoading(true);
-
     try {
-      // Check if referral code is present and construct the API URL and body accordingly
       const apiUrl = referralCode
         ? `${baseUrl}/signupUserForReferaal`
         : `${baseUrl}/send-otp`;
-
       const body = referralCode
-        ? { phoneNumber: mobileNumber, referralCode } // Send referral code if present
-        : { phoneNumber: mobileNumber }; // Only send phone number if no referral code
+        ? { phoneNumber: mobileNumber, referralCode }
+        : { phoneNumber: mobileNumber };
 
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -62,19 +64,13 @@ function LoginModal({ isOpen, toggle }) {
         body: JSON.stringify(body),
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) throw new Error("Network error");
 
-      if (referralCode) {
-        const data = await response.json();
-        // // Show referral success message if applicable
-        // toast.success(`Signup successful! Your referral code is: ${data.referralCode}`);
-      } else {
-        toast.success("OTP sent successfully!");
-      }
-
-      setOtpSent(true); // OTP is sent, now show the OTP input
+      toast.success("OTP sent successfully!");
+      setTimer(30);
+      setOtpSent(true);
     } catch (error) {
-      toast.error("Failed to send OTP or signup. Please try again.");
+      toast.error("Failed to send OTP. Try again.");
     } finally {
       setLoading(false);
     }
@@ -82,7 +78,7 @@ function LoginModal({ isOpen, toggle }) {
 
   const handleVerifyOtp = async () => {
     if (!otp || otp.length !== 6) {
-      toast.error("Invalid OTP. Please enter a 6-digit OTP.");
+      toast.error("Enter a valid 6-digit OTP.");
       return;
     }
     setLoading(true);
@@ -90,18 +86,18 @@ function LoginModal({ isOpen, toggle }) {
       const response = await fetch(`${baseUrl}/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: mobileNumber, otp: otp }),
-        credentials: "include", // Include cookies in the request
+        body: JSON.stringify({ phoneNumber: mobileNumber, otp }),
+        credentials: "include",
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) throw new Error("Invalid OTP");
 
       const data = await response.json();
-      dispatch(verifyOTP(data)); // Dispatch the user data to Redux
+      dispatch(login({ user: data.user, token: data.token }));
       toast.success("OTP verified successfully!");
-      toggle(); // Close modal on successful OTP verification
+      toggle();
     } catch (error) {
-      toast.error("Invalid OTP. Please try again.");
+      toast.error("Invalid OTP. Try again.");
     } finally {
       setLoading(false);
     }
@@ -109,71 +105,85 @@ function LoginModal({ isOpen, toggle }) {
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered>
-      <div>
-        <div className="card p-2 text-center">
-          <div className="mb-1">
-            <img src={logo} alt="Company Logo" style={{ width: "80px" }} />
-          </div>
-          <p className="fw-bold">{otpSent ? "Enter OTP" : "Login or Sign up"}</p>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <div className="d-flex flex-column align-items-center">
-              <div className="mb-3 w-50">
-                {!otpSent ? (
-                  <>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter mobile number"
-                      value={mobileNumber}
-                      onChange={handleInputChange}
-                      maxLength="10"
-                      style={{ height: "40px" }}
-                    />
-                    {/* Referral Code Input */}
-                    <input
-                      type="text"
-                      className="form-control mt-3"
-                      placeholder="Enter referral code (optional)"
-                      value={referralCode} // Automatically fill referralCode from the URL
-                      onChange={(e) => setReferralCode(e.target.value)} // Update referral code state if user wants to change it
-                      style={{ height: "40px" }}
-                    />
-                  </>
-                ) : (
+      <div className="login-modal-container">
+        {/* Close Button */}
+        <button className="close-btn" onClick={toggle}>
+          <X size={24} />
+        </button>
+
+        {/* Logo */}
+        <div className="text-center">
+          <img className="logo" src={logo} alt="Vegenmart" />
+        </div>
+
+        <h3 className="text-center fw-bold">
+          Delivering Ozone Washed Vegetables and Fruits
+        </h3>
+        <p className="text-center">
+          {otpSent ? "Enter OTP" : "Login or Sign Up"}
+        </p>
+
+        <form onSubmit={(e) => e.preventDefault()} className="mt-3">
+          <div className="form-group">
+            {!otpSent ? (
+              <>
+                <div className="input-group">
+                  <span className="input-group-text">+91</span>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={handleOtpChange}
-                    maxLength="6"
+                    placeholder="Enter mobile number"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    maxLength="10"
                   />
-                )}
-              </div>
+                </div>
 
-              <button
-                className="btn btn-animation"
-                 // Custom button color
-                onClick={otpSent ? handleVerifyOtp : handleGenerateOtp}
-                disabled={loading}
-              >
-                {loading ? (
-                  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                ) : otpSent ? (
-                  "Verify OTP"
-                ) : (
-                  "Generate OTP"
-                )}
-              </button>
-              <p className="mt-4">New user? <Link to="/signup">SignUp</Link> Or <Link to="/login">Login </Link></p>
-            </div>
-          </form>
-          <p className="mt-3 text-muted" style={{ fontSize: "12px" }}>
-            By continuing, you agree to our{" "}
-            <a href="/terms">Terms of service</a> &{" "}
-            <a href="/privacypolicy">Privacy policy</a>.
-          </p>
-        </div>
+                <input
+                  type="text"
+                  className="form-control mt-3"
+                  placeholder="Enter referral code (optional)"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                />
+              </>
+            ) : (
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength="6"
+              />
+            )}
+          </div>
+
+          {/* Resend OTP */}
+          {otpSent &&
+            (canResend ? (
+              <p className="resend-text" onClick={handleGenerateOtp}>
+                Resend OTP
+              </p>
+            ) : (
+              <p className="timer-text">
+                You can resend OTP in {timer} seconds
+              </p>
+            ))}
+
+          <button
+            className="btn btn-animation mt-3 w-100"
+            onClick={otpSent ? handleVerifyOtp : handleGenerateOtp}
+            disabled={loading}
+          >
+            {loading ? "Loading..." : otpSent ? "Verify OTP" : "Generate OTP"}
+          </button>
+        </form>
+
+        <p className="text-muted mt-3 small-text">
+          By continuing, you agree to our <a href="/terms">Terms</a> &{" "}
+          <a href="/privacy">Privacy Policy</a>.
+        </p>
       </div>
     </Modal>
   );

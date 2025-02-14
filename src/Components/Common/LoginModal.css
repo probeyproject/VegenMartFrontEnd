@@ -1,0 +1,64 @@
+
+
+
+.login-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  
+    margin: auto;
+  }
+  
+  .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensures modal is vertically centered */
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .logo {
+    width: 60%;
+    margin-bottom: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group-text {
+    background: #f8f9fa;
+    border-right: none;
+  }
+  
+  .form-control {
+    border-left: none;
+  }
+  
+  .resend-text {
+    cursor: pointer;
+    color: blue;
+  }
+  
+  .timer-text {
+    color: gray;
+  }
+  
+  .small-text {
+    font-size: 12px;
+  }
+  
+  
+  

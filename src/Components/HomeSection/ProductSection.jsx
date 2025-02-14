@@ -572,9 +572,9 @@ function ProductSection() {
                                 {data.banner_offer}% offer
                               </h3> */}
                               <h4
-                                className="text-russo fw-bold theme-color mb-2 text-dark bg-opacity-25 "
+                                className="text-white bg-danger fw-bold mb-2 px-1"
                                 style={{
-                                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.6)",
+                                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
                                 }}
                               >
                                 {data.banner_offer_title}
@@ -631,9 +631,9 @@ function ProductSection() {
                                 {data.banner_offer}% offer
                               </h3> */}
                               <h4
-                                className="text-russo fw-bold theme-color mb-2"
+                                className="text-white bg-danger fw-bold mb-2 px-1"
                                 style={{
-                                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.6)",
+                                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
                                 }}
                               >
                                 {data.banner_offer_title}

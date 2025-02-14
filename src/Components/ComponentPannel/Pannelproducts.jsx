@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import ProductBox from "../ProductSection/ProductBox";
 import axios from "axios";
 import "./Sidepage.css";
+import { baseUrl } from "../../API/Api";
 
 function Pannelproducts({ data }) {
   const [products, setProdcut] = useState([]);
 
   const getproduct = async () => {
     const response = await axios.get(
-      `https://www.api.vegenmart.com/api/getProductByCategoryName/${data}`
+      `${baseUrl}/getProductByCategoryName/${data}`
     );
     const alldata = response.data;
     setProdcut(alldata);
   };
+
+  console.log(products)
   useEffect(() => {
     getproduct();
   }, [data]);
@@ -31,6 +34,7 @@ function Pannelproducts({ data }) {
           return (
             <div className="filter_cards_container" key={product.product_id}>
               <ProductBox
+             
                 imageSrc={JSON.parse(product.product_image)}
                 productName={product.product_name}
                 weight={product.weight}
@@ -38,8 +42,8 @@ function Pannelproducts({ data }) {
                 currentPrice={product.product_price}
                 product_id={product.product_id}
                 minWeight={product.min_weight}
-                discock={product.stock}
-                offerunt_price={product.discount_price}
+                inStock={product.stock}
+                discount_price={product.discount_price}
                 inStos={product.offers}
               />
             </div>

@@ -60,6 +60,7 @@ function Checkout() {
   const [calculatedPrice, setCalculatedPrice] = useState();
   const [couponCodes, setCouponCodes] = useState("");
   const [coupons, setCoupons] = useState([]); // State to hold list of available coupons
+  const [coupanId, setCoupanId] = useState(null);
   const [minDiscountPrice, setMinDiscountPrice] = useState(0);
   const [savedAmount, setSavedAmount] = useState(0);
   const [isModalOpens, setIsModalOpens] = useState(false); // Modal visibility state
@@ -74,6 +75,8 @@ function Checkout() {
   const [reedemedPoints, setReedemedPoints] = useState(0);
 
   // console.log("points " + rewards, points);
+
+  console.log(couponCode);
 
   useEffect(() => {
     carts.map((item, index) => {
@@ -156,6 +159,7 @@ function Checkout() {
     try {
       const response = await axios.post(`${baseUrl}/coupons/validate`, {
         coupon_code: selectedCoupan,
+        coupan_id: coupanId,
         user_id: userId,
         total_price: totalPrice,
       });
@@ -400,6 +404,7 @@ function Checkout() {
   const order_status = "Pending";
   const paymentData = {
     products: getProductsData(),
+    cupon: coupanId,
     quantity,
     address_id,
     totalPrice: calculatedPrice,
@@ -617,12 +622,15 @@ function Checkout() {
     }
   };
 
+  console.log(coupons);
+
   useEffect(() => {
     fetchCoupons(); // Fetch available coupons when component mounts
   }, []);
 
-  const handleCouponClick = (e, couponCode) => {
+  const handleCouponClick = (e, couponCode, coupanId) => {
     setCouponCode(couponCode);
+    setCoupanId(coupanId);
 
     setIsModalOpens(false); // Close the modal after selection
 
@@ -778,12 +786,16 @@ function Checkout() {
                           {responseMessage && <p>{responseMessage}</p>}
                         </p> */}
 
-                        <p>
+                        <p
+                          className="fw-semibold"
+                          style={{cursor:"pointer"}}
+                        >
                           {discountValue > 0 && (
                             <p
                               onClick={() => {
                                 setDiscountValue(0);
                                 setCouponCode("");
+                                setCoupanId(null);
                               }}
                             >
                               {" "}

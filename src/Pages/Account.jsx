@@ -395,6 +395,12 @@ function Account() {
                                   <Input
                                     type="text"
                                     value={userData.firstName}
+                                    onChange={(e) =>
+                                      setUserData({
+                                        ...userData,
+                                        firstName: e.target.value,
+                                      })
+                                    }
                                     disabled={!isEditing}
                                   />
                                 </FormGroup>
@@ -405,6 +411,12 @@ function Account() {
                                   <Input
                                     type="text"
                                     value={userData.lastName}
+                                    onChange={(e) =>
+                                      setUserData({
+                                        ...userData,
+                                        lastName: e.target.value,
+                                      })
+                                    }
                                     disabled={!isEditing}
                                   />
                                 </FormGroup>
@@ -418,6 +430,12 @@ function Account() {
                                   <Input
                                     type="email"
                                     value={userData.email}
+                                    onChange={(e) =>
+                                      setUserData({
+                                        ...userData,
+                                        email: e.target.value,
+                                      })
+                                    }
                                     disabled={!isEditing}
                                   />
                                 </FormGroup>
@@ -474,19 +492,50 @@ function Account() {
                             <Form>
                               <FormGroup className="d-flex align-items-start flex-column">
                                 <Label>First Name</Label>
-                                <Input type="text" />
+                                <Input
+                                  type="text"
+                                  value={userData.firstName}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      firstName: e.target.value,
+                                    })
+                                  }
+                                />
                               </FormGroup>
                               <FormGroup className="d-flex align-items-start flex-column">
                                 <Label>Last Name</Label>
-                                <Input type="text" />
+                                <Input
+                                  type="text"
+                                  value={userData.lastName}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      lastName: e.target.value,
+                                    })
+                                  }
+                                />
                               </FormGroup>
                               <FormGroup className="d-flex align-items-start flex-column">
                                 <Label>Email</Label>
-                                <Input type="email" />
+                                <Input
+                                  type="email"
+                                  value={userData.email}
+                                  onChange={(e) =>
+                                    setUserData({
+                                      ...userData,
+                                      email: e.target.value,
+                                    })
+                                  }
+                                />
                               </FormGroup>
                               <FormGroup className="d-flex align-items-start flex-column">
                                 <Label>Phone</Label>
-                                <Input type="text" disabled />
+                                <Input
+                                  type="text"
+                                  value={userData.phone}
+                                  disabled
+                                />
                               </FormGroup>
                               <div className="d-flex justify-content-between mt-3">
                                 <Button
@@ -1010,6 +1059,30 @@ function Account() {
                               >
                                 <span className="text-muted fw-semibold">
                                   My Referrals
+                                </span>
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
+                        </div>
+                        <div className="card p-1 d-flex flex-row justify-content-between align-items-end mt-4">
+                          <span>
+                            <AiOutlineLogout className="fs-4 ms-3 mb-2" />
+                          </span>
+                          <Nav>
+                            <NavItem>
+                              <NavLink
+                                className={classnames({
+                                  active: activeTab === "1",
+                                })}
+                                onClick={() => logout()}
+                                style={{
+                                  cursor: "pointer",
+                                  background: "#F4E3E9",
+                                  width: "150px",
+                                }}
+                              >
+                                <span className="text-muted fw-semibold">
+                                  Logout
                                 </span>
                               </NavLink>
                             </NavItem>

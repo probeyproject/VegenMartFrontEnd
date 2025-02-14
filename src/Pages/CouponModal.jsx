@@ -36,7 +36,7 @@ const CouponModal = ({ isModalOpen, setIsModalOpen, coupons, handleCouponClick }
                 <span className="coupon-code">{coupon.coupon_code}</span>
                 <button
                   className="btn-copy"
-                  onClick={(e) => handleCouponClick(e,coupon.coupon_code)}
+                  onClick={(e) => handleCouponClick(e,coupon.coupon_code, coupon.coupon_id)}
                 >
                   Apply
                 </button>
