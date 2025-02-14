@@ -267,7 +267,8 @@ export default function ComboCardCarousel() {
         <div className="row">
           {comboList?.slice(0, visibleCount).map((combo) => {
             let totalPrice = combo.products.reduce(
-              (sum, product) => sum + product.product_price * product.quantity,
+              (sum, product) =>
+                sum + Number(product.product_price) * product.quantity,
               0
             );
 
@@ -302,8 +303,8 @@ export default function ComboCardCarousel() {
                             src={productImages[0]}
                             className="card-img-top rounded"
                             style={{
-                              height: "60px",
-                              width: "80px",
+                              height: "70px",
+                              width: "85px",
                               objectFit: "cover",
                             }}
                             alt={product.product_name}
@@ -315,6 +316,7 @@ export default function ComboCardCarousel() {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              margin: 0,
                             }}
                           >
                             {product.product_name.length > 12
@@ -326,6 +328,7 @@ export default function ComboCardCarousel() {
                               fontSize: "12px",
                               width: "70px",
                               margin: 0,
+                              padding: 0,
                             }}
                           >
                             {product.quantity} {product.quantity_type}

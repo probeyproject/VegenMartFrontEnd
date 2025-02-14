@@ -208,6 +208,7 @@ function SupportChatModal({ isOpen, toggle }) {
                   key={index}
                   onClick={() => handleQuerySelection(query)}
                   className="query-button"
+                  style={{ width: "80px", height: "28px" }}
                 >
                   {query}
                 </button>
@@ -220,24 +221,30 @@ function SupportChatModal({ isOpen, toggle }) {
                   key={index}
                   onClick={() => handleQuerySelection(query)}
                   className="query-button"
+                  style={{ width: "80px", height: "28px" }}
                 >
                   {query}
                 </button>
               ))}
           </div>
 
-          <div className="user-input">
+          {/* <div className="user-input">
             <input
               type="text"
               value={userQuery}
               onChange={(e) => setUserQuery(e.target.value)}
               placeholder="Type your query here"
               className="user-input-field"
+              disabled="true"
             />
-            <button onClick={handleMessageSubmit} className="send-button">
+            <button
+              onClick={handleMessageSubmit}
+              disabled="true"
+              className="send-button"
+            >
               Send
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </Modal>

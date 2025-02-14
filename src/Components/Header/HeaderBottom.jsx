@@ -90,7 +90,7 @@ function HeaderBottom() {
                       <line x1="21" y1="14" x2="3" y2="14"></line>
                       <line x1="17" y1="18" x2="3" y2="18"></line>
                     </svg>
-                    <span>All Categories</span>
+                    <span>Categories</span>
                   </DropdownToggle>
                   <DropdownMenu
                     end
@@ -178,11 +178,11 @@ function HeaderBottom() {
                             ([categoryName, categoryData], index) => (
                               <li key={index} className="nav-item dropdown">
                                 <a
-                                  className="nav-link dropdown-toggle"
+                                  className="nav-link dropdown-toggle "
                                   data-bs-toggle="dropdown"
                                   aria-expanded="false"
                                 >
-                                  {categoryName}
+                                  <span style={{fontSize:"13px"}}>{categoryName}</span>
                                 </a>  
                                 <div className="dropdown-menu dropdown-menu-3 dropdown-menu-2">
                                   <div className="row">

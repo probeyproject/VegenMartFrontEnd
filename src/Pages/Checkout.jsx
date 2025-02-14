@@ -21,6 +21,13 @@ import { MdDeleteForever } from "react-icons/md";
 
 import "./Checkout.css";
 import { FaHeart, FaPencil } from "react-icons/fa6";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
+// import axios from "axios";
 function Checkout() {
   const [carts, setCart] = useState([]);
   const [quantities, setQuantities] = useState();
@@ -43,6 +50,8 @@ function Checkout() {
   const [isEditModal, setIsEditModal] = useState(false);
   const userState = useSelector((state) => state.user);
   const userId = userState?.user?.id;
+  console.log(userId);
+
   const phone = userState?.user?.phone;
   const phoneno = phone?.slice(3);
   const [shipping, setShipping] = useState(29);
@@ -57,16 +66,15 @@ function Checkout() {
   const [invoiceAddress, setInvoiceAddress] = useState({});
   const [cartItems, setCartItems] = useState([]);
   // console.log(Number(carts?.unit)); // Converts "7" -> 7
-  console.log(carts);
+  // console.log(carts);
   // const [currentWeight, setCurrentWeight] = useState(1); // Default value
   // const [currentTotalPrice, setCurrentTotalPrice] = useState(1);
   const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
   const [reedemedPoints, setReedemedPoints] = useState(0);
 
-  console.log("points " + rewards, points);
-  
-  
+  // console.log("points " + rewards, points);
+
   useEffect(() => {
     carts.map((item, index) => {
       // console.log(item);
@@ -137,13 +145,13 @@ function Checkout() {
     }
   }
 
-  console.log(quantities);
+  // console.log(quantities);
 
   const validateCoupon = async (e, selectedCoupan) => {
     e.preventDefault();
     setLoading(true); // Start loading
 
-    console.log("Hii");
+    // console.log("Hii");
 
     try {
       const response = await axios.post(`${baseUrl}/coupons/validate`, {
@@ -305,6 +313,7 @@ function Checkout() {
       toast.warning("Minimum weight limit reached");
     }
   };
+  // console.log(currentWeight);
 
   const updateCart = async (index, newWeight, newTotalPrice) => {
     try {
@@ -327,7 +336,7 @@ function Checkout() {
     }
   };
 
-  console.log(carts);
+  // console.log(carts);
 
   const totalAmount = carts?.reduce((acc, cart) => {
     const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
@@ -369,7 +378,7 @@ function Checkout() {
     let amountAfterDiscount = totalPrice - (discountValue || 0); // Subtract the discount
     amountAfterDiscount -= reedemedPoints;
 
-    console.log("amount after " + amountAfterDiscount);
+    // console.log("amount after " + amountAfterDiscount);
     const finalAmount = amountAfterDiscount + (totalPrice >= 200 ? 0 : 29);
 
     setCalculatedPrice(finalAmount);
@@ -423,10 +432,10 @@ function Checkout() {
           paymentData
         );
 
-        console.log("Order Response:", response);
+        // console.log("Order Response:", response);
 
         if (response?.data?.orderId) {
-          await generateAndUploadInvoice(response.data.orderId);
+          await generateAndUploadInvoice(response.data.orderId, userId);
           toast.success("Order created successfully with Cash On Delivery!");
           navigate("/order", { state: { orderId: response.data.orderId } });
         } else {
@@ -460,10 +469,12 @@ function Checkout() {
                 `${baseUrl}/create/order/${userId}`,
                 orderData
               );
-              console.log("Final Order Response:", finalResponse);
+              // console.log("Final Order Response:", finalResponse);
 
               if (finalResponse.data.orderId) {
-                await generateAndUploadInvoice(finalResponse.data.orderId);
+                await // Get userId from state
+                generateAndUploadInvoice(finalResponse.data.orderId, userId);
+
                 navigate("/order", {
                   state: { orderId: finalResponse.data.orderId },
                 });
@@ -495,59 +506,98 @@ function Checkout() {
   };
 
   // Function to Generate and Upload Invoice
-  const generateAndUploadInvoice = async (orderId) => {
+  const convertImageToBase64 = async (imageUrl) => {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result); // Convert to Base64
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  const generateAndUploadInvoice = async (orderId, userId) => {
     try {
-      const invoiceData = {
-        sender: {
-          company: "VegenMart Tech India Pvt. Ltd",
-          address: "155/25E Karela Bagh",
-          city: "Prayagraj, Uttar Pradesh",
-          country: "India",
-        },
-        client: {
-          company: `${userState?.user?.name.split(" ")[0]}`,
-          address: `${invoiceAddress?.name} (${invoiceAddress?.phone}) ${invoiceAddress?.address_type}, ${invoiceAddress?.area}, ${invoiceAddress?.flat}, ${invoiceAddress?.floor}, ${invoiceAddress?.landmark}, (${invoiceAddress?.postal_code}), ${invoiceAddress?.state}`,
-          country: "India",
-          contact: `${userState?.user?.email || userState?.user?.phone}`,
-        },
-        products: paymentData.products.map((product) => ({
-          quantity: product.quantity,
-          description: product.product_name,
-          price: product.product_price,
-        })),
-        information: {
-          number: orderId, // Order ID
-          date: new Date().toISOString().split("T")[0], // Current Date
-          "Shipping Cost": shipping, // Add Shipping Cost (Make sure this value is defined)
-          "Payment Method": paymentMode, // COD, Online, etc.
-          "Discount Applied": discountValue || 0, // Add Discount (If applicable)
-          "Total Amount": calculatedPrice, // Final total price
-        },
-        "bottom-notice": "Thank you for shopping with VegenMart!",
-        settings: {
-          currency: "INR", // Set currency to Indian Rupees
-        },
-      };
+      const doc = new jsPDF();
 
-      const invoice = await easyinvoice.createInvoice(invoiceData);
-      const invoiceBase64 = invoice.pdf;
+      // Add Logo from Cloudinary
+      const logoUrl =
+        "https://res.cloudinary.com/dlcpvi1mh/image/upload/v1739483687/VegenMart-Logo-03_o6afrr.png";
+      const logoBase64 = await convertImageToBase64(logoUrl);
+      doc.addImage(logoBase64, "PNG", 15, 10, 40, 13);
 
-      const response = await axios.post(`${baseUrl}/upload-invoice`, {
-        orderId,
-        userId,
-        invoiceBase64,
+      // Add Title & Company Info
+      doc.setFontSize(18);
+      doc.text("VegenMart Tech India Pvt. Ltd", 200, 20, { align: "right" });
+
+      doc.setFontSize(12);
+      doc.text("155/25E Karela Bagh, Prayagraj, Uttar Pradesh, India", 100, 30);
+
+      // Invoice Details
+      doc.text(`Invoice No: ${orderId}`, 15, 45);
+      doc.text(`Date: ${new Date().toISOString().split("T")[0]}`, 15, 55);
+
+      const name = userState?.user?.name || "Customer";
+
+      const customerName = name.split(" ")[0];
+
+      doc.text(`Customer: ${customerName}`, 15, 65);
+
+      const address = `Address: ${invoiceAddress?.name} (${invoiceAddress?.phone}) ${invoiceAddress?.address_type}, ${invoiceAddress?.area}, ${invoiceAddress?.flat}, ${invoiceAddress?.floor}, ${invoiceAddress?.landmark}, (${invoiceAddress?.postal_code}), ${invoiceAddress?.state}`;
+
+      const wrappedAddress = doc.splitTextToSize(address, 180);
+      doc.text(wrappedAddress, 15, 75);
+
+      // Get the last Y position (for dynamic spacing)
+      const lastY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 75;
+      const marginBelowAddress = 15; // Space between address and table
+
+      // Set the starting Y position of the table with margin
+      const tableStartY = lastY + marginBelowAddress;
+
+      // Add Product Table
+      const tableData = paymentData.products.map((product) => [
+        product.product_name,
+        `${product.unit} ${product.weight_type}`, // Include unit and weight type in quantity
+        `${parseFloat(product.product_price).toFixed(2)}`,
+        `${(parseFloat(product.unit) * parseFloat(product.product_price)).toFixed(2)}`,
+      ]);
+
+      doc.autoTable({
+        startY: tableStartY, // Ensure margin between address and table
+        head: [["Product Name", "Quantity", "Price", "Total"]],
+        body: tableData,
+      });
+
+      let finalY = doc.lastAutoTable.finalY + 10;
+
+      // Payment Details
+      doc.text(`Shipping Cost: ${shipping}`, 15, finalY);
+      doc.text(`Payment Method: ${paymentMode}`, 15, finalY + 10);
+      doc.text(`Discount Applied: ${discountValue || 0}`, 15, finalY + 20);
+      doc.text(`Total Amount: ${calculatedPrice}`, 15, finalY + 30);
+
+      // Bottom Notice
+      doc.text("Thank you for shopping with VegenMart!", 15, finalY + 50);
+      // Convert PDF to Blob
+      const pdfBlob = doc.output("blob");
+
+      // Prepare FormData
+      // Prepare FormData
+      const formData = new FormData();
+      formData.append("orderId", String(orderId)); // Ensure it's a string
+      formData.append("userId", String(userId)); // Ensure it's a string
+      formData.append("invoice", pdfBlob, `invoice_${orderId}.pdf`);
+
+      // Send to Backend
+      const response = await axios.post(`${baseUrl}/upload-invoice`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.data.cloudinary_url) {
         toast.success("Invoice uploaded successfully!");
-
-        // Show confirmation dialog
-        const userConfirmed = window.confirm(
-          "Do you want to download the invoice?"
-        );
-        if (userConfirmed) {
-          window.open(response.data.cloudinary_url, "_blank"); // Open in new tab
-        }
+        window.open(response.data.cloudinary_url, "_blank"); // Open invoice link
       } else {
         toast.error("Invoice uploaded but no download link available.");
       }
@@ -578,7 +628,7 @@ function Checkout() {
 
     validateCoupon(e, couponCode);
   };
-
+  console.log(carts);
   return (
     <div className="container-fluid px-0 overflow-hidden ">
       <header className="pb-md-4 pb-0">
@@ -640,7 +690,7 @@ function Checkout() {
                     <ul className="summery-contain">
                       {carts.map((cart, index) => (
                         <li key={cart.cart_id}>
-                          {console.log(cart)}
+                          {/* {console.log(cart)} */}
                           <img
                             src={JSON.parse(cart.product_image)[0]}
                             className="img-fluid blur-up lazyloaded checkout-image"

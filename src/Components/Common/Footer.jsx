@@ -147,21 +147,33 @@ const Footer = () => {
                           {[
                             {
                               name: "Exotic Vegetables",
-                              link: "/filters/Fresh Exotic Vegetables",
+                              link: "/filters/Exotic",
                             },
                             {
                               name: "Leafy Vegetables",
-                              link: "/filters/Fresh Leafy Vegetables",
+                              link: "/filters/Vegetable",
                             },
                             {
-                              name: "Regular Vegetables",
-                              link: "/filters/Fresh Regular vegetables",
+                              name: "Regular Vegetables", 
+                              link: "/filters/Regular",
                             },
                             {
-                              name: "Citrus Vegetables ",
-                              link: "/filters/citrus fruit",
+                              name: "Citrus Fruits",
+                              link: "/filters/Citrus Fruits",
                             },
                             { name: "Mushroom", link: "/filters/mushroom" },
+                            {
+                              name: "Yellow Fruit",
+                              link: "/filters/Yellow",
+                            },
+                            {
+                              name: "Green Fruit",
+                              link: "/filters/Fruit",
+                            },
+                            {
+                              name: "Tropical Fruit",
+                              link: "/filters/Tropical",
+                            },
                           ].map((category, index) => (
                             <li key={index}>
                               <a href={category.link} className="text-content">

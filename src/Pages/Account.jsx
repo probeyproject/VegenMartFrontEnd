@@ -9,11 +9,21 @@ import { FaPencil } from "react-icons/fa6";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { jsPDF } from "jspdf";
 import { IoIosArrowBack } from "react-icons/io";
-import { TbTruckDelivery } from "react-icons/tb";
+import { TbTruckDelivery, TbWallet } from "react-icons/tb";
 import { FaRegAddressCard } from "react-icons/fa6";
-import { Input, Button, Form, FormGroup, Label } from "reactstrap";
+import {
+  Input,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from "reactstrap";
 import { AiOutlineLogout } from "react-icons/ai";
 import { PiWalletThin } from "react-icons/pi";
+import logo from "../assets/images/logo/1.png";
 
 import {
   FaTachometerAlt,
@@ -97,7 +107,27 @@ function Account() {
     email: "",
     phone: "",
   });
+  // const [isEditing, setIsEditing] = useState(false);
+
   const [isEditing, setIsEditing] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Detect screen size changes
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Handle edit button click
+  const handleEditClick = () => {
+    if (isMobile) {
+      setModalOpen(true);
+    } else {
+      setIsEditing(true);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -271,8 +301,8 @@ function Account() {
               <div className="profile-box">
                 <div className="cover-image">
                   <img
-                    src="https://themes.pixelstrap.com/fastkart/assets/images/inner-page/cover-img.jpg"
-                    className="img-fluid blur-up lazyloaded"
+                    src={logo}
+                    className="img-fluid w-100 h-auto"
                     alt="Cover"
                   />
                 </div>
@@ -345,7 +375,7 @@ function Account() {
                 isSidebarOpen ? "sidebar-open" : ""
               }`}
             >
-              <TabPane tabId="1" >
+              <TabPane tabId="1">
                 <Row>
                   <Col sm="12">
                     <div className="dashboard-home bg-light p-3">
@@ -357,75 +387,59 @@ function Account() {
                       {/* User Profile Section */}
                       <div className="user-profile-section p-3">
                         <Form className="w-100">
-                          <Row>
-                            <Col md="6">
-                              <FormGroup>
-                                <Label>First Name</Label>
-                                <Input
-                                  type="text"
-                                  value={userData.firstName}
-                                  onChange={(e) =>
-                                    setUserData({
-                                      ...userData,
-                                      firstName: e.target.value,
-                                    })
-                                  }
-                                  disabled={!isEditing}
-                                />
-                              </FormGroup>
-                            </Col>
-                            <Col md="6">
-                              <FormGroup>
-                                <Label>Last Name</Label>
-                                <Input
-                                  type="text"
-                                  value={userData.lastName}
-                                  onChange={(e) =>
-                                    setUserData({
-                                      ...userData,
-                                      lastName: e.target.value,
-                                    })
-                                  }
-                                  disabled={!isEditing}
-                                />
-                              </FormGroup>
-                            </Col>
-                          </Row>
+                          <div className="d-none d-sm-block">
+                            <Row>
+                              <Col md="6">
+                                <FormGroup>
+                                  <Label>First Name</Label>
+                                  <Input
+                                    type="text"
+                                    value={userData.firstName}
+                                    disabled={!isEditing}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md="6">
+                                <FormGroup>
+                                  <Label>Last Name</Label>
+                                  <Input
+                                    type="text"
+                                    value={userData.lastName}
+                                    disabled={!isEditing}
+                                  />
+                                </FormGroup>
+                              </Col>
+                            </Row>
 
-                          <Row>
-                            <Col md="6">
-                              <FormGroup>
-                                <Label>Email</Label>
-                                <Input
-                                  type="email"
-                                  value={userData.email}
-                                  onChange={(e) =>
-                                    setUserData({
-                                      ...userData,
-                                      email: e.target.value,
-                                    })
-                                  }
-                                  disabled={!isEditing}
-                                />
-                              </FormGroup>
-                            </Col>
-                            <Col md="6">
-                              <FormGroup>
-                                <Label>Phone</Label>
-                                <Input
-                                  type="text"
-                                  value={userData.phone}
-                                  disabled
-                                />
-                              </FormGroup>
-                            </Col>
-                          </Row>
+                            <Row>
+                              <Col md="6">
+                                <FormGroup>
+                                  <Label>Email</Label>
+                                  <Input
+                                    type="email"
+                                    value={userData.email}
+                                    disabled={!isEditing}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md="6">
+                                <FormGroup>
+                                  <Label>Phone</Label>
+                                  <Input
+                                    type="text"
+                                    value={userData.phone}
+                                    disabled
+                                  />
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                          </div>
 
-                          <div className="d-flex justify-content-between mt-3">
+                          <div className="d-flex gap-3 justify-content-end">
                             {!isEditing ? (
                               <Button
                                 className="btn btn-animation"
-                                onClick={() => setIsEditing(true)}
+                                onClick={handleEditClick}
                               >
                                 Edit Profile
                               </Button>
@@ -433,7 +447,7 @@ function Account() {
                               <>
                                 <Button
                                   className="btn btn-animation"
-                                  onClick={handleSave}
+                                  onClick={() => setIsEditing(false)}
                                 >
                                   Save Changes
                                 </Button>
@@ -447,40 +461,51 @@ function Account() {
                             )}
                           </div>
                         </Form>
-                      </div>
 
-                      {/* Existing Dashboard Sections */}
-                      {/* <div className="total-box mt-4">
-                        <Row className="g-sm-4 g-3">
-                          <Col xl="4" lg="6" md="6" sm="12">
-                            <div className="card shadow-sm">
-                              <div className="total-detail p-3">
-                                <h5>
-                                  Total Cart: <span>{cart || 0}</span>
-                                </h5>
+                        {/* Mobile View: Show Modal */}
+                        <Modal
+                          isOpen={modalOpen}
+                          toggle={() => setModalOpen(false)}
+                        >
+                          <ModalHeader toggle={() => setModalOpen(false)}>
+                            Edit Profile
+                          </ModalHeader>
+                          <ModalBody>
+                            <Form>
+                              <FormGroup className="d-flex align-items-start flex-column">
+                                <Label>First Name</Label>
+                                <Input type="text" />
+                              </FormGroup>
+                              <FormGroup className="d-flex align-items-start flex-column">
+                                <Label>Last Name</Label>
+                                <Input type="text" />
+                              </FormGroup>
+                              <FormGroup className="d-flex align-items-start flex-column">
+                                <Label>Email</Label>
+                                <Input type="email" />
+                              </FormGroup>
+                              <FormGroup className="d-flex align-items-start flex-column">
+                                <Label>Phone</Label>
+                                <Input type="text" disabled />
+                              </FormGroup>
+                              <div className="d-flex justify-content-between mt-3">
+                                <Button
+                                  className="btn btn-animation"
+                                  onClick={() => setModalOpen(false)}
+                                >
+                                  Save Changes
+                                </Button>
+                                <Button
+                                  className="btn btn-animation"
+                                  onClick={() => setModalOpen(false)}
+                                >
+                                  Cancel
+                                </Button>
                               </div>
-                            </div>
-                            <div className="card p-2 mt-3 d-flex flex-row justify-content-between align-items-center">
-                              <span>
-                                <TbTruckDelivery className="fs-4 ms-3 mb-2" />
-                              </span>
-                              <Nav>
-                                <NavItem>
-                                  <NavLink
-                                    className={classnames({
-                                      active: activeTab === "1",
-                                    })}
-                                    onClick={() => toggle("2")}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    My Order
-                                  </NavLink>
-                                </NavItem>
-                              </Nav>
-                            </div>
-                          </Col>
-                        </Row>
-                      </div> */}
+                            </Form>
+                          </ModalBody>
+                        </Modal>
+                      </div>
                     </div>
                   </Col>
                 </Row>
@@ -725,10 +750,10 @@ function Account() {
 
                   {/* Add Address Button */}
                   <div className="d-flex align-items-center gap-2 mb-3">
-                    <GoPlus size={20} className="text-primary" />
+                    <GoPlus size={20} className="text-danger" />
                     <Link
                       onClick={handleToggleModal}
-                      className="text-primary fw-semibold"
+                      className="text-danger fw-semibold"
                       style={{ textDecoration: "none" }}
                     >
                       Add new address
@@ -744,12 +769,9 @@ function Account() {
                           {/* Address Type Icon */}
                           <div className="address-header">
                             {data.address_type === "Home" ? (
-                              <FaHome size={24} className="text-primary" />
+                              <FaHome size={24} className="text-danger" />
                             ) : data.address_type === "Office" ? (
-                              <FaBriefcase
-                                size={22}
-                                className="text-secondary"
-                              />
+                              <FaBriefcase size={22} className="text-danger" />
                             ) : (
                               <FaMapMarkerAlt
                                 size={22}
@@ -760,14 +782,14 @@ function Account() {
 
                           {/* Name & Address */}
                           <div className="address-text-container">
-                            <h6 className="mb-0 fw-bold text-dark">
+                            <h6 className="mb-0 fs-6 fw-bold text-dark">
                               {data.address_type}
                             </h6>
 
                             {/* Name (Fully Visible) */}
 
                             <div className="d-flex gap-1">
-                              <div className="address-name">{data.name}</div>
+                              <div className="address-name">{data.name},</div>
 
                               {/* Address (Truncated if Needed) */}
                               <div className="address-text">
@@ -853,6 +875,153 @@ function Account() {
                 </div>
               </TabPane>
             </TabContent>
+
+            <TabPane tabId="1" className="bg-light mt-0">
+              <Row className="p-3">
+                <Col sm="12">
+                  {/* <div className="dashboard-home"> */}
+                  <div className="total-box">
+                    <div className="row g-sm-4 g-2 d-block d-lg-none">
+                      <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                        {/* <div
+                                      className="card"
+                                      style={{ width: "200px" }}
+                                    >
+                                      <div className="total-detail p-2">
+                                        <h5>
+                                          Total Cart: <span>{cart || 0}</span>
+                                        </h5>
+                                      </div>
+                                    </div> */}
+                        <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
+                          <span>
+                            <TbWallet className="fs-4 ms-3 mb-2" />
+                          </span>
+                          <Nav>
+                            <NavItem>
+                              <NavLink
+                                className={classnames({
+                                  active: activeTab === "1",
+                                })}
+                                onClick={() => toggle("5")}
+                                style={{
+                                  cursor: "pointer",
+                                  background: "#F4E3E9",
+                                  width: "150px",
+                                }}
+                              >
+                                <span className="text-muted fw-semibold">
+                                  My Wallet
+                                </span>
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
+                        </div>
+                        <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
+                          <span>
+                            <TbTruckDelivery className="fs-4 ms-3 mb-2" />
+                          </span>
+                          <Nav>
+                            <NavItem>
+                              <NavLink
+                                className={classnames({
+                                  active: activeTab === "1",
+                                })}
+                                onClick={() => toggle("2")}
+                                style={{
+                                  cursor: "pointer",
+                                  background: "#F4E3E9",
+                                  width: "150px",
+                                }}
+                              >
+                                <span className="text-muted fw-semibold">
+                                  My Order
+                                </span>
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
+                        </div>
+                      </div>
+                      <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                        {/* <div
+                                      className="card p-2 mb-3"
+                                      style={{ width: "200px" }}
+                                    >
+                                      <div className="total-detail">
+                                        <h5>
+                                          Total Wishlist:{" "}
+                                          <span>{wishlist || 0}</span>
+                                        </h5>
+                                      </div>
+                                    </div> */}
+                        <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
+                          <span>
+                            <FaRegAddressCard className="ms-3 fs-4 mb-2" />
+                          </span>
+                          <Nav>
+                            <NavItem>
+                              <NavLink
+                                className={classnames({
+                                  active: activeTab === "1",
+                                })}
+                                onClick={() => toggle("3")}
+                                style={{
+                                  cursor: "pointer",
+                                  background: "#F4E3E9",
+                                  width: "150px",
+                                }}
+                              >
+                                <span className="text-muted fw-semibold">
+                                  My Addresses
+                                </span>
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
+                        </div>
+                      </div>
+                      <div className="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                        {/* <div
+                                      className="card p-2 mb-3"
+                                      style={{ width: "200px" }}
+                                    >
+                                      <div className="total-detail">
+                                        <h5>
+                                          Total Reward Points:{" "}
+                                          <span>{points || 0}</span>
+                                        </h5>
+                                      </div>
+                                    </div> */}
+                        <div className="card p-1 d-flex flex-row justify-content-between align-items-end">
+                          <span>
+                            <FaStaylinked className="fs-4 ms-3 mb-2" />
+                          </span>
+                          <Nav>
+                            <NavItem>
+                              <NavLink
+                                className={classnames({
+                                  active: activeTab === "1",
+                                })}
+                                onClick={() => toggle("4")}
+                                style={{
+                                  cursor: "pointer",
+                                  background: "#F4E3E9",
+                                  width: "150px",
+                                }}
+                              >
+                                <span className="text-muted fw-semibold">
+                                  My Referrals
+                                </span>
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* </div> */}
+                </Col>
+              </Row>
+            </TabPane>
           </div>
         </div>
       </section>

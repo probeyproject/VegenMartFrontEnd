@@ -12,8 +12,8 @@ const ProductItem = ({ productLink, imageSrc, productName, price }) => {
           href={`/detail_page/${productLink}`}
           className="offer-image d-block"
           style={{
-            width: "40px",
-            height: "40px",
+            width: "60px",
+            height: "60px",
             position: "relative",
           }}
           tabIndex={0}
@@ -30,7 +30,7 @@ const ProductItem = ({ productLink, imageSrc, productName, price }) => {
         </a>
 
         {/* Product Details */}
-        <div className="offer-detail ms-3">
+        <div className="offer-detail">
           <div>
             <Link
               to={`/detail_page/${productLink}`}

@@ -25,6 +25,7 @@
     "easyinvoice": "^3.0.47",
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "lord-icon-element": "^4.1.2",
     "lottie-web": "^5.12.2",
     "razorpay": "^2.9.4",

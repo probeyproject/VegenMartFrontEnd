@@ -33,14 +33,14 @@ const ProductBox = ({
   defaultWeightType,
   onImageClick,
 }) => {
-  useEffect(() => {
-    AOS.init({
-      duration: 100,
-      easing: "ease-in-out",
-      once: true,
-      mirror: false,
-    });
-  }, []);
+  // useEffect(() => {
+  //   AOS.init({
+  //     duration: 100,
+  //     easing: "ease-in-out",
+  //     once: true,
+  //     mirror: false,
+  //   });
+  // }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -266,7 +266,7 @@ const ProductBox = ({
 
   return (
     <div>
-      <div className="col-12" data-aos="fade-zoom-in">
+      <div className="col-12" >
         <div
           className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`}
           style={{ height: "300px" }}
