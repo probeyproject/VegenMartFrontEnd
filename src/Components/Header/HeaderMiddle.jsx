@@ -523,8 +523,8 @@ function HeaderMiddle() {
             <div className="row">
               {categories.map((category, index) => (
                 <div className="col-6 mb-1" key={category.category_id}>
-                  <Link
-                    to={`/pannelpage/${category.category_name}`}
+                  <a
+                    href={`/pannelpage/${category.category_name}`}
                     style={{
                       cursor: "pointer",
                       textDecoration: "none",
@@ -552,7 +552,7 @@ function HeaderMiddle() {
                     >
                       {category.category_name}
                     </p>
-                  </Link>
+                  </a>
                 </div>
               ))}
             </div>
