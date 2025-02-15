@@ -34,12 +34,12 @@ const Footer = () => {
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/product.svg",
-                    text: "Ozoned Washed Vegies And Fruits",
+                    text: "Ozone-washed vegetables & fruits.",
                   },
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/delivery.svg",
-                    text: "Get Extra Cashback on Prepaid Orders",
+                    text: "Get extra cashback on prepaid orders.",
                   },
                   // {
                   //   imgSrc:
@@ -49,7 +49,7 @@ const Footer = () => {
                   {
                     imgSrc:
                       "https://themes.pixelstrap.com/fastkart/assets/svg/market.svg",
-                    text: "We Offer The Same Price, As Local Market. Guaranteed!",
+                    text: "We offer the same price as the local market, guaranteed!",
                   },
                 ].map((service, index) => (
                   <div className=" service-box" key={index}>
@@ -99,7 +99,7 @@ const Footer = () => {
                   <div className="address">
                     <div className="text-start d-flex flex-column gap-1">
                       <p className="">
-                      <HiOutlineBuildingOffice2 className="fs-5 me-2"  />
+                        <HiOutlineBuildingOffice2 className="fs-5 me-2" />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
                       </p>
                       <p className="">
@@ -352,7 +352,7 @@ const Footer = () => {
                   <div className=" ">
                     <div className="d-flex flex-column justify-content-center">
                       <p className="text-center">
-                      <HiOutlineBuildingOffice2 className="fs-5 me-2"  />
+                        <HiOutlineBuildingOffice2 className="fs-5 me-2" />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
                       </p>
                       <p className="text-center">

@@ -9,6 +9,44 @@ import { useSelector } from "react-redux";
 import { selectSelectedLocation } from "../../../slices/locationSlice";
 import "./HomeAddressModal.css";
 
+const indianStates = {
+  UP: "Uttar Pradesh",
+  AP: "Andhra Pradesh",
+  AR: "Arunachal Pradesh",
+  AS: "Assam",
+  BR: "Bihar",
+  CG: "Chhattisgarh",
+  GA: "Goa",
+  GJ: "Gujarat",
+  HR: "Haryana",
+  HP: "Himachal Pradesh",
+  JH: "Jharkhand",
+  KA: "Karnataka",
+  KL: "Kerala",
+  MP: "Madhya Pradesh",
+  MH: "Maharashtra",
+  MN: "Manipur",
+  ML: "Meghalaya",
+  MZ: "Mizoram",
+  NL: "Nagaland",
+  OD: "Odisha",
+  PB: "Punjab",
+  RJ: "Rajasthan",
+  SK: "Sikkim",
+  TN: "Tamil Nadu",
+  TS: "Telangana",
+  TR: "Tripura",
+  UK: "Uttarakhand",
+  WB: "West Bengal",
+  AN: "Andaman and Nicobar Islands",
+  CH: "Chandigarh",
+  DN: "Dadra and Nagar Haveli and Daman and Diu",
+  DL: "Delhi",
+  JK: "Jammu and Kashmir",
+  LA: "Ladakh",
+  LD: "Lakshadweep",
+  PY: "Puducherry",
+};
 function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
   const selectedLocation = useSelector(selectSelectedLocation);
 
@@ -31,15 +69,7 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (
-      !flat ||
-      !floor ||
-      !area ||
-      !postalCode ||
-      !phoneNumber ||
-      !name ||
-      !state
-    ) {
+    if (!area || !phoneNumber || !name || !state) {
       toast.warn("Please fill in all required fields.");
       return;
     }
@@ -48,12 +78,11 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
     const addressData = {
       user_id: userId,
       address_type: selectedButton,
+      area,
       flat,
-      floor,
       landmark,
       state,
-      area,
-      postal_code: postalCode,
+
       name,
       phone: phoneNumber,
     };
@@ -115,9 +144,84 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
           {/* Address Fields - Responsive Layout */}
           <Row className="g-3">
             <Col md={6}>
-              <Form.Group controlId="flat">
-                <Form.Label>Flat / House No / Building Name</Form.Label>
+              <Form.Group
+                controlId="name"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Your Name<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
+                  className="custom-input-height"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group
+                controlId="phone"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Your Phone No.<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  className="custom-input-height"
+                  type="text"
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  maxLength="10"
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={12}>
+              <Form.Group
+                controlId="area"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Society / Locality<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                >
+                  <option disabled>
+                    <span className="">Your Society</span>
+                    <span className="">Location</span>
+                    <span> Pin Code</span>
+                  </option>
+                  {locations?.map((location) => (
+                    <option
+                      key={location.id}
+                      value={`${location.society_name}+${location.address} +${location.pin_code}`}
+                    >
+                      <span> {location.society_name}</span>{" "}
+                      <span>{location.address}</span>{" "}
+                      <span>{location.pin_code} </span>
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group
+                controlId="flat"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Flat / House No / Building Name
+                  <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  className="custom-input-height"
                   type="text"
                   value={flat}
                   onChange={(e) => setFlat(e.target.value)}
@@ -126,24 +230,8 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
               </Form.Group>
             </Col>
 
-            <Col md={6}>
-              <Form.Group controlId="area">
-                <Form.Label>Society / Locality</Form.Label>
-                <Form.Select
-                  value={area}
-                  onChange={(e) => setArea(e.target.value)}
-                >
-                  <option disabled>Your Society</option>
-                  {locations?.map((location) => (
-                    <option key={location.id} value={location.society_name}>
-                      {location.society_name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
+            {/* 
+           <Col md={6}>
               <Form.Group controlId="floor">
                 <Form.Label>Address</Form.Label>
                 <Form.Select
@@ -158,12 +246,18 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
                   ))}
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col>  */}
 
             <Col md={6}>
-              <Form.Group controlId="landmark">
-                <Form.Label>Nearby Landmark</Form.Label>
+              <Form.Group
+                controlId="landmark"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Nearby Landmark<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
+                  className="custom-input-height"
                   type="text"
                   value={landmark}
                   onChange={(e) => setLandmark(e.target.value)}
@@ -173,43 +267,34 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
             </Col>
 
             <Col md={6}>
-              <Form.Group controlId="name">
-                <Form.Label>Your Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="phone">
-                <Form.Label>Your Phone No.</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  maxLength="10"
-                  required
-                />
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="state">
-                <Form.Label>State</Form.Label>
-                <Form.Control
-                  type="text"
+              <Form.Group
+                controlId="state"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  State<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  required
-                />
+                >
+                  <option value="" disabled>
+                    Select Your State
+                  </option>
+                  {Object.entries(indianStates).map(([code, name]) => (
+                    <option
+                      key={code}
+                      value={name}
+                      disabled={name !== "Uttar Pradesh"}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
             </Col>
 
-            <Col md={6}>
+            {/* <Col md={6}>
               <Form.Group controlId="postalCode">
                 <Form.Label>
                   Pincode <span className="text-danger">*</span>
@@ -226,7 +311,7 @@ function HomeAddressModal({ isOpen, toggle, onClose, userId, locations }) {
                   ))}
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
 
           {/* Buttons */}

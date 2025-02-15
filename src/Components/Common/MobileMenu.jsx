@@ -80,9 +80,9 @@ function MobileMenu() {
       // Clear suggestions after search
     }
   };
-  const handleSuggestionClick = (product_id) => {
-    setQuery(product_id);
-    navigate(`/detail_page/${product_id}`);
+  const handleSuggestionClick = (product_name) => {
+    // setQuery(product_name);
+    navigate(`/filters/${product_name}`);
     setShowSearch(false); // Close offcanvas
   };
   useEffect(() => {
@@ -351,7 +351,7 @@ function MobileMenu() {
                     <li
                       key={item.product_id}
                       className="list-group-item list-group-item-action"
-                      onClick={() => handleSuggestionClick(item.product_id)}
+                      onClick={() => handleSuggestionClick(item.product_name)}
                     >
                       {/* {console.log(item)} */}
                       <span style={{ color: "black" }}>

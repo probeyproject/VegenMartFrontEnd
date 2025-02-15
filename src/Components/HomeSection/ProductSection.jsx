@@ -372,7 +372,7 @@ function ProductSection() {
                     </p>
                   </div>
 
-                  {/* <div className="review-profile">
+                  <div className="review-profile">
                     <div className="review-image">
                       <img
                         src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/review/1.jpg"
@@ -384,7 +384,32 @@ function ProductSection() {
                       <h5>Tina Mehata</h5>
                       <h6>Prayagraj.</h6>
                     </div>
-                  </div> */}
+                  </div>
+                </div>
+                <hr className="mt-3" />
+                <div className="review-box mt-3">
+                  <div className="review-contain">
+                    <h5 className="w-100">We Care About Your Health</h5>
+                    <p>
+                      At Vegenmart, we are committed to delivering ozone-washed
+                      fruits and vegetables that are free from harmful chemicals
+                      and bacteria, ensuring purity and nutrition in every bite.
+                    </p>
+                  </div>
+
+                  <div className="review-profile">
+                    <div className="review-image">
+                      <img
+                        src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/review/1.jpg"
+                        className="img-fluid blur-up lazyloaded"
+                        alt=""
+                      />
+                    </div>
+                    <div className="review-detail">
+                      <h5>Tina Mehata</h5>
+                      <h6>Prayagraj.</h6>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

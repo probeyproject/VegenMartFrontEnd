@@ -496,12 +496,17 @@ function DetailPage() {
 
                           <div className="price-rating d-flex">
                             <h3 className="theme-color price">
-                              ₹{data.product_price * weight} /{" "}
-                              {Math.trunc(data.weight)} {data.weight_type}{" "}
+                              ₹
+                              {(
+                                Number(data.product_price) * Number(weight)
+                              ).toFixed(2)}{" "}
+                              / {Math.trunc(Number(data.weight))}{" "}
+                              {data.weight_type}{" "}
                               <del className="text-content">
-                                ₹{data.discount_price}
+                                ₹{Number(data.discount_price).toFixed(2)}
                               </del>{" "}
                             </h3>
+
                             <div className="product-rating custom-rate flex-column">
                               <ul className="rating ">
                                 {[...Array(totalStars)].map((_, index) => (

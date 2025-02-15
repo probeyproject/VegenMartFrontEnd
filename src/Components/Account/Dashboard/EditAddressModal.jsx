@@ -8,6 +8,45 @@ import { baseUrl } from "../../../API/Api";
 
 import "./EditAddressModal.css";
 
+const indianStates = {
+  UP: "Uttar Pradesh",
+  AP: "Andhra Pradesh",
+  AR: "Arunachal Pradesh",
+  AS: "Assam",
+  BR: "Bihar",
+  CG: "Chhattisgarh",
+  GA: "Goa",
+  GJ: "Gujarat",
+  HR: "Haryana",
+  HP: "Himachal Pradesh",
+  JH: "Jharkhand",
+  KA: "Karnataka",
+  KL: "Kerala",
+  MP: "Madhya Pradesh",
+  MH: "Maharashtra",
+  MN: "Manipur",
+  ML: "Meghalaya",
+  MZ: "Mizoram",
+  NL: "Nagaland",
+  OD: "Odisha",
+  PB: "Punjab",
+  RJ: "Rajasthan",
+  SK: "Sikkim",
+  TN: "Tamil Nadu",
+  TS: "Telangana",
+  TR: "Tripura",
+  UK: "Uttarakhand",
+  WB: "West Bengal",
+  AN: "Andaman and Nicobar Islands",
+  CH: "Chandigarh",
+  DN: "Dadra and Nagar Haveli and Daman and Diu",
+  DL: "Delhi",
+  JK: "Jammu and Kashmir",
+  LA: "Ladakh",
+  LD: "Lakshadweep",
+  PY: "Puducherry",
+};
+
 function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
   const [flat, setFlat] = useState("");
   const [floor, setFloor] = useState("");
@@ -19,19 +58,19 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
   const [loading, setLoading] = useState(false);
   const [selectedButton, setSelectedButton] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [addressId, setAddressId] = useState("");
+  const [address_id, setAddress_id] = useState("");
 
   useEffect(() => {
     if (data) {
       setFlat(data.flat || "");
-      setFloor(data.floor || "");
+
       setArea(data.area || "");
       setLandmark(data.landmark || "");
-      setPostalCode(data.postal_code || "");
-      setSelectedButton(data.address_type || "");
+
+      setSelectedButton(data.address_type || ""); // <-- Fix
       setName(data.name || "");
       setState(data.state || "");
-      setAddressId(data.address_id);
+      setAddress_id(data.address_id || "");
       setPhoneNumber(data.phone ? data.phone.replace("+91", "") : "");
     }
   }, [data]);
@@ -64,21 +103,26 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
     const addressData = {
       address_type: selectedButton,
       flat,
-      floor,
+
       area,
       landmark,
       state,
-      postal_code: postalCode,
+
       name,
       phone: phoneNumber.startsWith("+91") ? phoneNumber : `+91${phoneNumber}`,
     };
+    // console.log(addressData);
+    // console.log(address_id);
 
     try {
-      await axios.put(`${baseUrl}/updateAddressById/${addressId}`, addressData);
+      await axios.put(
+        `${baseUrl}/updateAddressById/${address_id}`,
+        addressData
+      );
       toast.success("Address updated successfully!");
       onClose();
     } catch (error) {
-      console.error("Error updating address:", error);
+      console.error("Error updating address:", error.message);
       toast.error("Failed to update address.");
     } finally {
       setLoading(false);
@@ -93,7 +137,7 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
       centered
       className="custom-modal"
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className="">
         <Modal.Title>Edit Address</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -128,67 +172,15 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
           {/* Address Fields - Responsive Layout */}
           <Row className="g-3">
             <Col md={6}>
-              <Form.Group controlId="flat">
-                <Form.Label>Flat / House No / Building Name</Form.Label>
+              <Form.Group
+                controlId="name"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Your Name<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
-                  type="text"
-                  value={flat}
-                  onChange={(e) => setFlat(e.target.value)}
-                  required
-                />
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="area">
-                <Form.Label>Society / Locality</Form.Label>
-                <Form.Select
-                  value={area}
-                  onChange={(e) => setArea(e.target.value)}
-                >
-                  <option disabled>Your Society</option>
-                  {locations?.map((location) => (
-                    <option key={location.id} value={location.society_name}>
-                      {location.society_name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="floor">
-                <Form.Label>Address</Form.Label>
-                <Form.Select
-                  value={floor}
-                  onChange={(e) => setFloor(e.target.value)}
-                >
-                  <option disabled>Your Address</option>
-                  {locations?.map((location) => (
-                    <option key={location.id} value={location.address}>
-                      {location.address}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="landmark">
-                <Form.Label>Nearby Landmark</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={landmark}
-                  onChange={(e) => setLandmark(e.target.value)}
-                  required
-                />
-              </Form.Group>
-            </Col>
-
-            <Col md={6}>
-              <Form.Group controlId="name">
-                <Form.Label>Your Name</Form.Label>
-                <Form.Control
+                  className="custom-input-height"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -198,30 +190,121 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
             </Col>
 
             <Col md={6}>
-              <Form.Group controlId="phone">
-                <Form.Label>Your Phone No.</Form.Label>
+              <Form.Group
+                controlId="phone"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Your Phone No.<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
+                  className="custom-input-height"
                   type="text"
                   value={phoneNumber}
                   onChange={handlePhoneChange}
-                  maxLength="10"
+                  maxLength={10}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={12}>
+              <Form.Group
+                controlId="area"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Society / Locality<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                >
+                  <option disabled>
+                    <span className="">Your Society</span>
+                    <span className="">Location</span>
+                    <span> Pin Code</span>
+                  </option>
+                  {locations?.map((location) => (
+                    <option
+                      key={location.id}
+                      value={`${location.society_name}+${location.address} +${location.pin_code}`}
+                    >
+                      <span> {location.society_name}</span>{" "}
+                      <span>{location.address}</span>{" "}
+                      <span>{location.pin_code} </span>
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group
+                controlId="flat"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Flat / House No / Building Name
+                  <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  className="custom-input-height"
+                  type="text"
+                  value={flat}
+                  onChange={(e) => setFlat(e.target.value)}
                   required
                 />
               </Form.Group>
             </Col>
 
             <Col md={6}>
-              <Form.Group controlId="state">
-                <Form.Label>State</Form.Label>
+              <Form.Group
+                controlId="landmark"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  Nearby Landmark<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
+                  className="custom-input-height"
                   type="text"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
+                  value={landmark}
+                  onChange={(e) => setLandmark(e.target.value)}
+                  required
                 />
               </Form.Group>
             </Col>
 
             <Col md={6}>
+              <Form.Group
+                controlId="state"
+                className="d-flex align-items-start flex-column"
+              >
+                <Form.Label className="fw-semibold">
+                  State<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Select
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select Your State
+                  </option>
+                  {Object.entries(indianStates).map(([code, name]) => (
+                    <option
+                      key={code}
+                      value={name}
+                      disabled={name !== "Uttar Pradesh"}
+                    >
+                      {name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
+            {/* <Col md={6}>
               <Form.Group controlId="postalCode">
                 <Form.Label>
                   Pincode <span className="text-danger">*</span>
@@ -238,7 +321,7 @@ function EditAddressModal({ isOpen, toggle, data, onClose, locations }) {
                   ))}
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
 
           {/* Buttons */}

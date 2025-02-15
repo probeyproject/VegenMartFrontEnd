@@ -43,7 +43,7 @@ import {
   Col,
 } from "reactstrap";
 import classnames from "classnames";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import HomeAddressModal from "../Components/Account/Dashboard/HomeAddressModal";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -200,6 +200,9 @@ function Account() {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }
+
+    navigate("#");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const getAddress = async () => {
@@ -207,6 +210,8 @@ function Account() {
     const data = await response.data;
     setAddress(data);
   };
+
+  console.log(address);
 
   const handleNavigate = () => {
     navigate("/myInvoice");
@@ -454,7 +459,12 @@ function Account() {
                             </Row>
                           </div>
 
-                          <div className="d-flex gap-3 justify-content-end">
+                          <div className="d-flex gap-3 justify-content-between align-items-center">
+                            <div className="d-block d-md-none">
+                              <h5>
+                                Hi, <strong> {userData.phone}</strong>
+                              </h5>
+                            </div>
                             {!isEditing ? (
                               <Button
                                 className="btn btn-animation"
@@ -640,7 +650,7 @@ function Account() {
 
                                   {/* View Details Button */}
                                   <button
-                                    className="btn btn-outline-primary"
+                                    className="btn btn-animation btn-sm"
                                     onClick={() => setSelectedOrder(order)}
                                   >
                                     View Details
@@ -1113,6 +1123,8 @@ function Account() {
         toggle={() => setIsModalDelete(false)}
         addressId={addressToDelete}
         onClose={toggleDeleteModal}
+        address={address}
+        setAddress={setAddress}
       />
       <EditAddressModal
         locations={locations}

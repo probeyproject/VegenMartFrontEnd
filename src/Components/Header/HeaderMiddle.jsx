@@ -222,7 +222,7 @@ function HeaderMiddle() {
                   </span>
                 </button>
 
-                <Link to="/" className="web-logo nav-logo">
+                <Link to="/" className="web-logo nav-logo ms-5 ms-md-0">
                   <img
                     src={logo}
                     className="img-fluid blur-up lazyloaded"
@@ -234,10 +234,10 @@ function HeaderMiddle() {
                 <div className="row">
                   <div className="middle-box">
                     <div className="row d-flex flex-row">
-                      <div className="col-md-6">
+                      <div className="col-md-8">
                         <div
                           className="location-box p-1"
-                          style={{ width: "300px" }}
+                          style={{ width: "96%" }}
                           onClick={() => setShowModal(true)}
                         >
                           <button
@@ -264,19 +264,21 @@ function HeaderMiddle() {
                           </button>
                           <div className="ms-2">
                             <button className="border-0 bg-white">
-                              {selectedLocation
-                                ? `${selectedLocation.society_name.substring(0, 40)}...`
-                                : "Please Choose Location"}
+                              <span style={{ fontSize: "13px" }}>
+                                {selectedLocation
+                                  ? `${selectedLocation.society_name} , ${selectedLocation.address} , ${selectedLocation.pin_code.substring(0, 40)}`
+                                  : "Please Choose Location"}
+                              </span>
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="">
                           <div className="input-group">
                             <input
                               type="search"
-                              className="form-control"
+                              className="form-control border"
                               placeholder="I'm searching for product..."
                               value={query}
                               onChange={handleInputChange}
@@ -284,7 +286,7 @@ function HeaderMiddle() {
                             />
                             <button
                               onClick={handleSearchClick}
-                              className="btn btn-animation"
+                              className="btn btn-sm btn-animation"
                               type="button"
                               id="button-addon2"
                             >
@@ -399,7 +401,7 @@ function HeaderMiddle() {
                         </div>
                       </div>
                     </li>
-                    <li className="right-side onhover-dropdown">
+                    <li className="right-side onhover-dropdown ms-3">
                       <div className="delivery-login-box">
                         {authenticated && (
                           <FaUser className="text-danger fs-5 " />
@@ -573,10 +575,9 @@ function HeaderMiddle() {
         size="md"
         centered
       >
-        <Modal.Header closeButton className="d-flex justify-content-between">
-          <Modal.Title className="location-title">
-            Select Your Location
-          </Modal.Title>
+        <Modal.Header closeButton className="d-flex justify-content-between ">
+          <Modal.Title className="location-title"></Modal.Title>
+          <h3> Select Your Location</h3>
 
           {/* Search Input aligned to the right */}
           <input
@@ -607,16 +608,20 @@ function HeaderMiddle() {
                     }}
                     onClick={() => handleLocationSelect(location)}
                   >
-                    <div>
-                      <strong>{location.society_name}</strong>
-                      <p>{location.address}</p>
+                    <div className="text-start">
+                      <span className=""> {location.society_name}</span>,
+                      <span>{location.address}</span> ,
+                      <span className="fw-semibold ms-1">
+                        {" "}
+                        {location.pin_code}
+                      </span>
                     </div>
                     <div
                       style={{
                         padding: "5px",
                       }}
                     >
-                      <strong>{location.pin_code}</strong>
+                      <strong></strong>
                     </div>
                   </li>
                 ))}
