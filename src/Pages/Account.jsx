@@ -1075,7 +1075,7 @@ function Account() {
                                 className={classnames({
                                   active: activeTab === "1",
                                 })}
-                                onClick={() => logout()}
+                                onClick={() => handleLogout()}
                                 style={{
                                   cursor: "pointer",
                                   background: "#F4E3E9",
