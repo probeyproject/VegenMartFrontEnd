@@ -37,7 +37,7 @@ function OfferBanner() {
             data-aos="fade-left"
             style={{
               backgroundImage: `url(${data.banner_image})`,
-              height: "150px",
+              height: "180px",
               backgroundSize: "cover",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",

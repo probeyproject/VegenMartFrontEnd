@@ -15,7 +15,7 @@ function Pannelproducts({ data }) {
     setProdcut(alldata);
   };
 
-  console.log(products)
+  console.log(products);
   useEffect(() => {
     getproduct();
   }, [data]);
@@ -25,16 +25,13 @@ function Pannelproducts({ data }) {
   );
 
   return (
-    <div className="cards_container ">
-      <h2 className="_text_ mx-4">Buy {data}</h2>
+    <div className="cards_container overflow-hidden">
+      <h2 className="_text_ mx-4">Buy <span className="text-danger">{data}</span></h2>
       <div className="filter_container">
-        
-
         {sortedProducts.map((product, index) => {
           return (
             <div className="filter_cards_container" key={product.product_id}>
               <ProductBox
-             
                 imageSrc={JSON.parse(product.product_image)}
                 productName={product.product_name}
                 weight={product.weight}

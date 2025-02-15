@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import "./Sidepage.css"
-
+import { useNavigate } from 'react-router-dom';
 function SidePannel({setdata}) {
     const [categories, setcategories] = useState([]);
     const [active, setactive] = useState(null);
-  
+  const navigate=useNavigate()
     
 
     const getdata = async () => {
@@ -31,7 +31,10 @@ function SidePannel({setdata}) {
               key={index}
               onClick={() => {
                 handleClick(index);
-                setdata(element.category_name);
+                // setdata(element.category_name);
+                navigate(`/pannelpage/${element.category_name}`)
+                console.log(element.category_name);
+                
               }}
               style={
                 active === index

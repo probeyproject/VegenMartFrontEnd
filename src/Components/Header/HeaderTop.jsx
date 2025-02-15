@@ -141,9 +141,9 @@ function HeaderTop() {
             </div>
           </div>
 
-          <div className="col-lg-3 d-flex justify-content-end align-items-center gap-4">
-            <ul className="about-list right-nav-about d-flex justify-content-between">
-              <li className="right-side onhover-dropdown d-none d-lg-block">
+          <div className="col-lg-3 d-flex justify-content-end align-items-center gap">
+            <ul className="about-list right-nav-about d-flex justify-content-end">
+              {/* <li className="right-side onhover-dropdown d-none d-lg-block">
                 <div className="delivery-login-box">
                   {authenticated && <FaUser className="text-light fs-5" />}
                 </div>
@@ -167,23 +167,48 @@ function HeaderTop() {
                     </ul>
                   </div>
                 )}
+              </li> */}
+              <li className="right-side">
+                <a href="/contact" className="delivery-login-box">
+                  <div className="delivery-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-phone-call text-light"
+                    >
+                      <path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </div>
+                </a>
               </li>
             </ul>
-            <div className="">
-              <a
-                onClick={handleSupportChat}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MdOutlineSupportAgent
-                  style={{
-                    fontSize: "22px",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                />
-              </a>
-            </div>
+            {/* <li className="right-side ">
+                      <a href="/contact" className="delivery-login-box">
+                        <div className="delivery-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-phone-call text-light"
+                          >
+                            <path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                          </svg>
+                        </div>
+                      </a>
+                    </li> */}
           </div>
         </div>
       </div>

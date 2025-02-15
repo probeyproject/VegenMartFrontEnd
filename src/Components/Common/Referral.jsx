@@ -90,7 +90,7 @@ const Referral = () => {
           className="btn btn-animation px-3 rounded-end"
           onClick={handleCopyLink}
         >
-        Copy Link
+          Copy Link
         </button>
       </div>
 
@@ -99,7 +99,7 @@ const Referral = () => {
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`}
           target="_blank"
-          className="btn btn-primary btn-lg rounded-circle"
+          className="btn btn-info btn-lg rounded-circle"
           role="button"
         >
           <img

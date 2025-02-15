@@ -7,9 +7,10 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaPinterestP } from "react-icons/fa";
-
+import { SlSocialFacebook } from "react-icons/sl";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
 const Footer = () => {
   useEffect(() => {
@@ -98,12 +99,11 @@ const Footer = () => {
                   <div className="address">
                     <div className="text-start d-flex flex-column gap-1">
                       <p className="">
-                        <IoHomeOutline className="fs-5 me-2" />
+                      <HiOutlineBuildingOffice2 className="fs-5 me-2"  />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
                       </p>
                       <p className="">
                         <MdOutlineMailOutline className="fs-5 me-2" />
-
                         <a
                           href="info@vegenmart.com"
                           target="_blank"
@@ -113,13 +113,13 @@ const Footer = () => {
                         </a>
                       </p>
                       <p className="">
-                        <MdOutlinePhoneInTalk className="fs-5" />
+                        <MdOutlinePhoneInTalk className="fs-5 me-2" />
                         +9191189 40094
                       </p>
                     </div>
                   </div>
 
-                  <div className="d-flex flex-column gap-1">
+                  <div className="d-flex flex-column mt-4 gap-2">
                     <h6 className="text-content">
                       ©2024 Vegenmart All Rights Reserved.
                     </h6>
@@ -133,7 +133,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-md-8">
+            <div className="col-md-8 mt-4">
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <div className="row">
@@ -154,7 +154,7 @@ const Footer = () => {
                               link: "/filters/Vegetable",
                             },
                             {
-                              name: "Regular Vegetables", 
+                              name: "Regular Vegetables",
                               link: "/filters/Regular",
                             },
                             {
@@ -297,9 +297,10 @@ const Footer = () => {
                         href="https://www.facebook.com/profile.php?id=61568143989452"
                         target="_blank"
                       >
-                        <FaMeta />
+                        <SlSocialFacebook />
                       </a>
                     </li>
+
                     <li
                       className="bg-light rounded-circle me-3 d-flex align-items-center justify-content-center"
                       style={{ height: "40px", width: "40px" }}
@@ -351,7 +352,7 @@ const Footer = () => {
                   <div className=" ">
                     <div className="d-flex flex-column justify-content-center">
                       <p className="text-center">
-                        <IoHomeOutline className="fs-5 me-2" />
+                      <HiOutlineBuildingOffice2 className="fs-5 me-2"  />
                         155/25E Karela Bagh Prayagraj, Uttar Pradesh, India
                       </p>
                       <p className="text-center">
@@ -403,17 +404,6 @@ const Footer = () => {
                 className="bg-light rounded-circle d-flex align-items-center justify-content-center"
                 style={{ height: "35px", width: "35px" }}
               >
-                <a
-                  href="https://www.facebook.com/profile.php?id=61568143989452"
-                  target="_blank"
-                >
-                  <FaMeta />
-                </a>
-              </li>
-              <li
-                className="bg-light rounded-circle d-flex align-items-center justify-content-center"
-                style={{ height: "35px", width: "35px" }}
-              >
                 <a href="https://x.com/VegenMart" target="_blank">
                   <FaXTwitter />
                 </a>
@@ -431,7 +421,7 @@ const Footer = () => {
                 style={{ height: "35px", width: "35px" }}
               >
                 <a href="https://www.facebook.com/vegenmart" target="_blank">
-                  <FaFacebook />
+                  <SlSocialFacebook />
                 </a>
               </li>
               <li

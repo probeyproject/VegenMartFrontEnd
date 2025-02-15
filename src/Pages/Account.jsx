@@ -315,7 +315,7 @@ function Account() {
 
               {/* Sidebar Navigation with Icons */}
               <Nav pills className="user-nav-pills">
-                <NavItem>
+                <NavItem style={{ cursor: "pointer" }}>
                   <NavLink
                     className={classnames({ active: activeTab === "1" })}
                     onClick={() => toggle("1")}
@@ -323,7 +323,7 @@ function Account() {
                     <FaRegUserCircle className="nav-icon" /> Account
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem style={{ cursor: "pointer" }}>
                   <NavLink
                     className={classnames({ active: activeTab === "2" })}
                     onClick={() => toggle("2")}
@@ -332,7 +332,7 @@ function Account() {
                     My Orders
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem style={{ cursor: "pointer" }}>
                   <NavLink
                     className={classnames({ active: activeTab === "3" })}
                     onClick={() => toggle("3")}
@@ -341,15 +341,7 @@ function Account() {
                     My Addresses
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({ active: activeTab === "4" })}
-                    onClick={() => toggle("4")}
-                  >
-                    <HiOutlineUsers className="nav-icon" /> Manage Referrals
-                  </NavLink>
-                </NavItem>
-                <NavItem>
+                <NavItem style={{ cursor: "pointer" }}>
                   <NavLink
                     className={classnames({ active: activeTab === "5" })}
                     onClick={() => toggle("5")}
@@ -357,7 +349,16 @@ function Account() {
                     <PiWalletThin className="nav-icon" /> My Wallet
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem style={{ cursor: "pointer" }}>
+                  <NavLink
+                    className={classnames({ active: activeTab === "4" })}
+                    onClick={() => toggle("4")}
+                  >
+                    <HiOutlineUsers className="nav-icon" /> Manage Referrals
+                  </NavLink>
+                </NavItem>
+
+                <NavItem style={{ cursor: "pointer" }}>
                   <NavLink
                     className={classnames({ active: activeTab === "6" })}
                     onClick={handleLogout}
@@ -925,7 +926,7 @@ function Account() {
               </TabPane>
             </TabContent>
 
-            <TabPane tabId="1" className="bg-light mt-0">
+            <TabPane tabId="1" className=" mt-0">
               <Row className="p-3">
                 <Col sm="12">
                   {/* <div className="dashboard-home"> */}
@@ -966,7 +967,7 @@ function Account() {
                             </NavItem>
                           </Nav>
                         </div>
-                        <div className="card p-1 mt-3 d-flex flex-row justify-content-between align-items-end">
+                        <div className="card p-1 mt-2 d-flex flex-row justify-content-between align-items-end">
                           <span>
                             <TbTruckDelivery className="fs-4 ms-3 mb-2" />
                           </span>
@@ -1064,7 +1065,7 @@ function Account() {
                             </NavItem>
                           </Nav>
                         </div>
-                        <div className="card p-1 d-flex flex-row justify-content-between align-items-end mt-4">
+                        <div className="card p-1 d-flex flex-row justify-content-between align-items-end mt-2">
                           <span>
                             <AiOutlineLogout className="fs-4 ms-3 mb-2" />
                           </span>
@@ -1121,6 +1122,35 @@ function Account() {
         userId={userId}
         onClose={toggleEditModal}
       />
+
+      <div className="product-description m-5">
+        <div
+          className="banner-contain nav-desh bg-size blur-up lazyloaded"
+          style={{
+            backgroundImage:
+              'url("https://themes.pixelstrap.com/fastkart/assets/images/vegetable/banner/14.jpg")',
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
+            display: "block",
+          }}
+        >
+          <img
+            src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/banner/14.jpg"
+            className="bg-img blur-up lazyload"
+            alt=""
+            style={{ display: "none" }}
+          />
+          <div className="banner-details p-center banner-b-space w-100 text-center">
+            <div>
+              <h6 className="ls-expanded theme-color mb-sm-3 mb-1">SUMMER</h6>
+              <h2>VEGETABLE</h2>
+              <p className="mx-auto mt-1">Save up to 5% OFF</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

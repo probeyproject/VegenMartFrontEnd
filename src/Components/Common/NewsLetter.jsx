@@ -7,97 +7,75 @@ import { baseUrl } from "../../API/Api";
 function NewsLetter() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccess(false);
     setLoading(true);
 
-    // Prepare the data to send to the API
-    const data = { email };
-
     try {
-      // Make the API POST request using Axios
-      const response = await axios.post(`${baseUrl}/create/newsEmail`, data);
-
-      // Handle success response
-      setSuccess(true);
-      toast.success("Email Successfully subscribed");
+      await axios.post(`${baseUrl}/create/newsEmail`, { email });
+      toast.success("Email successfully subscribed");
     } catch (err) {
-      // Handle error response
-      console.error("Error:", err);
-      toast.error("This Email already subscribed");
+      toast.error("This email is already subscribed");
     } finally {
-      // Set loading to false after API call finishes (success or error)
       setLoading(false);
     }
   };
 
   useEffect(() => {
     AOS.init({
-      duration: 700, // Duration of the animation in milliseconds
-      easing: "ease-in-out", // Type of easing for the animation
-      once: true, // Whether animation should happen only once - while scrolling down
-      mirror: false, // Whether elements should animate out while scrolling past them
+      duration: 700,
+      easing: "ease-in-out",
+      once: true,
+      mirror: false,
     });
   }, []);
 
   return (
     <section className="newsletter-section" data-aos="fade-up">
-      <div className="container-fluid-lg">
+      <div className="container">
         <div
-          className="newsletter-box newsletter-box-2"
+          className="newsletter-box p-4 rounded text-white"
           style={{
             background:
-              "url('https://themes.pixelstrap.com/fastkart/assets/images/vegetable/newsletter/1.jpg')",
-            height: "170px",
+              "url('https://themes.pixelstrap.com/fastkart/assets/images/vegetable/newsletter/1.jpg') center/cover",
+            minHeight: "200px", // Increase height here
+            display: "flex",
+            alignItems: "center", // Center content vertically
           }}
         >
-          <div className="newsletter-contain py-3">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-xxl-4 col-lg-5 col-md-7 col-sm-9 offset-xxl-2 offset-md-1">
-                  <div className="newsletter-detail">
-                    <h2>Join the Vegenmart Newsletter!</h2>
-                    <h6
-                      className="text-warning mb-2"
-                      style={{ fontSize: "15px", fontWeight: "bolder" }}
-                    >
-                      Stay updated on the freshest ozone-washed fruits and
-                      vegetables.
-                    </h6>
-                    <div className="input-box">
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="exampleFormControlInput1"
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter Your Email"
-                      />
-                      <i className="fa-solid fa-envelope arrow" />
-                      <button
-                        type="submit"
-                        className="sub-btn btn-animation"
-                        disabled={loading} // Disable the button while loading
-                      >
-                        {loading ? (
-                          <i className="fa-solid fa-spinner fa-spin icon" /> // Loading spinner icon
-                        ) : (
-                          <>
-                            <span
-                              className="d-sm-block d-none"
-                              onClick={handleSubmit}
-                            >
-                              Subscribe
-                            </span>
-                            <i className="fa-solid fa-arrow-right icon" />
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
+          <div className="row align-items-center w-100">
+            {/* Text Section */}
+            <div className="col-lg-6 text-center text-lg-start">
+              <h2 className="fw-bold text-light">
+                Join the Vegenmart Newsletter!
+              </h2>
+              <h6 className="text-warning fw-bold mt-2">
+                Stay updated on the freshest ozone-washed fruits and vegetables.
+              </h6>
+            </div>
+
+            {/* Input Box */}
+            <div className="col-lg-6 mt-3 mt-lg-0">
+              <div className="input-group">
+                <input
+                  type="email"
+                  className="form-control border-0 shadow-sm"
+                  placeholder="Enter Your Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="btn btn-animation px-4 fw-bold"
+                  disabled={loading}
+                  onClick={handleSubmit}
+                >
+                  {loading ? (
+                    <i className="fa-solid fa-spinner fa-spin" />
+                  ) : (
+                    "Subscribe"
+                  )}
+                </button>
               </div>
             </div>
           </div>

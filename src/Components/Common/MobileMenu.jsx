@@ -17,13 +17,13 @@ import { checkAuthentication, logout } from "../../slices/userSlice";
 import { useSelector } from "react-redux";
 import { TbCategoryFilled } from "react-icons/tb";
 
-
 function MobileMenu() {
   const [showSearch, setShowSearch] = useState(false); // State for offcanvas search
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  // const [query, setQuery] = useState("");
   // const [categories, setCategories] = useState([]);
   const [dropdowns, setDropdowns] = useState({}); // Track visibility of each dropdown
   const [products, setProducts] = useState([]);
@@ -31,8 +31,7 @@ function MobileMenu() {
   // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const authenticated = useSelector((state) => state.user.authenticated);
-    const [selectedCategory, setSelectedCategory] = useState(null); // selected
-
+  const [selectedCategory, setSelectedCategory] = useState(null); // selected
 
   const handleInputChange = async (e) => {
     const searchTerm = e.target.value;
@@ -53,14 +52,34 @@ function MobileMenu() {
     }
   };
 
-  const handleSearchClick = () => {
-    if (query) {
-      navigate(`/filters/${query}`);
-      setSuggestions([]);
-      setShowSearch(false); // Close offcanvas after search
+  // const handleSearchClick = () => {
+  //   if (query) {
+  //     navigate(`/filters/${query}`);
+  //     setSuggestions([]);
+  //     setShowSearch(false); // Close offcanvas after search
+  //   }
+  // };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onSearch(query); // Call the search function when Enter is pressed
     }
   };
 
+  // Function to handle search button click
+  const handleSearchClick = () => {
+    onSearch(query); // Call the search function when search button is clicked
+  };
+
+  // Define the onSearch function
+  const onSearch = (searchTerm) => {
+    if (searchTerm) {
+      navigate(`/filters/${searchTerm}`);
+      // setSuggestions([]);
+      setShowSearch(false);
+      // Clear suggestions after search
+    }
+  };
   const handleSuggestionClick = (product_id) => {
     setQuery(product_id);
     navigate(`/detail_page/${product_id}`);
@@ -163,7 +182,7 @@ function MobileMenu() {
             role="button"
             aria-controls="offcanvasExample"
           >
-            <TbCategoryFilled  className="icli js-link " />
+            <TbCategoryFilled className="icli js-link " />
             <span>Category</span>
           </Link>
         </li>
@@ -182,10 +201,13 @@ function MobileMenu() {
           </Link>
         </li> */}
 
-        <li className="right-side onhover-dropdown"  style={{ background: "none", border: "none" }}>
+        <li
+          className="right-side onhover-dropdown"
+          style={{ background: "none", border: "none" }}
+        >
           <Link to={`/myaccount`} className="delivery-login-box">
             {authenticated && <FaUser className="text-light fs-4" />}
-          </Link >
+          </Link>
 
           {!authenticated && (
             <div className="product-box-contain d-block d-md-none">
@@ -198,7 +220,10 @@ function MobileMenu() {
           {authenticated && (
             <div className="onhover-div onhover-div-login">
               <ul className="user-box-name">
-                <li className="product-box-contain" style={{ background: "none", border: "none" }}>
+                <li
+                  className="product-box-contain"
+                  style={{ background: "none", border: "none" }}
+                >
                   <Link to={`/myaccount`}>My Profile</Link>
                 </li>
               </ul>
@@ -207,14 +232,14 @@ function MobileMenu() {
         </li>
       </ul>
       <div style={{ position: "relative", zIndex: "9999" }}>
-        {/* Offcanvas  sidebar for Mobile navbar*/}
+        {/* Offcanvas sidebar for Mobile navbar */}
         <div
-          className="offcanvas offcanvas-start "
+          className="offcanvas offcanvas-bottom"
           tabIndex="-1"
           id="offcanvasExample"
           aria-labelledby="offcanvasExampleLabel"
+          style={{ height: "70vh" }} // Adjust height as needed
         >
-          {" "}
           <div className="d-flex justify-content-between p-2">
             <Link to="/" className="web-logo nav-logo">
               <img
@@ -233,44 +258,45 @@ function MobileMenu() {
               aria-label="Close"
             ></button>
           </div>
-          {/* sidebar */}
+          {/* Sidebar */}
           <div className="offcanvas-header">
-                      <div className="row">
-                        {categories.map((category, index) => (
-                          
-                            <div className="col-6 mb-1" key={category.category_id}>
-                              <Link
-                               to={`/pannelpage/${category.category_name}`}
-                                style={{
-                                  cursor: "pointer",
-                                  textDecoration:"none",
-                                  color:"black",
-                                  backgroundColor:
-                                    selectedCategory === category.category_id
-                                      ? "#ebd7e0"
-                                      : "",
-                                }}
-                                className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
-                              >
-                                <img
-                                  src={category.category_url}
-                                  className="img-fluid rounded-circle mb-2"
-                                  alt="loading.."
-                                  style={{
-                                    height: "50px",
-                                    width: "50px",
-                                    objectFit: "cover",
-                                  }}
-                                />
-                                <p className="mb-0 text-center" style={{fontSize:"10px"}}>
-                                  {category.category_name}
-                                </p>
-                              </Link>
-                            </div>
-                         
-                        ))}
-                      </div>
-                    </div>
+            <div className="row">
+              {categories.map((category, index) => (
+                <div className="col-6 mb-1" key={category.category_id}>
+                  <a
+                    href={`/pannelpage/${category.category_name}`}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      color: "black",
+                      backgroundColor:
+                        selectedCategory === category.category_id
+                          ? "#ebd7e0"
+                          : "",
+                    }}
+                    className="category-card d-flex flex-column align-items-center border rounded shadow-sm p-2"
+                  >
+                    <img
+                      src={category.category_url}
+                      className="img-fluid rounded-circle mb-2"
+                      alt="loading.."
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <p
+                      className="mb-0 text-center"
+                      style={{ fontSize: "10px" }}
+                    >
+                      {category.category_name}
+                    </p>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="offcanvas-body"></div>
         </div>
       </div>
@@ -290,7 +316,7 @@ function MobileMenu() {
               <button
                 className="btn-close me-3"
                 onClick={() => setShowSearch(false)}
-                aria-label="Close"  
+                aria-label="Close"
               ></button>
             </div>
             <div className="offcanvas-body">
@@ -344,8 +370,6 @@ function MobileMenu() {
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 }

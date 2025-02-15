@@ -318,6 +318,7 @@ export default function ComboCardCarousel() {
                               textOverflow: "ellipsis",
                               margin: 0,
                             }}
+                            className="text-danger"
                           >
                             {product.product_name.length > 12
                               ? product.product_name.slice(0, 12) + "..."
@@ -329,7 +330,9 @@ export default function ComboCardCarousel() {
                               width: "70px",
                               margin: 0,
                               padding: 0,
+                              fontWeight:"600"
                             }}
+                            
                           >
                             {product.quantity} {product.quantity_type}
                           </p>
@@ -340,9 +343,9 @@ export default function ComboCardCarousel() {
 
                   {/* Combo details */}
                   <div className="mt-3">
-                    <h5 className="card-title fs-6 text-truncate text-capitalize mb-0">
+                    <p className="card-title fs-6 text-truncate text-capitalize mb-0" style={{fontWeight:"600"}}>
                       {combo.title || `Combo ${combo.combo_id}`}
-                    </h5>
+                    </p>
                   </div>
 
                   <div className="d-flex gap-2 align-items-center">

@@ -1,10 +1,11 @@
 .sidebar_container {
   width: 15%;
-  height: 95vh;
+  height: 600px;
   /* background-color: aqua; */
   overflow-y: scroll;
   scrollbar-width: none;
   text-align: center;
+  margin-top: 70px;
 }
 .name_text{
   font-weight: bold;
@@ -19,8 +20,8 @@ margin-left: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic grid */
   gap: 12px;
-  justify-content: center;
-  padding: 10px;
+  
+  padding: 10px 0 200px;
   overflow-y: auto; /* Ensures scrollability */
   scrollbar-width: none; /* Hides scrollbar */
 }

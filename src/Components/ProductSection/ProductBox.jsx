@@ -41,23 +41,7 @@ const ProductBox = ({
   //     mirror: false,
   //   });
   // }, []);
-
-  console.log(product_id,
-    productType,
-    productDetails,
-
-    productName,
-    currentPrice,
-    inStock,
-    brand_name,
-    sku,
-    weight,
-    weight_type,
-    discount_price,
-    offers,
-    average_rating,
-    defaultWeight,
-    defaultWeightType,)
+  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -73,7 +57,7 @@ const ProductBox = ({
   const [modal, setModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const authenticated = useSelector((state) => state?.user?.authenticated);
   const userState = useSelector((state) => state.user);
@@ -283,7 +267,7 @@ const ProductBox = ({
 
   return (
     <div>
-      <div className="col-12" >
+      <div className="col-12">
         <div
           className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`}
           style={{ height: "300px" }}
@@ -433,7 +417,7 @@ const ProductBox = ({
                 <del>{discount_price ? Math.floor(discount_price) : ""}</del>{" "}
                 <span className="offer-top text-danger m-lg-2">
                   {Math.round(
-                    (((discount_price )- currentPrice) / discount_price) * 100
+                    ((discount_price - currentPrice) / discount_price) * 100
                   ) === -Infinity
                     ? 0
                     : Math.round(

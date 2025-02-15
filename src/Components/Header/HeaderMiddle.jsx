@@ -235,94 +235,98 @@ function HeaderMiddle() {
                   <div className="middle-box">
                     <div className="row d-flex flex-row">
                       <div className="col-md-6">
-                    <div className="location-box p-1">
-                      <button
-                        onClick={() => setShowModal(true)}
-                        className="btn location-button"
-                      >
-                        <span className="location-arrow">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-map-pin"
-                          >
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx={12} cy={10} r={3} />
-                          </svg>
-                        </span>
-                      </button>
-                      <div className="ms-2">
-                        <button className="border-0 bg-white">
-                          {selectedLocation
-                            ? `${selectedLocation.society_name.substring(0, 40)}...`
-                            : "Please Choose Location"}
-                        </button>
-                      </div>
-                    </div>
-                    </div>
-                    <div className="col-md-6">
-                    <div className="">
-                      <div className="input-group">
-                        <input
-                          type="search"
-                          className="form-control"
-                          placeholder="I'm searching for product..."
-                          value={query}
-                          onChange={handleInputChange}
-                          onKeyPress={handleKeyPress} // Trigger search on Enter key
-                        />
-                        <button
-                          onClick={handleSearchClick}
-                          className="btn btn-animation"
-                          type="button"
-                          id="button-addon2"
+                        <div
+                          className="location-box p-1"
+                          style={{ width: "300px" }}
+                          onClick={() => setShowModal(true)}
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-search"
+                          <button
+                            onClick={() => setShowModal(true)}
+                            className="btn location-button"
                           >
-                            <circle cx={11} cy={11} r={8} />
-                            <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                          </svg>
-                        </button>
+                            <span className="location-arrow">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-map-pin"
+                              >
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx={12} cy={10} r={3} />
+                              </svg>
+                            </span>
+                          </button>
+                          <div className="ms-2">
+                            <button className="border-0 bg-white">
+                              {selectedLocation
+                                ? `${selectedLocation.society_name.substring(0, 40)}...`
+                                : "Please Choose Location"}
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                      {suggestions.length > 0 && (
-                        <ul className="list-group mt-2 suggestions-list">
-                          {suggestions.map((item) => (
-                            <li
-                              key={item.product_id}
-                              className="list-group-item list-group-item-action"
-                              onClick={() => {
-                                setQuery(item.product_name);
-                                navigate(`/detail_page/${item.product_id}`);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                borderBottom: "none",
-                              }}
+                      <div className="col-md-6">
+                        <div className="">
+                          <div className="input-group">
+                            <input
+                              type="search"
+                              className="form-control"
+                              placeholder="I'm searching for product..."
+                              value={query}
+                              onChange={handleInputChange}
+                              onKeyPress={handleKeyPress} // Trigger search on Enter key
+                            />
+                            <button
+                              onClick={handleSearchClick}
+                              className="btn btn-animation"
+                              type="button"
+                              id="button-addon2"
                             >
-                              {item.product_name}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                    </div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width={24}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-search"
+                              >
+                                <circle cx={11} cy={11} r={8} />
+                                <line x1={21} y1={21} x2="16.65" y2="16.65" />
+                              </svg>
+                            </button>
+                          </div>
+                          {suggestions.length > 0 && (
+                            <ul className="list-group mt-2 suggestions-list">
+                              {suggestions.map((item) => (
+                                <li
+                                  key={item.product_id}
+                                  className="list-group-item list-group-item-action"
+                                  onClick={() => {
+                                    setQuery(item.product_name);
+                                    navigate(`/detail_page/${item.product_id}`);
+                                  }}
+                                  style={{
+                                    cursor: "pointer",
+                                    borderBottom: "none",
+                                  }}
+                                >
+                                  {item.product_name}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -484,7 +488,7 @@ function HeaderMiddle() {
                       </Link>
                     </li>
 
-                    <li className="right-side">
+                    {/* <li className="right-side">
                       <a href="/contact" className="delivery-login-box">
                         <div className="delivery-icon">
                           <svg
@@ -503,7 +507,7 @@ function HeaderMiddle() {
                           </svg>
                         </div>
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

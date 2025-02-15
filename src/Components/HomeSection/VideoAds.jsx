@@ -36,7 +36,7 @@ export const VideoAds = () => {
             <p className="p-2" style={{textAlign:"justify"}}>{video[0]?.video_text}</p>
             <div className="video-wrapper"> 
               <video
-                controls={false}
+                controls={true}
                 autoPlay
                 loop
                 muted
