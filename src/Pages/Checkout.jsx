@@ -73,7 +73,7 @@ function Checkout() {
   const [currentWeight, setCurrentWeight] = useState(Number(carts?.unit) || 1);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(carts?.price);
   const [reedemedPoints, setReedemedPoints] = useState(0);
-
+  const [isInWishlist, setIsInWishlist] = useState(false);
   // console.log("points " + rewards, points);
 
   console.log(couponCode);
@@ -235,6 +235,7 @@ function Checkout() {
         userId: userId,
       });
       toast.success("Added to wishlist successfully");
+      setIsInWishlist(!isInWishlist);
     } catch (error) {
       console.error("Error:", error);
       toast.warning("This product is already in your wishlist!");
@@ -318,6 +319,12 @@ function Checkout() {
     }
   };
   // console.log(currentWeight);
+
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split("T")[0];
+  };
 
   const updateCart = async (index, newWeight, newTotalPrice) => {
     try {
@@ -464,8 +471,8 @@ function Checkout() {
             try {
               const orderData = {
                 ...paymentData,
-                totalPrice: finalPrice,
-                pointsUsed: maxRedeemablePoints,
+                totalPrice: calculatedPrice,
+                pointsUsed: reedemedPoints,
                 razorpayOrderId: paymentResponse.razorpay_order_id,
                 payment: paymentResponse.razorpay_payment_id,
               };
@@ -738,7 +745,11 @@ function Checkout() {
                             <MdDeleteForever className="text-danger fs-3 ms-3" />
                           </Link>
                           <Link onClick={() => handleAddToWishlist(cart.id)}>
-                            <FaHeart className="text-danger fs-4 ms-3" />
+                            <FaHeart
+                              className={`fs-4 ms-3 ${
+                                isInWishlist ? "text-danger" : ""
+                              }`}
+                            />
                           </Link>
                         </li>
                       ))}
@@ -771,6 +782,8 @@ function Checkout() {
                                 ></span>
                                 Loading...
                               </>
+                            ) : discountValue > 0 ? (
+                              "Applied"
                             ) : (
                               "Apply"
                             )}
@@ -788,7 +801,7 @@ function Checkout() {
 
                         <p
                           className="fw-semibold"
-                          style={{cursor:"pointer"}}
+                          style={{ cursor: "pointer" }}
                         >
                           {discountValue > 0 && (
                             <p
@@ -1028,26 +1041,7 @@ function Checkout() {
                                     type="date"
                                     id="datePicker"
                                     className="form-control w-75 my-2"
-                                    min={(() => {
-                                      const tomorrow = new Date();
-
-                                      // Set the date to tomorrow
-                                      tomorrow.setDate(tomorrow.getDate() + 1);
-
-                                      // Ensure that the date is adjusted to IST (Indian Standard Time: UTC +5:30)
-                                      const offset = 5.5 * 60; // IST offset in minutes
-                                      const istTime = new Date(
-                                        tomorrow.getTime() + offset * 60000
-                                      ); // Adjusting for IST
-
-                                      // Set time to midnight to ensure it’s tomorrow at midnight IST
-                                      istTime.setHours(0, 0, 0, 0);
-
-                                      // Return the date in 'YYYY-MM-DD' format for the min attribute
-                                      return istTime
-                                        .toISOString()
-                                        .split("T")[0];
-                                    })()}
+                                    min={getTomorrowDate()}
                                     onChange={(e) =>
                                       setDeliveryDate(e.target.value)
                                     }

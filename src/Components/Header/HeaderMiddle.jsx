@@ -81,6 +81,8 @@ function HeaderMiddle() {
       try {
         // Call the API to get suggestions
         const response = await axios.get(`${baseUrl}/search?q=${searchTerm}`);
+
+        console.log(response);
         setSuggestions(response.data.products);
       } catch (error) {
         console.error("Error fetching suggestions:", error);
@@ -308,7 +310,7 @@ function HeaderMiddle() {
                             </button>
                           </div>
                           {suggestions.length > 0 && (
-                            <ul className="list-group mt-2 suggestions-list">
+                            <ul className="list-group mt-2 suggestions-list" style={{width:"450px"}}>
                               {suggestions.map((item) => (
                                 <li
                                   key={item.product_id}
