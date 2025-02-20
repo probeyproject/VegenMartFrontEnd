@@ -61,6 +61,7 @@ function ProductSection() {
       // console.log(response);
 
       const data = await response.data;
+
       setCategories(data);
     } catch (error) {
       console.error("Error fetching of categories:", error);
@@ -115,6 +116,7 @@ function ProductSection() {
     try {
       const response = await axios.get(`${baseUrl}/cart`);
       const data = await response.data;
+
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -503,6 +505,7 @@ function ProductSection() {
                                   discount_price={product.discount_price}
                                   average_rating={product.average_rating}
                                   offers={product.offers}
+                                  discountRanges={product.discountRanges}
                                   defaultWeight={
                                     cart?.some(
                                       (cartItem) =>

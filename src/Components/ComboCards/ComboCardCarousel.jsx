@@ -267,12 +267,11 @@ export default function ComboCardCarousel() {
         <div className="row">
           {comboList?.slice(0, visibleCount).map((combo) => {
             let totalPrice = combo.products.reduce(
-              (sum, product) =>
-                sum + Number(product.product_price) * product.quantity,
+              (sum, product) => sum + Number(product.product_price),
               0
             );
 
-            const discountedPrice = combo.price;
+            const comboPrice = combo.price;
 
             return (
               <div
@@ -330,9 +329,8 @@ export default function ComboCardCarousel() {
                               width: "70px",
                               margin: 0,
                               padding: 0,
-                              fontWeight:"600"
+                              fontWeight: "600",
                             }}
-                            
                           >
                             {product.quantity} {product.quantity_type}
                           </p>
@@ -343,25 +341,28 @@ export default function ComboCardCarousel() {
 
                   {/* Combo details */}
                   <div className="mt-3">
-                    <p className="card-title fs-6 text-truncate text-capitalize mb-0" style={{fontWeight:"600"}}>
+                    <p
+                      className="card-title fs-6 text-truncate text-capitalize mb-0"
+                      style={{ fontWeight: "600" }}
+                    >
                       {combo.title || `Combo ${combo.combo_id}`}
                     </p>
                   </div>
 
                   <div className="d-flex gap-2 align-items-center">
-                    {discountedPrice && discountedPrice < totalPrice && (
+                    {comboPrice && comboPrice < totalPrice && (
                       <p className="fw-bold text-start mb-0">
-                        ₹{discountedPrice.toFixed(2)}
+                        ₹{comboPrice.toFixed(2)}
                       </p>
                     )}
                     <p className="text-start mb-0 text-decoration-line-through">
                       ₹{totalPrice.toFixed(2)}
                     </p>
 
-                    {discountedPrice && discountedPrice < totalPrice && (
+                    {comboPrice && comboPrice < totalPrice && (
                       <p className="text-muted mb-0 text-danger">
                         {(
-                          ((totalPrice - discountedPrice) / totalPrice) *
+                          ((totalPrice - comboPrice) / totalPrice) *
                           100
                         ).toFixed(0)}
                         % OFF
@@ -377,7 +378,7 @@ export default function ComboCardCarousel() {
                         e,
                         a,
                         combo.combo_id,
-                        discountedPrice || totalPrice,
+                        comboPrice || totalPrice,
                         combo.weight,
                         combo.weight_type
                       )

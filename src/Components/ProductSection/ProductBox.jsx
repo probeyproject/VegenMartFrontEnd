@@ -32,6 +32,7 @@ const ProductBox = ({
   defaultWeight,
   defaultWeightType,
   onImageClick,
+  discountRanges,
 }) => {
   // useEffect(() => {
   //   AOS.init({
@@ -135,6 +136,8 @@ const ProductBox = ({
       toast.warning("This product already in your wishlist!");
     }
   };
+
+  console.log(discountRanges);
 
   const handleChange = (e) => {
     const value = e.target.value;
