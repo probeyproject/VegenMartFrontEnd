@@ -257,12 +257,24 @@ function Checkout() {
     try {
       const product = carts[index];
       if (!product) return;
+      let pquantity = product.quantity + 1;
 
-      const currentWeight = Number(product.unit) || 0; // Ensure it's a number
+      let currentWeight = Number(product.unit) || 0; // Ensure it's a number
+
+      let weightType = product.weight_type?.toLowerCase() || "";
+      console.log(weightType);
+
+      let newWeight; // Default increase by 1 (for kg & pcs)
+
+      if (currentWeight < 1) {
+        newWeight = Number((currentWeight + 0.05).toFixed(2)); // Increase by the same unit
+      } else {
+        newWeight = Number((currentWeight + 1).toFixed(2)); // Increase by the same unit
+      }
 
       const response = await axios.post(
         `${baseUrl}/calculate-price/${product.id}`,
-        { weight: currentWeight + 1, unitType: product.weight_type }
+        { weight: newWeight, unitType: weightType }
       );
 
       const priceData = response.data;
@@ -273,7 +285,8 @@ function Checkout() {
           i === index
             ? {
                 ...item,
-                unit: priceData.weight, // Update `unit` instead of `weight`
+                unit: priceData.weight, // Store actual weight
+                displayUnit: priceData.weight, // Show increasing value for grams
                 totalPrice: priceData.final_price,
               }
             : item
@@ -281,7 +294,7 @@ function Checkout() {
       );
 
       // Update cart in backend
-      updateCart(index, priceData.weight, priceData.final_price);
+      updateCart(index, priceData.weight, priceData.final_price, pquantity);
     } catch (error) {
       toast.warning("Weight cannot be increased beyond allowed limits");
     }
@@ -290,30 +303,53 @@ function Checkout() {
   const handleDecreaseWeight = async (index) => {
     try {
       const product = carts[index];
-      if (!product || product.weight <= 1) return;
+      if (!product) return;
+
+      let pquantity = product.quantity - 1;
+
+      if (pquantity < 1) {
+        toast.warning("Minimum quantity reached");
+        return;
+      }
+      let currentWeight = Number(product.unit) || 0;
+      let weightType = product.weight_type?.toLowerCase() || "";
+
+      if (currentWeight <= 0.05) {
+        toast.warning("Minimum weight limit reached");
+        return;
+      }
+
+      let newWeight;
+
+      if (1 < currentWeight && currentWeight <= 1) {
+        newWeight = Number((currentWeight - 0.05).toFixed(2)); // Decrease in smaller steps for grams
+      } else {
+        newWeight = Number((currentWeight - 1).toFixed(2)); // Decrease by 1 for kg and pcs
+      }
 
       const response = await axios.post(
         `${baseUrl}/calculate-price/${product.id}`,
-        { weight: product.unit - 1, unitType: product.weight_type }
+        { weight: newWeight, unitType: weightType }
       );
 
       const priceData = response.data;
 
-      // Update only the specific item in the cartItems state
+      // Update the cart state
       setCart((prevCartItems) =>
         prevCartItems.map((item, i) =>
           i === index
             ? {
                 ...item,
-                weight: priceData.weight,
+                unit: priceData.weight,
+                displayUnit: priceData.weight,
                 totalPrice: priceData.final_price,
               }
             : item
         )
       );
 
-      // Call updateCart with the updated values
-      updateCart(index, priceData.weight, priceData.final_price);
+      // Update the cart in backend
+      updateCart(index, priceData.weight, priceData.final_price, pquantity);
     } catch (error) {
       toast.warning("Minimum weight limit reached");
     }
@@ -326,7 +362,7 @@ function Checkout() {
     return tomorrow.toISOString().split("T")[0];
   };
 
-  const updateCart = async (index, newWeight, newTotalPrice) => {
+  const updateCart = async (index, newWeight, newTotalPrice, quantity) => {
     try {
       const product = carts[index];
       if (!product) {
@@ -339,6 +375,7 @@ function Checkout() {
         cartStatus: "updated",
         weight: newWeight,
         weight_type: product.weight_type,
+        quantity: quantity, // Assuming quantity is provided
       });
 
       fetchAllCart(); // Refresh cart after update
@@ -350,9 +387,9 @@ function Checkout() {
   // console.log(carts);
 
   const totalAmount = carts?.reduce((acc, cart) => {
-    const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
-    const price = parseFloat(cart.product_price) || 0; // Ensure price is a number
-    return acc + quantity * price;
+    // const quantity = quantities?.[cart.cart_id] ?? 1; // Default to 1
+    const price = parseFloat(cart.price) || 0; // Ensure price is a number
+    return acc + price;
   }, 0);
 
   useEffect(() => {
@@ -726,7 +763,7 @@ function Checkout() {
                                 className="form-control input-number qty-input"
                                 type="text"
                                 name="quantity"
-                                value={cart.unit}
+                                value={cart.quantity}
                                 readOnly
                               />
 

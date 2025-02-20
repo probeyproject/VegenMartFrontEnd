@@ -41,7 +41,6 @@ const ProductBox = ({
   //     mirror: false,
   //   });
   // }, []);
-  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -229,7 +228,8 @@ const ProductBox = ({
     if (
       (weightType === "kg" &&
         (isNaN(numericWeight) ||
-          (numericWeight < 0.05 && numericWeight >= 15))) ||
+          numericWeight < 0.05 ||
+          numericWeight >= 15)) ||
       (weightType === "gram" &&
         (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
@@ -243,22 +243,28 @@ const ProductBox = ({
     }
 
     let unitTypeToSend = weightType;
+    let responseWeight = numericWeight; // Default to user-entered weight
 
     if (weightType === "gram") {
-      unitTypeToSend = "kg"; // Change unitType to kg
+      unitTypeToSend = "kg"; // Convert grams to kg for backend
+      responseWeight = numericWeight; // Convert grams to kg
     }
+
+    // Always send "1" for grams
+    const quantityToSend = weightType === "gram" ? 1 : numericWeight;
 
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
         productId: product_id,
         totalPrice: finalPrice,
-        weight: responseWeight,
+        weight: responseWeight, // Actual weight in kg for backend
         weight_type: unitTypeToSend,
+        quantity: quantityToSend, // 1 for grams, actual for kg & pcs
       });
 
       dispatch(addToCart(response.data));
 
-      toast.success("Your product add to cart successfully");
+      toast.success("Your product added to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
       toast.error("Error creating cart. Please try again.");
@@ -412,17 +418,17 @@ const ProductBox = ({
               </a>
               <h5 className="sold text-content text-start mb-0">
                 <span className="theme-color price">
-                  ₹{currentPrice ? Math.floor(currentPrice) : ""}
+                  ₹
+                  {currentPrice
+                    ? Math.floor(currentPrice - discount_price)
+                    : ""}
                 </span>
-                <del>{discount_price ? Math.floor(discount_price) : ""}</del>{" "}
+                <del>{currentPrice ? Math.floor(currentPrice) : ""}</del>{" "}
                 <span className="offer-top text-danger m-lg-2">
-                  {Math.round(
-                    ((discount_price - currentPrice) / discount_price) * 100
-                  ) === -Infinity
+                  {Math.round((discount_price / currentPrice) * 100) ===
+                  -Infinity
                     ? 0
-                    : Math.round(
-                        ((discount_price - currentPrice) / discount_price) * 100
-                      )}
+                    : Math.round((discount_price / currentPrice) * 100)}
                   % off
                 </span>
               </h5>

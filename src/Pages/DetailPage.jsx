@@ -382,6 +382,44 @@ function DetailPage() {
     });
   }, []);
 
+  const calculateOriginalPrice = (data) => {
+    let price = Number(data.product_price) || 0;
+    let weightValue = Number(data.weight) || 1;
+    let weightType = data.weight_type?.toLowerCase() || "";
+
+    if (weightType === "kg") {
+      return (price * weightValue).toFixed(2);
+    } else if (weightType === "gram") {
+      return ((price / 1000) * weightValue).toFixed(2);
+    } else {
+      return (price * weightValue).toFixed(2);
+    }
+  };
+
+  const calculateFinalPrice = (data) => {
+    let price = Number(data.product_price);
+    let weightValue = Number(data.weight);
+    let weightType = data.weight_type?.toLowerCase();
+    let discountPerKg = Number(data.discount_price);
+
+    let basePrice = 0;
+    let discountAmount = 0;
+
+    // Adjust price & discount based on weight type
+    if (weightType === "kg") {
+      basePrice = price * weightValue;
+      discountAmount = discountPerKg * weightValue;
+    } else if (weightType === "gram") {
+      basePrice = (price / 1000) * weightValue;
+      discountAmount = (discountPerKg / 1000) * weightValue;
+    } else {
+      basePrice = price * weightValue; // Default for "pieces"
+      discountAmount = data.discount_price; // No discount for pieces
+    }
+
+    return (basePrice - discountAmount).toFixed(2);
+  };
+
   return (
     <>
       {product?.map((data, index) => {
@@ -459,14 +497,11 @@ function DetailPage() {
                         <div className="right-box-contain">
                           <h5 className="offer-top ">
                             {Math.round(
-                              ((data.discount_price - data.product_price) /
-                                data.discount_price) *
-                                100
+                              (data.discount_price / data.product_price) * 100
                             ) === -Infinity
                               ? 0
                               : Math.round(
-                                  ((data.discount_price - data.product_price) /
-                                    data.discount_price) *
+                                  (data.discount_price / data.product_price) *
                                     100
                                 )}
                             % off
@@ -496,15 +531,12 @@ function DetailPage() {
 
                           <div className="price-rating d-flex">
                             <h3 className="theme-color price">
-                              ₹
-                              {(
-                                Number(data.product_price) * Number(weight)
-                              ).toFixed(2)}{" "}
-                              / {Math.trunc(Number(data.weight))}{" "}
+                              ₹{calculateFinalPrice(data)} /{" "}
+                              {Math.trunc(Number(data.weight))}{" "}
                               {data.weight_type}{" "}
                               <del className="text-content">
-                                ₹{Number(data.discount_price).toFixed(2)}
-                              </del>{" "}
+                                ₹{calculateOriginalPrice(data)}
+                              </del>
                             </h3>
 
                             <div className="product-rating custom-rate flex-column">

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Modal, ModalBody, Button } from "reactstrap";
 import { baseUrl } from "../../API/Api";
 import LoginModal from "./LoginModal";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CommonDetailProductModal = ({
   show,
@@ -28,24 +28,22 @@ const CommonDetailProductModal = ({
   defaultWeightType,
   discount_price,
 }) => {
-
-  
   // const [weights, setWeights] = useState([]);
   const [weightType, setWeightType] = useState(weight_type || "kg");
   const [inputweight, setInputWeight] = useState("");
   const [warningMsg, setWarningMsg] = useState("");
   const [finalPrice, setFinalPrice] = useState("");
-  const [modal, setModal] = useState(false)
-  const [loginModal, setLoginModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
   const [responseWeight, setResponseWeight] = useState("");
-  
-  const authenticated = useSelector((state) => state?.user?.authenticated)
+
+  const authenticated = useSelector((state) => state?.user?.authenticated);
   const userState = useSelector((state) => state.user);
   const userId = userState?.user?.id;
 
-  const toggle = () => setModal(!modal)
+  const toggle = () => setModal(!modal);
 
-  const toggleLoginModal = () => setLoginModal(!loginModal)
+  const toggleLoginModal = () => setLoginModal(!loginModal);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -120,10 +118,8 @@ const CommonDetailProductModal = ({
       setResponseWeight(response.data.weight);
     } catch (error) {
       console.error("Error:", error);
-      
     }
   };
-
 
   useEffect(() => {
     if (inputweight === "") {
@@ -132,16 +128,16 @@ const CommonDetailProductModal = ({
   }, [inputweight, setFinalPrice]);
 
   const handleAuth = (e, a) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Correctly prevent the default action
 
     if (authenticated) {
-      navigate(a) // Navigate if authenticated
+      navigate(a); // Navigate if authenticated
     } else {
-      toggleLoginModal() // Open login modal if not authenticated
+      toggleLoginModal(); // Open login modal if not authenticated
     }
-  }
+  };
 
   const handleClick = (e, a) => {
     if (!authenticated) {
@@ -174,17 +170,13 @@ const CommonDetailProductModal = ({
     }
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/create/cart/${userId}`,
-        {
-          productId: product_id,
-          totalPrice: finalPrice,
-          weight: responseWeight,
-          weight_type: unitTypeToSend,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
+        productId: product_id,
+        totalPrice: finalPrice,
+        weight: responseWeight,
+        weight_type: unitTypeToSend,
+      });
 
-      
       toast.success("Your product add to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
@@ -192,7 +184,44 @@ const CommonDetailProductModal = ({
     }
   };
 
- return (
+  const calculateOriginalPrice = (data) => {
+    let price = Number(currentPrice) || 0;
+    let weightValue = Number(weight) || 1;
+    let weightType = weight_type?.toLowerCase() || "";
+
+    if (weightType === "kg") {
+      return (price * weightValue).toFixed(2);
+    } else if (weightType === "gram") {
+      return ((price / 1000) * weightValue).toFixed(2);
+    } else {
+      return (price * weightValue).toFixed(2);
+    }
+  };
+
+  const calculateFinalPrice = () => {
+    let price = Number(currentPrice);
+    let weightValue = Number(weight);
+    let weightType = weight_type?.toLowerCase();
+    let discountPerKg = Number(discount_price);
+
+    let basePrice = 0;
+    let discountAmount = 0;
+
+    // Adjust price & discount based on weight type
+    if (weightType === "kg") {
+      basePrice = price * weightValue;
+      discountAmount = discountPerKg * weightValue;
+    } else if (weightType === "gram") {
+      basePrice = (price / 1000) * weightValue;
+      discountAmount = (discountPerKg / 1000) * weightValue;
+    } else {
+      basePrice = price * weightValue; // Default for "pieces"
+      discountAmount = data.discount_price; // No discount for pieces
+    }
+
+    return (basePrice - discountAmount).toFixed(2);
+  };
+  return (
     show && (
       <div
         className="modal-overlay d-flex justify-content-center align-items-center"
@@ -231,7 +260,11 @@ const CommonDetailProductModal = ({
                   src={image[0]}
                   className="img-fluid rounded shadow p-2"
                   alt={productName}
-                  style={{ width: "100%", maxHeight: "250px", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    maxHeight: "250px",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
             </div>
@@ -239,13 +272,14 @@ const CommonDetailProductModal = ({
             {/* Product Details */}
             <div className="col-md-6">
               <h5 className="text-danger mb-2">
-                {Math.round(((discount_price - currentPrice) / discount_price) * 100) || 0}% off
+                {Math.round((discount_price / currentPrice) * 100)}% off
               </h5>
               <h5 className="fw-bold">{productName}</h5>
-              <h5 className="theme-color price p-2">
-                ₹{currentPrice}/{weight_type}{" "}
-                <del className="text-muted">₹{discount_price}</del>
-              </h5>
+              <h3 className="theme-color price">
+                ₹{calculateFinalPrice()} / {Math.trunc(Number(weight))}{" "}
+                {weight_type}{" "}
+                <del className="text-content">₹{calculateOriginalPrice()}</del>
+              </h3>
 
               {/* Rating */}
               <div className="product-rating mb-3 d-flex align-items-center">
@@ -285,76 +319,77 @@ const CommonDetailProductModal = ({
                 </ul>
               </div> */}
 
-             
-
               {/* Weight Selection */}
               <div className="d-flex justify-content-evenly">
-                              <div>
-                                <select
-                                  id="units"
-                                  className="border-1 rounded-2 p-1"
-                                  onChange={(e) => {
-                                    setWeightType(e.target.value);
-                                    setInputWeight(""); // Clear input when weight type changes
-                                  }}
-                                  value={weightType} // Control the select with state
-                                >
-                                  {weight_type === "pieces" && (
-                                    <option value="pieces">Pieces</option>
-                                  )}
-                                 {weight_type === "pieces" && (
-                                              <option value="pieces">Pieces</option>
-                                            )}
-                                            {(weight_type === "kg" ||
-                                              weight_type === "gram") && (
-                                              <>
-                                                <option value="kg">Kg</option>
-                                                <option value="gram">Gram</option>
-                                              </>
-                                            )}
-                                </select>
-                              </div>
-                              <div className="rounded-1 w-50 " style={{ height: "20px" }}>
-                                {weightType === "kg" && (
-                                  <input
-                                    type="number"
-                                    required
-                                    placeholder="Weight"
-                                    className="form-control border-1 p-1"
-                                    defaultValue={defaultWeight ? defaultWeight : inputweight}
-                                    onChange={handleChange}
-                                  />
-                                )}
-              
-                                {weightType === "gram" && (
-                                  <select
-                                    className="rounded-2 p-1"
-                                    value={inputweight}
-                                    onChange={handleChange}
-                                  >
-                                    <option>Select</option>
-                                    <option value="0.05">50 g</option>
-                                    <option value="0.1">100 g</option>
-                                    <option value="0.25">250 g</option>
-                                    <option value="0.5">500 g</option>
-                                    <option value="0.75">750 g</option>
-                                  </select>
-                                )}
-              
-                                {weightType === "pieces" && (
-                                  <input
-                                    type="number"
-                                    required
-                                    placeholder="Pieces"
-                                    className="form-control h-50 border-1"
-                                    defaultValue={defaultWeight ? defaultWeight : inputweight}
-                                    onChange={handleChange}
-                                  />
-                                )}
-                              </div>
-                            </div>
+                <div>
+                  <select
+                    id="units"
+                    className="border-1 rounded-2 p-1"
+                    onChange={(e) => {
+                      setWeightType(e.target.value);
+                      setInputWeight(""); // Clear input when weight type changes
+                    }}
+                    value={weightType} // Control the select with state
+                  >
+                    {weight_type === "pieces" && (
+                      <option value="pieces">Pieces</option>
+                    )}
+                    {weight_type === "pieces" && (
+                      <option value="pieces">Pieces</option>
+                    )}
+                    {(weight_type === "kg" || weight_type === "gram") && (
+                      <>
+                        <option value="kg">Kg</option>
+                        <option value="gram">Gram</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+                <div className="rounded-1 w-50 " style={{ height: "20px" }}>
+                  {weightType === "kg" && (
+                    <input
+                      type="number"
+                      required
+                      placeholder="Weight"
+                      className="form-control border-1 p-1"
+                      defaultValue={defaultWeight ? defaultWeight : inputweight}
+                      onChange={handleChange}
+                    />
+                  )}
 
-              <div className="text-danger small mt-2">{warningMsg}</div>
+                  {weightType === "gram" && (
+                    <select
+                      className="rounded-2 p-1"
+                      value={inputweight}
+                      onChange={handleChange}
+                    >
+                      <option>Select</option>
+                      <option value="0.05">50 g</option>
+                      <option value="0.1">100 g</option>
+                      <option value="0.25">250 g</option>
+                      <option value="0.5">500 g</option>
+                      <option value="0.75">750 g</option>
+                    </select>
+                  )}
+
+                  {weightType === "pieces" && (
+                    <input
+                      type="number"
+                      required
+                      placeholder="Pieces"
+                      className="form-control h-50 border-1"
+                      defaultValue={defaultWeight ? defaultWeight : inputweight}
+                      onChange={handleChange}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {finalPrice && (
+                <div className="text-success small">
+                  ₹{Math.round(finalPrice).toFixed(2)}
+                </div>
+              )}
 
               {/* Buttons */}
               <div className="d-flex gap-2 mt-3">
@@ -367,7 +402,9 @@ const CommonDetailProductModal = ({
                 </Button>
                 <Button
                   className="btn btn-animation"
-                  onClick={() => (window.location.href = `/detail_page/${product_id}`)}
+                  onClick={() =>
+                    (window.location.href = `/detail_page/${product_id}`)
+                  }
                 >
                   View More
                 </Button>
