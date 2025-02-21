@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { UserContext } from "../../Context/UserContrxt";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
+import { TypeAnimation } from "react-type-animation";
 
 function HeaderMiddle() {
   const { user } = useSelector((store) => store.user);
@@ -281,10 +282,28 @@ function HeaderMiddle() {
                             <input
                               type="search"
                               className="form-control border"
-                              placeholder="I'm searching for product..."
+                              placeholder=""
                               value={query}
                               onChange={handleInputChange}
                               onKeyPress={handleKeyPress} // Trigger search on Enter key
+                            />
+
+                            <TypeAnimation
+                              sequence={[
+                                "Search Potato...",
+                                2000,
+                                "Search Tomato...",
+                                2000,
+                                "Search Carrot...",
+                                2000,
+                                "Search Mushroom...",
+                                2000,
+                              ]}
+                              speed={2}
+                              repeat={Infinity}
+                              cursor={false}
+                              wrapper="span"
+                              className="typewriter__placeholder text-muted"
                             />
                             <button
                               onClick={handleSearchClick}
@@ -310,7 +329,10 @@ function HeaderMiddle() {
                             </button>
                           </div>
                           {suggestions.length > 0 && (
-                            <ul className="list-group mt-2 suggestions-list" style={{width:"450px"}}>
+                            <ul
+                              className="list-group mt-2 suggestions-list"
+                              style={{ width: "450px" }}
+                            >
                               {suggestions.map((item) => (
                                 <li
                                   key={item.product_id}

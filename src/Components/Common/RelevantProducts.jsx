@@ -88,6 +88,7 @@ export const RelevantProducts = () => {
                   compareLink={product.stock}
                   wishlistLink={product.stock}
                   offers={product.offers}
+                  discountRanges={product.discountRanges}
                 />
               </div>
             );
@@ -96,4 +97,4 @@ export const RelevantProducts = () => {
       </div>
     </>
   );
-};  
+};

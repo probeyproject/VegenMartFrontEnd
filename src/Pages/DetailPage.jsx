@@ -271,16 +271,16 @@ function DetailPage() {
 
     // Proceed with checking the weightType only if value is not empty
     if (weightType === "kg") {
-      if (Number(value) < 1 || Number(value) > 15) {
-        setWarningMsg("Enter 1 to 15 Kg");
+      if (Number(value) < 1 || Number(value) > 100) {
+        setWarningMsg("Enter 1 to 100 Kg");
       } else {
         setWarningMsg(""); // Clear the warning if the condition is met
       }
     } else if (weightType === "pieces") {
       if (Number(value) < 5) {
         setWarningMsg("Enter 5 pieces or above.");
-      } else if (Number(value) > 30) {
-        setWarningMsg("Maximum 30 pieces allowed.");
+      } else if (Number(value) > 300) {
+        setWarningMsg("Maximum 300 pieces allowed.");
       } else {
         setWarningMsg(""); // Clear the warning if the condition is met
       }
@@ -322,8 +322,26 @@ function DetailPage() {
         unitType: unitTypeToSend, // Send kg if it was grams
       });
 
-      setFinalPrice(response.data.final_price);
-      setResponseWeight(response.data.weight);
+      let finalPrice = response.data.final_price;
+      const weight = response.data.weight;
+
+      // Apply discount if weight falls within any range
+      const applicableDiscount = product[0]?.discountRanges?.find(
+        (range) => weight >= range.quantityFrom && weight <= range.quantityTo
+      );
+
+      console.log(applicableDiscount);
+
+      if (applicableDiscount) {
+        const discountPercentage = applicableDiscount.discountPercentage;
+        console.log(applicableDiscount);
+        const discountAmount = (finalPrice * discountPercentage) / 100;
+        finalPrice -= discountAmount; // Apply discount
+      }
+
+      // Update state with the new final price and weight
+      setFinalPrice(finalPrice);
+      setResponseWeight(weight);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -335,41 +353,92 @@ function DetailPage() {
     }
   }, [inputweight, setFinalPrice]);
 
+  // const createCart = async () => {
+  //   const numericWeight = parseFloat(inputweight);
+
+  //   // Check if inputWeight is valid based on weightType
+  //   if (
+  //     (weightType === "kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
+  //     (weightType === "gram" &&
+  //       (isNaN(numericWeight) || numericWeight < 0.05)) ||
+  //     (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
+  //   ) {
+  //     toast.warning(`Please enter a valid input for ${weightType}.`);
+  //     return;
+  //   }
+
+  //   let unitTypeToSend = weightType;
+
+  //   if (weightType === "gram") {
+  //     unitTypeToSend = "kg"; // Change unitType to kg
+  //   }
+
+  //   try {
+  //     const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
+  //       productId: id,
+  //       totalPrice: finalPrice,
+  //       weight: responseWeight,
+  //       weight_type: unitTypeToSend,
+  //     });
+
+  //     dispatch(addToCart(response.data));
+
+  //     toast.success("Your product add to cart successfully");
+  //   } catch (error) {
+  //     console.error("Error creating cart:", error);
+  //   }
+  // };
+
   const createCart = async () => {
     const numericWeight = parseFloat(inputweight);
 
     // Check if inputWeight is valid based on weightType
     if (
-      (weightType === "kg" && (isNaN(numericWeight) || numericWeight < 0.9)) ||
+      (weightType === "kg" &&
+        (isNaN(numericWeight) ||
+          numericWeight < 0.05 ||
+          numericWeight >= 100)) ||
       (weightType === "gram" &&
         (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
     ) {
-      toast.warning(`Please enter a valid input for ${weightType}.`);
+      if (weightType === "gram") {
+        toast.warning("Please enter a valid input for Gram");
+      } else {
+        toast.warning(`Please enter a valid input for ${weightType}`);
+      }
       return;
     }
 
     let unitTypeToSend = weightType;
+    let responseWeight = numericWeight; // Default to user-entered weight
 
     if (weightType === "gram") {
-      unitTypeToSend = "kg"; // Change unitType to kg
+      unitTypeToSend = "kg"; // Convert grams to kg for backend
+      responseWeight = numericWeight; // Convert grams to kg
     }
+
+    // Always send "1" for grams
+    const quantityToSend = weightType === "gram" ? 1 : numericWeight;
 
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
         productId: id,
         totalPrice: finalPrice,
-        weight: responseWeight,
+        weight: responseWeight, // Actual weight in kg for backend
         weight_type: unitTypeToSend,
+        quantity: quantityToSend, // 1 for grams, actual for kg & pcs
       });
 
       dispatch(addToCart(response.data));
 
-      toast.success("Your product add to cart successfully");
+      toast.success("Your product added to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
+      toast.error("Error creating cart. Please try again.");
     }
   };
+
   const totalStars = 5;
 
   // Initialize tooltips after the component mounts

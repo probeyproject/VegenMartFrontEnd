@@ -42,6 +42,7 @@ function Pannelproducts({ data }) {
                 inStock={product.stock}
                 discount_price={product.discount_price}
                 inStos={product.offers}
+                discountRanges={product.discountRanges}
               />
             </div>
           );

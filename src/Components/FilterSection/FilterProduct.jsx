@@ -178,6 +178,7 @@ function FilterProduct({
               viewLink="view-product.html"
               compareLink="compare.html"
               wishlistLink="wishlist.html"
+              discountRanges={product.discountRanges}
             />
           </div>
         ))}

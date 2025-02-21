@@ -214,7 +214,7 @@ function Checkout() {
 
   const getProductsData = () => {
     return carts.map((cart) => ({
-      id: cart.id || cart.combo_id,
+      id: cart.product_id || cart.combo_id,
       product_name: cart.product_name || cart.combo_title,
       product_image: cart.product_image || cart.combo_image,
       product_price: cart.product_price || cart.combo_price, // Assuming this is the unique ID for the product // Retrieve quantity from quantities state
@@ -273,7 +273,7 @@ function Checkout() {
       }
 
       const response = await axios.post(
-        `${baseUrl}/calculate-price/${product.id}`,
+        `${baseUrl}/calculate-price/${product.product_id}`,
         { weight: newWeight, unitType: weightType }
       );
 
@@ -328,7 +328,7 @@ function Checkout() {
       }
 
       const response = await axios.post(
-        `${baseUrl}/calculate-price/${product.id}`,
+        `${baseUrl}/calculate-price/${product.product_id}`,
         { weight: newWeight, unitType: weightType }
       );
 
@@ -370,7 +370,7 @@ function Checkout() {
         return;
       }
 
-      await axios.put(`${baseUrl}/cart/${userId}/${product.id}`, {
+      await axios.put(`${baseUrl}/cart/${userId}/${product.product_id}`, {
         totalPrice: newTotalPrice,
         cartStatus: "updated",
         weight: newWeight,
@@ -741,53 +741,81 @@ function Checkout() {
                     </div>
                     <ul className="summery-contain">
                       {carts.map((cart, index) => (
-                        <li key={cart.cart_id}>
-                          {/* {console.log(cart)} */}
-                          <img
-                            src={JSON.parse(cart.product_image)[0]}
-                            className="img-fluid blur-up lazyloaded checkout-image"
-                            alt={cart.product_name}
-                          />
-                          <div className="cart_qty qty-box open w-50">
-                            <div className="input-group">
-                              {/* Decrease button */}
-                              <button
-                                type="button"
-                                className="qty-left-minus"
-                                onClick={() => handleDecreaseWeight(index)}
-                              >
-                                <i className="fa fa-minus" />
-                              </button>
+                        <li key={cart.cart_id} className="d-flex">
+                          <div>
+                            <img
+                              src={JSON.parse(cart.product_image)[0]}
+                              className="blur-up lazyloaded checkout-image rounded"
+                              alt={cart.product_name}
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </div>
 
-                              <input
-                                className="form-control input-number qty-input"
-                                type="text"
-                                name="quantity"
-                                value={cart.quantity}
-                                readOnly
-                              />
+                          <div className="d-flex flex-column">
+                            <div>
+                              <span>
+                                {cart.product_name.substring(0, 12)}
+                                {"... "}
+                                {cart.combo_id === null
+                                  ? cart.unit
+                                  : "Combo"}{" "}
+                                {cart.combo_id ? "" : cart.weight_type}
+                              </span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-center">
+                              <div className="cart_qty qty-box open w-50">
+                                <div className="input-group">
+                                  {/* Decrease button */}
+                                  <button
+                                    type="button"
+                                    className="qty-left-minus"
+                                    onClick={() => handleDecreaseWeight(index)}
+                                  >
+                                    <i className="fa fa-minus" />
+                                  </button>
 
-                              {/* Increase button */}
-                              <button
-                                type="button"
-                                className="qty-right-plus"
-                                onClick={() => handleIncreaseWeight(index)}
+                                  {/* <input
+className="form-control input-number qty-input"
+type="text"
+name="quantity"
+value={cart.unit}
+readOnly
+/> */}
+                                  <input
+                                    className="form-control input-number qty-input"
+                                    type="text"
+                                    name="quantity"
+                                    value={cart.quantity}
+                                    readOnly
+                                  />
+
+                                  {/* Increase button */}
+                                  <button
+                                    type="button"
+                                    className="qty-right-plus"
+                                    onClick={() => handleIncreaseWeight(index)}
+                                  >
+                                    <i className="fa fa-plus" />
+                                  </button>
+                                </div>
+                              </div>
+                              <h4 className="price">₹{cart.price}</h4>
+                              <Link onClick={() => handleDelete(cart.cart_id)}>
+                                <MdDeleteForever className="text-danger fs-3 ms-3" />
+                              </Link>
+                              <Link
+                                onClick={() =>
+                                  handleAddToWishlist(cart.product_id)
+                                }
                               >
-                                <i className="fa fa-plus" />
-                              </button>
+                                <FaHeart className="text-danger fs-4 ms-3" />
+                              </Link>
                             </div>
                           </div>
-                          <h4 className="price">₹{cart.price}</h4>
-                          <Link onClick={() => handleDelete(cart.cart_id)}>
-                            <MdDeleteForever className="text-danger fs-3 ms-3" />
-                          </Link>
-                          <Link onClick={() => handleAddToWishlist(cart.id)}>
-                            <FaHeart
-                              className={`fs-4 ms-3 ${
-                                isInWishlist ? "text-danger" : ""
-                              }`}
-                            />
-                          </Link>
                         </li>
                       ))}
                     </ul>

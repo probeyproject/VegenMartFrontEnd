@@ -137,8 +137,6 @@ const ProductBox = ({
     }
   };
 
-  console.log(discountRanges);
-
   const handleChange = (e) => {
     const value = e.target.value;
     setInputWeight(value);
@@ -151,16 +149,16 @@ const ProductBox = ({
 
     // Proceed with checking the weightType only if value is not empty
     if (weightType === "kg") {
-      if (Number(value) < 1 || Number(value) > 15) {
-        setWarningMsg("Enter 1 to 15 Kg");
+      if (Number(value) < 1 || Number(value) > 100) {
+        setWarningMsg("Enter 1 to 100 Kg");
       } else {
         setWarningMsg(""); // Clear the warning if the condition is met
       }
     } else if (weightType === "pieces") {
       if (Number(value) < 5) {
         setWarningMsg("Enter 5 pieces or above.");
-      } else if (Number(value) > 30) {
-        setWarningMsg("Maximum 30 pieces allowed.");
+      } else if (Number(value) > 300) {
+        setWarningMsg("Maximum 300 pieces allowed.");
       } else {
         setWarningMsg(""); // Clear the warning if the condition is met
       }
@@ -182,10 +180,10 @@ const ProductBox = ({
     if (numericWeight && weightType) {
       // Check weight conditions based on weight type
       if (
-        (weightType === "kg" && numericWeight <= 15 && numericWeight >= 1) || // Kg condition
+        (weightType === "kg" && numericWeight <= 100 && numericWeight >= 1) || // Kg condition
         (weightType === "pieces" &&
           numericWeight >= 5 &&
-          numericWeight <= 30) || // pieces condition (numericWeight between 5 and 30)
+          numericWeight <= 300) || // pieces condition (numericWeight between 5 and 30)
         weightType === "gram" // g condition (no numericWeight restriction)
       ) {
         calculatePrice(numericWeight); // Call the API only if valid
@@ -210,8 +208,25 @@ const ProductBox = ({
         }
       );
 
-      setFinalPrice(response.data.final_price);
-      setResponseWeight(response.data.weight);
+      let finalPrice = response.data.final_price;
+      const responseWeight = response.data.weight;
+
+      // Apply discount if weight falls within any range
+      const applicableDiscount = discountRanges.find(
+        (range) =>
+          responseWeight >= range.quantityFrom &&
+          responseWeight <= range.quantityTo
+      );
+
+      if (applicableDiscount) {
+        const discountPercentage = applicableDiscount.discountPercentage;
+        const discountAmount = (finalPrice * discountPercentage) / 100;
+        finalPrice -= discountAmount; // Apply discount
+      }
+
+      // Update state with the new final price and weight
+      setFinalPrice(finalPrice);
+      setResponseWeight(responseWeight);
     } catch (error) {
       console.error("Error:", error);
       toast.warning("Please provide valid input & try again.");
@@ -232,7 +247,7 @@ const ProductBox = ({
       (weightType === "kg" &&
         (isNaN(numericWeight) ||
           numericWeight < 0.05 ||
-          numericWeight >= 15)) ||
+          numericWeight >= 100)) ||
       (weightType === "gram" &&
         (isNaN(numericWeight) || numericWeight < 0.05)) ||
       (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
@@ -663,6 +678,7 @@ const ProductBox = ({
         weight={weight}
         weight_type={weight_type}
         handleClose={toogleModalProduct}
+        discountRanges={discountRanges}
       />
     </div>
   );

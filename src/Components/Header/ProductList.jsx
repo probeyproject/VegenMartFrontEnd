@@ -116,6 +116,7 @@ const ProductList = () => {
                             weight_type={product.weight_type}
                             discount_price={product.discount_price}
                             average_rating={product.average_rating}
+                            discountRanges={product.discountRanges}
                           />
                         </div>
                       </div>
