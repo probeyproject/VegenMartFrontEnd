@@ -183,14 +183,13 @@ const CategoryProductCarousel = ({ categoryId }) => {
                   >
                     +
                   </div>
-                  
                 </div>
                 <p
-                    className="mb-0 fw-semibold text-muted ms-2"
-                    style={{ fontSize: "14px", color: "#1C1C1C" }}
-                  >
-                    View More
-                  </p>
+                  className="mb-0 fw-semibold text-muted ms-2"
+                  style={{ fontSize: "14px", color: "#1C1C1C" }}
+                >
+                  View More
+                </p>
               </div>
             )}
           </div>
@@ -227,6 +226,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
               discount_price={product.discount_price}
               average_rating={product.average_rating}
               offers={product.offers}
+              discountRanges={product.discountRanges}
             />
           </div>
         ))}

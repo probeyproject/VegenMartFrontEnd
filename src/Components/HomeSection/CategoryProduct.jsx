@@ -59,6 +59,7 @@ const CategoryProduct = ({ categoryId }) => {
               discount_price={product.discount_price}
               average_rating={product.average_rating}
               offers={product.offers}
+              discountRanges={product.discountRanges}
             />
           </div>
         ))}
@@ -66,7 +67,10 @@ const CategoryProduct = ({ categoryId }) => {
       {/* Show "View More" button if there are more products to display */}
       {products.length > visibleProducts && (
         <div className="view-more-button d-flex justify-content-center mt-1">
-          <Link to={`/pannelpage/${categoryId}`} className="btn btn-animation mb-2 ">
+          <Link
+            to={`/pannelpage/${categoryId}`}
+            className="btn btn-animation mb-2 "
+          >
             View More
           </Link>
         </div>
