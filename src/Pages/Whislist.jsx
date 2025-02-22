@@ -5,12 +5,12 @@ import HeaderBottom from "../Components/Header/HeaderBottom";
 import Footer from "../Components/Common/Footer";
 import ProductBox from "../Components/ProductSection/ProductBox";
 import axios from "axios";
-import { toast } from "react-toastify"; // Ensure you import toast
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../API/Api";
 
-function Whislist() {
+function Wishlist() {
   const [data, setData] = useState([]);
   const userState = useSelector((state) => state.user);
   const userId = userState?.user?.id;
@@ -18,8 +18,8 @@ function Whislist() {
   async function fetchAllWishlist() {
     try {
       const response = await axios.get(`${baseUrl}/getWishlist/${userId}`);
-      const data = await response.data;
-      setData(data);
+      console.log(response.data);
+      setData(response.data);
     } catch (error) {
       console.error("Error fetching wishlist data:", error);
     }
@@ -27,13 +27,11 @@ function Whislist() {
 
   const handleDelete = async (userId, productId) => {
     try {
-      const requestBody = {
-        userId: userId,
-        productId: productId,
-      };
-      await axios.delete(`${baseUrl}/deleteWishlist`, { data: requestBody });
+      await axios.delete(`${baseUrl}/deleteWishlist`, {
+        data: { userId, productId },
+      });
       toast.success("Wishlist item removed successfully");
-      fetchAllWishlist(); // Refresh the wishlist after deletion
+      fetchAllWishlist();
     } catch (error) {
       console.error("Error deleting item:", error);
       toast.error("There was a problem removing the wishlist item");
@@ -46,26 +44,27 @@ function Whislist() {
 
   return (
     <>
-      <div className="container-fluid px-0 overflow-hidden">
+      <div className="container-fluid px-0">
         <header className="pb-md-4 pb-0">
           <HeaderTop />
           <HeaderMiddle />
           <HeaderBottom />
         </header>
+
         <section className="breadcrumb-section pt-0">
           <div className="container-fluid-lg">
             <div className="row">
               <div className="col-12">
-                <div className="breadcrumb-contain">
-                  <h6>Wishlist</h6>
+                <div className="breadcrumb-contain text-center">
+                  <h6 className="mb-2">Wishlist</h6>
                   <nav>
-                    <ol className="breadcrumb mb-0">
+                    <ol className="breadcrumb mb-0 justify-content-center">
                       <li className="breadcrumb-item">
                         <Link to={"/"}>
-                          <i className="fa-solid fa-house" />
+                          <i className="fa-solid fa-house"></i>
                         </Link>
                       </li>
-                      <li className="breadcrumb-item active">Wishlists</li>
+                      <li className="breadcrumb-item active">Wishlist</li>
                     </ol>
                   </nav>
                 </div>
@@ -74,55 +73,48 @@ function Whislist() {
           </div>
         </section>
 
-        <div className="container row">
-          {data && data.length > 0 ? (
-            data.map((product, index) => (
-              <div
-                className="col-lg-3 col-6 position-relative p-3"
-                key={`product-${product.product_id}`} // Use product_id for unique key
-              >
-                <button
-                  onClick={() => handleDelete(userId, product.product_id)} // Pass dynamic product_id
-                  className="btn btn-sm btn-light btn-close shadow top-0 start-0 z-1 mx-4 mt-3 me-5 position-absolute p-2 rounded-circle"
+        <div className="container pb-5">
+          <div className="row justify-content-center">
+            {data && data.length > 0 ? (
+              data.map((product) => (
+                <div
+                  className="col-lg-3 col-md-4 col-6 position-relative p-3"
+                  key={`product-${product.product_id}`}
                 >
-                  &times;
-                </button>
-                <div style={{ width: "180px" }}>
-                  <ProductBox
-                    product_id={product.product_id}
-                    imageSrc={JSON.parse(product.product_image)}
-                    productName={product.product_name}
-                    currentPrice={product.product_price}
-                    weight={product.weight}
-                    weight_type={product.weight_type}
-                    inStock={product.stock}
-                    discount_price={product.discount_price}
-                    compareLink={product.stock}
-                    wishlistLink={product.stock}
-                    offers={product.offers}
-                    discountRanges={product.discountRanges}
-                  />
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="text-center">
-              <div className="d-flex flex-column align-items-center justify-content-center text-center">
-                <div>
-                  <h3 className="mt-2">You have no wishlist</h3>
-                </div>
-
-                <div>
-                  <Link
-                    to="/"
-                    className="btn btn-animation btn-md fw-bold mt-3 mb-2"
+                  <button
+                    onClick={() => handleDelete(userId, product.product_id)}
+                    className="btn btn-sm btn-light btn-close shadow bg-gray position-absolute top-0 start-0 m-2 p-2 rounded-circle"
                   >
-                    Continue to Shopping
-                  </Link>
+                    &times;
+                  </button>
+                  <div className=" container">
+                    <ProductBox
+                      product_id={product.product_id}
+                      imageSrc={JSON.parse(product.product_image)}
+                      productName={product.product_name}
+                      currentPrice={product.product_price}
+                      weight={product.weight}
+                      weight_type={product.weight_type}
+                      inStock={product.stock}
+                      discount_price={product.discount_price}
+                      compareLink={product.stock}
+                      wishlistLink={product.stock}
+                      offers={product.offers}
+                      discountRanges={product.discountRanges}
+                      minWeight={product.min_weight}
+                    />
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="col-12 text-center">
+                <h3 className="mt-2">Your wishlist is empty</h3>
+                <Link to="/" className="btn btn-animation btn-md fw-bold mt-3">
+                  Continue Shopping
+                </Link>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <Footer />
@@ -130,4 +122,4 @@ function Whislist() {
   );
 }
 
-export default Whislist;
+export default Wishlist;

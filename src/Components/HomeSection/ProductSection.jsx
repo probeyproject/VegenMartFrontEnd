@@ -506,6 +506,7 @@ function ProductSection() {
                                   average_rating={product.average_rating}
                                   offers={product.offers}
                                   discountRanges={product.discountRanges}
+                                  minWeight={product.min_weight}
                                   defaultWeight={
                                     cart?.some(
                                       (cartItem) =>

@@ -770,16 +770,18 @@ function Account() {
                         </ul>
 
                         {/* Download Invoice */}
-                        <div className="text-center mt-4">
-                          <a
-                            href={selectedOrder.invoice}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-success px-4 py-2"
-                          >
-                            📄 Download Invoice
-                          </a>
-                        </div>
+                        {selectedOrder.order_status === "Delivered" && (
+                          <div className="text-center mt-4">
+                            <a
+                              href={selectedOrder.invoice}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-success px-4 py-2"
+                            >
+                              📄 Download Invoice
+                            </a>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

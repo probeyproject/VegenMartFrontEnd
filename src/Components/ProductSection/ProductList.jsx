@@ -85,6 +85,7 @@ const ProductList = () => {
           imageSrc={JSON.parse(product.product_image)[0]}
           productName={product.product_name}
           price={product.product_price}
+          
         />
       ))}
     </ul>

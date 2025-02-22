@@ -260,32 +260,43 @@ function DetailPage() {
   const numericWeight = Number(inputweight);
 
   const handleChange = (e) => {
-    const value = e.target.value;
+    let value = parseFloat(e.target.value); // Convert to number
     setInputWeight(value);
 
-    // Check if the input value is empty or null
-    if (!value) {
-      setWarningMsg(""); // Clear the warning message if the input is empty
-      return; // Exit the function early
+    // If input is empty or null, clear warning and exit
+    if (!value || isNaN(value)) {
+      setWarningMsg("");
+      return;
     }
 
-    // Proceed with checking the weightType only if value is not empty
+    // Convert minWeight to correct format
+    const minWeightKg = product[0].min_weight / 1000; // Convert grams to kg for comparison
+    const minWeightGram = product[0].min_weight; // Keep grams as is
+
+    // Validate weight based on type
     if (weightType === "kg") {
-      if (Number(value) < 1 || Number(value) > 100) {
-        setWarningMsg("Enter 1 to 100 Kg");
+      if (value < minWeightKg || value > 100) {
+        setWarningMsg(`Enter between ${minWeightKg} Kg to 100 Kg`);
       } else {
-        setWarningMsg(""); // Clear the warning if the condition is met
+        setWarningMsg(""); // Clear warning if valid
       }
     } else if (weightType === "pieces") {
-      if (Number(value) < 5) {
-        setWarningMsg("Enter 5 pieces or above.");
-      } else if (Number(value) > 300) {
+      if (value < 5) {
+        setWarningMsg(`Enter at least ${5} pieces`);
+      } else if (value > 300) {
         setWarningMsg("Maximum 300 pieces allowed.");
       } else {
-        setWarningMsg(""); // Clear the warning if the condition is met
+        setWarningMsg(""); // Clear warning if valid
+      }
+    } else if (weightType === "gram") {
+      if (value * 1000 < minWeightGram) {
+        // Convert kg input to grams for comparison
+        setWarningMsg(`Select minimum ${minWeightGram} grams`);
+      } else {
+        setWarningMsg(""); // Clear warning if valid
       }
     } else {
-      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "kg" or "pieces"
+      setWarningMsg(""); // Clear warning if weightType is not recognized
     }
   };
 
@@ -392,34 +403,56 @@ function DetailPage() {
   const createCart = async () => {
     const numericWeight = parseFloat(inputweight);
 
-    // Check if inputWeight is valid based on weightType
-    if (
-      (weightType === "kg" &&
-        (isNaN(numericWeight) ||
-          numericWeight < 0.05 ||
-          numericWeight >= 100)) ||
-      (weightType === "gram" &&
-        (isNaN(numericWeight) || numericWeight < 0.05)) ||
-      (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
-    ) {
-      if (weightType === "gram") {
-        toast.warning("Please enter a valid input for Gram");
-      } else {
-        toast.warning(`Please enter a valid input for ${weightType}`);
-      }
+    // If input is empty or invalid, show warning and exit
+    if (!numericWeight || isNaN(numericWeight)) {
+      toast.warning(`Please enter a valid input for ${weightType}`);
       return;
     }
 
+    console.log(
+      "Cart Input:",
+      numericWeight,
+      "Min Weight:",
+      product[0].min_weight,
+      "Weight Type:",
+      weightType
+    );
+
+    // Convert minWeight to correct format
+    const minWeightKg = product[0].min_weight / 1000; // Convert grams to kg for comparison
+    const minWeightGram = product[0].min_weight; // Use the correct value from the product
+
     let unitTypeToSend = weightType;
-    let responseWeight = numericWeight; // Default to user-entered weight
+    let responseWeight = numericWeight;
+    let quantityToSend = numericWeight;
 
-    if (weightType === "gram") {
+    // **Fix: Validate weight correctly for grams and kg**
+    if (weightType === "kg") {
+      if (numericWeight < minWeightKg || numericWeight > 100) {
+        toast.warning(`Enter between ${minWeightKg} Kg to 100 Kg`);
+        return;
+      }
+    } else if (weightType === "pieces") {
+      if (numericWeight < 5) {
+        toast.warning(`Enter at least ${5} pieces`);
+        return;
+      } else if (numericWeight > 300) {
+        toast.warning("Maximum 300 pieces allowed.");
+        return;
+      }
+    } else if (weightType === "gram") {
+      if (numericWeight * 1000 < minWeightGram) {
+        // Fix: Convert kg input to grams for proper comparison
+        toast.warning(`Select minimum ${minWeightGram} grams`);
+        return;
+      }
       unitTypeToSend = "kg"; // Convert grams to kg for backend
-      responseWeight = numericWeight; // Convert grams to kg
+      responseWeight = numericWeight; // Keep the correct conversion
+      quantityToSend = 1; // Always send "1" for grams
+    } else {
+      toast.warning("Invalid weight type");
+      return;
     }
-
-    // Always send "1" for grams
-    const quantityToSend = weightType === "gram" ? 1 : numericWeight;
 
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
@@ -432,7 +465,7 @@ function DetailPage() {
 
       dispatch(addToCart(response.data));
 
-      toast.success("Your product added to cart successfully");
+      toast.success("Your product was added to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
       toast.error("Error creating cart. Please try again.");

@@ -227,6 +227,7 @@ const CategoryProductCarousel = ({ categoryId }) => {
               average_rating={product.average_rating}
               offers={product.offers}
               discountRanges={product.discountRanges}
+              minWeight={product.min_weight}
             />
           </div>
         ))}

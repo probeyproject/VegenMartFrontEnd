@@ -26,7 +26,9 @@ function Pannelproducts({ data }) {
 
   return (
     <div className="cards_container overflow-hidden">
-      <h2 className="_text_ mx-4">Buy <span className="text-danger">{data}</span></h2>
+      <h2 className="_text_ mx-4">
+        Buy <span className="text-danger">{data}</span>
+      </h2>
       <div className="filter_container">
         {sortedProducts.map((product, index) => {
           return (

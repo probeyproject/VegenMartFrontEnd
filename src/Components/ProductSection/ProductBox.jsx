@@ -33,6 +33,7 @@ const ProductBox = ({
   defaultWeightType,
   onImageClick,
   discountRanges,
+  minWeight,
 }) => {
   // useEffect(() => {
   //   AOS.init({
@@ -138,32 +139,58 @@ const ProductBox = ({
   };
 
   const handleChange = (e) => {
-    const value = e.target.value;
+    let value = parseFloat(e.target.value); // Convert input to a number
     setInputWeight(value);
 
-    // Check if the input value is empty or null
+    // If input is empty or null, clear warning and exit
     if (!value) {
-      setWarningMsg(""); // Clear the warning message if the input is empty
-      return; // Exit the function early
+      setWarningMsg("");
+      return;
     }
 
-    // Proceed with checking the weightType only if value is not empty
+    // Convert minWeight to the correct format
+    const minWeightKg = minWeight / 1000; // Convert grams to kg
+    const minWeightGram = minWeight; // Keep grams as is
+
+    // Adjust value for grams selection
+    if (weightType === "gram" && value < 1) {
+      value = value * 1000; // Convert fraction kg to grams
+    }
+
+    // Check if input is below minimum allowed weight
+    if (weightType === "kg" && value < minWeightKg) {
+      setWarningMsg(`Select minimum ${minWeight} grams (${minWeightKg} Kg)`);
+      return;
+    }
+
+    if (weightType === "gram" && value < minWeightGram) {
+      setWarningMsg(`Select minimum ${minWeightGram} grams`);
+      return;
+    }
+
+    // Validation based on weight type
     if (weightType === "kg") {
-      if (Number(value) < 1 || Number(value) > 100) {
-        setWarningMsg("Enter 1 to 100 Kg");
+      if (value < minWeightKg || value > 100) {
+        setWarningMsg(`Enter between ${minWeightKg} Kg to 100 Kg`);
       } else {
-        setWarningMsg(""); // Clear the warning if the condition is met
+        setWarningMsg(""); // Clear warning if valid
       }
     } else if (weightType === "pieces") {
-      if (Number(value) < 5) {
-        setWarningMsg("Enter 5 pieces or above.");
-      } else if (Number(value) > 300) {
+      if (value < 5) {
+        setWarningMsg(`Enter at least ${5} pieces`);
+      } else if (value > 300) {
         setWarningMsg("Maximum 300 pieces allowed.");
       } else {
-        setWarningMsg(""); // Clear the warning if the condition is met
+        setWarningMsg(""); // Clear warning if valid
+      }
+    } else if (weightType === "gram") {
+      if (value < minWeightGram) {
+        setWarningMsg(`Select minimum ${minWeightGram} grams`);
+      } else {
+        setWarningMsg(""); // Clear warning if valid
       }
     } else {
-      setWarningMsg(""); // Clear the warning if weightType is not recognized or is other than "kg" or "pieces"
+      setWarningMsg(""); // Clear warning if weightType is not recognized
     }
   };
 
@@ -242,34 +269,56 @@ const ProductBox = ({
   const createCart = async () => {
     const numericWeight = parseFloat(inputweight);
 
-    // Check if inputWeight is valid based on weightType
-    if (
-      (weightType === "kg" &&
-        (isNaN(numericWeight) ||
-          numericWeight < 0.05 ||
-          numericWeight >= 100)) ||
-      (weightType === "gram" &&
-        (isNaN(numericWeight) || numericWeight < 0.05)) ||
-      (weightType === "pieces" && (isNaN(numericWeight) || numericWeight < 5))
-    ) {
-      if (weightType === "gram") {
-        toast.warning("Please enter a valid input for Gram");
-      } else {
-        toast.warning(`Please enter a valid input for ${weightType}`);
-      }
+    // If input is empty or invalid, show warning and exit
+    if (!numericWeight || isNaN(numericWeight)) {
+      toast.warning(`Please enter a valid input for ${weightType}`);
       return;
     }
 
+    console.log(
+      "Cart Input:",
+      numericWeight,
+      "Min Weight:",
+      minWeight,
+      "Weight Type:",
+      weightType
+    );
+
+    // Convert minWeight to correct format
+    const minWeightKg = minWeight / 1000; // Convert grams to kg
+    const minWeightGram = minWeight; // Keep grams as is
+
     let unitTypeToSend = weightType;
-    let responseWeight = numericWeight; // Default to user-entered weight
+    let responseWeight = numericWeight;
+    let quantityToSend = numericWeight;
 
-    if (weightType === "gram") {
+    // **Fix: Validate weight correctly for grams and kg**
+    if (weightType === "kg") {
+      if (numericWeight < minWeightKg || numericWeight > 100) {
+        toast.warning(`Enter between ${minWeightKg} Kg to 100 Kg`);
+        return;
+      }
+    } else if (weightType === "pieces") {
+      if (numericWeight < 5) {
+        toast.warning(`Enter at least ${5} pieces`);
+        return;
+      } else if (numericWeight > 300) {
+        toast.warning("Maximum 300 pieces allowed.");
+        return;
+      }
+    } else if (weightType === "gram") {
+      if (numericWeight * 1000 < minWeightGram) {
+        // Convert kg input to grams for comparison
+        toast.warning(`Select minimum ${minWeightGram} grams`);
+        return;
+      }
       unitTypeToSend = "kg"; // Convert grams to kg for backend
-      responseWeight = numericWeight; // Convert grams to kg
+      responseWeight = numericWeight / 1000; // Convert grams to kg
+      quantityToSend = 1; // Always send "1" for grams
+    } else {
+      toast.warning("Invalid weight type");
+      return;
     }
-
-    // Always send "1" for grams
-    const quantityToSend = weightType === "gram" ? 1 : numericWeight;
 
     try {
       const response = await axios.post(`${baseUrl}/create/cart/${userId}`, {
@@ -282,7 +331,7 @@ const ProductBox = ({
 
       dispatch(addToCart(response.data));
 
-      toast.success("Your product added to cart successfully");
+      toast.success("Your product was added to cart successfully");
     } catch (error) {
       console.error("Error creating cart:", error);
       toast.error("Error creating cart. Please try again.");
@@ -679,6 +728,7 @@ const ProductBox = ({
         weight_type={weight_type}
         handleClose={toogleModalProduct}
         discountRanges={discountRanges}
+        minWeight={minWeight}
       />
     </div>
   );
