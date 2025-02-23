@@ -321,7 +321,7 @@ function Checkout() {
 
       let newWeight;
 
-      if (1 < currentWeight && currentWeight <= 1) {
+      if ( currentWeight <= 1) {
         newWeight = Number((currentWeight - 0.05).toFixed(2)); // Decrease in smaller steps for grams
       } else {
         newWeight = Number((currentWeight - 1).toFixed(2)); // Decrease by 1 for kg and pcs
