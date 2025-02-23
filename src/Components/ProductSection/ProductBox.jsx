@@ -313,7 +313,7 @@ const ProductBox = ({
         return;
       }
       unitTypeToSend = "kg"; // Convert grams to kg for backend
-      responseWeight = numericWeight / 1000; // Convert grams to kg
+      responseWeight = numericWeight; // Convert grams to kg
       quantityToSend = 1; // Always send "1" for grams
     } else {
       toast.warning("Invalid weight type");
