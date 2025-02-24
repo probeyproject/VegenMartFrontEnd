@@ -321,7 +321,7 @@ function Checkout() {
 
       let newWeight;
 
-      if ( currentWeight <= 1) {
+      if (currentWeight <= 1) {
         newWeight = Number((currentWeight - 0.05).toFixed(2)); // Decrease in smaller steps for grams
       } else {
         newWeight = Number((currentWeight - 1).toFixed(2)); // Decrease by 1 for kg and pcs
@@ -609,8 +609,8 @@ function Checkout() {
       const tableData = paymentData.products.map((product) => [
         product.product_name,
         `${product.unit} ${product.weight_type}`, // Include unit and weight type in quantity
-        `${parseFloat(product.product_price).toFixed(2)}`,
-        `${(parseFloat(product.unit) * parseFloat(product.product_price)).toFixed(2)}`,
+        `${parseFloat(product.product_price - product.discount_price).toFixed(2)}`,
+        `${(parseFloat(product.unit) * parseFloat(product.product_price - product.discount_price)).toFixed(2)}`,
       ]);
 
       doc.autoTable({
@@ -644,12 +644,7 @@ function Checkout() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response.data.cloudinary_url) {
-        toast.success("Invoice uploaded successfully!");
-        window.open(response.data.cloudinary_url, "_blank"); // Open invoice link
-      } else {
-        toast.error("Invoice uploaded but no download link available.");
-      }
+    
     } catch (error) {
       console.error("Invoice Generation Error:", error);
       toast.error("Failed to generate invoice.");
