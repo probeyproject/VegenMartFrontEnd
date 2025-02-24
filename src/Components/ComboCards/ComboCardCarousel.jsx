@@ -35,10 +35,49 @@ export default function ComboCardCarousel() {
   const [comboList, setComboList] = useState();
   const [visibleCount, setVisibleCount] = useState(2); // Initially show 4 combos
 
+  const [comboPrices, setComboPrices] = useState({});
+
   const showMoreCombos = () => {
     setVisibleCount((prevCount) => prevCount + 2); // Show 4 more on each click
   };
 
+  useEffect(() => {
+    fetchProductPrices();
+  }, [comboList]);
+
+  const fetchProductPrices = async () => {
+    let updatedComboPrices = {};
+
+    for (let combo of comboList) {
+      let totalComboPrice = 0;
+
+      for (let product of combo.products) {
+        try {
+          const response = await axios.post(
+            `${baseUrl}/calculate-price/${product.product_id}`,
+            {
+              weight: parseFloat(product.quantity),
+              unitType: product.quantity_type,
+            }
+          );
+
+          const finalProductPrice =
+            response.data.final_price || parseFloat(product.product_price);
+          totalComboPrice += finalProductPrice;
+        } catch (error) {
+          console.error(
+            "Error fetching price for product:",
+            product.product_id,
+            error
+          );
+        }
+      }
+
+      updatedComboPrices[combo.combo_id] = totalComboPrice;
+    }
+
+    setComboPrices(updatedComboPrices);
+  };
   console.log(combos);
 
   useEffect(() => {
@@ -266,12 +305,9 @@ export default function ComboCardCarousel() {
       <div className="container">
         <div className="row">
           {comboList?.slice(0, visibleCount).map((combo) => {
-            let totalPrice = combo.products.reduce(
-              (sum, product) => sum + Number(product.product_price),
-              0
-            );
-
-            const comboPrice = combo.price;
+            const calculatedComboPrice = comboPrices[combo.combo_id] || 0;
+            const comboPrice =
+              combo.price > 0 ? combo.price : calculatedComboPrice;
 
             return (
               <div
@@ -350,19 +386,20 @@ export default function ComboCardCarousel() {
                   </div>
 
                   <div className="d-flex gap-2 align-items-center">
-                    {comboPrice && comboPrice < totalPrice && (
+                    {comboPrice < calculatedComboPrice && (
                       <p className="fw-bold text-start mb-0">
                         ₹{comboPrice.toFixed(2)}
                       </p>
                     )}
                     <p className="text-start mb-0 text-decoration-line-through">
-                      ₹{totalPrice.toFixed(2)}
+                      ₹{calculatedComboPrice.toFixed(2)}
                     </p>
 
-                    {comboPrice && comboPrice < totalPrice && (
+                    {comboPrice < calculatedComboPrice && (
                       <p className="text-muted mb-0 text-danger">
                         {(
-                          ((totalPrice - comboPrice) / totalPrice) *
+                          ((calculatedComboPrice - comboPrice) /
+                            calculatedComboPrice) *
                           100
                         ).toFixed(0)}
                         % OFF
