@@ -497,7 +497,7 @@ function Checkout() {
 
       if (paymentMode === "online") {
         const options = {
-          key: "rzp_test_y06V2AOq27a4Lt",
+          key: "rzp_live_iTAEggGYctQmQk",
           amount: calculatedPrice * 100,
           currency: "INR",
           name: "Vegenmart",

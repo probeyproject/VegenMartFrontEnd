@@ -57,6 +57,7 @@ const ProductBox = ({
   const [isModalDiscount, setIsModalDiscount] = useState(false);
   const [modal, setModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+  const [calcultedDis ,setCalculateDis] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -216,6 +217,8 @@ const ProductBox = ({
         calculatePrice(numericWeight); // Call the API only if valid
       }
     }
+
+  
   }, [inputweight, weightType]);
 
   const calculatePrice = async (numericWeight) => {
@@ -247,6 +250,7 @@ const ProductBox = ({
 
       if (applicableDiscount) {
         const discountPercentage = applicableDiscount.discountPercentage;
+        setCalculateDis(discountPercentage)
         const discountAmount = (finalPrice * discountPercentage) / 100;
         finalPrice -= discountAmount; // Apply discount
       }
@@ -343,12 +347,12 @@ const ProductBox = ({
       <div className="col-12">
         <div
           className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`}
-          style={{ height: "300px" }}
+          style={{ height: "309px" }}
         >
           <div>
             <div
               className="product-image p-0 m-0  img-fluid"
-              style={{ height: "130px" }}
+              style={{ height: "128px" }}
             >
               <div className="position-absolute top-1 end-0 z-1">
                 {/* <BsInfoCircle
@@ -500,96 +504,16 @@ const ProductBox = ({
                 </span>
               </h5>
 
-              <div className="product-rating d-flex center justify-content-between align-content-center">
-                <div className="">
-                  <ul className="rating small">
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-star fill"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </li>
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-star fill"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </li>
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-star fill"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </li>
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-star fill"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </li>
-                    <li>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-star"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="theme-color small" style={{ fontSize: "12px" }}>
+              <div className="d-flex  justify-content-between align-content-center">
+                  <div>
+                 {calcultedDis &&    <p style={{fontSize:"11px"}}>Extra {calcultedDis}% OFF</p>}
+                  </div>
+                <div className="d-flex " >
+                  <p className="theme-color small " style={{ fontSize: "10px" }}>
                     {inStock ? "In Stock" : "Out of Stock"}
-                  </p>
+                  </p>  
                 </div>
+              
               </div>
 
               <div className="d-flex justify-content-between">
@@ -604,7 +528,7 @@ const ProductBox = ({
                     value={weightType} // Control the select with state
                   >
                     {weight_type === "pieces" && (
-                      <option value="pieces">Pieces</option>
+                      <option value="pieces" className="">Pieces</option>
                     )}
                     {weight_type === "pieces" && (
                       <option value="pieces">Pieces</option>

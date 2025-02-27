@@ -39,7 +39,7 @@ function HeaderMiddle() {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null); // selected
-
+  // const [emptyState, setEmptyState] = useState(false);
   const selectedLocation = useSelector(
     (state) => state.location.selectedLocation
   );
@@ -75,6 +75,7 @@ function HeaderMiddle() {
   const handleInputChange = async (e) => {
     const searchTerm = e.target.value;
     setQuery(searchTerm);
+    
 
     if (searchTerm.length > 2) {
       // Only show suggestions after typing 3 characters or more
@@ -282,29 +283,33 @@ function HeaderMiddle() {
                             <input
                               type="search"
                               className="form-control border"
-                              placeholder=""
+                              placeholder="Search here..."
                               value={query}
                               onChange={handleInputChange}
                               onKeyPress={handleKeyPress} // Trigger search on Enter key
                             />
 
-                            <TypeAnimation
-                              sequence={[
-                                "Search Potato...",
-                                2000,
-                                "Search Tomato...",
-                                2000,
-                                "Search Carrot...",
-                                2000,
-                                "Search Mushroom...",
-                                2000,
-                              ]}
-                              speed={2}
-                              repeat={Infinity}
-                              cursor={false}
-                              wrapper="span"
-                              className="typewriter__placeholder text-muted"
-                            />
+                           {/* {
+                          
+                             <TypeAnimation
+                             sequence={[
+                               "Search Potato...",
+                               2000,
+                               "Search Tomato...",
+                               2000,
+                               "Search Carrot...",
+                               2000,
+                               "Search Mushroom...",
+                               2000,
+                             ]}
+                             speed={2}
+                             repeat={Infinity}
+                             cursor={false}
+                             wrapper="span"
+                             className="typewriter__placeholder text-muted"
+                           /> 
+                           } */}
+
                             <button
                               onClick={handleSearchClick}
                               className="btn btn-sm btn-animation"

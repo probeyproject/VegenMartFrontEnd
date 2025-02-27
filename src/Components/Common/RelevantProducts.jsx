@@ -10,6 +10,8 @@ export const RelevantProducts = () => {
   const userState = useSelector((state) => state.user);
   const userId = userState?.user?.id;
 
+  console.log(revelentProduct)
+
   async function fetchComboCategory() {
     try {
       const response = await axios.get(
@@ -89,6 +91,7 @@ export const RelevantProducts = () => {
                   wishlistLink={product.stock}
                   offers={product.offers}
                   discountRanges={product.discountRanges}
+                 
                 />
               </div>
             );
