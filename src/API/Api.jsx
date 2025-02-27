@@ -4,6 +4,7 @@ import axios from "axios";
 export const baseUrl = "https://www.api.vegenmart.com/api";
 
 export const fetchHeadersAds = async () => {
+  
   try {
     const response = await axios.get(`${baseUrl}getAllHeaderAds`);
     return await response.data;
