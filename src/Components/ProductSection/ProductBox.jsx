@@ -58,6 +58,7 @@ const ProductBox = ({
   const [modal, setModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [calcultedDis ,setCalculateDis] = useState(null);
+  const [notified, setNotified] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -342,13 +343,35 @@ const ProductBox = ({
     }
   };
 
+
+
+  const handleNotify = async () => {
+    try {
+      await axios.post(`${baseUrl}/notifymodel`, {
+        userId,
+        product_id,
+        message: "Item out of stock", 
+      });
+      setNotified(true);
+      alert("Notification request sent!");
+    } catch (error) {
+      console.error("Error sending notification request", error);
+    }
+  };
+
+  
   return (
     <div>
       <div className="col-12">
         <div
-          className={`product-box shadow rounded-3 bg-white ${inStock == 0 ? "out-of-stock" : ""}`}
+          className={`product-box shadow rounded-3 bg-white position-relative z-0 ${inStock == 0 ? "out-of-stock" : ""}`}
           style={{ height: "309px" }}
         >
+        {inStock === 0 && !notified && (
+        <button className=" position-absolute  z-1  p-1   px-2   rounded-2   btn-animation " style={{fontSize:"15px",fontWeight:"500",top:"18px",left:"80px"}} onClick={handleNotify}>
+          Notify Me
+        </button>
+      )}
           <div>
             <div
               className="product-image p-0 m-0  img-fluid"

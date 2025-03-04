@@ -114,7 +114,7 @@ const Footer = () => {
                       </p>
                       <p className="">
                         <MdOutlinePhoneInTalk className="fs-5 me-2" />
-                        +9191189 40094
+                        <a href="tel:+919118940094"   className="text-muted"   target="_blank"> +9191189 40094</a>
                       </p>
                     </div>
                   </div>
@@ -368,7 +368,7 @@ const Footer = () => {
                       </p>
                       <p className="text-center">
                         <MdOutlinePhoneInTalk className="fs-5 me-2" />
-                        +9191189 40094
+                       <a href="tel:+919118940094"   className="text-muted"   target="_blank"> +9191189 40094</a>
                       </p>
                     </div>
                   </div>

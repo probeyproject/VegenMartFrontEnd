@@ -52,7 +52,7 @@ const ShopByCategory = () => {
                 <div
                   className="banner-contain-2 hover-effect"
                   style={{
-                    backgroundImage: `url(${data.banner_image})`,
+                    backgroundImage: `url(${data.banner_image})`, 
                     backgroundSize: "cover",
                     backgroundPosition: "center center",
                     height: "250px", // Reduced height from 300px to 250px
@@ -62,7 +62,7 @@ const ShopByCategory = () => {
                 
                   <div className="banner-detail   position-relative shop-banner">
                     <div className="text-white">
-                      <h2>{data.heading}</h2>
+                      <h2>{data.heading} </h2>
                       <h3>{data.offer_heading}</h3>
                     </div>
                   </div>
